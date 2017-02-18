@@ -8,7 +8,7 @@ Complete Talent tracking tool
 
 ```bash
 # clone our repo
-$ git clone https://github.com/rpali78/TalentTrack.git
+$ git clone https://github.com/rpali78/trackify.git
 
 # change directory to your app
 $ cd my-app
