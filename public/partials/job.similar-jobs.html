@@ -1,0 +1,100 @@
+<!-- Modal -->
+<div class="modal bounceIn animated" id="Similar-Jobs" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" style="width:900px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title modal-heading text-center" id="myModalLabel">Similar Jobs</h4>
+            </div>
+            <div class="modal-body popupscroll mCustomScrollbar" data-mcs-theme="dark" style="text-align: left;">
+                <table id="exRowTable" class="table table-bordered table-striped-col">
+                    <thead>
+                        <tr>
+                            <th>Job</th>
+                            <th>Name</th>
+                            <th>Action</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="modal-footer text-center">
+                <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+                <button type="button" class="btn btn-success width100 text-center">Apply</button>
+            </div>
+        </div><!-- modal-content -->
+    </div><!-- modal-dialog -->
+</div><!-- modal -->
+
+<!--<script>
+$(document).ready(function () {
+
+    'use strict';
+
+    $('#dataTable1').DataTable();
+
+    var exRowTable = $('#exRowTable').DataTable({
+        responsive: true,
+        'fnDrawCallback': function (oSettings) {
+            $('#exRowTable_paginate ul').addClass('pagination-active-success');
+        },
+        'ajax': 'ajax/objects.txt',
+        'columns': [
+            {'data': 'name'},
+            {'data': 'position'},
+            {'data': 'office'},
+            {
+                'class': 'details-control',
+                'orderable': false,
+                'data': null,
+                'defaultContent': ''
+            }
+
+        ],
+        'order': [[1, 'asc']]
+    });
+
+    // Add event listener for opening and closing details
+    $('#exRowTable tbody').on('click', 'td.details-control', function () {
+        var tr = $(this).closest('tr');
+        var row = exRowTable.row(tr);
+
+        if (row.child.isShown()) {
+            // This row is already open - close it
+            row.child.hide();
+            tr.removeClass('shown');
+        } else {
+            // Open this row
+            row.child(format(row.data())).show();
+            tr.addClass('shown');
+        }
+    });
+
+    function format(d) {
+        // `d` is the original data object for the row
+        return '  <form action="" class="newform" novalidate="novalidate"> <div class="panel-group" id="accordion8"> <div class="panel panel-inverse"> <div class="panel-heading"> <h4 class="panel-title"> <a data-toggle="collapse" data-parent="#accordion8" href="#collapseOne8"> Uploaded Details </a> </h4> </div><div id="collapseOne8" class="panel-collapse collapse in"> <div class="panel-body"> <div class="col-md-6"> <div class="form-group1"> <label class="col-sm-3 control-label">Designation </label> <div class="col-sm-9"> <input type="text" name="" class="full-block form-control" placeholder="" required=""> </div><div class="clear"></div></div><div class="form-group1"> <label class="col-sm-3 control-label">Existing Client </label> <div class="col-sm-9"> <select id="existing_client" class="form-control" style="width: 100%" data-placeholder=""> <option value="">&nbsp;</option> <option value="option1">option1</option> <option value="option2">option2</option> <option value="option3">option3</option> </select> <input type="text" name="" class="form-control hide" placeholder="" required/> </div><div class="clear"></div></div><div class="form-group1"> <label class="col-sm-3 control-label">Experience </label> <div class="col-sm-3"> <input type="text" name="" class="form-control" placeholder="Years" required=""> </div><div class="col-sm-3"> <input type="text" name="" class="form-control" placeholder="Months" required=""> </div><div class="clear"></div></div><div class="form-group1"> <label class="col-sm-3 control-label">Existing Client </label> <div class="col-sm-9"> <select id="existing_client1" class="form-control" style="width: 100%" data-placeholder=""> <option value="">&nbsp;</option> <option value="option1">option1</option> <option value="option2">option2</option> <option value="option3">option3</option> </select> <input type="text" name="" class="form-control hide" placeholder="" required/> </div><div class="clear"></div></div></div><div class="col-md-6"> <div class="form-group1"> <label class="col-sm-3 control-label">Primary Skills </label> <div class="col-sm-9"> <input type="text" name="" class="form-control full-block" placeholder="" required=""> </div><div class="clear"></div></div><div class="form-group1"> <label class="col-sm-3 control-label">Either or Skills </label> <div class="col-sm-9"> <select id="skills" class="form-control" style="width: 100%" data-placeholder=""> <option value="">&nbsp;</option> <option value="option1">option1</option> <option value="option2">option2</option> <option value="option3">option3</option> </select> <input type="text" name="" class="form-control hide" placeholder="" required/> </div><div class="clear"></div></div><div class="form-group1"> <label class="col-sm-3 control-label">CTC </label> <div class="col-sm-3"> <input type="text" name="" class="form-control" placeholder="Years" required=""> </div><div class="col-sm-3"> <input type="text" name="" class="form-control" placeholder="Months" required=""> </div><div class="clear"></div></div></div></div></div></div><div class="panel panel-inverse"> <div class="panel-heading"> <h4 class="panel-title"> <a data-toggle="collapse" class="collapsed" data-parent="#accordion8" href="#collapseTwo8"> Attached JD </a> </h4> </div><div id="collapseTwo8" class="panel-collapse collapse"> <div class="panel-body"> Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores. </div></div></div></div></form>';
+    }
+    //'<h4>'+d.name+'<small>'+d.position+'</small></h4>'+
+    // Select2
+    $('select').select2({minimumResultsForSearch: Infinity});
+
+});
+</script>-->
+<script>
+$(function () {
+    // Textarea Auto Resize
+    autosize($('#autosize'));
+
+    // Select2 Box
+    $("#existing_client").select2({tags: true});
+    $("#existing_client1").select2({tags: true});
+    $("#skills").select2({tags: true});
+
+});
+
+(function ($) {
+            $(window).on("load", function () {
+                $(".contentscroll").mCustomScrollbar();
+            });
+        })(jQuery);
+</script>

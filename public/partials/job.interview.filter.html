@@ -1,0 +1,145 @@
+<!-- Modal -->
+<div class="modal bounceIn animated" id="inerviewfilter" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog width400">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                        ng-click="vm.applyLastFilterSelection()">&times;</button>
+                <h4 class="modal-title modal-heading text-center" id="myModalLabel">Interview Filter</h4>
+            </div>
+            <div class="modal-body">
+
+                <form action="" class="">
+                    <div class="form-group" ng-init="vm.filterObject.INTERVIEW[0].filterTag = 'filterByRecruiter'">
+                        <select id="select23" class="form-control" style="width: 100% !important" data-placeholder="Filter By Recruiter "
+                                ng-model="vm.filterObject.INTERVIEW[0].filterValue" multiple>
+                            <option value="Option1">Option1</option>
+                            <option value="Option2">Option2</option>
+                            <option value="Option3">Option3</option>
+                            <option value="Option4">Option4</option>
+                            <option value="Option5">Option5</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group" ng-init="vm.filterObject.INTERVIEW[1].filterTag = 'filterByInterviewDate'">
+                        <input type="text" class="form-control" placeholder="Filter by interview date" id="datepicker12"
+                               ng-model="vm.filterObject.INTERVIEW[1].filterValue">
+                    </div>
+
+                    <div class="form-group" ng-init="vm.filterObject.INTERVIEW[2].filterTag = 'filterByInterviewPending'">
+                        <select id="select37" class="form-control" style="width: 100% !important" data-placeholder="Interview Pending"
+                                ng-model="vm.filterObject.INTERVIEW[2].filterValue" multiple>
+                            <option value="Option1">Option1</option>
+                            <option value="Option2">Option2</option>
+                            <option value="Option3">Option3</option>
+                            <option value="Option4">Option4</option>
+                            <option value="Option5">Option5</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group align_select">
+
+                        <div style="clear:both"></div>
+
+                        <label class="filter_radio_lable" style="float: left;display: inline;margin-top: 10px;">
+                            <input class="uncheck_radio" type="radio" name="rdio" value="filterByRejection"
+                                   ng-click="vm.filterObject.INTERVIEW[3].filterValue = []; vm.resetModalSelectInput('#select25')"
+                                   ng-model="vm.filterObject.INTERVIEW[3].filterTag">
+                            <span></span>
+                        </label>
+                        <select id="select24" class="form-control" style="width: 100%" data-placeholder="Filter By Rejection"
+                                ng-model="vm.filterObject.INTERVIEW[3].filterValue"
+                                ng-disabled="vm.filterObject.INTERVIEW[3].filterTag !== 'filterByRejection'" multiple>
+                            <option value="Option1">Option1</option>
+                            <option value="Option2">Option2</option>
+                            <option value="Option3">Option3</option>
+                            <option value="Option4">Option4</option>
+                            <option value="Option5">Option5</option>
+                        </select>
+                    </div>
+
+
+
+                    <div class="form-group align_select">
+                        <label class="filter_radio_lable" style="float: left;display: inline;margin-top: 10px;">
+                            <input type="radio" class="uncheck_radio" name="rdio" value="filterBySelection"
+                                   ng-click="vm.filterObject.INTERVIEW[3].filterValue = []; vm.resetModalSelectInput('#select24')"
+                                   ng-model="vm.filterObject.INTERVIEW[3].filterTag">
+                            <span></span>
+                        </label>
+                        <select id="select25" class="form-control" style="width: 95%" data-placeholder="Filter By Selection"
+                                ng-model="vm.filterObject.INTERVIEW[3].filterValue"
+                                ng-disabled="vm.filterObject.INTERVIEW[3].filterTag !== 'filterBySelection'" multiple>
+                            <option value="Option1">Option1</option>
+                            <option value="Option2">Option2</option>
+                            <option value="Option3">Option3</option>
+                            <option value="Option4">Option4</option>
+                            <option value="Option5">Option5</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="text-align: left;">
+                    <a href="javascript:;" class="btn btn-success btn-xs btn-quirk list-float-btn1" id="IntrvwRdioClearTrigger" style="position:relative;float:right;right: 0;bottom: 10px;"
+                       ng-click="vm.adjustFilterObject('filterByRejection', vm.filterObject.INTERVIEW[3].filterValue);
+                                 vm.adjustFilterObject('filterBySelection', vm.filterObject.INTERVIEW[3].filterValue);
+                                 vm.adjustFilterObject('status', vm.filterObject.INTERVIEW[3].filterValue);">
+                            <i class="fa fa-times-circle-o" aria-hidden="true"></i>
+                        </a>
+
+                        <label class="filter_radio_lable">
+                            <input class="uncheck_radio" type="radio" name="rdio"
+                                   ng-click="vm.filterObject.INTERVIEW[3].filterTag = 'status';  vm.filterObject.INTERVIEW[3].filterValue = 'CANDIDATE DROPPED'">
+                            <span>Candidate Dropped</span>
+                        </label>
+
+                        <div style="clear:both"></div>
+
+                        <label class="filter_radio_lable">
+                            <input class="uncheck_radio" type="radio" name="rdio"
+                                   ng-click="vm.filterObject.INTERVIEW[3].filterTag = 'status'; vm.filterObject.INTERVIEW[3].filterValue = 'NO SHOW'">
+                            <span>No Show</span>
+                        </label>
+
+                        <div style="clear:both"></div>
+
+                        <label class="filter_radio_lable">
+                            <input class="uncheck_radio" type="radio" name="rdio"
+                                   ng-click="vm.filterObject.INTERVIEW[3].filterTag = 'status'; vm.filterObject.INTERVIEW[3].filterValue = 'CALL LATER'">
+                            <span>Call later</span>
+                        </label>
+
+                    </div>
+                    <div class="clear"></div>
+                </form>
+            </div>
+            <div class="modal-footer text-center">
+                <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+                <button type="button" class="btn btn-success width100"
+                        ng-click="vm.applyfilter()" data-dismiss="modal">Apply</button>
+            </div>
+        </div><!-- modal-content -->
+    </div><!-- modal-dialog -->
+</div><!-- modal -->
+
+<script type="text/javascript">
+    //<![CDATA[
+    $('#IntrvwRdioClearTrigger').click(function() {
+        $('input[name=rdio]').attr('checked', false);
+    });
+    //]]>
+</script>
+
+<script>
+    $(function () {
+        // Textarea Auto Resize
+        autosize($('#autosize'));
+		
+        // Select2 Box
+        $("#select23").select2({tags: true});
+        $("#select24").select2({tags: true});
+        $("#select25").select2({tags: true});
+        $("#select37").select2({tags: true});
+		
+		// Date Picker
+        $('#datepicker12').datepicker();
+    });
+</script>

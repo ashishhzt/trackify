@@ -1,0 +1,106 @@
+<!-- Modal -->
+<div class="modal bounceIn animated" id="offerfilter" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog width400">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                        ng-click="vm.applyLastFilterSelection()">&times;</button>
+                <h4 class="modal-title modal-heading text-center" id="myModalLabel">Offer Filter</h4>
+            </div>
+            <div class="modal-body">
+                <form action="" class="">
+                    <div class="form-group" ng-init="vm.filterObject.OFFER[0].filterTag = 'filterByRecruiter'">
+                        <select id="filter" class="form-control" style="width: 100%" data-placeholder="Filter By Recruiter "
+                                ng-model="vm.filterObject.OFFER[0].filterValue" multiple>
+                            <option value="Option1">Option1</option>
+                            <option value="Option2">Option2</option>
+                            <option value="Option3">Option3</option>
+                            <option value="Option4">Option4</option>
+                            <option value="Option5">Option5</option>
+                        </select>
+                    </div>
+
+
+                    <div class="form-group" style="text-align: left;"
+                         ng-init="vm.filterObject.OFFER[1].filterTag = 'selectStatus'">
+                        <a href="javascript:;" class="btn btn-success btn-xs btn-quirk list-float-btn1" id="ExampleTrigger"
+                           ng-click="vm.adjustFilterObject('selectStatus', vm.filterObject.OFFER[1].filterValue)">
+                            <i class="fa fa-times-circle-o" aria-hidden="true"></i>
+                        </a>
+                        <label class="col-md-10 filter_radio_lable">
+                            <input type="radio" class="uncheck_radio" name="rdio"
+                                   ng-click="vm.filterObject.OFFER[1].filterValue = ['CANDIDATE DROPPED']">
+                            <span>Candidate Dropped</span>
+                        </label>
+
+                        <label class="col-md-12 filter_radio_lable">
+                            <input type="radio" class="uncheck_radio" name="rdio"
+                                   ng-click="vm.filterObject.OFFER[1].filterValue = ['AWAITING OFFER']">
+                            <span>Awaiting offer</span>
+                        </label>
+
+                        <label class="col-md-12 filter_radio_lable">
+                            <input type="radio" class="uncheck_radio" name="rdio"
+                                   ng-click="vm.filterObject.OFFER[1].filterValue = ['OFFER DENIED']">
+                            <span>Offer Denied</span>
+                        </label>
+
+                        <label class="col-md-12 filter_radio_lable">
+                            <input type="radio" class="uncheck_radio" name="rdio"
+                                   ng-click="vm.filterObject.OFFER[1].filterValue = ['OFFERED']">
+                            <span>Offered</span>
+                        </label>
+
+                        <label class="col-md-12 filter_radio_lable">
+                            <input type="radio" class="uncheck_radio" name="rdio"
+                                   ng-click="vm.filterObject.OFFER[1].filterValue = ['OFFER ACCEPTED']">
+                            <span>Offer Accepted</span>
+                        </label>
+
+                        <label class="col-md-12 filter_radio_lable">
+                            <input type="radio" class="uncheck_radio" name="rdio"
+                                   ng-click="vm.filterObject.OFFER[1].filterValue = ['OFFER REJECTED']">
+                            <span>Offer Rejected</span>
+                        </label>
+
+
+                        <label class="col-md-12 filter_radio_lable">
+                            <input type="radio" class="uncheck_radio" name="rdio"
+                                   ng-click="vm.filterObject.OFFER[1].filterValue = ['CALL LATER']">
+                            <span>Call later</span>
+                        </label>
+
+                    </div>
+                    <div class="clear"></div>
+                </form>
+            </div>
+            <div class="modal-footer text-center">
+                <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+                <button type="button" class="btn btn-success width100"
+                        ng-click="vm.applyfilter()" data-dismiss="modal">Apply</button>
+            </div>
+        </div><!-- modal-content -->
+    </div><!-- modal-dialog -->
+</div><!-- modal -->
+
+
+
+<script type="text/javascript">
+//<![CDATA[
+$('#ExampleTrigger').click(function() {
+    $('input[name=rdio]').attr('checked', false);	
+});
+//]]> 
+</script>
+
+<script>
+    $(function () {
+
+        // Textarea Auto Resize
+        autosize($('#autosize'));
+
+        // Select2 Box
+        $("#filter").select2({tags: true});
+
+    });
+</script>

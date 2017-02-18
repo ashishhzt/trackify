@@ -1,0 +1,47 @@
+
+<div class="modal bounceIn animated" id="movetoinactive" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog width500">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title modal-heading text-center" id="myModalLabel">Move to inactive</h4>
+            </div>
+            <div class="modal-body">
+                <form action="#" method="post">
+                    <div class="form-group text-center">
+                        <select id="select48" class="form-control" style="width: 100%"
+                            ng-model="vm.moveToInactiveReasons" required>
+                            <option value="">Select a Reason</option>
+                            <option value="Closed All Positions">Closed All Positions</option>
+                            <option value="Position On Hold">Position On Hold</option>
+                            <option value="Anzy Back's Off">Anzy Back's Off</option>
+                            <option value="Position Closed Internally">Position Closed Internally</option>
+                            <option value="Position Is Slow">Position Is Slow</option>
+                        </select>
+                        <h5>Are you sure to move <span>{{vm.selectedJobDetail.clientName}}</span> | <span>{{vm.selectedJobDetail.designation}}</span> Job to Inactive?</h5>
+                        <div class="clear"></div>
+                    </div>
+
+                    <div class="modal-footer text-center">
+                        <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+                        <div class="col-md-3 no-float center-div ">
+                            <button type="button" class="btn btn-success btn-block btn-quirk text-center"
+                                ng-click="vm.moveToInactive(vm.moveToInactiveReasons)" data-dismiss="modal">Apply</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div><!-- modal-content -->
+    </div><!-- modal-dialog -->
+</div><!-- modal -->
+
+<script>
+    $(function () {
+        // Textarea Auto Resize
+        autosize($('#autosize'));
+
+        // Select2 Box
+//        $("#select48").select2({tags: true});
+        $('#select48').select2({minimumResultsForSearch: Infinity});
+    });
+</script>

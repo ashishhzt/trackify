@@ -1,0 +1,66 @@
+<!-- Modal -->
+<div class="modal bounceIn animated" id="addinterview" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog width500">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title modal-heading text-center" id="myModalLabel">Interview Date</h4>
+            </div>
+            <div class="modal-body">
+                <form action="#" method="post">
+
+                    <div class="form-group">
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" placeholder="mm/dd/yyyy" id="interviewdate"
+                                   ng-model="vm.interviewDateData.date">
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="timepicker full-block">
+                                <input id="interviewtime" type="text" class="form-control" ng-model="vm.interviewDateData.time"/>
+                            </div>
+                        </div>
+                        <div class="col-sm-4 text-left">
+                            <select id="am_pm" class="form-control" style="width: 100%" ng-model="vm.interviewDateData.meridian"
+                                ng-init="vm.interviewDateData.meridian = 'AM'">
+                                <option value="AM" selected="selected">AM</option>
+                                <option value="PM">PM</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="clear" style="margin: 20px;"></div>
+                    <br>
+
+                    <div class="modal-footer text-center">
+                        <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+                        <div class="col-md-3 no-float center-div">
+                            <button type="button" class="btn btn-success btn-block btn-quirk text-center"
+                            ng-click="vm.addInterviewDate()" data-dismiss="modal">Apply</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div><!-- modal-content -->
+    </div><!-- modal-dialog -->
+</div><!-- modal -->
+
+<script>
+    $(function () {
+        // Textarea Auto Resize
+        autosize($('#autosize'));
+
+        // Date Picker
+        $('#interviewdate').datepicker();
+
+
+       // Select2 Box
+        $("#am_pm").select2({minimumResultsForSearch: Infinity});
+
+
+        // Time Picker
+        $('#interviewtime').timepicker({
+            'maxTime': '11:30pm',
+            timeFormat: 'h:i'
+        });
+    });
+</script>

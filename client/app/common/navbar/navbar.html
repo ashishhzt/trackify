@@ -1,0 +1,49 @@
+<!--<nav class="headerpanel">
+  <div class="headerbar">
+    <a ui-sref="home" class="nav-link" ui-sref-active="isActive">
+      Home
+    </a>
+    <a ui-sref="candidate" class="nav-link" ui-sref-active="isActive">
+      Candidates
+    </a>   
+     <a ui-sref="dashboard" class="nav-link" ui-sref-active="isActive">
+      Dashboard
+    </a> 
+     <a ng-if="!vm.user" ui-sref="login" class="nav-link" ui-sref-active="isActive">
+      Login
+    </a>
+    <a ng-if="vm.user" href="#" ng-click="vm.logout()" class="nav-link">
+      Logout
+    </a>
+    <a ng-if="vm.user" class="nav-link accent">
+      {{vm.user.displayName}}
+    </a>   
+  </div>
+</nav>-->
+
+<header>
+    <div class="headerpanel">
+        <div class="headerbar">
+
+            <a id="menuToggle" ng-if="vm.user" class="menutoggle"><i class="fa fa-bars"></i></a>
+            <ul class="nav nav-pills pull-left nav-inverse top-nav-new main-links">
+                <li role="presentation" class="active"><a ng-if="vm.user" ui-sref="jobs">Jobs</a></li>
+                <li role="presentation"><a ng-if="vm.user" ui-sref="candidate">Candidates</a></li>
+                <li role="presentation"><a ng-if="vm.user" ui-sref="dashboard">Dashboard</a></li>
+  
+            </ul>
+            <ul class="nav nav-pills pull-right top-nav-new main-links">
+               <li role="presentation"><a ng-if="!vm.user" ui-sref="login" class="nav-link" ui-sref-active="isActive">Login</a></li>
+                <li role="presentation"><a ng-if="vm.user" href="#" ng-click="vm.logout()" class="nav-link">Logout</a>
+            </ul>  
+
+                         
+             <!--<a ng-if="vm.user" class="nav-link accent" >
+              {{vm.user.displayName}}
+             </a>  -->
+          
+        </div>
+    </div>
+</header>
+
+
