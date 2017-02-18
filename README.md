@@ -44,4 +44,4 @@ Finally add your router to api js file
 
 ```
 
-Go to [http://localhost:9000](http://localhost:9000) in your browser."# trackify"  git init git add README.md git commit -m "first commit" git remote add origin https://github.com/rpali78/trackify.git git push -u origin master
+Go to [http://localhost:9000](http://localhost:9000) in your browser.
