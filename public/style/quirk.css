@@ -11621,7 +11621,7 @@ blockquote {
 }
 /***** MAIN PANEL *****/
 .mainpanel {
-    padding-top: 64px;
+    padding-top: 15px;
 }
 @media (min-width: 992px) {
     .mainpanel {
