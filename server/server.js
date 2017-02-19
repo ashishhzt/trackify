@@ -10,6 +10,7 @@ const app = express();
 
 if (config.seed) seedDB();
 
+
 app.use(express.static('dist'));
 
 middleware(app);
