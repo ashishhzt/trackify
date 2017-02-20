@@ -12,6 +12,7 @@
                     <div class="form-group" ng-init="vm.filterObject.NEW[0].filterTag = 'filterByRecruiter'">
                         <select id="select20" class="form-control" style="width: 100%" data-placeholder="Filter By Recruiter"
                                 ng-model="vm.filterObject.NEW[0].filterValue" multiple>
+                            <option value="{{row.userId}}">{{row.userName}}</option>
                             <option value="Option1">Option1</option>
                             <option value="Option2">Option2</option>
                             <option value="Option3">Option3</option>

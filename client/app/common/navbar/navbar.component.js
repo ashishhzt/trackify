@@ -1,6 +1,6 @@
 import template from './navbar.html';
 import controller from './navbar.controller';
-import './navbar.sass';
+// import './navbar.sass';
 
 let navbarComponent = {
   restrict: 'E',

@@ -65,9 +65,9 @@
                             <li ng-repeat="row in vm.sideMenuJobsDetails"
                                     ng-click="vm.getMainMenuData(row.jobId)">
                                 <a href="javascript:;">
-                                    <span class="nav-text1" ng-bind="row.clientName"></span>
+                                    <span class="nav-text1 custom-cap" ng-bind="row.clientName | lowercase"></span>
                                     <span class="nav-text2" ng-bind="row.designation"></span> |
-                                    <span class="nav-text2" ng-bind="row.primarySkills"></span></a>
+                                    <span class="nav-text2 custom-cap" ng-bind="row.primarySkills | lowercase"></span></a>
                             </li>
                         </ul>
 
