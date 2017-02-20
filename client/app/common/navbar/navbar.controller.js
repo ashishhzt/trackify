@@ -8,7 +8,7 @@ class NavbarController {
     logout () {
       	this.AuthFactory.logout()
       		.then(message => {
-                (message) ? this.error = message : this.$state.go('home');
+                (message) ? this.error = message : this.$state.go('login');
             });
     }
 };

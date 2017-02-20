@@ -1,4 +1,300 @@
-<section>
-     <h3 ng-if="vm.user">{{vm.user.displayName}}</h3>
-</section>
 
+<!-- LOADER -->
+<div id="preloader-1">
+    <div id="status">
+        <div class='bullet-1'></div>
+    </div>
+</div>
+<!-- END OF LOADER -->
+        
+<video poster="media/Working-Space.jpg" id="bgvid" playsinline autoplay muted loop>
+    <!-- WCAG general accessibility recommendation is that media such as background video play through only once. Loop turned on for the purposes of illustration; if removed, the end of the video will fade in the same way created by pressing the "Pause" button  -->
+    <!-- <source src="media/Working-Space.webm" type="video/webm"> -->
+    <source src="./media/WebsiteVideoBackground.mp4" type="video/mp4">
+</video>
+    
+<!-- HEADER -->
+<header class="banner header-banner header" style="background:none;">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6 col-xs-12">
+                <!--<div class="logo-outter top-optc clearfix">
+                    <a href="#" class="logo">
+                        <h1><strong>LOGO</strong></h1>
+                    </a>
+                </div>-->
+                <div class="header-txt">
+                    <div class="header-txt-inner">
+                        <h1 class="top-optc"><span class="yellow_color">TRACKIFY</span></h1>
+                        <h2 class="top-optc">Lorem ipsum dolor sit</h2>
+                        <p class="top-optc">Proin gravida nibh vel velit auctor alir.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xs-12 form-outter visibility">
+                <div class="form-content">
+                    <div class="form-content-inner">
+                        <h4>Already An User?</h4>
+                    </div>
+                    <!-- <span class="tagline">Gauris consectetur libero sit ameter patorsb. </span> -->
+                    <button type="button" class="transparent_btn gmail_btn">Login With Gmail</button>
+
+                    <i class="or">Or</i>
+                </div>
+                <div class="form-wrapper">
+                    <h2 class="form_title"><span class="yellow_color">Trackify</span> is an invite only Application</h2>
+                    <h3 class="form_title">(Fill the below form)</h3>
+                    <form id="requestform" method="post">
+                        <fieldset>
+                            <input type="text" placeholder="Full Name*" class="form-style" required name="fullname" >
+                        </fieldset>
+                        <fieldset>
+                            <input type="text" placeholder="Email*" class="form-style" required name="email" >
+                        </fieldset>
+                        <fieldset>
+                            <input type="text" placeholder="Phone Number*" class="form-style" required name="pnumber">
+                        </fieldset>
+                        <fieldset class="lastchild">
+                            <select class="form-style select" name="state">
+                                <option selected>Company Name</option>
+                                <option value="Company1">Company1</option>
+                                <option value="Company2">Company2</option>
+                                <option value="Company3">Company3</option>
+                                <option value="Company4">Company4</option>
+                            </select>
+                        </fieldset>
+                        <input type="submit" value="Contact Request" class="main-btn-lp " data-toggle="modal" data-target="#myModal">
+                    </form>
+                    <div class="alert alert-success" role="alert" style=" display:none">Your request has been recieved.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- END OF HEADER -->
+
+<!-- SECTION LISTING -->
+<section class="section-body">
+
+    <div class="col-md-6">
+        <div class="col-md-5 col-md-offset-5">
+            <img src="./img/images/Bot_logo.png" alt="" class="img-responsive">
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="col-md-9">
+            <h2>A Bot with a Recruiter’s thought</h2>
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent et maximus diam.
+                Etiam sed mauris vel tortor ornare luctus.</p>
+            <p>
+                Fusce odio nibh, aliquam et mauris sit amet, dignissim consequat magna. Duis in nunc at leo aliquam
+                feugiat at vestibulum dui. Interdum et malesuada fames ac ante ipsum primis in faucibus.
+            </p>
+        </div>
+    </div>
+
+    <div class="clear"></div>
+    <div class="container">
+        <hr class="style-eight">
+    </div>
+
+    <div class="col-md-6">
+        <div class="col-md-9 col-md-offset-3">
+            <h2>RIP Sourcing</h2>
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent et maximus diam.
+                Etiam sed mauris vel tortor ornare luctus.</p>
+            <p>
+                Fusce odio nibh, aliquam et mauris sit amet, dignissim consequat magna. Duis in nunc at leo aliquam
+                feugiat at vestibulum dui. Interdum et malesuada fames ac ante ipsum primis in faucibus.
+            </p>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="col-md-5 col-md-offset-2">
+            <img src="./img/images/RIP.png" alt="" class="img-responsive">
+        </div>
+    </div>
+
+
+    <div class="clear"></div>
+    <div class="container">
+        <hr class="style-eight">
+    </div>
+
+    <div class="col-md-6">
+        <div class="col-md-5 col-md-offset-5">
+            <img src="./img/images/Micro_Scope.png" alt="" class="img-responsive">
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="col-md-9">
+            <h2>Miniscule info Trackified</h2>
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent et maximus diam.
+                Etiam sed mauris vel tortor ornare luctus.</p>
+            <p>
+                Fusce odio nibh, aliquam et mauris sit amet, dignissim consequat magna. Duis in nunc at leo aliquam
+                feugiat at vestibulum dui. Interdum et malesuada fames ac ante ipsum primis in faucibus.
+            </p>
+        </div>
+    </div>
+
+
+    <div class="clear"></div>
+    <div class="container">
+        <hr class="style-eight">
+    </div>
+
+    <div class="col-md-6">
+        <div class="col-md-9 col-md-offset-3">
+            <h2>DashBoard</h2>
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent et maximus diam.
+                Etiam sed mauris vel tortor ornare luctus.</p>
+            <p>
+                Fusce odio nibh, aliquam et mauris sit amet, dignissim consequat magna. Duis in nunc at leo aliquam
+                feugiat at vestibulum dui. Interdum et malesuada fames ac ante ipsum primis in faucibus.
+            </p>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="col-md-5 col-md-offset-2">
+            <img src="./img/images/Dash_Board.png" alt="" class="img-responsive">
+        </div>
+    </div>
+
+
+    <div class="clear"></div>
+
+
+</section>
+<!-- END OF SECTION LISTING -->
+
+<!-- FOOTER -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="copy">© Copyright. All Rights Reserved.<br>
+                    Powered by: <span class="brand">Rebelute</span>
+                </div>
+                <div class="socail">
+                    <ul>
+                        <li><a href="#" class="facebook"></a></li>
+                        <li><a href="#" class="twitter"></a></li>
+                        <li><a href="#" class="instagram"></a></li>
+                        <li><a href="#" class="linkdin"></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- END OF FOOTER -->
+
+<!-- SUCCESS MODAL -->
+<div class="modal fade" id="successModal" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="bootstrap-dialog-header">
+                    <div class="bootstrap-dialog-close-button" data-dismiss="modal" aria-label="Close">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    </div>
+                    <div class="bootstrap-dialog-title">Success!</div>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="bootstrap-dialog-body">
+                    <div class="bootstrap-dialog-message">Your request has been recieved.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END OF SUCCESS MODAL -->
+
+<div id="myModal" class="modal fade success_mesg" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">×</button>
+                <h4 class="modal-title">Success</h4>
+            </div>
+            <div class="modal-body">
+                <p>Thanks ! We will Revert Shortly.</p>
+            </div>
+            <!-- <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div> -->
+        </div>
+    </div>
+</div>
+		
+<script>
+    var vid = document.getElementById("bgvid");
+    var pauseButton = document.querySelector("#polina button");
+
+    function vidFade() {
+        vid.classList.add("stopfade");
+    }
+
+    vid.addEventListener('ended', function()
+    {
+        // only functional if "loop" is removed
+        vid.pause();
+        // to capture IE10
+        vidFade();
+    });
+
+
+    // pauseButton.addEventListener("click", function() {
+    //     vid.classList.toggle("stopfade");
+    //     if (vid.paused) {
+    //         vid.play();
+    //         pauseButton.innerHTML = "Pause";
+    //     } else {
+    //         vid.pause();
+    //         pauseButton.innerHTML = "Paused";
+    //     }
+    // })
+</script>
+
+<script>
+    (function ($) {
+        $(document).on("load", function () {
+            $(".contentscroll").mCustomScrollbar();
+            myjd();
+            document.getElementById('enableTextTemplate').style.display = "none";
+            document.getElementById('enabltEditTemplate').style.display = "block";
+            document.getElementById('txtBox').disabled = true;
+        });
+    })(jQuery);
+
+    $(document).ready(function () {
+        $(".chatboxmessage").hide();
+        $(".media").click(function () {
+            $(".chatboxmessage").toggle();
+        });
+    });
+
+    $(function () {
+        $('.expander1').click(function () {
+            $('.chatmsgbody').slideToggle();
+            $('#headdiv').toggle();
+        });
+    });
+
+    $(function () {
+        $('.closechat').click(function () {
+            $('.chatboxmessage').hide();
+        });
+    });
+</script>
