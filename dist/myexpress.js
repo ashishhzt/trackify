@@ -11,8 +11,8 @@ const app = express();
 if (config.seed) seedDB();
 
 
-app.use(express.static('dist'));
-app.use(express.static('resume_files'));
+app.use(express.static(path.join(__dirname, 'dist')));
+app.use(express.static(path.join(__dirname, 'reusme_files')));
 
 middleware(app);
 

@@ -13,7 +13,7 @@
     ]
   },
   "scripts": {
-    "start": "nodemon --watch server -e js server/start.js",
+    "start": "nodemon --watch server -e js server/server.js",
     "test": "karma start",
     "seed": "server/seedDB.js"
   },
