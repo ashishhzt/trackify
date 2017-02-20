@@ -31,7 +31,7 @@ config.plugins = config.plugins.concat([
     new CopyWebpackPlugin([
       {from: __dirname + '/public'},
       {from: __dirname + '/server'},
-      {from: __dirname + '/resume_files'},
+      //{from: __dirname + '/resume_files'},
       {from: __dirname + '/package.json'}
      ])
 ]);

@@ -10,9 +10,10 @@ const app = express();
 
 if (config.seed) seedDB();
 
+var staticRoot = __dirname + '/';
 
-app.use(express.static(path.join(__dirname, 'dist')));
-app.use(express.static(path.join(__dirname, 'reusme_files')));
+app.use(express.static(staticRoot));
+//app.use(express.static(path.join(__dirname, 'reusme_files')));
 
 middleware(app);
 
@@ -20,7 +21,7 @@ app.use('/api',	ApiRouter);
 app.use('/auth', AuthRouter);
 
 app.get('/*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
+    res.sendFile(path.join(staticRoot, 'index.html'));
 });
 
 
