@@ -30,7 +30,8 @@ config.plugins = config.plugins.concat([
       // Reference: https://github.com/kevlened/copy-webpack-plugin
     new CopyWebpackPlugin([
       {from: __dirname + '/public'},
-      {from: __dirname + '/server'}
+      {from: __dirname + '/server'},
+      {from: __dirname + '/package.json'}
      ])
 ]);
 
