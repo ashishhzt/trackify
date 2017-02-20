@@ -17,6 +17,11 @@ const seedUser = () => {
     displayName: 'Barack Obama',
     email: 'obama@gmail.com',
     password: 'potus'
+  },
+  {
+    displayName: 'Ashfaq Ahmed',
+    email: 'ashfaq@anzycareers.com',
+    password: 'anzy'
   });
 };
 

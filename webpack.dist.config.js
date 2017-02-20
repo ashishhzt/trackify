@@ -29,7 +29,8 @@ config.plugins = config.plugins.concat([
 // Copy assets from the public folder
       // Reference: https://github.com/kevlened/copy-webpack-plugin
     new CopyWebpackPlugin([
-      {from: __dirname + '/public'}
+      {from: __dirname + '/public'},
+      {from: __dirname + '/server'}
      ])
 ]);
 
