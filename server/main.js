@@ -1,6 +1,6 @@
 import chalk   from 'chalk';
 import mongoose from 'mongoose';
-import app from './server';
+import app from './myexpress';
 import config from './config/config';
 
 mongoose.connect(config.db.url);
