@@ -1,0 +1,226 @@
+<!-- Modal -->
+<div class="modal bounceIn animated" id="addstatusinterview" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title modal-heading text-center" id="myModalLabel">Add Status</h4>
+            </div>
+            <div class="modal-body text-center">
+                <a href="javascript:;" class="btn btn-info btn-sm btn-quirk test-tab22 avtivebtn" id="tab21"
+                   ng-click="vm.changeStatusEvent('CANDIDATE DROPPED'); vm.changeStatusModel.statusInputs[0].inputTitle = 'Reason'">Candidate Dropped</a>
+                <a class="btn btn-info btn-sm btn-quirk test-tab22 avtivebtn" id="tab22"
+                   ng-click="vm.changeStatusEvent('CALL LATER'); vm.changeStatusModel.statusInputs[0].inputTitle = 'Time'">Call later</a>
+                <a class="btn btn-info btn-sm btn-quirk test-tab22 avtivebtn" id="tab23"
+                   ng-click="vm.changeStatusEvent('INTERVIEW REJECT'); vm.changeStatusModel.statusInputs[0].inputTitle = 'Stages'">Interview Reject</a>
+                <div class="clear" style="margin: 20px;"></div>
+                <a class="btn btn-info btn-sm btn-quirk test-tab22 avtivebtn" id="tab24"
+                   ng-click="vm.changeStatusEvent('INTERVIEW SELECT'); vm.changeStatusModel.statusInputs[0].inputTitle = 'Stages'">Interview Select</a>
+                <a class="btn btn-info btn-sm btn-quirk test-tab22 avtivebtn" id="tab25"
+                   ng-click="vm.changeStatusEvent('NO SHOW'); vm.changeStatusModel.statusInputs = []">No Show</a>
+                <a class="btn btn-info btn-sm btn-quirk test-tab22 avtivebtn" id="tab26"
+                   ng-click="vm.changeStatusEvent('INTERVIEW CANCELLED'); vm.changeStatusModel.statusInputs = []">Interview Cancelled</a>
+                <div class="clear" style="margin: 20px;"></div>
+
+                <div id="tab21show" class="tab-content12 col-md-12">
+                    <hr>
+                    <select id="reason1" class="form-control" style="width: 100%" ng-model="vm.changeStatusModel.statusInputs[0].inputValue">
+                        <option value="">Select a Reason</option>
+                        <option value="Got another offer">Got another offer</option>
+                        <option value="Job Location is far">Job Location is far</option>
+                        <option value="Got an onsite offer">Got an onsite offer</option>
+                        <option value="Didn’t like Interview Process">Didn’t like Interview Process</option>
+                        <option value="Personal Reasons">Personal Reasons</option>
+                        <option value="Bad reviews on Glassdoor">Bad reviews on Glassdoor</option>
+                        <option value="Bad reviews from personal network">Bad reviews from personal network</option>
+                        <option value="Not a great team">Not a great team</option>
+                        <option value="Not a great Product">Not a great Product</option>
+                        <option value="Tech stack is not exciting">Tech stack is not exciting</option>
+                        <option value="Founding team is not exciting">Founding team is not exciting</option>
+                        <option value="Funding value is too less">Funding <val></val>ue is too less</option>
+                    </select>
+                    <div class="modal-footer text-center">
+                        <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+                        <div class="col-md-3 no-float center-div ">
+                            <button type="button" class="btn btn-success btn-block btn-quirk text-center"
+                                    ng-click="vm.changeStatus()" data-dismiss="modal">Apply</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="tab22show" class="tab-content12">
+                    <hr>
+                    <div class="form-group">
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" placeholder="mm/dd/yyyy" id="call_later2"
+                                   ng-model="vm.changeStatusModel.statusInputs[0].inputValue.date">
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="timepicker full-block">
+                                <input id="tp5" type="text" class="form-control"
+                                       ng-model="vm.changeStatusModel.statusInputs[0].inputValue.time"/>
+                            </div>
+                        </div>
+                        <div class="col-sm-4 text-left">
+                            <select id="ampm1" class="form-control" style="width: 100%"
+                                    ng-model="vm.changeStatusModel.statusInputs[0].inputValue.meridian">
+                                <option value="AM">AM</option>
+                                <option value="PM">PM</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                    <br>
+                    <div class="modal-footer text-center">
+                        <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+                        <div class="col-md-3 no-float center-div ">
+                            <button type="button" class="btn btn-success btn-block btn-quirk text-center"
+                                    ng-click="vm.changeStatus()" data-dismiss="modal">Apply</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="tab23show" class="tab-content12">
+                    <hr>
+                    <select id="coding-reject" class="form-control" style="width: 100%" data-placeholder="Interview Reject " multiple
+                            ng-model="vm.changeStatusModel.statusInputs[0].inputValue">
+                        <option value="Coding Reject">Coding Reject</option>
+                        <option value="Tcon Reject">Tcon Reject</option>
+                        <option value="1st Round Reject">1st Round Reject</option>
+                        <option value="2nd Round Reject">2nd Round Reject</option>
+                        <option value="3rd Round Reject">3rd Round Reject</option>
+                        <option value="4th Round Reject">4th Round Reject</option>
+                        <option value="5th Round Reject">5th Round Reject</option>
+                        <option value="6th Round Reject">6th Round Reject</option>
+                        <option value="7th Round Reject">7th Round Reject</option>
+                        <option value="Final Tech Round Reject">Final Tech Round Reject</option>
+                        <option value="Final HR Round Reject">Final HR Round Reject</option>
+                    </select>
+                    <div class="modal-footer text-center mt20">
+                        <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+                        <div class="col-md-3 no-float center-div ">
+                            <button type="button" class="btn btn-success btn-block btn-quirk text-center"
+                                    ng-click="vm.changeStatus()" data-dismiss="modal">Apply</button>
+                        </div>
+                    </div>
+                </div>
+                <div id="tab24show" class="tab-content12">
+                    <hr>
+
+                    <select id="select19" class="form-control" data-placeholder="Interview Select " style="width: 100%" multiple
+                            ng-model="vm.changeStatusModel.statusInputs[0].inputValue">
+                        <option value="Coding Reject">Coding Reject</option>
+                        <option value="Tcon Reject">Tcon Reject</option>
+                        <option value="1st Round Reject">1st Round Reject</option>
+                        <option value="2nd Round Reject">2nd Round Reject</option>
+                        <option value="3rd Round Reject">3rd Round Reject</option>
+                        <option value="4th Round Reject">4th Round Reject</option>
+                        <option value="5th Round Reject">5th Round Reject</option>
+                        <option value="6th Round Reject">6th Round Reject</option>
+                        <option value="7th Round Reject">7th Round Reject</option>
+                        <option value="Final Tech Round Reject">Final Tech Round Reject</option>
+                        <option value="Final HR Round Reject">Final HR Round Reject</option>
+                    </select>
+
+
+                    <div class="modal-footer text-center mt20">
+                        <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+                        <div class="col-md-3 no-float center-div ">
+                            <button type="button" class="btn btn-success btn-block btn-quirk text-center"
+                                    ng-click="vm.changeStatus()" data-dismiss="modal">Apply</button>
+                        </div>
+                    </div>
+                </div>
+                <div id="tab25show" class="tab-content12">
+
+                    <br>
+                    <div class="modal-footer text-center mt20">
+                        <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+                        <div class="col-md-3 no-float center-div ">
+                            <button type="button" class="btn btn-success btn-block btn-quirk text-center"
+                                    ng-click="vm.changeStatus()" data-dismiss="modal">Apply</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="tab26show" class="tab-content12">
+
+                    <br>
+                    <div class="modal-footer text-center">
+                        <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+                        <div class="col-md-3 no-float center-div ">
+                            <button type="button" class="btn btn-success btn-block btn-quirk text-center"
+                                    ng-click="vm.changeStatus()" data-dismiss="modal">Apply</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="clear" style="margin: 20px;"></div>
+            </div>
+
+        </div><!-- modal-content -->
+    </div><!-- modal-dialog -->
+</div><!-- modal -->
+
+
+<script type="text/javascript">
+    //<![CDATA[
+    $(document).ready(function () {
+        var $contents = $('.tab-content12');
+        $contents.slice(0).hide();
+        $('.test-tab22').click(function () {
+            var $target = $('#' + this.id + 'show').show();
+            $contents.not($target).hide();
+        });
+    });//]]> 
+
+
+    $(document).on('show.bs.modal', '.modal', function (event) {
+        var zIndex = 1040 + (10 * $('.modal:visible').length);
+        $(this).css('z-index', zIndex);
+        setTimeout(function () {
+            $('.modal-backdrop').not('.modal-stack').css('z-index', zIndex - 1).addClass('modal-stack');
+        }, 0);
+    });
+</script>
+
+<script type="text/javascript">//<![CDATA[
+    $(document).ready(function () {
+        $(".avtivebtn").click(function () {
+            $("a.active1").removeClass("active1");
+            $(this).addClass("active1");
+        });
+    });//]]> 
+</script>
+
+<script>
+    $(function () {
+
+        // Textarea Auto Resize
+        autosize($('#autosize'));
+
+        // Select2 Box
+        $('#reason1, #ampm1').select2({minimumResultsForSearch: Infinity});
+        
+        $("#coding-reject").select2({tags: true});
+        
+        $("#select19").select2({tags: true});
+
+        // Toggles
+        $('.toggle').toggles({
+            on: true,
+            height: 26
+        });
+
+        // Date Picker
+        $('#call_later2').datepicker();
+		
+		// Time Picker
+        $('#tp5').timepicker({
+            'maxTime': '11:30pm',
+            timeFormat: 'h:i'
+        });
+
+    });
+</script>
+

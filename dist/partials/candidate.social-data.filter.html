@@ -1,0 +1,425 @@
+<script>
+    $(function () {
+
+        // Textarea Auto Resize
+        autosize($('#autosize'));
+
+        // Select2 Box
+        $("#current_loc").select2({tags: true});
+        $("#mand_skill").select2({tags: true});
+        $("#irrelevant_skill").select2({tags: true});
+        $("#desigtn_role").select2({tags: true});
+        $("#either_skill").select2({tags: true});
+
+        // Toggles
+        $('.toggle').toggles({
+            on: true,
+            height: 26
+        });
+    });
+</script>
+
+
+<!-- Modal -->
+<div class="modal bounceIn animated" id="externalfilter" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" style="width:900px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title modal-heading text-center" id="myModalLabel">Filter</h4>
+            </div>
+            <div class="modal-body popupscroll mCustomScrollbar" data-mcs-theme="dark">
+                <form id="basicForm" action="" class="form-horizontal">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Designation/Role <span
+                                    class="text-danger">*</span></label>
+
+                            <div class="col-sm-8">
+                                <select id="desigtn_role" class="form-control" style="width: 100%" data-placeholder=""
+                                        multiple>
+                                    <option value="Option1">Option1</option>
+                                    <option value="Option2">Option2</option>
+                                    <option value="Option3">Option3</option>
+                                    <option value="Option4">Option4</option>
+                                    <option value="Option4">Option4</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Irrelevant Skills <span
+                                    class="text-danger">*</span></label>
+
+                            <div class="col-sm-8">
+                                <select id="irrelevant_skill" class="form-control" style="width: 100%"
+                                        data-placeholder="" multiple>
+                                    <option value="Optin1">Optin1</option>
+                                    <option value="Option2">Option2</option>
+                                    <option value="Option3">Option3</option>
+                                    <option value="Option4">Option4</option>
+                                    <option value="Option4">Option4</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Mandatory Skills <span
+                                    class="text-danger">*</span></label>
+
+                            <div class="col-sm-8">
+                                <select id="mand_skill" class="form-control" style="width: 100%" data-placeholder=""
+                                        multiple>
+                                    <option value="Optin1">Optin1</option>
+                                    <option value="Option2">Option2</option>
+                                    <option value="Option3">Option3</option>
+                                    <option value="Option4">Option4</option>
+                                    <option value="Option4">Option4</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Either OR Skills <span
+                                    class="text-danger">*</span></label>
+
+                            <div class="col-sm-8">
+                                <select id="either_skill" class="form-control" style="width: 100%" data-placeholder=""
+                                        multiple>
+                                    <option value="Optin1">Optin1</option>
+                                    <option value="Option2">Option2</option>
+                                    <option value="Option3">Option3</option>
+                                    <option value="Option4">Option4</option>
+                                    <option value="Option4">Option4</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Experience <span class="text-danger">*</span></label>
+
+                            <div class="col-sm-3">
+                                <input oninput="this.value=this.value.replace(/[^0-9.]/g,'');" type="number" name=""
+                                       class="form-control" placeholder="" required/>
+                            </div>
+                            <span class="btnrange">To</span>
+
+                            <div class="col-sm-3">
+                                <input oninput="this.value=this.value.replace(/[^0-9.]/g,'');" type="number" name=""
+                                       class="form-control" placeholder="" required/>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Current Location<span
+                                    class="text-danger">*</span></label>
+
+                            <div class="col-sm-8">
+                                <select id="current_loc" class="form-control" style="width: 100%" data-placeholder=""
+                                        multiple>
+                                    <option value="Optin1">Optin1</option>
+                                    <option value="Option2">Option2</option>
+                                    <option value="Option3">Option3</option>
+                                    <option value="Option4">Option4</option>
+                                    <option value="Option4">Option4</option>
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label text-left">Education <span class="text-danger">*</span></label>
+
+                            <div class="col-sm-8">
+                                <div id='divContainer11'></div>
+                                <label class="edit-on-click11 col-sm-4 control-label text-left">+ Add</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label text-left">College/University </label>
+
+                            <div class="col-sm-8">
+                                <div id='divContainer22'></div>
+                                <label class="edit-on-click22 col-sm-4 control-label text-left">+ Add</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label text-left">Current Company </label>
+
+                            <div class="col-sm-8">
+                                <div id='divContainer33'></div>
+                                <label class="edit-on-click33 col-sm-4 control-label text-left">+ Add</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label text-left">Previous Company </label>
+
+                            <div class="col-sm-8">
+                                <div id='divContainer44'></div>
+                                <label class="edit-on-click44 col-sm-4 control-label text-left">+ Add</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label text-left">Female Candidates Only </label>
+
+                            <div class="col-sm-8">
+                                <label class="ckbox ckbox-success mt10">
+                                    <input type="checkbox"><span></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label text-left">With mail IDs</label>
+
+                            <div class="col-sm-8">
+                                <label class="ckbox ckbox-success mt10">
+                                    <input type="checkbox"><span></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label text-left">Without mail IDs</label>
+
+                            <div class="col-sm-8">
+                                <label class="ckbox ckbox-success mt10">
+                                    <input type="checkbox"><span></span>
+                                </label>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label text-left">Patents</label>
+
+                            <div class="col-sm-8">
+                                <label class="ckbox ckbox-success mt10">
+                                    <input type="checkbox"><span></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label text-left">Publications</label>
+
+                            <div class="col-sm-8">
+                                <label class="ckbox ckbox-success mt10">
+                                    <input type="checkbox"><span></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <br>
+                    </div>
+
+
+                    <div class="clear"></div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+                <button type="button" class="btn btn-success text-center width200">Apply</button>
+            </div>
+        </div>
+        <!-- modal-content -->
+    </div>
+    <!-- modal-dialog -->
+</div><!-- modal -->
+
+
+<script type="text/javascript">//<![CDATA[
+$(window).load(function () {
+    $(document).ready(function () {
+        var counter = 1;
+
+
+        $('.edit-on-click11').click(function () {
+            var $text = $(this),
+                    $input = $('<input type="text" class="txtEdit11 form-control" placeholder="Click here to add"/>')
+
+            $text.hide()
+                    .after($input);
+            var valid = 'false';
+            $input.val('').show().focus()
+                    .keypress(function (e) {
+                        var key = e.which
+                        if (key == 13) // enter key
+                        {
+                            if (valid == 'false') {
+                                var val = $(".txtEdit11").val();
+
+                                $("#divContainer11").append("<label for='chk" + counter + "' class='mt10 ckbox ckbox-success'><input checked id='chk" + counter + "' type='checkbox' value='" + val + "'><span>" + val + "</span></label>");
+
+                                $input.hide();
+                                $text.show();
+                                valid = 'true';
+                                counter++;
+                                /*$input.hide();
+                                 $text.html($input.val())
+                                 .show();
+
+                                 return false;*/
+                            }
+                        }
+                    })
+                    .focusout(function () {
+                        if (valid == 'false') {
+                            var val = $(".txtEdit11").val();
+
+                            $("#divContainer11").append("<label for='chk" + counter + "' class='mt10 ckbox ckbox-success'><input checked id='chk" + counter + "' type='checkbox' value='" + val + "'><span>" + val + "</span></label>");
+
+                            $input.hide();
+                            $text.show();
+                            valid = 'true';
+                            counter++;
+                        }
+                    })
+        });
+
+        $('.edit-on-click22').click(function () {
+            var $text = $(this),
+                    $input = $('<input type="text" class="txtEdit22 form-control" placeholder="Click here to add"/>')
+
+            $text.hide()
+                    .after($input);
+            var valid = 'false';
+            $input.val('').show().focus()
+                    .keypress(function (e) {
+                        var key = e.which
+                        if (key == 13) // enter key
+                        {
+                            if (valid == 'false') {
+                                var val = $(".txtEdit22").val();
+
+                                $("#divContainer22").append("<label for='chk" + counter + "' class='mt10 ckbox ckbox-success'><input checked id='chk" + counter + "' type='checkbox' value='" + val + "'><span>" + val + "</span></label>");
+
+                                $input.hide();
+                                $text.show();
+                                valid = 'true';
+                                counter++;
+                                /*$input.hide();
+                                 $text.html($input.val())
+                                 .show();
+
+                                 return false;*/
+                            }
+                        }
+                    })
+                    .focusout(function () {
+                        if (valid == 'false') {
+                            var val = $(".txtEdit22").val();
+
+                            $("#divContainer22").append("<label for='chk" + counter + "' class='mt10 ckbox ckbox-success'><input checked id='chk" + counter + "' type='checkbox' value='" + val + "'><span>" + val + "</span></label>");
+
+                            $input.hide();
+                            $text.show();
+                            valid = 'true';
+                            counter++;
+                        }
+                    })
+        });
+
+        $('.edit-on-click33').click(function () {
+            var $text = $(this),
+                    $input = $('<input type="text" class="txtEdit33 form-control" placeholder="Click here to add"/>')
+
+            $text.hide()
+                    .after($input);
+            var valid = 'false';
+            $input.val('').show().focus()
+                    .keypress(function (e) {
+                        var key = e.which
+                        if (key == 13) // enter key
+                        {
+                            if (valid == 'false') {
+                                var val = $(".txtEdit33").val();
+
+                                $("#divContainer33").append("<label for='chk" + counter + "' class='mt10 ckbox ckbox-success'><input checked id='chk" + counter + "' type='checkbox' value='" + val + "'><span>" + val + "</span></label>");
+
+                                $input.hide();
+                                $text.show();
+                                valid = 'true';
+                                counter++;
+                                /*$input.hide();
+                                 $text.html($input.val())
+                                 .show();
+
+                                 return false;*/
+                            }
+                        }
+                    })
+                    .focusout(function () {
+                        if (valid == 'false') {
+                            var val = $(".txtEdit33").val();
+
+                            $("#divContainer33").append("<label for='chk" + counter + "' class='mt10 ckbox ckbox-success'><input checked id='chk" + counter + "' type='checkbox' value='" + val + "'><span>" + val + "</span></label>");
+
+                            $input.hide();
+                            $text.show();
+                            valid = 'true';
+                            counter++;
+                        }
+                    })
+        });
+
+        $('.edit-on-click44').click(function () {
+            var $text = $(this),
+                    $input = $('<input type="text" class="txtEdit44 form-control" placeholder="Click here to add"/>')
+
+            $text.hide()
+                    .after($input);
+            var valid = 'false';
+            $input.val('').show().focus()
+                    .keypress(function (e) {
+                        var key = e.which
+                        if (key == 13) // enter key
+                        {
+                            if (valid == 'false') {
+                                var val = $(".txtEdit44").val();
+
+                                $("#divContainer44").append("<label for='chk" + counter + "' class='mt10 ckbox ckbox-success'><input checked id='chk" + counter + "' type='checkbox' value='" + val + "'><span>" + val + "</span></label>");
+
+                                $input.hide();
+                                $text.show();
+                                valid = 'true';
+                                counter++;
+                                /*$input.hide();
+                                 $text.html($input.val())
+                                 .show();
+
+                                 return false;*/
+                            }
+                        }
+                    })
+                    .focusout(function () {
+                        if (valid == 'false') {
+                            var val = $(".txtEdit44").val();
+
+                            $("#divContainer44").append("<label for='chk" + counter + "' class='mt10 ckbox ckbox-success'><input checked id='chk" + counter + "' type='checkbox' value='" + val + "'><span>" + val + "</span></label>");
+
+                            $input.hide();
+                            $text.show();
+                            valid = 'true';
+                            counter++;
+                        }
+                    })
+        });
+    });
+});//]]>
+
+</script>
+
+<script>
+    (function ($) {
+        $(window).on("load", function () {
+            $(".contentscroll").mCustomScrollbar();
+        });
+    })(jQuery);
+</script>

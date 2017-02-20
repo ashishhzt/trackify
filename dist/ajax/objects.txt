@@ -1,0 +1,22 @@
+{
+  "data": [
+   
+    {
+      "name": "Makemytrip – Architect ",
+      "position": "Madhav",
+      "salary": "$170,750",
+      "start_date": "2011/07/25",
+      "office": "<button class='btn btn-success btn-xs btn-quirk'>Apply</button>",
+      "extn": "8422"
+    },
+    {
+      "name": "Flipkart – Architect",
+      "position": "Parul",
+      "salary": "$86,000",
+      "start_date": "2009/01/12",
+      "office": "<button class='btn btn-success btn-xs btn-quirk'>Apply</button>",
+      "extn": "1562"
+    }
+
+  ]
+}

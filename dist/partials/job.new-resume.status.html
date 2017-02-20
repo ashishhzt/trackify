@@ -1,0 +1,300 @@
+
+<script type="text/javascript">
+    //<![CDATA[
+    $(document).ready(function () {
+        var $contents = $('.tab-content1');
+        $contents.slice(0).hide();
+        $('.test-tab').click(function () {
+            var $target = $('#' + this.id + 'show').show();
+            $contents.not($target).hide();
+        });
+    });//]]>
+</script>
+
+<!-- Modal -->
+<div class="modal bounceIn animated" id="addstatus" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title modal-heading text-center" id="myModalLabel">Add Status</h4>
+            </div>
+            <div class="modal-body text-center listbtn">
+                <a class="btn btn-sm btn-info btn-quirk test-tab avtivebtn" id="tab6"
+                   ng-click="vm.changeStatusEvent('AWAITING RESUME')">Awaiting updated resume</a>
+                <a class="btn btn-sm btn-info btn-quirk test-tab avtivebtn" id="tab1"
+                   ng-click="vm.changeStatusEvent('NOT INTERESTED'); vm.changeStatusModel.statusInputs[0].inputTitle = 'Location miss match'">Not Interested</a>
+                <a class="btn btn-sm btn-info btn-quirk test-tab avtivebtn" id="tab2"
+                   ng-click="vm.changeStatusEvent('CALL LATER'); vm.changeStatusModel.statusInputs[0].inputTitle = 'Time'">Call later</a>
+                <div class="clear" style="margin: 20px;"></div>
+                <a class="btn btn-sm btn-info btn-quirk test-tab avtivebtn" id="tab3"
+                   ng-click="vm.changeStatusEvent('AVAILABLE LATER'); vm.changeStatusModel.statusInputs[0].inputTitle = 'Date'">Available  later</a>
+                <a class="btn btn-sm btn-info btn-quirk test-tab avtivebtn" id="tab4"
+                   ng-click="vm.changeStatusEvent('DUPLICATE')">Duplicate</a>
+                <a class="btn btn-sm btn-info btn-quirk test-tab avtivebtn" id="tab5"
+                   ng-click="vm.changeStatusEvent('SCREEN REJECT');vm.changeStatusModel.statusInputs[0].inputTitle = 'Screen Reject by'">Screen Reject</a>
+                <div class="clear" style="margin: 20px;"></div>
+
+                <div id="tab6show" class="tab-content1">
+
+                    <br>
+                    <div class="modal-footer text-center">
+                        <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+                        <div class="col-md-3 no-float center-div ">
+                            <button type="button" class="btn btn-success btn-block btn-quirk text-center"
+                            ng-click="vm.changeStatus()" data-dismiss="modal">Apply</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="tab1show" class="tab-content1 col-md-12">
+                    <hr>
+                    <select id="select26" class="sel1 form-control"
+                            ng-model="vm.changeStatusModel.statusInputs[0].inputTitle">
+                        <option value="Location miss match">Location miss match</option>
+                        <option value="Company miss match">Company miss match</option>
+                        <option value="Skill miss match">Skill miss match</option>
+                        <option value="Recently Joined New Firm">Recently Joined New Firm</option>
+                        <option value="Role miss match">Role miss match</option>
+                        <option value="Domain miss match">Domain miss match</option>
+                        <option value="Not Interested for this company">Not Interested for this company</option>
+                        <option value="Happy with current role">Happy with Current Role</option>
+                    </select>
+
+                    <div class="clear"></div>
+                    <br>
+
+                    <div id="test1" class="hideable">
+                        <select id="select_jobloc" class="ele1 form-control hideable" style="width: 100%" data-placeholder="Enter Job Location"
+                                ng-model="vm.changeStatusModel.statusInputs[0].inputValue" multiple required>
+                            <option value="Bangalore">Bangalore</option>
+                            <option value="Hyderabad">Hyderabad</option>
+                            <option value="Ahmedabad">Ahmedabad</option>
+                            <option value="Pune">Pune</option>
+                            <option value="Nagpur">Nagpur</option>
+                            <option value="Mumbai">Mumbai</option>
+                            <option value="Noida">Noida</option>
+                        </select>
+                    </div>
+                    <div id="test2" class="hideable">
+                        <select id="select38" class="ele2 form-control" style="width: 100%" data-placeholder=""
+                                ng-model="vm.changeStatusModel.statusInputs[0].inputValue" required>
+                            <option value=""></option>
+                            <option value="option1">option1</option>
+                            <option value="option2">option2</option>
+                            <option value="option3">option3</option>
+                        </select>
+                    </div>
+                    <div id="test3" class="hideable">
+                        <select id="select39" class="ele3 form-control" style="width: 100%" data-placeholder=""
+                                ng-model="vm.changeStatusModel.statusInputs[0].inputValue" multiple required>
+                            <option value=""></option>
+                            <option value="Java">Java</option>
+                            <option value="PHP">PHP</option>
+                            <option value="Drupal" >Drupal</option>
+                            <option value="ASP.NET">ASP.NET</option>
+                            <option value="C#">C#</option>
+                        </select>
+                    </div>
+                    <div id="test4" class="hideable">
+                        <input id="datepicker9" type="text" name="txt3" placeholder="Enter Month of Joining"
+                               ng-model="vm.changeStatusModel.statusInputs[0].inputValue"
+                               class="ele4 hideable form-control width200" style="margin: 0 auto" required/>
+                    </div>
+                    <div id="test5" class="hideable">
+                        <select id="select40" class="ele5 form-control" style="width: 100%" data-placeholder=""
+                                ng-model="vm.changeStatusModel.statusInputs[0].inputValue" required>
+                            <option value=""></option>
+                            <option value="option1">option1</option>
+                            <option value="option2">option2</option>
+                            <option value="option3">option3</option>
+                        </select>
+                    </div>
+                    <div id="test6" class="hideable">
+                        <select id="select41" class="ele6 form-control" style="width: 100%" data-placeholder=""
+                                ng-model="vm.changeStatusModel.statusInputs[0].inputValue" required>
+                            <option value=""></option>
+                            <option value="Ecommerce">Ecommerce</option>
+                            <option value="Fin-tech">Fin-tech</option>
+                            <option value="AI/Bigdata">AI/Bigdata</option>
+                            <option value="Payment">Payment</option>
+                            <option value="Edu-Tech">Edu-Tech</option>
+                            <option value="Entertainment">Entertainment</option>
+                            <option value="Banking">Banking</option>
+                            <option value="Logistics">Logistics</option>
+                            <option value="Embedded">Embedded</option>
+                        </select>
+                    </div>
+                    <div id="test7" class="hideable">
+                        <select id="select42" class="ele7 form-control" style="width: 100%" data-placeholder=""
+                                ng-model="vm.changeStatusModel.statusInputs[0].inputValue" required>
+                            <option value=""></option>
+                            <option value="Bad reviews on Glassdoor">Bad reviews on Glassdoor</option>
+                            <option value="Bad reviews from personal network">Bad reviews from personal network</option>
+                            <option value="Not a great team">Not a great team</option>
+                            <option value="Not a great Product">Not a great Product</option>
+                            <option value="Tech stack is not exciting">Tech stack is not exciting</option>
+                            <option value="Founding team is not exciting">Founding team is not exciting</option>
+                            <option value="Funding value is too less">Funding value is too less</option>
+                        </select>
+                    </div>
+
+                    <br>
+                    <script>
+                        $(function () {
+                            $(".hideable").hide();
+                            $(".sel1").on("change", function () {
+                                $(".hideable").hide();
+                                //if( 0 != this.selectedIndex ) {
+
+                                var id = "#test" + (this.selectedIndex + 1);
+                                var element = ".ele" + (this.selectedIndex + 1);
+                                $(id).show();
+                                $(element).show();
+                                // }
+                            }).change();
+                        });
+                    </script>
+
+
+                    <div class="modal-footer text-center">
+                        <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+                        <div class="col-md-3 no-float center-div ">
+                            <button type="button" class="btn btn-success btn-block btn-quirk text-center"
+                                    ng-click="vm.changeStatus()" data-dismiss="modal">Apply</button>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div id="tab2show" class="tab-content1">
+                    <hr>
+                    <div class="form-group">
+
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" placeholder="mm/dd/yyyy" id="datepicker2"
+                                   ng-model="vm.changeStatusModel.statusInputs[0].inputValue.date" required>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="timepicker full-block">
+                                <input id="tp3" type="text" class="form-control"
+                                       ng-model="vm.changeStatusModel.statusInputs[0].inputValue.time" required/>
+                            </div>
+                        </div>
+                        <div class="col-sm-4 text-left">
+                            <select id="select43" class="form-control" style="width: 100%"
+                                    ng-model="vm.changeStatusModel.statusInputs[0].inputValue.meridian" required>
+                                <option value="AM">AM</option>
+                                <option value="PM">PM</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="clear" style="margin: 20px;"></div>
+                    <br>
+
+                    <div class="modal-footer text-center">
+                        <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+                        <div class="col-md-3 no-float center-div">
+                            <button type="button" class="btn btn-success btn-block btn-quirk text-center"
+                                ng-click="vm.changeStatus()" data-dismiss="modal">Apply</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="tab3show" class="tab-content1">
+                    <hr>
+                    <input type="text" class="form-control center-div1" placeholder="Select Month/Date" id="availablelater"
+                    ng-model="vm.changeStatusModel.statusInputs[0].inputValue" required>
+                    <div class="modal-footer text-center">
+                        <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+                        <div class="col-md-3 no-float center-div">
+                            <button type="button" class="btn btn-success btn-block btn-quirk text-center"
+                            ng-click="vm.changeStatus()" data-dismiss="modal">Apply</button>
+                        </div>
+                    </div>
+                </div>
+                <div id="tab4show" class="tab-content1">
+
+                    <br>
+                    <div class="modal-footer text-center">
+                        <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+                        <div class="col-md-3 no-float center-div ">
+                            <button type="button" class="btn btn-success btn-block btn-quirk text-center"
+                                    ng-click="vm.changeStatus()" data-dismiss="modal">Apply</button>
+                        </div>
+                    </div>
+                </div>
+                <div id="tab5show" class="tab-content1">
+                    <hr>
+                    <select id="select44" class="form-control" style="width: 100%;margin: 0px auto;padding: 9px 11px;"
+                            ng-model="vm.changeStatusModel.statusInputs[0].inputValue" required>
+                        <option value="">Screen Reject by</option>
+                        <option value="Internal Reject">Internal Reject</option>
+                        <option value="Client Reject">Client Reject</option>
+                    </select>
+
+                    <div class="clear"></div>
+                    <br>
+                    <div class="modal-footer text-center">
+                        <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+                        <div class="col-md-3 no-float center-div ">
+                            <button type="button" class="btn btn-success btn-block btn-quirk text-center"
+                                    ng-click="vm.changeStatus()" data-dismiss="modal">Apply</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="clear"></div>
+            </div>
+
+        </div><!-- modal-content -->
+    </div><!-- modal-dialog -->
+</div><!-- modal -->
+
+
+<script type="text/javascript">//<![CDATA[
+$(document).ready(function () {
+    $(".avtivebtn").click(function () {
+        $("a.active1").removeClass("active1");
+        $(this).addClass("active1");
+    });
+});//]]>
+</script>
+
+
+<script src="popupjs/jquery.dockmodal.js"></script>
+
+<script>
+    $(function () {
+
+        // Textarea Auto Resize
+        autosize($('#autosize'));
+
+        // Select2 Box
+        $('#select26, #select38, #select40, #select41, #select42, #select43, #select44').select2({minimumResultsForSearch: Infinity});
+        $("#select39").select2({tags: true});
+        $("#select_jobloc").select2({tags: true});
+
+
+
+        // Toggles
+        $('.toggle').toggles({
+            on: true,
+            height: 26
+        });
+
+        // Date Picker
+        $('#datepicker9').datepicker();
+        $('#datepicker2').datepicker();
+        $('#availablelater').datepicker();
+
+
+        // Time Picker
+
+        $('#tp3').timepicker({
+            'maxTime': '11:30pm',
+            timeFormat: 'h:i'
+        });
+    });
+</script>

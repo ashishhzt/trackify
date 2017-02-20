@@ -1,0 +1,353 @@
+<script type="text/javascript">
+    //<![CDATA[
+    $(document).ready(function () {
+        var $contents = $('.tab-content13');
+        $contents.slice(0).hide();
+        $('.test-tab23').click(function () {
+            var $target = $('#' + this.id + 'show').show();
+            $contents.not($target).hide();
+        });
+    });//]]> 
+</script>
+
+
+<!-- Modal -->
+<div class="modal bounceIn animated" id="offerstatus" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title modal-heading text-center" id="myModalLabel">Add Status</h4>
+            </div>
+            <div class="modal-body text-center">
+                <a href="javascript:;" class="btn btn-info btn-sm btn-quirk test-tab23 avtivebtn" id="tab31"
+                   ng-click="vm.changeStatusEvent('CANDIDATE DROPPED'); vm.changeStatusModel.statusInputs[0].inputTitle = 'Reason'">Candidate Dropped</a>
+                <a class="btn btn-info btn-sm btn-quirk test-tab23 avtivebtn" id="tab32"
+                   ng-click="vm.changeStatusEvent('CALL LATER'); vm.changeStatusModel.statusInputs[0].inputTitle = 'Time'">Call later</a>
+                <a class="btn btn-info btn-sm btn-quirk test-tab23 avtivebtn" id="tab33"
+                   ng-click="vm.changeStatusEvent('AWAITING OFFER')">Awaiting Offer</a>
+                <a class="btn btn-info btn-sm btn-quirk test-tab23 avtivebtn" id="tab37"
+                   ng-click="vm.changeStatusEvent('OFFER DENIED'); vm.changeStatusModel.statusInputs[0].inputTitle = 'Reason'">Offer Denied</a>
+                <div class="clear" style="margin: 20px;"></div>
+                <a class="btn btn-info btn-sm btn-quirk test-tab23 avtivebtn" id="tab34"
+                   ng-click="vm.changeStatusEvent('OFFERED'); vm.changeStatusModel.statusInputs[0].inputTitle = 'Proposed Date Of Joining';
+                    vm.changeStatusModel.statusInputs[1].inputTitle = 'Fixed';
+                    vm.changeStatusModel.statusInputs[2].inputTitle = 'Variable';
+                    vm.changeStatusModel.statusInputs[3].inputTitle = 'Stocks'">Offered</a>
+                <a class="btn btn-info btn-sm btn-quirk test-tab23 avtivebtn" id="tab35"
+                   ng-click="vm.changeStatusEvent('OFFER ACCEPTED'); vm.changeStatusModel.statusInputs[0].inputTitle = 'Date'">Offer Accepted</a>
+                <a class="btn btn-info btn-sm btn-quirk test-tab23 avtivebtn" id="tab36"
+                   ng-click="vm.changeStatusEvent('OFFER REJECTED'); vm.changeStatusModel.statusInputs[0].inputTitle = 'Reason'">Offer Rejected</a>
+                <a class="btn btn-info btn-sm btn-quirk test-tab23 avtivebtn" id="tab38"
+                   ng-click="vm.changeStatusEvent('OFFERED+DUPLICATE')">Offered + Duplicate</a>
+
+                <div class="clear" style="margin: 20px;"></div>
+                <a class="btn btn-info btn-sm btn-quirk test-tab23 avtivebtn" id="tab39"
+                   ng-click="vm.changeStatusEvent('REVISAL REQUEST');
+                    vm.changeStatusModel.statusInputs[0].inputTitle = 'Fixed';
+                    vm.changeStatusModel.statusInputs[1].inputTitle = 'Variable';
+                    vm.changeStatusModel.statusInputs[2].inputTitle = 'ESOPS'">Revisal Request</a>
+                <a class="btn btn-info btn-sm btn-quirk test-tab23 avtivebtn" id="tab40"
+                   ng-click="vm.changeStatusEvent('OFFER REVISED');
+                    vm.changeStatusModel.statusInputs[0].inputTitle = 'Date Of Joining';
+                    vm.changeStatusModel.statusInputs[1].inputTitle = 'Fixed';
+                    vm.changeStatusModel.statusInputs[2].inputTitle = 'Variable';
+                    vm.changeStatusModel.statusInputs[3].inputTitle = 'ESOPS'">Offer Revised</a>
+
+                <div id="tab31show" class="tab-content13 col-md-12">
+                    <hr>
+                    <select id="reason6" class="form-control" style="width: 100%" ng-model="vm.changeStatusModel.statusInputs[0].inputValue">
+                        <option value="">Select a Reason</option>
+                        <option value="Got another offer">Got another offer</option>
+                        <option value="Job Location is far">Job Location is far</option>
+                        <option value="Got an onsite offer">Got an onsite offer</option>
+                        <option value="Didn’t like Interview Process">Didn’t like Interview Process</option>
+                        <option value="Personal Reasons">Personal Reasons</option>
+                        <option value="Bad reviews on Glassdoor">Bad reviews on Glassdoor</option>
+                        <option value="Bad reviews from personal network">Bad reviews from personal network</option>
+                        <option value="Not a great team">Not a great team</option>
+                        <option value="Not a great Product">Not a great Product</option>
+                        <option value="Tech stack is not exciting">Tech stack is not exciting</option>
+                        <option value="Founding team is not exciting">Founding team is not exciting</option>
+                        <option value="Funding value is too less">Funding value is too less</option>
+                    </select>
+                    <br>
+                    <div class="modal-footer text-center mt20">
+                        <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+                        <div class="col-md-3 no-float center-div ">
+                            <button type="button" class="btn btn-success btn-block btn-quirk text-center"
+                                    ng-click="vm.changeStatus()" data-dismiss="modal">Apply</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="tab32show" class="tab-content13">
+                    <hr>
+                    <div class="form-group">
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" placeholder="mm/dd/yyyy" id="offer_date"
+                                   ng-model="vm.changeStatusModel.statusInputs[0].inputValue.date">
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="timepicker full-block">
+                                <input id="offer_time" type="text" class="form-control"
+                                       ng-model="vm.changeStatusModel.statusInputs[0].inputValue.time"/>
+                            </div>
+                        </div>
+                        <div class="col-sm-4 text-left">
+                            <select id="offer_ampm1" class="form-control" style="width: 100%"
+                                    ng-model="vm.changeStatusModel.statusInputs[0].inputValue.meridian">
+                                <option value=""></option>
+                                <option value="AM">AM</option>
+                                <option value="PM">PM</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                    <br>
+                    <div class="modal-footer text-center mt20">
+                        <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+                        <div class="col-md-3 no-float center-div ">
+                            <button type="button" class="btn btn-success btn-block btn-quirk text-center"
+                                    ng-click="vm.changeStatus()" data-dismiss="modal">Apply</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="tab33show" class="tab-content13">
+                    
+
+                    <br>
+                    <div class="modal-footer text-center mt20">
+                        <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+                        <div class="col-md-3 no-float center-div ">
+                            <button type="button" class="btn btn-success btn-block btn-quirk text-center"
+                                    ng-click="vm.changeStatus()" data-dismiss="modal">Apply</button>
+                        </div>
+                    </div>
+                </div>
+				
+                <div id="tab34show" class="tab-content13">
+                    <form id="basicForm" action="" class="form-horizontal">
+                        <hr>
+                        <div class="form-group">
+                            <div class="col-sm-4">
+                                <input type="text" id="proposeddoj" name="" class="form-control"
+                                       placeholder="Proposed Date Of Joining" required=""
+                                       ng-model="vm.changeStatusModel.statusInputs[0].inputValue">
+                            </div>
+                            <label class="col-sm-2 control-label">Offered CTC (in lakhs) </label>
+                            <div class="col-sm-2">
+                                <input type="text" oninput="this.value=this.value.replace(/[^0-9.]/g,'');" name=""
+                                       class="form-control" placeholder="Fixed" required=""
+                                       ng-model="vm.changeStatusModel.statusInputs[1].inputValue">
+                            </div>
+                            <div class="col-sm-2">
+                                <input type="text"  oninput="this.value=this.value.replace(/[^0-9.]/g,'');" name=""
+                                       class="form-control" placeholder="Variable" required=""
+                                       ng-model="vm.changeStatusModel.statusInputs[2].inputValue">
+                            </div>
+                            <div class="col-sm-2">
+                                <input type="text" oninput="this.value=this.value.replace(/[^0-9.]/g,'');" name=""
+                                       class="form-control" placeholder="Stocks" required=""
+                                       ng-model="vm.changeStatusModel.statusInputs[3].inputValue">
+                            </div>
+                        </div>
+                        <div class="modal-footer text-center">
+                            <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+                            <div class="col-md-3 no-float center-div ">
+                                <button type="button" class="btn btn-success btn-block btn-quirk text-center"
+                                        ng-click="vm.changeStatus()" data-dismiss="modal">Apply</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div id="tab35show" class="tab-content13">
+                    <hr>
+                    <form id="basicForm" action="" class="form-horizontal">
+                        <div class="form-group">
+                            <div class="width300" style="margin: 0 auto;">
+                                <input type="text" id="dateofcandjoin" name="" class="form-control" placeholder="Date Of Joining Proposed by candidate" required=""
+                                       ng-model="vm.changeStatusModel.statusInputs[0].inputValue">
+                            </div>
+                        </div>
+                        <div class="modal-footer text-center">
+                            <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+                            <div class="col-md-3 no-float center-div ">
+                                <button type="button" class="btn btn-success btn-block btn-quirk text-center"
+                                        ng-click="vm.changeStatus()" data-dismiss="modal">Apply</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div id="tab36show" class="tab-content13">
+                    <hr>
+                    <select id="reject_reason" class="form-control" style="width: 100%"
+                            ng-model="vm.changeStatusModel.statusInputs[0].inputValue">
+                        <option value="">Select a reason</option>
+                        <option value="option1">option1</option>
+                        <option value="option2">option2</option>
+                        <option value="option3">option3</option>
+                    </select>
+                    <div class="clear"></div>
+                    <br>
+                    <div class="modal-footer text-center">
+                        <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+                        <div class="col-md-3 no-float center-div ">
+                            <button type="button" class="btn btn-success btn-block btn-quirk text-center"
+                                    ng-click="vm.changeStatus()" data-dismiss="modal">Apply</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="tab37show" class="tab-content13">
+                    <hr>
+                    <select id="offer_denied" class="form-control" style="width: 100%"
+                            ng-model="vm.changeStatusModel.statusInputs[0].inputValue">
+                        <option value="Couldn’t match candidate CTC">Couldn’t match candidate CTC</option>
+                        <option value="Unrealistic CTC expectation">Unrealistic CTC expectation</option>
+                        <option value="Attitude Reject">Attitude Reject</option>
+                        <option value="Position on hold">Position on hold</option>
+                    </select>
+                    <div class="clear"></div>
+                    <br>
+                    <div class="modal-footer text-center">
+                        <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+                        <div class="col-md-3 no-float center-div ">
+                            <button type="button" class="btn btn-success btn-block btn-quirk text-center"
+                                    ng-click="vm.changeStatus()" data-dismiss="modal">Apply</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="tab38show" class="tab-content13">
+                    <br>
+                    <div class="modal-footer text-center mt20">
+                        <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+                        <div class="col-md-3 no-float center-div ">
+                            <button type="button" class="btn btn-success btn-block btn-quirk text-center"
+                                    ng-click="vm.changeStatus()" data-dismiss="modal">Apply</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="tab39show" class="tab-content13">
+                    <hr>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">Enter Revisal Amount  <span class="text-danger">*</span></label>
+                        <div class="col-sm-2">
+                            <input type="text" oninput="this.value=this.value.replace(/[^0-9.0-9]/g,'');" name=""
+                                   class="form-control" placeholder="Fixed" required=""
+                                   ng-model="vm.changeStatusModel.statusInputs[0].inputValue">
+                        </div>
+                        <div class="col-sm-2">
+                            <input type="text" oninput="this.value=this.value.replace(/[^0-9.0-9]/g,'');" name=""
+                                   class="form-control" placeholder="Variable" required=""
+                                   ng-model="vm.changeStatusModel.statusInputs[1].inputValue">
+                        </div>
+                        <div class="col-sm-2">
+                            <input type="text" oninput="this.value=this.value.replace(/[^0-9.0-9]/g,'');" name=""
+                                   class="form-control" placeholder="ESOPS" required=""
+                                   ng-model="vm.changeStatusModel.statusInputs[2].inputValue">
+                        </div>
+                    </div>
+
+                    <div class="clear"></div>
+                    <br>
+                    <div class="modal-footer text-center">
+                        <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+                        <div class="col-md-3 no-float center-div ">
+                            <button type="button" class="btn btn-success btn-block btn-quirk text-center"
+                                    ng-click="vm.changeStatus()" data-dismiss="modal">Apply</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="tab40show" class="tab-content13">
+                    <hr>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">Date of Joining  <span class="text-danger">*</span></label>
+                        <div class="col-sm-8">
+                            <input name="" class="form-control" placeholder="" id="offer_join" required="" type="text" style="width: 262px;"
+                                   ng-model="vm.changeStatusModel.statusInputs[0].inputValue">
+                        </div>
+
+                    </div>
+                    <div class="clear"></div>
+                    <br>
+
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">CTC (Lakhs) <span class="text-danger">*</span></label>
+
+                        <div class="col-sm-2">
+                            <input type="text" oninput="this.value=this.value.replace(/[^0-9.0-9]/g,'');" name="" class="txtreadonly form-control" placeholder="Fixed"
+                                   ng-model="vm.changeStatusModel.statusInputs[1].inputValue">
+                        </div>
+                        <div class="col-sm-2">
+                            <input type="text" oninput="this.value=this.value.replace(/[^0-9.0-9]/g,'');" name="" class="txtreadonly form-control" placeholder="Variable"
+                                   ng-model="vm.changeStatusModel.statusInputs[2].inputValue">
+                        </div>
+                        <div class="col-sm-2">
+                            <input type="text" oninput="this.value=this.value.replace(/[^0-9.0-9]/g,'');" name="" class="txtreadonly form-control" placeholder="ESOPS"
+                                   ng-model="vm.changeStatusModel.statusInputs[3].inputValue">
+                        </div>
+                    </div>
+
+                    <div class="clear"></div>
+                    <br>
+                    <div class="modal-footer text-center">
+                        <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+                        <div class="col-md-3 no-float center-div ">
+                            <button type="button" class="btn btn-success btn-block btn-quirk text-center"
+                                    ng-click="vm.changeStatus()" data-dismiss="modal">Apply</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="clear" style="margin: 20px;"></div>
+            </div>
+
+        </div><!-- modal-content -->
+    </div><!-- modal-dialog -->
+</div><!-- modal -->
+
+<script type="text/javascript">//<![CDATA[
+    $(document).ready(function () {
+        $(".avtivebtn").click(function () {
+            $("a.active1").removeClass("active1");
+            $(this).addClass("active1");
+        });
+    });//]]> 
+</script>
+
+<script>
+    $(function () {
+        // Textarea Auto Resize
+        autosize($('#autosize'));
+
+        // Select2 Box
+        $('#reason6, #reject_reason, #offer_denied, #offer_ampm1').select2({minimumResultsForSearch: Infinity});
+
+        // Toggles
+        $('.toggle').toggles({
+            on: true,
+            height: 26
+        });
+
+        // Date Picker
+        $('#offer_date').datepicker();
+        $('#dateofcandjoin').datepicker();
+        $('#offer_join').datepicker();
+		$('#proposeddoj').datepicker();
+		
+
+        // Time Picker
+        $('#offer_time').timepicker({
+            'maxTime': '11:30pm',
+            timeFormat: 'h:i'
+        });
+      
+    });
+</script>

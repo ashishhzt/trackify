@@ -1,0 +1,29 @@
+
+<div class="modal bounceIn animated" id="movetoshortlist" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog width400">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title modal-heading text-center" id="myModalLabel">Move to Shortlist</h4>
+            </div>
+            <div class="modal-body text-left">
+                <form action="" class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-12 control-label nopaddingtop" style="text-align:center">
+                            Are you sure you want to move <span>{{vm.checkedCandidateNum}}</span> Candidate to shortlist?
+                        </label>
+                        <div class="col-sm-12 text-center mt10">
+                            <button class="btn btn-sm btn-success btn-quirk" data-dismiss="modal"
+                                    ng-click="vm.moveToNextStage('NEW', 'SHORTLIST')"><i class="fa fa-check"></i> Yes</button>
+                            <button class="btn btn-sm btn-danger btn-quirk" data-dismiss="modal"><i class="fa fa-times"></i> No</button>
+                        </div>
+                    </div><!-- form-group -->
+                    <div class="clear"></div>
+                </form>
+            </div>
+
+        </div><!-- modal-content -->
+    </div><!-- modal-dialog -->
+</div><!-- modal -->
+
+

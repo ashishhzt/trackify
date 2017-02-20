@@ -1,0 +1,192 @@
+<!-- Modal -->
+<div class="modal bounceIn animated" id="addinterview1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog width600">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title modal-heading text-center" id="myModalLabel">Add Interview Date</h4>
+            </div>
+            <div class="modal-body">
+
+                <ul class="nav nav-tabs nav-line">
+                    <li class="active"><a href="#nextrount" data-toggle="tab"><strong>Next Round</strong></a></li>
+                    <li><a href="#Reschedule" data-toggle="tab"><strong>Reschedule</strong></a></li>
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content" style="text-align: left;">
+                    <div class="tab-pane active" id="nextrount">
+                        <form action="#" method="post">
+
+                            <div class="form-group col-sm-12" style="padding-top: 11px;">
+                                <label class="rdiobox col-md-3">
+                                    <input type="radio"  name="chkPassPort" value="2" ng-model="vm.interviewDateData.round">
+                                    <span>2nd Round</span>
+                                </label>
+                                <label class="rdiobox col-md-3">
+                                    <input type="radio"  name="chkPassPort" value="3" ng-model="vm.interviewDateData.round">
+                                    <span>3rd Round</span>
+                                </label>
+                                <label class="rdiobox col-md-3">
+                                    <input type="radio"  name="chkPassPort" value="4" ng-model="vm.interviewDateData.round">
+                                    <span>4th Round</span>
+                                </label>
+                                <label class="rdiobox col-md-3">
+                                    <input type="radio"  name="chkPassPort" value="5" ng-model="vm.interviewDateData.round">
+                                    <span>5th Round</span>
+                                </label>
+                                <label class="rdiobox col-md-3">
+                                    <input type="radio"  name="chkPassPort" value="6" ng-model="vm.interviewDateData.round">
+                                    <span>6th Round</span>
+                                </label>
+                                <label class="rdiobox col-md-3">
+                                    <input type="radio" name="chkPassPort" value="N" ng-model="vm.interviewDateData.round">
+                                    <span>Nth Round</span>
+                                </label>
+                            </div>
+							
+							<div class="clear"></div>
+
+                            <div class="form-group">
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control" placeholder="mm/dd/yyyy" id="nextrounddate"
+                                           ng-model="vm.interviewDateData.date">
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="timepicker full-block">
+                                        <input id="nextroundtime" type="text" class="form-control"
+                                               ng-model="vm.interviewDateData.time"/>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 text-left">
+                                    <select id="select50" class="form-control" style="width: 100%"
+                                            ng-model="vm.interviewDateData.meridian">
+                                        <option value="AM">AM</option>
+                                        <option value="PM">PM</option>
+                                    </select>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+
+
+
+                            <div class="modal-footer text-center">
+                                <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+                                <div class="col-md-3 no-float center-div ">
+                                    <button type="button" class="btn btn-success btn-block btn-quirk text-center"
+                                            ng-click="vm.addInterviewDate()" data-dismiss="modal">Submit</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="tab-pane" id="Reschedule">
+                        <form action="#" method="post">
+                            <div class="col-sm-12 form-group" style="padding-top: 11px;">
+                                <label class="rdiobox col-md-3">
+                                    <input type="radio" name="chkPassPort1" onclick="ShowHideDiv()" value="1" ng-model="vm.interviewDateData.round">
+                                    <span>1st Round</span>
+                                </label>
+                                <label class="rdiobox col-md-3">
+                                    <input type="radio" name="chkPassPort1" onclick="ShowHideDiv()" value="2" ng-model="vm.interviewDateData.round">
+                                    <span>2nd Round</span>
+                                </label>
+                                <label class="rdiobox col-md-3">
+                                    <input type="radio" name="chkPassPort1" onclick="ShowHideDiv()" value="3" ng-model="vm.interviewDateData.round">
+                                    <span>3rd Round</span>
+                                </label>
+                                <label class="rdiobox col-md-3">
+                                    <input type="radio"  name="chkPassPort1" onclick="ShowHideDiv()" value="4" ng-model="vm.interviewDateData.round">
+                                    <span>4th Round</span>
+                                </label>
+                                <label class="rdiobox col-md-3">
+                                    <input type="radio"  name="chkPassPort" onclick="ShowHideDiv()" value="5" ng-model="vm.interviewDateData.round">
+                                    <span>5th Round</span>
+                                </label>
+                                <label class="rdiobox col-md-3">
+                                    <input type="radio"  name="chkPassPort" onclick="ShowHideDiv()" value="6" ng-model="vm.interviewDateData.round">
+                                    <span>6th Round</span>
+                                </label>
+                                <label class="rdiobox col-md-3">
+                                    <input type="radio" name="chkPassPort1" onclick="ShowHideDiv()" value="N" ng-model="vm.interviewDateData.round">
+                                    <span>nth Round</span>
+                                </label>
+                            </div>
+							
+							<div class="clear"></div>
+
+                            <div class="form-group">
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control" placeholder="mm/dd/yyyy" id="rescheduledate" required
+                                           ng-model="vm.interviewDateData.date">
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="timepicker full-block">
+                                        <input id="rescheduletime" type="text" class="form-control" required
+                                               ng-model="vm.interviewDateData.time"/>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 text-left">
+                                    <select id="select51" class="form-control" style="width: 100%" required
+                                            ng-model="vm.interviewDateData.meridian">
+                                        <option value="AM">AM</option>
+                                        <option value="PM">PM</option>
+                                    </select>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+
+                            <div class="form-group">
+							<div class="col-sm-10 text-left">
+                                <select id="selectreason" class="form-control" style="width: 100%" required
+                                        ng-model="vm.interviewDateData.rescheduleReason">
+                                    <option value="">Select a Reason</option>
+                                    <option value="Candidate Was Unavailable">Candidate Was Unavailable</option>
+                                    <option value="Client Was Unavailable">Client Was Unavailable</option>
+                                </select>
+							</div>
+							<div class="clear"></div>
+                            </div>
+
+                            <div class="modal-footer text-center">
+                                <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+                                <div class="col-md-3 no-float center-div ">
+                                    <button type="button" class="btn btn-success btn-block btn-quirk text-center"
+                                            ng-click="vm.addInterviewDate()" data-dismiss="modal">Submit</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div><!-- modal-content -->
+    </div><!-- modal-dialog -->
+</div><!-- modal -->
+
+<script>
+    $(function () {
+
+        // Textarea Auto Resize
+        autosize($('#autosize'));
+
+        // Select2 Box
+        $('#select50, #select51, #selectreason').select2({minimumResultsForSearch: Infinity});
+        //$("#selectreason").select2({tags: true});
+		
+		// Date Picker
+        $('#nextrounddate').datepicker();
+		$('#rescheduledate').datepicker();
+		
+		// Time Picker
+        $('#rescheduletime').timepicker({
+            'maxTime': '11:30pm',
+            timeFormat: 'h:i'
+        });
+		
+		$('#nextroundtime').timepicker({
+            'maxTime': '11:30pm',
+            timeFormat: 'h:i'
+        });
+		
+    });
+</script>
