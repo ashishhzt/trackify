@@ -15,21 +15,27 @@ describe('Home', () => {
   }));
 
   describe('Module', () => {
-    
+    // top-level specs: i.e., routes, injection, naming
   });
 
   describe('Controller', () => {
-    
+    // controller specs
+    it('has a name property [REMOVE]', () => { // erase if removing this.name from the controller
+      let controller = makeController();
+      expect(controller).to.have.property('name');
+    });
   });
 
   describe('Template', () => {
-    it('has user email in template', () => {
-      expect(HomeTemplate).to.match(/{{\s?vm\.user\.displayName\s?}}/g);
+    // template specs
+    // tip: use regex to ensure correct bindings are used e.g., {{  }}
+    it('has name in template [REMOVE]', () => {
+      expect(HomeTemplate).to.match(/{{\s?vm\.name\s?}}/g);
     });
   });
 
   describe('Component', () => {
-    
+      // component/directive specs
       let component = HomeComponent;
 
       it('includes the intended template',() => {

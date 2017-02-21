@@ -1,9 +1,7 @@
 class HomeController {
-  constructor(AuthFactory) {
-    this.name = 'home';
+  constructor() {
+    
   }
 }
-
-HomeController.$inject = ['AuthFactory']
 
 export default HomeController;

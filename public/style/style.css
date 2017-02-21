@@ -998,11 +998,11 @@ button {
 }
 
 .bg_ai {
-	background-image: url(../public/img/images/bg.png);
+	background-image: url(../img/images/bg.png);
 }
 
 .banner.header-banner {
-    background-image: url(../public/img/images/Bg_Image_Walkin.png);
+    background-image: url(../img/images/Bg_Image_Walkin.png);
 }
 .banner.benefits-bg {
     /*background-image: url(../images/images/benefits-bg-01.jpg)*/
@@ -1251,7 +1251,7 @@ hr.style-eight:after {
 }
 
 .transparent_btn.gmail_btn:before {
-	content:url('../public/img/images/mail.png');
+	content:url('../img/images/mail.png');
 	right: 16px;
     top: 1px;
 	position:relative;
@@ -1642,28 +1642,28 @@ footer .socail ul li a {
     background-repeat: no-repeat
 }
 footer .socail ul li a.facebook {
-    background-image: url(../public/img/images/facebook.png)
+    background-image: url(../img/images/facebook.png)
 }
 footer .socail ul li a.facebook:hover {
-    background-image: url(../public/img/images/facebook-hover.png)
+    background-image: url(../img/images/facebook-hover.png)
 }
 footer .socail ul li a.twitter {
-    background-image: url(../public/img/images/twitter.png)
+    background-image: url(../img/images/twitter.png)
 }
 footer .socail ul li a.twitter:hover {
-    background-image: url(../public/img/images/twitter-hover.png)
+    background-image: url(../img/images/twitter-hover.png)
 }
 footer .socail ul li a.instagram {
-    background-image: url(../public/img/images/instagram.png)
+    background-image: url(../img/images/instagram.png)
 }
 footer .socail ul li a.instagram:hover {
-    background-image: url(../public/img/images/instagram-hover.png)
+    background-image: url(../img/images/instagram-hover.png)
 }
 footer .socail ul li a.linkdin {
-    background-image: url(../public/img/images/linkdin.png)
+    background-image: url(../img/images/linkdin.png)
 }
 footer .socail ul li a.linkdin:hover {
-    background-image: url(../public/img/images/linkdin-hover.png)
+    background-image: url(../img/images/linkdin-hover.png)
 }
 #successModal .bootstrap-dialog-title {
     color: #00a804;

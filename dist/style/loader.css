@@ -23,7 +23,7 @@
   left: 50%;
   margin-left: -22px;
   margin-top: -22px;
-  background:url('../public/img/loader-01.gif') center no-repeat;
+  background:url('../img/loader-01.gif') center no-repeat;
 }
 /****Loader for 02****/
 #preloader-2 {
