@@ -10,14 +10,23 @@
             <div class="modal-body">
                 <form action="" class="">
                     <div class="form-group">
-                        <select id="absconding" class="form-control" style="width: 100%"
-                                data-placeholder="Reason for absconding" multiple
+                        
+                        <select id="absconding" class="form-control" style="width: 100%; text-align: left;"
+                                data-placeholder="Reason for absconding"
                                 ng-model="vm.abscondingReason">
-                            <option value="Option1">Option1</option>
-                            <option value="Option2">Option2</option>
-                            <option value="Option3">Option3</option>
-                            <option value="Option4">Option4</option>
-                            <option value="Option5">Option5</option>
+                            <option value="Didn't like the culture">Didn't like the culture</option>
+                            <option value="Got a better Package">Got a better Package</option>
+                            <option value="Job Location is far">Job Location is far</option>
+                            <option value="Got an onsite offer">Got an onsite offer</option>
+                            <option value="Personal Reasons">Personal Reasons</option>
+                            <option value="Not a great product">Not a great product</option>
+                            <option value="Not a great team">Not a great team</option>
+                            <option value="Founding team is not exciting">Founding team is not exciting</option>
+                            <option value="Not keen with the firm">Not keen with the firm</option>
+                            <option value="Not keen with the domain">Not keen with the domain</option>
+                            <option value="Interview Process was bad">Interview Process was bad</option>
+                            <option value="Tech stack is not exciting">Tech stack is not exciting</option>
+                            <option value="Got job in preferred Location">Got job in preferred Location</option>
                         </select>
                     </div>
 
@@ -48,7 +57,8 @@
         autosize($('#autosize'));
 
         // Select2 Box
-        $("#absconding").select2({tags: true});
+       // $("#absconding").select2({tags: true});
+       $("#absconding").select2({minimumResultsForSearch: Infinity});
 
         // Toggles
         $('.toggle').toggles({

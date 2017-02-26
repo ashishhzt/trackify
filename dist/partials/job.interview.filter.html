@@ -12,12 +12,8 @@
                 <form action="" class="">
                     <div class="form-group" ng-init="vm.filterObject.INTERVIEW[0].filterTag = 'filterByRecruiter'">
                         <select id="select23" class="form-control" style="width: 100% !important" data-placeholder="Filter By Recruiter "
-                                ng-model="vm.filterObject.INTERVIEW[0].filterValue" multiple>
-                            <option value="Option1">Option1</option>
-                            <option value="Option2">Option2</option>
-                            <option value="Option3">Option3</option>
-                            <option value="Option4">Option4</option>
-                            <option value="Option5">Option5</option>
+                                ng-model="vm.filterObject.INTERVIEW[0].filterValue" multiple
+                                ng-options="item.userId as item.userName for item in vm.allRecruiters">
                         </select>
                     </div>
 
@@ -41,7 +37,7 @@
 
                         <div style="clear:both"></div>
 
-                        <label class="filter_radio_lable" style="float: left;display: inline;margin-top: 10px;">
+                        <label class="filter_radio_lable" style="float: left; display: inline; margin-top: 10px;">
                             <input class="uncheck_radio" type="radio" name="rdio" value="filterByRejection"
                                    ng-click="vm.filterObject.INTERVIEW[3].filterValue = []; vm.resetModalSelectInput('#select25')"
                                    ng-model="vm.filterObject.INTERVIEW[3].filterTag">
@@ -61,7 +57,7 @@
 
 
                     <div class="form-group align_select">
-                        <label class="filter_radio_lable" style="float: left;display: inline;margin-top: 10px;">
+                        <label class="filter_radio_lable" style="float: left; display: inline; margin-top: 10px;">
                             <input type="radio" class="uncheck_radio" name="rdio" value="filterBySelection"
                                    ng-click="vm.filterObject.INTERVIEW[3].filterValue = []; vm.resetModalSelectInput('#select24')"
                                    ng-model="vm.filterObject.INTERVIEW[3].filterTag">

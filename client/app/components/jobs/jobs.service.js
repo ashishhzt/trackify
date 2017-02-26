@@ -52,12 +52,12 @@ class jobsService {
         return HTTP.get(this).post("/api/jobs/getSimilarJobs", reqData).then(result => result.data);
     }
 
-    feedMsgThreadData(jobId,candidateId) {
-        return HTTP.get(this).get(`/api/jobs/getFeedThread/${jobId}/${candidateId}`).then(result => result.data);
-    }
-
     feedJobData(candidateId) {
         return HTTP.get(this).get(`/api/jobs/feedJobData/${candidateId}`).then(result => result.data);
+    }
+
+    feedMsgThreadData(jobId,candidateId) {
+        return HTTP.get(this).get(`/api/jobs/getFeedThread/${jobId}/${candidateId}`).then(result => result.data);
     }
 
     saveCandidateDetails(formData) {

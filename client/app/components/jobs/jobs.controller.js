@@ -4,7 +4,7 @@ let trackFilterObjectLastApplied = [{"filterTag":"filterByRecruiter"},{"filterTa
 
 class JobsController {
   constructor(AuthFactory, jobsService) {
-    this.userId = 1; //get this data from localstorage
+        this.userId = 1; //get this data from localstorage
         this.checkedAllCandidateFlag = false;
         this.sideMenuState = {flag: 'myjob', status: 'active'};
         this.presentStage = "NEW";
@@ -17,6 +17,7 @@ class JobsController {
         this.moveToInactiveReasons = [];
         this.interviewDateData = {"date": null, "time": null, "meridian": null, "round": 1, "rescheduleReason": null};
         this.filterObject = {"NEW": [], "SHORTLIST": [],"INTERVIEW": [], "OFFER": [], "JOINED": [], "CANDIDATE": []};
+        this.abscondingReason = null;
 
         //Init for Social Data Section
         this.sdSkip = 0;
@@ -43,6 +44,7 @@ class JobsController {
   }
 
     setStage(stage){
+        this.searchKeywordJobs = "";
         this.checkedAllCandidateFlag = false;
         this.presentStage = stage;
         this.filterObject = {"NEW": [], "SHORTLIST": [],"INTERVIEW": [], "OFFER": [], "JOINED": [], "CANDIDATE": []};
@@ -389,7 +391,9 @@ class JobsController {
         });
     }
     getFeedJobData(){
+        
         SERVICE.get(this).feedJobData(this.selectedCandidate.candidateId).then(response => {
+            
             this.feedJobRecords = response;
         }, error => {
             console.log(error);

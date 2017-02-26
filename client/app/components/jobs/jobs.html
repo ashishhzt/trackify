@@ -8,8 +8,6 @@
 
         <div class="contentpanel">
 
-
-
             <!-- content goes here... -->
             <div class="row">
                 <div class="col-md-12 col-lg-12 dash-left">
@@ -270,7 +268,7 @@
                         <div class="col-md-3 list-view mCustomScrollbar white-background job_content" data-mcs-theme="dark">
                             <h3 class="text-center text-head" style="font-size: 21px;">Candidates</h3>
                             <div class="input-group input-search-contact mt10 border-grey">
-                                <input class="form-control" placeholder="Search contact" type="text">
+                                <input class="form-control" placeholder="Search contact" type="text" ng-model="vm.searchKeywordJobs">
                                         <span class="input-group-btn">
                                             <button class="btn btn-default" type="button"><i class="fa fa-search"></i></button>
                                         </span>
@@ -283,7 +281,7 @@
                                 </label>
                             </div>
                             <div class="clear"></div>
-                            <div class="list" ng-repeat="row in vm.allCandidateDetail[vm.presentStage] | orderBy: '-candidateId'">
+                            <div class="list" ng-repeat="row in vm.allCandidateDetail[vm.presentStage] | orderBy: '-candidateId' | filter: vm.searchKeywordJobs">
                                 <label class="col-sm-1 ckbox2 ckbox ckbox-success">
                                     <input type="checkbox" ng-change="vm.checkAllCandidate('OTHERS')" ng-model="vm.checkedCandidateList[$index]"><span></span>
                                 </label>
@@ -291,7 +289,45 @@
                                     <h3 ng-bind="row.candidateName"></h3>
                                     <h4 style="text-transform: capitalize;" ng-bind="(row.presentEmployer | lowercase) || '-'"></h4>
                                     <a href="#" class="btn btn-info btn-xs btn-quirk list-float-btn"
+                                       ng-if="row.status === 'NEW RESUME'">NR</a>
+                                    <a href="#" class="btn btn-info btn-xs btn-quirk list-float-btn"
                                        ng-if="row.status === 'AWAITING RESUME'">AR</a>
+                                    <a href="#" class="btn btn-info btn-xs btn-quirk list-float-btn"
+                                       ng-if="row.status === 'NOT INTERESTED'">NI</a>
+                                    <a href="#" class="btn btn-info btn-xs btn-quirk list-float-btn"
+                                       ng-if="row.status === 'CALL LATER'">CL</a>
+                                    <a href="#" class="btn btn-info btn-xs btn-quirk list-float-btn"
+                                       ng-if="row.status === 'AVAILABLE LATER'">AL</a>
+                                    <a href="#" class="btn btn-info btn-xs btn-quirk list-float-btn"
+                                       ng-if="row.status === 'DUPLICATE'">DU</a>
+                                    <a href="#" class="btn btn-info btn-xs btn-quirk list-float-btn"
+                                       ng-if="row.status === 'SCREEN REJECT'">SR</a>
+                                    <a href="#" class="btn btn-info btn-xs btn-quirk list-float-btn"
+                                       ng-if="row.status === 'CANDIDATE DROPPED'">CD</a>
+                                    <a href="#" class="btn btn-info btn-xs btn-quirk list-float-btn"
+                                       ng-if="row.status === 'INTERVIEW REJECT'">IR</a>
+                                    <a href="#" class="btn btn-info btn-xs btn-quirk list-float-btn"
+                                       ng-if="row.status === 'INTERVIEW SELECT'">IS</a>
+                                    <a href="#" class="btn btn-info btn-xs btn-quirk list-float-btn"
+                                       ng-if="row.status === 'NO SHOW'">NS</a>
+                                    <a href="#" class="btn btn-info btn-xs btn-quirk list-float-btn"
+                                       ng-if="row.status === 'INTERVIEW CANCELLED'">IC</a>
+                                    <a href="#" class="btn btn-info btn-xs btn-quirk list-float-btn"
+                                       ng-if="row.status === 'AWAITING OFFER'">AO</a>
+                                    <a href="#" class="btn btn-info btn-xs btn-quirk list-float-btn"
+                                       ng-if="row.status === 'OFFER DENIED'">OD</a>
+                                    <a href="#" class="btn btn-info btn-xs btn-quirk list-float-btn"
+                                       ng-if="row.status === 'OFFERED'">OF</a>
+                                    <a href="#" class="btn btn-info btn-xs btn-quirk list-float-btn"
+                                       ng-if="row.status === 'OFFER ACCEPTED'">OA</a>
+                                    <a href="#" class="btn btn-info btn-xs btn-quirk list-float-btn"
+                                       ng-if="row.status === 'OFFER REJECTED'">OR</a>
+                                    <a href="#" class="btn btn-info btn-xs btn-quirk list-float-btn"
+                                       ng-if="row.status === 'OFFERED+DUPLICATE'">OD</a>
+                                    <a href="#" class="btn btn-info btn-xs btn-quirk list-float-btn"
+                                       ng-if="row.status === 'REVISAL REQUEST'">RR</a>
+                                    <a href="#" class="btn btn-info btn-xs btn-quirk list-float-btn"
+                                       ng-if="row.status === 'OFFER REVISED'">OR</a>
                                 </div>
                                 <div class="clear"></div>
                             </div>
@@ -456,6 +492,16 @@
                                                     <div class="col-sm-8">
                                                         <input type="text" name="name" class="form-control txtreadonly"
                                                                ng-model="vm.candidateDetails.location" placeholder="" required/>
+                                                        <!--<select id="select_candloc" class="ele1 form-control hideable" style="width: 100%" data-placeholder="Enter Job Location"
+                                                                ng-model="vm.candidateDetails.location" required>
+                                                            <option value="Bangalore">Bangalore</option>
+                                                            <option value="Hyderabad">Hyderabad</option>
+                                                            <option value="Ahmedabad">Ahmedabad</option>
+                                                            <option value="Pune">Pune</option>
+                                                            <option value="Nagpur">Nagpur</option>
+                                                            <option value="Mumbai">Mumbai</option>
+                                                            <option value="Noida">Noida</option>
+                                                        </select>      -->
                                                     </div>
                                                 </div>
 
@@ -472,7 +518,7 @@
                                                 <!-- Nav tabs -->
                                                 <ul class="nav nav-tabs nav-line">
                                                     <li class="active"><a data-target="#currentfeed" data-toggle="tab"><strong>Current Feed ({{vm.feedJobRecords.currentJobs.length || 0}})</strong></a></li>
-                                                    <li><a data-target="#prevfeed" data-toggle="tab"><strong>Previous Feeds({{vm.feedJobRecords.previousJobs.length || 0}})</strong></a></li>
+                                                    <li><a data-target="#prevfeed" data-toggle="tab"><strong>Previous Feeds ({{vm.feedJobRecords.previousJobs.length || 0}})</strong></a></li>
                                                 </ul>
 
                                                 <div class="clear" style="margin: 20px;"></div>

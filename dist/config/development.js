@@ -8,7 +8,7 @@ module.exports = {
   mysqldb: {
     host     : 'localhost',
     user     : 'root',
-    password : 'root',
-    database : 'trackify_db'
+    password : 'root123',
+    database : 'trackify'
   }
 };

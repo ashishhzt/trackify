@@ -3,12 +3,14 @@ import fs from 'fs';
 import path from 'path';
 import multer from 'multer';
 
-if (!fs.existsSync(path.resolve("./resume_files"))) {
-    fs.mkdirSync(path.resolve("./resume_files"));
+var resumeFilePath = path.join(__dirname, '../../dist/resume_files');
+
+if (!fs.existsSync(resumeFilePath)) {
+    fs.mkdirSync(resumeFilePath);
 }
 let storage	=	multer.diskStorage({
     destination: function (req, file, callback) {
-        callback(null, path.resolve("./resume_files"));
+        callback(null, resumeFilePath);
     }
 });
 

@@ -60,6 +60,7 @@ import config	from '../../config/config';
 //     }, next);
 // };
 
+var resumeFilesPath = path.join(__dirname, '../../../dist/resume_files');
 // Util functions
 function twoDigits(d) {
     if(0 <= d && d < 10) return "0" + d.toString();
@@ -128,7 +129,7 @@ export const candidateDetailsForJob = function(req, res) {
     var query = "select cj.JOB_ID as jobId,cj.CANDIDATE_ID as candidateId,c.CANDIDATE_NAME as candidateName,c.COMPANY_NAME as presentEmployer,c.COLLEGE as college,cj.STAGE as stage, cj.STATUS as status,cj.STATUS_INPUTS as statusInputs,cj.RECRUITER_ID as assigneeId, u.NAME as assigneeName from candidate_job_mapping cj, candidate c, user u where cj.CANDIDATE_ID = c.CANDIDATE_ID and cj.RECRUITER_ID = u.USER_ID and cj.JOB_ID = " + jobId;
 
     if(filter.NEW.length ===  2 && filterFrom === 'job'){
-        if((filter.NEW[0].filterTag && filter.NEW[0].filterValue) && (filter.NEW[1].filterTag && filter.NEW[1].filterValue && filter.NEW[1].filterValue.length > 0)){
+        if((filter.NEW[0].filterTag && filter.NEW[0].filterValue && filter.NEW[0].filterValue.length > 0) && (filter.NEW[1].filterTag && filter.NEW[1].filterValue && filter.NEW[1].filterValue.length > 0)){
             query = query + " and ((cj.RECRUITER_ID in (";
             for(var i=0; i< filter.NEW[0].filterValue.length; i++){
                 query = query + filter.NEW[0].filterValue[i]+",";
@@ -261,35 +262,39 @@ export const candidateDetailsForJob = function(req, res) {
     } else if(filter.CANDIDATE.length > 0 && filterFrom === 'candidate'){
 
     }
+
     db.query(query, function(error, results) {
         if (error) {
             res.send({"message": "ERROR"});
-        }
-        var resData = {"NEW":[], "SHORTLIST":[], "INTERVIEW": [], "OFFER":[], "JOINED":[], "CANDIDATE": []};
-        for(var row of results){
-            if(row.statusInputs === null || row.statusInputs === ""){
-                row.statusInputs = null;
-            }else {
-                row.statusInputs = JSON.parse(row.statusInputs);
+        } else {
+            var resData = {"NEW":[], "SHORTLIST":[], "INTERVIEW": [], "OFFER":[], "JOINED":[], "CANDIDATE": []};
+            if(results){
+                for(var row of results){
+                    if(row.statusInputs === null || row.statusInputs === ""){
+                        row.statusInputs = null;
+                    }else {
+                        row.statusInputs = JSON.parse(row.statusInputs);
+                    }
+                    if(row.stage === "NEW"){
+                        delete row.stage;
+                        resData.NEW.push(row);
+                    } else if(row.stage === "SHORTLIST"){
+                        delete row.stage;
+                        resData.SHORTLIST.push(row);
+                    }else if(row.stage === "INTERVIEW"){
+                        delete row.stage;
+                        resData.INTERVIEW.push(row);
+                    }else if(row.stage === "OFFER"){
+                        delete row.stage;
+                        resData.OFFER.push(row);
+                    }else if(row.stage === "JOINED"){
+                        delete row.stage;
+                        resData.JOINED.push(row);
+                    }
+                }
             }
-            if(row.stage === "NEW"){
-                delete row.stage;
-                resData.NEW.push(row);
-            } else if(row.stage === "SHORTLIST"){
-                delete row.stage;
-                resData.SHORTLIST.push(row);
-            }else if(row.stage === "INTERVIEW"){
-                delete row.stage;
-                resData.INTERVIEW.push(row);
-            }else if(row.stage === "OFFER"){
-                delete row.stage;
-                resData.OFFER.push(row);
-            }else if(row.stage === "JOINED"){
-                delete row.stage;
-                resData.JOINED.push(row);
-            }
+            res.send({"data": resData});
         }
-        res.send({"data": resData});
     });
 };
 
@@ -473,7 +478,7 @@ export const getResumeMetadata = function(req, res) {
             return res.status(400).send("ERROR");
         } else {
             if(data[0] && data[0].ORIGINAL_FILE_NAME){
-                var pathURL = "https://docs.google.com/viewer?url="+config.appHostName+"/"+data[0].HASH_FILE_NAME+"&embedded=true";
+                var pathURL = "https://docs.google.com/viewer?url="+config.appHostName+"/resume_files/"+data[0].HASH_FILE_NAME+"&embedded=true";
                 res.json({ "isResumeFound": true, "pathURL": pathURL });
             } else {
                 res.json({ "isResumeFound": false, "pathURL": null });
@@ -497,8 +502,8 @@ export const uploadResume = function(req, res) {
                 "uploadDate": req.body.uploadDate
             };
         
-            var oldPath = path.resolve("./resume_files", data.hashFileName);
-            var newPath = path.resolve("./resume_files", data.hashFileName);
+            var oldPath = path.join(resumeFilesPath, data.hashFileName);
+            var newPath = path.join(resumeFilesPath, data.hashFileName);
             if(data.mimetype == "application/msword"){
                 newPath = newPath+".doc";
                 data.hashFileName = data.hashFileName+".doc";
@@ -550,8 +555,8 @@ export const uploadNewCandidateResume = function(req, res){
                 "mimetype": req.file.mimetype,
                 "uploadDate": req.body.uploadDate
             };
-            var oldPath = path.resolve("./resume_files", data.hashFileName);
-            var newPath = path.resolve("./resume_files", data.hashFileName);
+            var oldPath = path.join(resumeFilesPath, data.hashFileName);
+            var newPath = path.join(resumeFilesPath, data.hashFileName);
             if(data.mimetype == "application/msword"){
                 newPath = newPath+".doc";
                 data.hashFileName = data.hashFileName+".doc";
@@ -578,7 +583,7 @@ export const uploadNewCandidateResume = function(req, res){
                             if(rows.length != 0){
                                 res.send({"message": "DUPLICATE"});
                             } else {
-                                var queryForCandidate = "insert into candidate(CANDIDATE_NAME, EMAIl, PHONE_NO, ORIGINAL_FILE_NAME, HASH_FILE_NAME, MIMETYPE, UPLOAD_DATE, ENCODING) values ('"+ req.body.candidateName+"','"+req.body.candidateEmail+"','"+req.body.candidateContact+"','"+req.file.originalname+"','"+data.hashFileName+"','"+req.file.mimetype+"','"+date+"','"+req.file.encoding+"')";
+                                var queryForCandidate = "insert into candidate(CANDIDATE_NAME, EMAIl, PHONE_NO, ORIGINAL_FILE_NAME, HASH_FILE_NAME, MIMETYPE, UPLOAD_DATE, ENCODING) values ('"+ req.body.candidateName+"','"+req.body.candidateEmail+"','"+req.body.candidateContact+"','"                 +req.file.originalname+"','"+data.hashFileName+"','"+req.file.mimetype+"','"+date+"','"+req.file.encoding+"')";
                                 var queryGetCandidateId = "Select CANDIDATE_ID from candidate where EMAIL='"+req.body.candidateEmail+"' and PHONE_NO='"+req.body.candidateContact+"'";
 
                                 db.query(queryForCandidate, function(error, data) {
@@ -750,7 +755,7 @@ export const feedJobData = function(req, res) {
             });
         },
         previousJobs: function(callback) {
-            var queryPreviousJobs = "select cjm.JOB_ID as jobId,cjm.RECRUITER_ID as userId,u.NAME as userName,c.CLIENT_NAME as clientName,j.DESIGNATION as designation,cjm.STATUS as status from candidate_job_mapping cjm, user u,client c,job j where cjm.RECRUITER_ID=u.USER_ID and cjm.JOB_ID=j.JOB_ID and j.CLIENT_ID=c.CLIENT_ID and j.ACTIVE=0 and cjm.STATUS IN ('DUPLICATE', 'SCREEN REJECT','AVAILABLE LATER','NOT INTERESTED','CANDIDATE DROPPED','INTERVIEW REJECT','NO SHOW','OFFER DENIED','OFFER REJECTED','OFFERED+DUPLICATE','JOINED','ABSCONDING') and cjm.CANDIDATE_ID="+candidateId;
+            var queryPreviousJobs = "select cjm.JOB_ID as jobId,cjm.RECRUITER_ID as userId,u.NAME as userName,c.CLIENT_NAME as clientName,j.DESIGNATION as designation,cjm.STATUS as status from candidate_job_mapping cjm, user u,client c,job j where cjm.RECRUITER_ID=u.USER_ID and cjm.JOB_ID=j.JOB_ID and j.CLIENT_ID=c.CLIENT_ID and (j.ACTIVE=0 or cjm.STATUS IN ('DUPLICATE', 'SCREEN REJECT','AVAILABLE LATER','NOT INTERESTED','CANDIDATE DROPPED','INTERVIEW REJECT','NO SHOW','OFFER DENIED','OFFER REJECTED','OFFERED+DUPLICATE','JOINED','ABSCONDING')) and cjm.CANDIDATE_ID="+candidateId;
             db.query(queryPreviousJobs, function(error, data) {
                 if (error) {
                     console.log(error);
@@ -775,7 +780,7 @@ export const getFeedThread = function(req, res) {
 
     async.parallel({
         TAGS: function(callback) {
-            var query = "SELECT cf.FEED_TEXT as message, cf.TIME_SENT as timestamp, u.NAME as sentFrom, GROUP_CONCAT(ft.USERNAME) as sentTo FROM trackify_db.candidate_feed cf, (select * from trackify_db.feed_target f, user u where u.USER_ID=f.TARGET_ID) ft, trackify_db.user u where cf.FEED_ID=ft.FEED_ID and cf.USER_ID=u.USER_ID and cf.JOB_ID="+jobId+" and cf.CANDIDATE_ID="+candidateId+" group by cf.FEED_ID;";
+            var query = "SELECT cf.FEED_TEXT as message, cf.TIME_SENT as timestamp, u.NAME as sentFrom, GROUP_CONCAT(ft.USERNAME) as sentTo FROM candidate_feed cf, (select * from feed_target f, user u where u.USER_ID=f.TARGET_ID) ft, user u where cf.FEED_ID=ft.FEED_ID and cf.USER_ID=u.USER_ID and cf.JOB_ID="+jobId+" and cf.CANDIDATE_ID="+candidateId+" group by cf.FEED_ID;";
             db.query(query, function(error, data) {
                 if (error) {
                     callback(error);
