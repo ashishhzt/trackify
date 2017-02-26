@@ -40,7 +40,7 @@ Add the component to component js file
 # create new routes (By default all routes are created in server/api folder)
 $ gulp router --name your-router
 
-Finally add your router to api js file
+Finally add your router to api js file 
 
 ```
 
