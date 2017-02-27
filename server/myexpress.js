@@ -14,7 +14,7 @@ if (config.seed) seedDB();
 var staticRoot = __dirname + '/';
 
 app.use(express.static(staticRoot));
-//app.use(express.static(path.join(__dirname, 'reusme_files')));
+app.use(express.static(path.join(__dirname, 'resume_files')));
 
 middleware(app);
 
