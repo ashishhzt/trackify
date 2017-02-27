@@ -27,6 +27,7 @@ $ npm start
 
 ### Create new components and router via templates
 
+
 ```
 Create new components (By default all components are created in components under client/app folder). If you want to create your component under specific
 folder then use the --parent parameter. (gulp component --name your-component --parent parent-folder-name). 
