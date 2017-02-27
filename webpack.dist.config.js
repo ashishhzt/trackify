@@ -32,7 +32,8 @@ config.plugins = config.plugins.concat([
       {from: __dirname + '/public'},
       {from: __dirname + '/server'},
       //{from: __dirname + '/resume_files'},
-      {from: __dirname + '/package.json'}
+      {from: __dirname + '/package.json'},
+      {from: __dirname + '/favicon.ico'}
      ])
 ]);
 
