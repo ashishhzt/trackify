@@ -6,6 +6,7 @@ import config		from './config/config';
 import middleware	from './middleware/middleware';
 import seedDB		from './util/seed';
 
+
 const app = express();
 
 if (config.seed) seedDB();
