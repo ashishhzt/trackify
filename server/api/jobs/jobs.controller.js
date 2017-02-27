@@ -60,7 +60,7 @@ import config	from '../../config/config';
 //     }, next);
 // };
 
-var resumeFilesPath = path.join(__dirname, '../../../dist/resume_files');
+var resumeFilesPath = path.join(__dirname, 'resume_files');
 // Util functions
 function twoDigits(d) {
     if(0 <= d && d < 10) return "0" + d.toString();
