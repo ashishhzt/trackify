@@ -5,7 +5,7 @@ const config = {
   port: process.env.PORT || 9000
 };
 
-process.env.NODE_ENV = process.env.NODE_ENV || config.dev;
+process.env.NODE_ENV = process.env.NODE_ENV || config.prod;
 
 config.env = process.env.NODE_ENV;
 
