@@ -3,12 +3,12 @@ module.exports = {
   seed: true,
   appHostName: "http://localhost:9000",
   db: {
-    url: 'mongodb://localhost/trackify'
+    url: 'mongodb://127.0.0.1:27017/trackify'
   },
   mysqldb: {
     host     : 'localhost',
     user     : 'root',
-    password : 'root123',
-    database : 'trackify'
+    password : 'M1ch!gan',
+    database : 'trackify_db'
   }
 };

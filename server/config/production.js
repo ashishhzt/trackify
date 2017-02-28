@@ -1,6 +1,6 @@
 module.exports = {
   logging: true,
-  seed: true,
+  seed: false,
   appHostName: "http://talenttrack.azurewebsites.net",
   db: {
     //url: 'mongodb://localhost/trackify',
