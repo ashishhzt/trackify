@@ -281,7 +281,7 @@
                                 </label>
                             </div>
                             <div class="clear"></div>
-                            <div class="list" ng-repeat="row in vm.allCandidateDetail[vm.presentStage] | orderBy: '-candidateId' | filter: vm.searchKeywordJobs">
+                            <div class="list" ng-repeat="row in vm.allCandidateDetail[vm.presentStage] | orderBy: '-candidateId' | filter: vm.searchKeywordJobs" onclick="disableContent();">
                                 <label class="col-sm-1 ckbox2 ckbox ckbox-success">
                                     <input type="checkbox" ng-change="vm.checkAllCandidate('OTHERS')" ng-model="vm.checkedCandidateList[$index]"><span></span>
                                 </label>
@@ -345,7 +345,8 @@
 
                                 <div class="text-right right-nav" style="margin: 0">
                                     <button class="btn btn-info btn-xs btn-quirk" style="float:left" ng-if="vm.selectedCandidate.status">{{vm.selectedCandidate.status}}</button>
-                                    <button class="btn btn-info btn-xs btn-quirk" style="float:left;margin-left:3px;" ng-if="(vm.presentStage == 'SHORTLIST' || vm.presentStage == 'INTERVIEW') && vm.selectedCandidate.round">Interview Round - {{vm.selectedCandidate.round}}</button>
+                                    <button class="btn btn-info btn-xs btn-quirk" style="float:left;margin-left:3px;" ng-if="(vm.presentStage == 'SHORTLIST' || vm.presentStage == 'INTERVIEW') && vm.selectedCandidate.round">Interview Round - {{vm.selectedCandidate.round}}
+                                        <span ng-if="vm.selectedCandidate.rescheduleReason != 'null'"> (Re)</span></button>
                                     <a class="btn btn-success btn-xs btn-quirk" data-toggle="modal" data-target="#Similar-Jobs"><i class="fa fa-info-circle" aria-hidden="true"></i> Similar Jobs - <span id="badge">{{vm.selectedCandidate.similarJobsCount}}</span></a>
                                     <span ng-include src="'partials/job.similar-jobs.html'"></span>
                                     <a class="btn btn-success btn-xs btn-quirk" id="button8"><i class="fa fa-envelope" aria-hidden="true"></i> Send</a>
@@ -409,12 +410,12 @@
                                                             <option value="option1">option4</option>
                                                         </select>-->
                                                     </div>
-                                                </div>
+                                                </div>  
 
                                                 <div class="form-group">
                                                     <label class="col-sm-3 control-label">Mobile</label>
                                                     <div class="col-sm-8">
-                                                        <input type="text" name="contact" class="form-control txtreadonly" ng-model="vm.candidateDetails.contact" placeholder="Type contact number..." required/>
+                                                        <input type="text" name="contact" class="form-control txtreadonly" ng-model="vm.candidateDetails.contact" oninput="this.value=this.value.replace(/[^0-9]/g,'');" placeholder="Type contact number..." required/>
                                                         <!--<select id="select17" class="form-control txtreadonly" ng-model="vm.candidateDetails.contact" style="width: 100%" data-placeholder="" multiple>
                                                             <option value="+91 8888888888">+91 8888888888</option>
                                                             <option value="option1">option1</option>
@@ -428,52 +429,53 @@
                                                 <div class="form-group">
                                                     <label class="col-sm-3 control-label">Experience <span class="text-danger">*</span></label>
                                                     <div class="col-sm-2">
-                                                        <input type="text" ng-model="vm.candidateDetails.experience" oninput="this.value=this.value.replace(/[^0-9.]/g,'');" name="" class="txtreadonly form-control" placeholder=""/>
+                                                        <input type="text" ng-model="vm.candidateDetails.experience" oninput="this.value=this.value.replace(/[^0-9.]/g,'');" 
+                                                        maxlength="4" name="" class="txtreadonly form-control" placeholder="" required/>
                                                     </div>
-
                                                 </div>
 
                                                 <div class="form-group">
                                                     <label class="col-sm-3 control-label">Company</label>
                                                     <div class="col-sm-8">
                                                         <input type="text" name="" ng-model="vm.candidateDetails.employer" class="form-control" />
-                                                        <!--                                      <div class="input-group mb15">
-                                                                                                  <input type="text" name="" class="form-control" />
-                                                                                                  <span class="input-group-addon cursor" data-toggle="modal" data-target="#newclient"><i class="glyphicon glyphicon-pencil"> Edit</i></span>
-                                                                                             </div>-->
+                                                        <!-- 
+                                                        <div class="input-group mb15">
+                                                            <input type="text" name="" class="form-control" />
+                                                            <span class="input-group-addon cursor" data-toggle="modal" data-target="#newclient"><i class="glyphicon glyphicon-pencil"> Edit</i></span>
+                                                        </div>-->
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label class="col-sm-3 control-label">CTC <span class="text-danger">*</span></label>
+                                                    <label class="col-sm-3 control-label">CTC (lakhs)<span class="text-danger">*</span></label>
                                                     <div class="col-sm-2">
-                                                        <input type="text" ng-model="vm.candidateDetails.ctcFixed" oninput="this.value=this.value.replace(/[^0-9.0-9]/g,'');" name="" class="txtreadonly form-control" placeholder="Fixed">
+                                                        <input type="text" ng-model="vm.candidateDetails.ctcFixed" oninput="this.value=this.value.replace(/[^0-9.0-9]/g,'');" maxlength="5" name="" class="txtreadonly form-control" placeholder="Fixed" required>
                                                     </div>
                                                     <div class="col-sm-2">
-                                                        <input type="text" ng-model="vm.candidateDetails.ctcVariable" oninput="this.value=this.value.replace(/[^0-9.0-9]/g,'');" name="" class="txtreadonly form-control" placeholder="Variable">
+                                                        <input type="text" ng-model="vm.candidateDetails.ctcVariable" oninput="this.value=this.value.replace(/[^0-9.0-9]/g,'');" maxlength="5" name="" class="txtreadonly form-control" placeholder="Variable" required>
                                                     </div>
                                                     <div class="col-sm-2">
-                                                        <input type="text" ng-model="vm.candidateDetails.ctcEsops" oninput="this.value=this.value.replace(/[^0-9.0-9]/g,'');" name="" class="txtreadonly form-control" placeholder="ESOPS">
+                                                        <input type="text" ng-model="vm.candidateDetails.ctcEsops" oninput="this.value=this.value.replace(/[^0-9.0-9]/g,'');" maxlength="5" name="" class="txtreadonly form-control" placeholder="ESOPS" required>
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label class="col-sm-3 control-label">ECTC <span class="text-danger">*</span></label>
+                                                    <label class="col-sm-3 control-label">ECTC (lakhs)<span class="text-danger">*</span></label>
                                                     <div class="col-sm-2">
-                                                        <input type="text" ng-model="vm.candidateDetails.eCTCFixed" oninput="this.value=this.value.replace(/[^0-9.0-9]/g,'');" name="" class="txtreadonly form-control" placeholder="Fixed">
+                                                        <input type="text" ng-model="vm.candidateDetails.eCTCFixed" oninput="this.value=this.value.replace(/[^0-9.0-9]/g,'');" maxlength="5" name="" class="txtreadonly form-control" placeholder="Fixed" required>
                                                     </div>
                                                     <div class="col-sm-2">
-                                                        <input type="text" ng-model="vm.candidateDetails.eCTCVariable" oninput="this.value=this.value.replace(/[^0-9.0-9]/g,'');" name="" class="txtreadonly form-control" placeholder="Variable">
+                                                        <input type="text" ng-model="vm.candidateDetails.eCTCVariable" oninput="this.value=this.value.replace(/[^0-9.0-9]/g,'');" maxlength="5" name="" class="txtreadonly form-control" placeholder="Variable" required>
                                                     </div>
                                                     <div class="col-sm-2">
-                                                        <input type="text" ng-model="vm.candidateDetails.eCTCEsops" oninput="this.value=this.value.replace(/[^0-9.0-9]/g,'');" name="" class="txtreadonly form-control" placeholder="ESOPS">
+                                                        <input type="text" ng-model="vm.candidateDetails.eCTCEsops" oninput="this.value=this.value.replace(/[^0-9.0-9]/g,'');" maxlength="5" name="" class="txtreadonly form-control" placeholder="ESOPS" required>
                                                     </div>
                                                 </div>
 
                                                 <div id="dvPassport" class="form-group col-md-6">
-                                                    <label class="col-sm-6 control-label">Notice Period</label>
+                                                    <label class="col-sm-6 control-label">Notice Period (days)</label>
                                                     <div class="col-sm-4">
-                                                        <input type="text" ng-model="vm.candidateDetails.noticePeriod" oninput="this.value=this.value.replace(/[^0-9.0-9]/g,'');" class="txtreadonly form-control" placeholder="" style="width: 111px;">
+                                                        <input type="text" ng-model="vm.candidateDetails.noticePeriod" oninput="this.value=this.value.replace(/[^0-9.0-9]/g,'');" maxlength="2" class="txtreadonly form-control" placeholder="" style="width: 111px;">
                                                     </div>
                                                 </div>
 
@@ -491,9 +493,9 @@
                                                 <div class="form-group">
                                                     <label class="col-sm-3 control-label">Job Location <span class="text-danger">*</span></label>
                                                     <div class="col-sm-8">
-                                                        <input type="text" name="name" class="form-control txtreadonly"
-                                                               ng-model="vm.candidateDetails.location" placeholder="" required/>
-                                                        <!--<select id="select_candloc" class="ele1 form-control hideable" style="width: 100%" data-placeholder="Enter Job Location"
+                                                        <!--<input type="text" name="name" class="form-control txtreadonly"
+                                                               ng-model="vm.candidateDetails.location" placeholder="" required/>-->
+                                                        <select id="select_candloc" class="ele1 form-control hideable" style="width: 100%" data-placeholder="Enter Job Location"
                                                                 ng-model="vm.candidateDetails.location" required>
                                                             <option value="Bangalore">Bangalore</option>
                                                             <option value="Hyderabad">Hyderabad</option>
@@ -502,7 +504,7 @@
                                                             <option value="Nagpur">Nagpur</option>
                                                             <option value="Mumbai">Mumbai</option>
                                                             <option value="Noida">Noida</option>
-                                                        </select>      -->
+                                                        </select>      
                                                     </div>
                                                 </div>
 
@@ -1386,7 +1388,8 @@
         var editreadonly_hidden = $("#editreadonly_hidden").val();
 
         $('#enableTxt').html("<i class='fa fa-pencil-square-o' aria-hidden='true'></i>");
-
+        
+        $('#editreadonly').html("<i class='fa fa-pencil-square-o' aria-hidden='true'></i>");
         $("#detailform :input").prop("disabled", true);
         $("#editreadonly_hidden").val(0);
     }

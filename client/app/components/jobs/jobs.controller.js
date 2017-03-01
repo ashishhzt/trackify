@@ -189,14 +189,47 @@ class JobsController {
 
     saveCandidateDetails(){
         if(document.getElementById("editreadonly_hidden").value == 0){
-            let reqObject = Object.assign(this.candidateDetails);
-            reqObject.candidateId = this.selectedCandidate.candidateId;
+            if((this.candidateDetails.email.indexOf("@") == -1) 
+                || (this.candidateDetails.email.indexOf(".") == -1 )
+                || (this.candidateDetails.email.lastIndexOf(".") < this.candidateDetails.email.indexOf("@")) 
+                || (this.candidateDetails.email.indexOf("@") != this.candidateDetails.email.lastIndexOf("@"))) {
+                    alert("Please enter valid email address!");
 
-            SERVICE.get(this).saveCandidateDetails(reqObject).then(response => {
-                console.log(response.message);
-            }, error => {
-                console.log(error);
-            });
+                    $('#editreadonly').html("<i class='fa fa-floppy-o' aria-hidden='true'></i>");
+                    $("#detailform :input").prop("disabled", false);
+                    $("#editreadonly_hidden").val(1);
+            }
+            else if(this.candidateDetails.contact.length != 10){
+                alert("Please enter 10 digit contact number");
+
+                $('#editreadonly').html("<i class='fa fa-floppy-o' aria-hidden='true'></i>");
+                $("#detailform :input").prop("disabled", false);
+                $("#editreadonly_hidden").val(1);
+            }
+            else if((this.candidateDetails.candidateName != null) && (this.candidateDetails.email != null)
+             && (this.candidateDetails.experience != null) && (this.candidateDetails.ctcFixed != null)
+             && (this.candidateDetails.ctcVariable != null) && (this.candidateDetails.ctcEsops != null)
+             && (this.candidateDetails.eCTCFixed != null) && (this.candidateDetails.eCTCVariable != null)
+             && (this.candidateDetails.eCTCEsops != null)
+             && (this.candidateDetails.location != null)) {
+
+                let reqObject = Object.assign(this.candidateDetails);
+                reqObject.candidateId = this.selectedCandidate.candidateId;
+
+                SERVICE.get(this).saveCandidateDetails(reqObject).then(response => {
+                    console.log(response.message);
+                }, error => {
+                    console.log(error);
+                });
+            } else {
+
+                alert("Please enter required fields");
+
+                $('#editreadonly').html("<i class='fa fa-floppy-o' aria-hidden='true'></i>");
+                $("#detailform :input").prop("disabled", false);
+                $("#editreadonly_hidden").val(1);
+            }
+           
         }
     };
 
@@ -310,20 +343,41 @@ class JobsController {
     }
 
     moveToNextStage(stageFrom, stageTo) {
-        let reqObject = {};
-        reqObject.jobId = this.selectedJobDetail.jobId;
-        reqObject.userId = this.userId;
-        reqObject.assignStageFrom = stageFrom;
-        reqObject.assignStageTo = stageTo;
-        reqObject.timestamp = new Date();
-        reqObject.candidateId = this.checkedCandidateListIds;
+        let proceedFlag = true;
+        if(stageFrom === "SHORTLIST"){ 
+            let leng = this.checkedCandidateListIds.length;
+            let leng2 = this.allCandidateDetail[this.presentStage].length;
+            let count = 0; 
+            for(var i=0; i<leng; i++){
+                for(var j=0; j<leng2; j++){
+                    if(this.checkedCandidateListIds[i] === this.allCandidateDetail[this.presentStage][j].candidateId 
+                        && this.allCandidateDetail[this.presentStage][j].round == 1) {
+                        count++;
+                        break;
+                    }
+                }
+            }
+            if(leng != count){
+                proceedFlag = false;
+                alert("Please assign interview date to all candidates before moving them to next stage");
+            }
+        }
+        if(proceedFlag){
+            let reqObject = {};
+            reqObject.jobId = this.selectedJobDetail.jobId;
+            reqObject.userId = this.userId;
+            reqObject.assignStageFrom = stageFrom;
+            reqObject.assignStageTo = stageTo;
+            reqObject.timestamp = new Date();
+            reqObject.candidateId = this.checkedCandidateListIds;
 
-        SERVICE.get(this).moveToNextStage(reqObject).then(response => {
-            console.log(response.message);
-            this.setStage(this.presentStage); //TO reset the filters applied. If satus get changed.
-        }, error => {
-                console.log(error);
-        });
+            SERVICE.get(this).moveToNextStage(reqObject).then(response => {
+                console.log(response.message);
+                this.setStage(this.presentStage); //TO reset the filters applied. If satus get changed.
+            }, error => {
+                    console.log(error);
+            });
+        }
     };
 
     moveToInactive(reasons) {

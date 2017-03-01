@@ -126,7 +126,7 @@ export const candidateDetailsForJob = function(req, res) {
     var filter = req.body.filter;
     var filterFrom = req.body.filterFrom;
 
-    var query = "select cj.JOB_ID as jobId,cj.CANDIDATE_ID as candidateId,c.CANDIDATE_NAME as candidateName,c.COMPANY_NAME as presentEmployer,c.COLLEGE as college,cj.STAGE as stage, cj.STATUS as status,cj.STATUS_INPUTS as statusInputs,cj.RECRUITER_ID as assigneeId, u.NAME as assigneeName, cj.ROUND as round from candidate_job_mapping cj, candidate c, user u where cj.CANDIDATE_ID = c.CANDIDATE_ID and cj.RECRUITER_ID = u.USER_ID and cj.JOB_ID = " + jobId;
+    var query = "select cj.JOB_ID as jobId,cj.CANDIDATE_ID as candidateId,c.CANDIDATE_NAME as candidateName,c.COMPANY_NAME as presentEmployer,c.COLLEGE as college,cj.STAGE as stage, cj.STATUS as status,cj.STATUS_INPUTS as statusInputs,cj.RECRUITER_ID as assigneeId, u.NAME as assigneeName, cj.ROUND as round, cj.RESCHEDULE_REASON as rescheduleReason from candidate_job_mapping cj, candidate c, user u where cj.CANDIDATE_ID = c.CANDIDATE_ID and cj.RECRUITER_ID = u.USER_ID and cj.JOB_ID = " + jobId;
 
     if(filter.NEW.length ===  2 && filterFrom === 'job'){
         if((filter.NEW[0].filterTag && filter.NEW[0].filterValue && filter.NEW[0].filterValue.length > 0) && (filter.NEW[1].filterTag && filter.NEW[1].filterValue && filter.NEW[1].filterValue.length > 0)){
@@ -625,15 +625,23 @@ export const candidateDetails = function(req, res) {
 };
 
 export const updateCandidateDetails = function(req, res) {
-
-    var query = "update candidate set CANDIDATE_NAME='" + req.body.candidateName + "',EMAIL='" + req.body.email + "',PHONE_NO='" + req.body.contact + "',EXPERIENCE=" + req.body.experience + ",COMPANY_NAME='" + req.body.employer + "',CTC_FIXED=" + req.body.ctcFixed + ",CTC_VAR=" + req.body.ctcVariable + ",CTC_ESOPS=" + req.body.ctcEsops + ",ECTC_FIXED=" + req.body.eCTCFixed + ",ECTC_VAR=" + req.body.eCTCVariable + ",ECTC_ESOPS=" + req.body.eCTCEsops + ",NOTICE_PERIOD=" + req.body.noticePeriod + ",SERVING_NOTICE_PERIOD=" + (req.body.serveNotice ? 1 : 0) + ",JOB_LOCATION='" + req.body.location + "' where CANDIDATE_ID=" + req.body.candidateId;
-    db.query(query, function(error, data) {
-        if (error) {
-            console.log(error);
-            return res.status(400).send("ERROR");
+   
+    if(req.body.candidateName != null && req.body.email != null && req.body.experience != null && req.body.ctcFixed != null 
+        && req.body.ctcVariable != null && req.body.ctcEsops != null && req.body.eCTCFixed != null && req.body.eCTCVariable != null 
+        && req.body.eCTCEsops != null && req.body.location != null && req.body.candidateId != null) {
+            
+            var query = "update candidate set CANDIDATE_NAME='" + req.body.candidateName + "',EMAIL='" + req.body.email + "',PHONE_NO='" + req.body.contact + "',EXPERIENCE=" + req.body.experience + ",COMPANY_NAME='" + req.body.employer + "',CTC_FIXED=" + req.body.ctcFixed + ",CTC_VAR=" + req.body.ctcVariable + ",CTC_ESOPS=" + req.body.ctcEsops + ",ECTC_FIXED=" + req.body.eCTCFixed + ",ECTC_VAR=" + req.body.eCTCVariable + ",ECTC_ESOPS=" + req.body.eCTCEsops + ",NOTICE_PERIOD=" + req.body.noticePeriod + ",SERVING_NOTICE_PERIOD=" + (req.body.serveNotice ? 1 : 0) + ",JOB_LOCATION='" + req.body.location + "' where CANDIDATE_ID=" + req.body.candidateId;
+            
+            db.query(query, function(error, data) {
+                if (error) {
+                    console.log(error);
+                    return res.status(400).send("ERROR");
+                }
+                res.json({ "message": "SUCCESS" });
+            });
+        } else {
+            res.json({"message": "Bad request"});
         }
-        res.json({ "message": "SUCCESS" });
-    });
 };
 
 // Recursive function to be used by savePostMessage()
