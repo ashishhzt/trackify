@@ -157,7 +157,7 @@ class JobsController {
         }
         let reqData = {
             "jobId": this.selectedJobDetail.jobId,
-            "candidateId": this.selectedCandidate.candidateId,
+            "candidateId": this.checkedCandidateListIds,
             "stage": this.presentStage,
             "timestamp": new Date(),
             "interview": {
@@ -169,6 +169,7 @@ class JobsController {
             }
         };
         SERVICE.get(this).addInterviewDate(reqData).then(response => {
+            this.checkedCandidateList = [];
             this.interviewDateData = {"date": null, "time": null, "meridian": null, "round": 1, "rescheduleReason": null};
         }, error => {
             this.interviewDateData = {"date": null, "time": null, "meridian": null, "round": 1, "rescheduleReason": null};
@@ -416,6 +417,7 @@ class JobsController {
 
         SERVICE.get(this).getCandidateDetails(candidateId).then(response => {
             this.candidateDetails = response;
+            
         }, error => {
                 console.log(error);
         });
@@ -432,6 +434,7 @@ class JobsController {
         let filterObj = {"NEW": [], "SHORTLIST": [],"INTERVIEW": [], "OFFER": [], "JOINED": [], "CANDIDATE": []};
 
         SERVICE.get(this).candidateDetailsForJob(this.userId, jobId, filterObj, "job").then(response => {
+            
             this.allCandidateDetail = response.data;
             let leng = this.allCandidateDetail[this.presentStage].length;
             if(leng > 0) {

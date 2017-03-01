@@ -80,8 +80,8 @@
                                 <!------------------Second Tab------------------------>
                                 <div id="second" ng-show="vm.presentStage === 'SHORTLIST'">
                                     <div class="pull-right text-right right-nav" style="margin: 0">
-                                        <a data-toggle="modal" data-target="#addinterview" class="btn btn-success btn-xs btn-quirk"><i class="fa fa-calendar" aria-hidden="true"></i> Add interview date</a>
-                                        <span ng-include src="'partials/job.shortlist.add-interview-date.html'"></span>
+                                        <a data-toggle="modal" data-target="#addinterview" ng-click="vm.checkedCandidateCount()" class="btn btn-success btn-xs btn-quirk"><i class="fa fa-calendar" aria-hidden="true"></i> Add interview date</a>
+                                        <span ng-include src="'partials/job.shortlist.add-interview-date.html'" ng-if="vm.checkedCandidateNum !== 0"></span>
                                         <a data-toggle="modal" data-target="#movetointerview" ng-click="vm.checkedCandidateCount()" class="btn btn-success btn-xs btn-quirk"><i class="fa fa-user-plus" aria-hidden="true"></i> Move to Interview</a>
                                         <span ng-include src="'partials/job.shortlist.move-to-interview.html'" ng-if="vm.checkedCandidateNum !== 0"></span>
                                         <a data-toggle="modal" data-target="#shortlistfilter" class="btn btn-success btn-xs btn-quirk"><i class="fa fa-filter" aria-hidden="true"></i> Filter</a>
@@ -100,9 +100,9 @@
                                 <!------------------Third Tab------------------------>
                                 <div id="third" ng-show="vm.presentStage === 'INTERVIEW'">
                                     <div class="pull-right text-right right-nav" style="margin: 0">
-                                        <a data-toggle="modal" data-target="#addinterview1" class="btn btn-success btn-xs btn-quirk">
+                                        <a data-toggle="modal" data-target="#addinterview1" ng-click="vm.checkedCandidateCount()" class="btn btn-success btn-xs btn-quirk">
                                             <i class="fa fa-calendar" aria-hidden="true"></i> Add interview date</a>
-                                        <span ng-include src="'partials/job.interview.add-interview-date.html'"></span>
+                                        <span ng-include src="'partials/job.interview.add-interview-date.html'" ng-if="vm.checkedCandidateNum !== 0"></span>
                                         <a data-toggle="modal" data-target="#movetooffer" ng-click="vm.checkedCandidateCount()" class="btn btn-success btn-xs btn-quirk"><i class="fa fa-user-plus" aria-hidden="true"></i> Move to Offer</a>
                                         <span ng-include src="'partials/job.interview.move-to-offer.html'" ng-if="vm.checkedCandidateNum !== 0"></span>
                                         <a data-toggle="modal" data-target="#inerviewfilter" class="btn btn-success btn-xs btn-quirk"><i class="fa fa-filter" aria-hidden="true"></i> Filter</a>
@@ -345,6 +345,7 @@
 
                                 <div class="text-right right-nav" style="margin: 0">
                                     <button class="btn btn-info btn-xs btn-quirk" style="float:left" ng-if="vm.selectedCandidate.status">{{vm.selectedCandidate.status}}</button>
+                                    <button class="btn btn-info btn-xs btn-quirk" style="float:left;margin-left:3px;" ng-if="(vm.presentStage == 'SHORTLIST' || vm.presentStage == 'INTERVIEW') && vm.selectedCandidate.round">Interview Round - {{vm.selectedCandidate.round}}</button>
                                     <a class="btn btn-success btn-xs btn-quirk" data-toggle="modal" data-target="#Similar-Jobs"><i class="fa fa-info-circle" aria-hidden="true"></i> Similar Jobs - <span id="badge">{{vm.selectedCandidate.similarJobsCount}}</span></a>
                                     <span ng-include src="'partials/job.similar-jobs.html'"></span>
                                     <a class="btn btn-success btn-xs btn-quirk" id="button8"><i class="fa fa-envelope" aria-hidden="true"></i> Send</a>

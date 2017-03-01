@@ -126,7 +126,7 @@ export const candidateDetailsForJob = function(req, res) {
     var filter = req.body.filter;
     var filterFrom = req.body.filterFrom;
 
-    var query = "select cj.JOB_ID as jobId,cj.CANDIDATE_ID as candidateId,c.CANDIDATE_NAME as candidateName,c.COMPANY_NAME as presentEmployer,c.COLLEGE as college,cj.STAGE as stage, cj.STATUS as status,cj.STATUS_INPUTS as statusInputs,cj.RECRUITER_ID as assigneeId, u.NAME as assigneeName from candidate_job_mapping cj, candidate c, user u where cj.CANDIDATE_ID = c.CANDIDATE_ID and cj.RECRUITER_ID = u.USER_ID and cj.JOB_ID = " + jobId;
+    var query = "select cj.JOB_ID as jobId,cj.CANDIDATE_ID as candidateId,c.CANDIDATE_NAME as candidateName,c.COMPANY_NAME as presentEmployer,c.COLLEGE as college,cj.STAGE as stage, cj.STATUS as status,cj.STATUS_INPUTS as statusInputs,cj.RECRUITER_ID as assigneeId, u.NAME as assigneeName, cj.ROUND as round from candidate_job_mapping cj, candidate c, user u where cj.CANDIDATE_ID = c.CANDIDATE_ID and cj.RECRUITER_ID = u.USER_ID and cj.JOB_ID = " + jobId;
 
     if(filter.NEW.length ===  2 && filterFrom === 'job'){
         if((filter.NEW[0].filterTag && filter.NEW[0].filterValue && filter.NEW[0].filterValue.length > 0) && (filter.NEW[1].filterTag && filter.NEW[1].filterValue && filter.NEW[1].filterValue.length > 0)){
@@ -357,14 +357,10 @@ export const moveToNextStage = function(req, res) {
 
 export const addInterviewDate = function(req, res) {
 
-    console.log("\nPOST" + "  /api/addInterviewDate");
-    console.log("Request: \n" + JSON.stringify(req.body) + "\n");
-    console.log("----------------------------------------");
+    var date = new Date(req.body.timestamp).toMysqlFormat();
 
-    var date = new Date(req.body.timestamp).toISOString().slice(0, 19).replace('T', ' ');
-
-    var query = "update candidate_job_mapping set INTERVIEW_DATE = '" + req.body.interview.date + "',INTERVIEW_TIME='" + req.body.interview.time + "',MERIDIAN='" + req.body.interview.meridian + "',ROUND=" + req.body.interview.round + ",RESCHEDULE_REASON = '" + req.body.interview.rescheduleReason + "',TIMESTAMP='" + date + "' where JOB_ID=" + req.body.jobId + " and STAGE='" + req.body.stage + "' and CANDIDATE_ID = "+req.body.candidateId;
-    console.log(query);
+    var query = "update candidate_job_mapping set INTERVIEW_DATE = '" + req.body.interview.date + "',INTERVIEW_TIME='" + req.body.interview.time + "',MERIDIAN='" + req.body.interview.meridian + "',ROUND=" + req.body.interview.round + ",RESCHEDULE_REASON = '" + req.body.interview.rescheduleReason + "',TIMESTAMP='" + date + "' where JOB_ID=" + req.body.jobId + " and STAGE='" + req.body.stage + "' and CANDIDATE_ID IN ("+req.body.candidateId+")";
+    
     db.query(query, function(error, result) {
         if (error) {
             console.log(error);
