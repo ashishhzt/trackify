@@ -65,7 +65,7 @@
                     <br>
 
                     <div id="test1" class="hideable">
-                        <select id="select_jobloc" class="ele1 form-control hideable" style="width: 100%" data-placeholder="Enter Job Location"
+                        <select id="select_jobloc" class="ele1 form-control hideable" style="width: 100%" data-placeholder="Enter Preferred Location"
                                 ng-model="vm.changeStatusModel.statusInputs[0].inputValue" multiple required>
                             <option value="Bangalore">Bangalore</option>
                             <option value="Hyderabad">Hyderabad</option>
@@ -74,10 +74,19 @@
                             <option value="Nagpur">Nagpur</option>
                             <option value="Mumbai">Mumbai</option>
                             <option value="Noida">Noida</option>
+                            <option value="Chennai">Chennai</option>
+                            <option value="Kerala">Kerala</option>
+                            <option value="Delhi">Delhi</option>
+                            <option value="Kolkata">Kolkata</option>
+                            <option value="USA">USA</option>
+                            <option value="Europe">Europe</option>
+                            <option value="Singapore">Singapore</option>
+                            <option value="Any abroad location">Any abroad location</option>
+                            <option value="Others">Others</option>
                         </select>
                     </div>
                     <div id="test2" class="hideable">
-                        <select id="select38" class="ele2 form-control" style="width: 100%" data-placeholder=""
+                        <select id="select38" class="ele2 form-control" style="width: 100%" data-placeholder="Enter Preferred Company"
                                 ng-model="vm.changeStatusModel.statusInputs[0].inputValue" required>
                             <option value=""></option>
                             <option value="option1">option1</option>
@@ -86,10 +95,28 @@
                         </select>
                     </div>
                     <div id="test3" class="hideable">
-                        <select id="select39" class="ele3 form-control" style="width: 100%" data-placeholder=""
+                        <select id="select39" class="ele3 form-control" style="width: 100%" data-placeholder="Enter Candidate's Suitable Skills"
                                 ng-model="vm.changeStatusModel.statusInputs[0].inputValue" multiple required>
-                            <option value=""></option>
+                            <option value="Automation Testing">Automation Testing</option>
+                            <option value="Manual Testing">Manual Testing</option>
+                            <option value=".Net">.Net</option>
                             <option value="Java">Java</option>
+                            <option value="C++">C++</option>
+                            <option value="Java without Bigdata exp">Java without Bigdata exp</option>
+                            <option value="Java without clientside exp">Java without clientside exp</option>
+                            <option value="MEAN">MEAN</option>
+                            <option value="LAMP">LAMP</option>
+                            <option value="Nodejs">Nodejs</option>
+                            <option value="Angularjs">Angularjs</option>
+                            <option value="Reactjs">Reactjs</option>
+                            <option value="Bigdata/Hadoop">Bigdata/Hadoop</option>
+                            <option value="Machine Learning">Machine Learning</option>
+                            <option value="Chef/Puppet/Ansible">Chef/Puppet/Ansible</option>
+                            <option value="Ruby">Ruby</option>
+                            <option value="Python">Python</option>
+                            <option value="R">R</option>
+                            <option value="Scala">Scala</option>
+                            <option value="Go">Go</option
                             <option value="PHP">PHP</option>
                             <option value="Drupal" >Drupal</option>
                             <option value="ASP.NET">ASP.NET</option>
@@ -102,16 +129,37 @@
                                class="ele4 hideable form-control width200" style="margin: 0 auto" required/>
                     </div>
                     <div id="test5" class="hideable">
-                        <select id="select40" class="ele5 form-control" style="width: 100%" data-placeholder=""
+                        <select id="select40" class="ele5 form-control" style="width: 100%" data-placeholder="Enter Candidate's Suitable Role"
                                 ng-model="vm.changeStatusModel.statusInputs[0].inputValue" required>
                             <option value=""></option>
-                            <option value="option1">option1</option>
-                            <option value="option2">option2</option>
-                            <option value="option3">option3</option>
+                            <option value="Software Developer">Software Developer</option>
+                            <option value="Android Developer">Android Developer</option>
+                            <option value="iOS Developer">iOS Developer</option>
+                            <option value="Hybrid Mobile app developer">Hybrid Mobile app developer</option>
+                            <option value="Devops">Devops</option>
+                            <option value="Linux/Unix Admin">Linux/Unix Admin</option>
+                            <option value="Storage Admin">Storage Admin</option>
+                            <option value="UI Developer">UI Developer</option>
+                            <option value="UI Designer">UI Designer</option>
+                            <option value="UX Designer">UX Designer</option>
+                            <option value="Product Manager">Product Manager</option>
+                            <option value="Program Manager">Program Manager</option>
+                            <option value="Data Analyst">Data Analyst</option>
+                            <option value="Data Scientist">Data Scientist</option>
+                            <option value="Business Analyst">Business Analyst</option>
+                            <option value="Architect">Architect</option>
+                            <option value="Engineering Manager">Engineering Manager</option>
+                            <option value="Director Technology">Director Technology</option>
+                            <option value="VP Technology">VP Technology</option>
+                            <option value="Head Technology">Head Technology</option>
+                            <option value="Marketing">Marketing</option>
+                            <option value="CTO">CTO</option>
+                            <option value="Data Engineer">Data Engineer</option>
+
                         </select>
                     </div>
                     <div id="test6" class="hideable">
-                        <select id="select41" class="ele6 form-control" style="width: 100%" data-placeholder=""
+                        <select id="select41" class="ele6 form-control" style="width: 100%" data-placeholder="Enter Candidate's Suitable Domain"
                                 ng-model="vm.changeStatusModel.statusInputs[0].inputValue" required>
                             <option value=""></option>
                             <option value="Ecommerce">Ecommerce</option>
@@ -123,10 +171,11 @@
                             <option value="Banking">Banking</option>
                             <option value="Logistics">Logistics</option>
                             <option value="Embedded">Embedded</option>
+                            
                         </select>
                     </div>
                     <div id="test7" class="hideable">
-                        <select id="select42" class="ele7 form-control" style="width: 100%" data-placeholder=""
+                        <select id="select42" class="ele7 form-control" style="width: 100%" data-placeholder="Enter Candidate's Concern"
                                 ng-model="vm.changeStatusModel.statusInputs[0].inputValue" required>
                             <option value=""></option>
                             <option value="Bad reviews on Glassdoor">Bad reviews on Glassdoor</option>
@@ -136,6 +185,8 @@
                             <option value="Tech stack is not exciting">Tech stack is not exciting</option>
                             <option value="Founding team is not exciting">Founding team is not exciting</option>
                             <option value="Funding value is too less">Funding value is too less</option>
+                            <option value="Not Interested for Startup">Not Interested for Startup</option>
+                            <option value="Other">Other</option>
                         </select>
                     </div>
 
