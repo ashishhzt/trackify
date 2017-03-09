@@ -86,12 +86,6 @@ class jobsService {
     getInternalDataCandidateList(reqObj) {
         return HTTP.get(this).post("/api/jobs/internalDataCandidateList", reqObj).then(result => result.data );
     }
-    // socialDataCount(jobId) {
-    //     return HTTP.get(this).get(`/api/jobs/socialDataCount/${jobId}`).then(result => result.data );
-    // }
-    // socialDataInJob(reqData) {
-    //     return HTTP.get(this).post('/api/jobs/socialData', reqData).then(result => result.data );
-    // }
 
     static getInstance($http){
         return new jobsService($http);

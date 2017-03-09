@@ -53,10 +53,7 @@ JobsRouter.get('/allRecruiters', verifyUser, controller.allRecruiters);
 
 JobsRouter.get('/linkedinLink/:candidateId', verifyUser, controller.linkedinLink);
 
-// Remaining APIs will go here
 JobsRouter.post('/internalDataCandidateList', controller.internalDataCandidateList);
-
-JobsRouter.post('/socialData', verifyUser, controller.socialData);
 
 //Discarded APIs
 JobsRouter.all('/*', controller.invalidRequest);

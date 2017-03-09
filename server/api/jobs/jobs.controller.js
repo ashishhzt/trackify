@@ -930,9 +930,6 @@ export const internalDataCandidateList = function(req, res) {
     });
 };
 
-export const socialData = function(req, res) {
-    res.json({ "message": "Social Data API" });
-};
 
 export const invalidRequest = function(req, res) {
     res.send({"message": "Invalid Request"});

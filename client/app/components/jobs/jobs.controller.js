@@ -3,8 +3,11 @@ const SERVICE = new WeakMap();
 let trackFilterObjectLastApplied = [{"filterTag":"filterByRecruiter"},{"filterTag":"selectStatus"}]; //for init stage -  New Resume stage
 
 class JobsController {
-  constructor(AuthFactory, jobsService) {
+  constructor($rootScope, AuthFactory, jobsService, shareData) {
         this.userId = 1; //get this data from localstorage
+
+        this.shareData = shareData; //service to pass data to fro from controllers
+
         this.checkedAllCandidateFlag = false;
         this.sideMenuState = {flag: 'myjob', status: 'active'};
         this.presentStage = "NEW";
@@ -45,6 +48,11 @@ class JobsController {
             };
 
         SERVICE.set(this, jobsService);
+        if(shareData.getProperty() == 'blank'){
+            this.initJobs();
+        } else {
+            this.getJobsDetail(this.userId, shareData.getProperty().flag, shareData.getProperty().status)
+        }
   }
 
     setStage(stage){
@@ -548,7 +556,12 @@ class JobsController {
             
             this.sideMenuJobsDetails = response.data;
             this.sideMenuState.jobId = response.data[0].jobId;
-            this.getMainMenuData(this.sideMenuState.jobId);
+            if(this.shareData.getProperty() == 'blank'){
+                this.getMainMenuData(this.sideMenuState.jobId);
+            } else {
+                this.getMainMenuData(this.shareData.getProperty().jobId);
+                this.shareData.setProperty('blank')
+            }
             this.getAllRecruiters();
         }, error => {
             console.log(error);
@@ -556,7 +569,7 @@ class JobsController {
     };
 
     initJobs() {
-            this.getJobsDetail(this.userId, 'myjob', 'active');
+        this.getJobsDetail(this.userId, 'myjob', 'active');
     };
 
     //Similar Resume Code: START
@@ -703,6 +716,6 @@ class JobsController {
     //Similar Resume Code: END
 }
 
-JobsController.$inject = ['AuthFactory', 'jobsService']
+JobsController.$inject = ['$rootScope', 'AuthFactory', 'jobsService', 'shareData']
 
 export default JobsController;
