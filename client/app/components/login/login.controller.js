@@ -16,9 +16,10 @@ class LoginController {
     login(loginInfo) {
         this.error = null;
         this.AuthFactory.login(loginInfo)
-            .then(message => {
-                (message) ? this.error = message : this.$state.go('jobs');
-            });
+            .then(
+                () => this.$state.go('jobs'),
+                message => (message) ? this.error = message : this.error = "Unknown Error"
+            );
     }
 
     signup(signupInfo) {

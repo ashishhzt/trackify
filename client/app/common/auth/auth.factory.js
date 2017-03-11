@@ -1,4 +1,4 @@
-let AuthFactory = function ($http, $auth) {
+let AuthFactory = function ($http, $auth, $q) {
 
     let auth = {user: null};
 
@@ -7,15 +7,20 @@ let AuthFactory = function ($http, $auth) {
     let getLoggedInUser = () => auth;
 
     let getUser = () => {
-        $http.get('/api/users/me')
+        // Resolving with auth if user detail is already fetched
+        if (auth.user) return $q.resolve(auth.user);
+
+        console.log('Fetching user\'s auth data');
+
+        return $http.get('/api/users/me')
             .then(({data}) => auth.user = data)
-            .catch(({data}) => console.log('FAILED: ', data.message));
+            // .catch(({data}) => console.log('FAILED: ', data.message));
     };
 
     let login = (credentials) => {
         return $auth.login(credentials)
             .then(getUser)
-            .catch(({data}) => data.message );
+            .catch(({data}) => $q.reject(data.message) );
     };    
 
     let unlink = (provider) => {
@@ -52,9 +57,9 @@ let AuthFactory = function ($http, $auth) {
             .catch(({data}) => data.message );
     };
 
-    return { signup, login, logout, link, unlink, getLoggedInUser, getUser, isAuthenticated, authenticate};
+    return { signup, login, logout, link, unlink, getLoggedInUser, getUser, isAuthenticated, authenticate, auth};
 };
 
-AuthFactory.$inject = ['$http', '$auth'];
+AuthFactory.$inject = ['$http', '$auth', '$q'];
 
 export default AuthFactory;

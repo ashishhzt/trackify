@@ -22,9 +22,9 @@
                             <ol class="dark breadcrumb breadcrumb-quirk font-helvetica" style="float: left">
                                 <li>{{vm.selectedJobDetail.designation}}</li>
                                 <li>
-                                    <span ng-repeat="elem in vm.selectedJobDetail.location"><span ng-if="$index != 0">,&nbsp;</span>{{elem}}</span>
+                                    <span ng-repeat="elem in vm.selectedJobDetail.locations"><span ng-if="$index != 0">,&nbsp;</span>{{elem}}</span>
                                 </li>
-                                <li> {{vm.selectedJobDetail.minExperience}}-{{vm.selectedJobDetail.maxExperience}} Years </li>
+                                <li> {{vm.selectedJobDetail.minExp}}-{{vm.selectedJobDetail.maxExp}} Years </li>
                             </ol>
 
 
@@ -281,53 +281,53 @@
                                 </label>
                             </div>
                             <div class="clear"></div>
-                            <div class="list" ng-repeat="row in vm.allCandidateDetail[vm.presentStage] | orderBy: '-candidateId' | filter: vm.searchKeywordJobs" onclick="disableContent();">
+                            <div class="list" ng-repeat="row in vm.allCandidateDetail[vm.presentStage] | orderBy: '-_id' | filter: vm.searchKeywordJobs" onclick="disableContent();">
                                 <label class="col-sm-1 ckbox2 ckbox ckbox-success">
                                     <input type="checkbox" ng-change="vm.checkAllCandidate('OTHERS')" ng-model="vm.checkedCandidateList[$index]"><span></span>
                                 </label>
-                                <div class="candidate-list" ng-click="vm.selectedCandidateDetails(row.candidateId)" style="cursor: pointer;">
+                                <div class="candidate-list" ng-click="vm.selectedCandidateDetails(row._id)" style="cursor: pointer;">
                                     <h3 ng-bind="row.candidateName"></h3>
                                     <h4 style="text-transform: capitalize;" ng-bind="(row.presentEmployer | lowercase) || '-'"></h4>
                                     <a href="#" class="btn btn-info btn-xs btn-quirk list-float-btn"
-                                       ng-if="row.status === 'NEW RESUME'">NR</a>
+                                       ng-if="row.jobs.status === 'NEW RESUME'">NR</a>
                                     <a href="#" class="btn btn-info btn-xs btn-quirk list-float-btn"
-                                       ng-if="row.status === 'AWAITING RESUME'">AR</a>
+                                       ng-if="row.jobs.status === 'AWAITING RESUME'">AR</a>
                                     <a href="#" class="btn btn-info btn-xs btn-quirk list-float-btn"
-                                       ng-if="row.status === 'NOT INTERESTED'">NI</a>
+                                       ng-if="row.jobs.status === 'NOT INTERESTED'">NI</a>
                                     <a href="#" class="btn btn-info btn-xs btn-quirk list-float-btn"
-                                       ng-if="row.status === 'CALL LATER'">CL</a>
+                                       ng-if="row.jobs.status === 'CALL LATER'">CL</a>
                                     <a href="#" class="btn btn-info btn-xs btn-quirk list-float-btn"
-                                       ng-if="row.status === 'AVAILABLE LATER'">AL</a>
+                                       ng-if="row.jobs.status === 'AVAILABLE LATER'">AL</a>
                                     <a href="#" class="btn btn-info btn-xs btn-quirk list-float-btn"
-                                       ng-if="row.status === 'DUPLICATE'">DU</a>
+                                       ng-if="row.jobs.status === 'DUPLICATE'">DU</a>
                                     <a href="#" class="btn btn-info btn-xs btn-quirk list-float-btn"
-                                       ng-if="row.status === 'SCREEN REJECT'">SR</a>
+                                       ng-if="row.jobs.status === 'SCREEN REJECT'">SR</a>
                                     <a href="#" class="btn btn-info btn-xs btn-quirk list-float-btn"
-                                       ng-if="row.status === 'CANDIDATE DROPPED'">CD</a>
+                                       ng-if="row.jobs.status === 'CANDIDATE DROPPED'">CD</a>
                                     <a href="#" class="btn btn-info btn-xs btn-quirk list-float-btn"
-                                       ng-if="row.status === 'INTERVIEW REJECT'">IR</a>
+                                       ng-if="row.jobs.status === 'INTERVIEW REJECT'">IR</a>
                                     <a href="#" class="btn btn-info btn-xs btn-quirk list-float-btn"
-                                       ng-if="row.status === 'INTERVIEW SELECT'">IS</a>
+                                       ng-if="row.jobs.status === 'INTERVIEW SELECT'">IS</a>
                                     <a href="#" class="btn btn-info btn-xs btn-quirk list-float-btn"
-                                       ng-if="row.status === 'NO SHOW'">NS</a>
+                                       ng-if="row.jobs.status === 'NO SHOW'">NS</a>
                                     <a href="#" class="btn btn-info btn-xs btn-quirk list-float-btn"
-                                       ng-if="row.status === 'INTERVIEW CANCELLED'">IC</a>
+                                       ng-if="row.jobs.status === 'INTERVIEW CANCELLED'">IC</a>
                                     <a href="#" class="btn btn-info btn-xs btn-quirk list-float-btn"
-                                       ng-if="row.status === 'AWAITING OFFER'">AO</a>
+                                       ng-if="row.jobs.status === 'AWAITING OFFER'">AO</a>
                                     <a href="#" class="btn btn-info btn-xs btn-quirk list-float-btn"
-                                       ng-if="row.status === 'OFFER DENIED'">OD</a>
+                                       ng-if="row.jobs.status === 'OFFER DENIED'">OD</a>
                                     <a href="#" class="btn btn-info btn-xs btn-quirk list-float-btn"
-                                       ng-if="row.status === 'OFFERED'">OF</a>
+                                       ng-if="row.jobs.status === 'OFFERED'">OF</a>
                                     <a href="#" class="btn btn-info btn-xs btn-quirk list-float-btn"
-                                       ng-if="row.status === 'OFFER ACCEPTED'">OA</a>
+                                       ng-if="row.jobs.status === 'OFFER ACCEPTED'">OA</a>
                                     <a href="#" class="btn btn-info btn-xs btn-quirk list-float-btn"
-                                       ng-if="row.status === 'OFFER REJECTED'">OR</a>
+                                       ng-if="row.jobs.status === 'OFFER REJECTED'">OR</a>
                                     <a href="#" class="btn btn-info btn-xs btn-quirk list-float-btn"
-                                       ng-if="row.status === 'OFFERED+DUPLICATE'">OD</a>
+                                       ng-if="row.jobs.status === 'OFFERED+DUPLICATE'">OD</a>
                                     <a href="#" class="btn btn-info btn-xs btn-quirk list-float-btn"
-                                       ng-if="row.status === 'REVISAL REQUEST'">RR</a>
+                                       ng-if="row.jobs.status === 'REVISAL REQUEST'">RR</a>
                                     <a href="#" class="btn btn-info btn-xs btn-quirk list-float-btn"
-                                       ng-if="row.status === 'OFFER REVISED'">OR</a>
+                                       ng-if="row.jobs.status === 'OFFER REVISED'">OR</a>
                                 </div>
                                 <div class="clear"></div>
                             </div>
@@ -345,7 +345,7 @@
 
                                 <div class="text-right right-nav" style="margin: 0">
                                     <button class="btn btn-info btn-xs btn-quirk" style="float:left" ng-if="vm.selectedCandidate.status">{{vm.selectedCandidate.status}}</button>
-                                    <button class="btn btn-info btn-xs btn-quirk" style="float:left;margin-left:3px;" ng-if="(vm.presentStage == 'SHORTLIST' || vm.presentStage == 'INTERVIEW') && vm.selectedCandidate.round">Interview Round - {{vm.selectedCandidate.round}}
+                                    <button class="btn btn-info btn-xs btn-quirk" style="float:left;margin-left:3px;" ng-if="(vm.presentStage == 'SHORTLIST' || vm.presentStage == 'INTERVIEW') && vm.selectedCandidate.round">Interview Round - {{vm.selectedCandidate.jobs.interview.round}}
                                         <span ng-if="vm.selectedCandidate.rescheduleReason != 'null'"> (Re)</span></button>
                                     <a class="btn btn-success btn-xs btn-quirk" data-toggle="modal" data-target="#Similar-Jobs"><i class="fa fa-info-circle" aria-hidden="true"></i> Similar Jobs - <span id="badge">{{vm.selectedCandidate.similarJobsCount}}</span></a>
                                     <span ng-include src="'partials/job.similar-jobs.html'"></span>
@@ -400,7 +400,7 @@
                                                 <div class="form-group">
                                                     <label class="col-sm-3 control-label">Mail ID <span class="text-danger">*</span></label>
                                                     <div class="col-sm-8">
-                                                        <input type="text" name="email" class="form-control txtreadonly" ng-model="vm.candidateDetails.email" placeholder="Type email address..." required/>
+                                                        <input type="text" name="email" class="form-control txtreadonly" ng-model="vm.candidateDetails.candidateEmail" placeholder="Type email address..." required/>
                                                         <!--<select id="select16" class="form-control txtreadonly" ng-model="vm.candidateDetails.email" style="width: 100%" data-placeholder="" multiple>
                                                             <option value="abc@gmail.com">abc@gmail.com</option>
                                                             <option value="option1">option1</option>
@@ -414,7 +414,7 @@
                                                 <div class="form-group">
                                                     <label class="col-sm-3 control-label">Mobile</label>
                                                     <div class="col-sm-8">
-                                                        <input type="text" name="contact" class="form-control txtreadonly" ng-model="vm.candidateDetails.contact" oninput="this.value=this.value.replace(/[^0-9]/g,'');" placeholder="Type contact number..." required/>
+                                                        <input type="text" name="contact" class="form-control txtreadonly" ng-model="vm.candidateDetails.candidateContact" oninput="this.value=this.value.replace(/[^0-9]/g,'');" placeholder="Type contact number..." required/>
                                                         <!--<select id="select17" class="form-control txtreadonly" ng-model="vm.candidateDetails.contact" style="width: 100%" data-placeholder="" multiple>
                                                             <option value="+91 8888888888">+91 8888888888</option>
                                                             <option value="option1">option1</option>

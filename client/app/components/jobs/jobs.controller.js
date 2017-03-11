@@ -4,6 +4,10 @@ let trackFilterObjectLastApplied = [{"filterTag":"filterByRecruiter"},{"filterTa
 
 class JobsController {
   constructor($rootScope, AuthFactory, jobsService, shareData) {
+      
+        let userObjFromService = AuthFactory.auth.user
+        // console.log('userObjFromService', userObjFromService);
+
         this.userId = 1; //get this data from localstorage
 
         this.shareData = shareData; //service to pass data to fro from controllers
@@ -55,6 +59,10 @@ class JobsController {
         }
   }
 
+    $onInit() {
+        console.log('this.user injected into job component\'s bindings by ui-router\'s $resolve service', this.user)
+    }
+
     setStage(stage){
         this.searchKeywordJobs = "";
         this.checkedAllCandidateFlag = false;
@@ -74,7 +82,7 @@ class JobsController {
             this.selectedCandidate = this.allCandidateDetail[stage][leng-1];
         else
             this.selectedCandidate = null;
-        this.candidateDetailsForJob(this.selectedJobDetail.jobId);
+        this.candidateDetailsForJob(this.selectedJobDetail._id);
     };
 
     checkAllCandidate(evt) {
@@ -96,7 +104,7 @@ class JobsController {
 
         let tempCandidateIdSortedArray = [];
         for(let j=0; j<leng; j++){
-            tempCandidateIdSortedArray.push(this.allCandidateDetail[this.presentStage][j].candidateId);
+            tempCandidateIdSortedArray.push(this.allCandidateDetail[this.presentStage][j]._id);
         }
         tempCandidateIdSortedArray.sort(function(a, b){return b-a});
 
@@ -169,7 +177,7 @@ class JobsController {
             rescheduleReason = this.interviewDateData.rescheduleReason;
         }
         let reqData = {
-            "jobId": this.selectedJobDetail.jobId,
+            "jobId": this.selectedJobDetail._id,
             "candidateId": this.checkedCandidateListIds,
             "stage": this.presentStage,
             "timestamp": new Date(),
@@ -192,7 +200,7 @@ class JobsController {
 
     selectedCandidateDetails(candidateId) {
         for(var arrElem of this.allCandidateDetail[this.presentStage]){
-            if(arrElem.candidateId === candidateId){
+            if(arrElem._id === candidateId){
                 this.selectedCandidate = arrElem;
                 this.candidateDetailsFunction(candidateId);
                 break;
@@ -202,24 +210,24 @@ class JobsController {
 
     saveCandidateDetails(){
         if(document.getElementById("editreadonly_hidden").value == 0){
-            if((this.candidateDetails.email.indexOf("@") == -1) 
-                || (this.candidateDetails.email.indexOf(".") == -1 )
-                || (this.candidateDetails.email.lastIndexOf(".") < this.candidateDetails.email.indexOf("@")) 
-                || (this.candidateDetails.email.indexOf("@") != this.candidateDetails.email.lastIndexOf("@"))) {
+            if((this.candidateDetails.candidateEmail.indexOf("@") == -1) 
+                || (this.candidateDetails.candidateEmail.indexOf(".") == -1 )
+                || (this.candidateDetails.candidateEmail.lastIndexOf(".") < this.candidateDetails.candidateEmail.indexOf("@")) 
+                || (this.candidateDetails.candidateEmail.indexOf("@") != this.candidateDetails.candidateEmail.lastIndexOf("@"))) {
                     alert("Please enter valid email address!");
 
                     $('#editreadonly').html("<i class='fa fa-floppy-o' aria-hidden='true'></i>");
                     $("#detailform :input").prop("disabled", false);
                     $("#editreadonly_hidden").val(1);
             }
-            else if(this.candidateDetails.contact.length != 10){
+            else if(this.candidateDetails.candidateContact.length != 10){
                 alert("Please enter 10 digit contact number");
 
                 $('#editreadonly').html("<i class='fa fa-floppy-o' aria-hidden='true'></i>");
                 $("#detailform :input").prop("disabled", false);
                 $("#editreadonly_hidden").val(1);
             }
-            else if((this.candidateDetails.candidateName != null) && (this.candidateDetails.email != null)
+            else if((this.candidateDetails.candidateName != null) && (this.candidateDetails.candidateEmail != null)
              && (this.candidateDetails.experience != null) && (this.candidateDetails.ctcFixed != null)
              && (this.candidateDetails.ctcVariable != null) && (this.candidateDetails.ctcEsops != null)
              && (this.candidateDetails.eCTCFixed != null) && (this.candidateDetails.eCTCVariable != null)
@@ -227,7 +235,7 @@ class JobsController {
              && (this.candidateDetails.location != null)) {
 
                 let reqObject = Object.assign(this.candidateDetails);
-                reqObject.candidateId = this.selectedCandidate.candidateId;
+                reqObject.candidateId = this.selectedCandidate._id;
 
                 SERVICE.get(this).saveCandidateDetails(reqObject).then(response => {
                     console.log(response.message);
@@ -282,7 +290,7 @@ class JobsController {
                 fd.append('candidateName', this.newCandReg.name);
                 fd.append('candidateEmail', this.newCandReg.email);
                 fd.append('candidateContact', this.newCandReg.phNum);
-                fd.append('jobId', this.selectedJobDetail.jobId);
+                fd.append('jobId', this.selectedJobDetail._id);
                 fd.append('recruiterId', this.userId);
                 fd.append('uploadDate', new Date());
 
@@ -293,7 +301,7 @@ class JobsController {
                     }else if(response.message == "DUPLICATE"){
                         alert("Candidate already exists with the email address or phone number!");
                     } else {
-                        this.candidateDetailsForJob(this.selectedJobDetail.jobId);
+                        this.candidateDetailsForJob(this.selectedJobDetail._id);
                         this.newCandidateResumeFile = null;
                         this.newCandReg = {"name": null, "email": null, "phNum": null};
                         document.getElementById("new-file-input").value="";
@@ -317,14 +325,14 @@ class JobsController {
         filterObj[this.presentStage] = this.filterObject[this.presentStage];
 
         trackFilterObjectLastApplied = JSON.parse(JSON.stringify(this.filterObject[this.presentStage]));
-
-        SERVICE.get(this).candidateDetailsForJob(this.userId, this.selectedJobDetail.jobId, filterObj, "job").then(response => {
+        
+        SERVICE.get(this).candidateDetailsForJob(this.userId, this.selectedJobDetail._id, filterObj, "job").then(response => {
             this.allCandidateDetail = response.data;
-
+            
             let leng = this.allCandidateDetail[this.presentStage].length;
             if(leng > 0) {
                 this.selectedCandidate = this.allCandidateDetail[this.presentStage][leng-1];
-                this.candidateDetailsFunction(this.allCandidateDetail[this.presentStage][leng-1].candidateId);
+                this.candidateDetailsFunction(this.allCandidateDetail[this.presentStage][leng-1]._id);
 
                 for(var i=0; i<leng; i++){
                     this.checkedCandidateList.push(false);
@@ -366,8 +374,11 @@ class JobsController {
             let count = 0; 
             for(var i=0; i<leng; i++){
                 for(var j=0; j<leng2; j++){
-                    if(this.checkedCandidateListIds[i] === this.allCandidateDetail[this.presentStage][j].candidateId 
-                        && this.allCandidateDetail[this.presentStage][j].round == 1) {
+                    let { _id, jobs } = this.allCandidateDetail[this.presentStage][j];
+                    if (
+                        this.checkedCandidateListIds[i] === _id &&
+                        (jobs && jobs.interview && jobs.interview.round == 1)
+                    ) {
                         count++;
                         break;
                     }
@@ -380,7 +391,7 @@ class JobsController {
         }
         if(proceedFlag){
             let reqObject = {};
-            reqObject.jobId = this.selectedJobDetail.jobId;
+            reqObject.jobId = this.selectedJobDetail._id;
             reqObject.userId = this.userId;
             reqObject.assignStageFrom = stageFrom;
             reqObject.assignStageTo = stageTo;
@@ -398,7 +409,7 @@ class JobsController {
 
     moveToInactive(reasons) {
         let reqObject = {
-            jobId: this.selectedJobDetail.jobId,
+            jobId: this.selectedJobDetail._id,
             reason: reasons,
             timestamp: new Date()
         };
@@ -433,7 +444,7 @@ class JobsController {
 
     changeStatus() {
         let reqObject = {};
-        reqObject.jobId = this.selectedJobDetail.jobId;
+        reqObject.jobId = this.selectedJobDetail._id;
         reqObject.candidateId = this.checkedCandidateListIds;
         reqObject.statusChangedBy = this.userId;
         reqObject.stage = this.presentStage;
@@ -463,7 +474,7 @@ class JobsController {
     }
     getFeedJobData(){
         
-        SERVICE.get(this).feedJobData(this.selectedCandidate.candidateId).then(response => {
+        SERVICE.get(this).feedJobData(this.selectedCandidate._id).then(response => {
             
             this.feedJobRecords = response;
         }, error => {
@@ -472,19 +483,19 @@ class JobsController {
     }
 
     candidateDetailsFunction(candidateId) {
-
+        
         SERVICE.get(this).getLinkedInLink(candidateId).then(response => {
             this.linkedInLink = response.linkedinLink;
         }, error => {
                 console.log(error);
         });
-
+        
         SERVICE.get(this).getResumeMetadata(candidateId).then(response => {
             this.resumeFileMetadata = response;
         }, error => {
             console.log(error);
         });
-
+        
         SERVICE.get(this).getCandidateDetails(candidateId).then(response => {
             this.candidateDetails = response;
             
@@ -502,19 +513,19 @@ class JobsController {
         this.checkedCandidateList = [];
 
         let filterObj = {"NEW": [], "SHORTLIST": [],"INTERVIEW": [], "OFFER": [], "JOINED": [], "CANDIDATE": []};
-
+  
         SERVICE.get(this).candidateDetailsForJob(this.userId, jobId, filterObj, "job").then(response => {
-            
+
             this.allCandidateDetail = response.data;
             let leng = this.allCandidateDetail[this.presentStage].length;
             if(leng > 0) {
                 let maxCandidateIdPointer = 0;
                 for(let i=0; i<leng; i++){
-                    if(this.allCandidateDetail[this.presentStage][maxCandidateIdPointer].candidateId < this.allCandidateDetail[this.presentStage][i].candidateId)
+                    if(this.allCandidateDetail[this.presentStage][maxCandidateIdPointer]._id < this.allCandidateDetail[this.presentStage][i]._id)
                         maxCandidateIdPointer = i;
                 }
                 this.selectedCandidate = this.allCandidateDetail[this.presentStage][maxCandidateIdPointer];
-                this.candidateDetailsFunction(this.allCandidateDetail[this.presentStage][maxCandidateIdPointer].candidateId);
+                this.candidateDetailsFunction(this.allCandidateDetail[this.presentStage][maxCandidateIdPointer]._id);
 
                 for(var i=0; i<leng; i++){
                     this.checkedCandidateList.push(false);
@@ -530,7 +541,7 @@ class JobsController {
 
     getMainMenuData(jobId){
         for(var arrElem of this.sideMenuJobsDetails){
-            if(arrElem.jobId === jobId){
+            if(arrElem._id === jobId){
                 this.selectedJobDetail = arrElem;
                 break;
             }
@@ -553,9 +564,9 @@ class JobsController {
         this.sideMenuState = {flag: flag, status: status};
 
         SERVICE.get(this).getJobsDetail(userId, flag, status).then(response => {
-            
+
             this.sideMenuJobsDetails = response.data;
-            this.sideMenuState.jobId = response.data[0].jobId;
+            this.sideMenuState.jobId = response.data[0]._id;
             if(this.shareData.getProperty() == 'blank'){
                 this.getMainMenuData(this.sideMenuState.jobId);
             } else {
@@ -598,7 +609,7 @@ class JobsController {
             }
             //Get candidate Details section data
             if(this.internalCandidateList.length > 0){
-                this.internalDataCandidateDetailsFunction(this.internalCandidateList[0].candidateId);
+                this.internalDataCandidateDetailsFunction(this.internalCandidateList[0]._id);
             }
         }, error => {
             console.log(error);
@@ -617,7 +628,7 @@ class JobsController {
         for(let i=0; i<leng; i++){  
             if(this.checkIDCandidateList[i] === true){
                 this.checkedIDCandidateNum++;
-                this.selectedIDCandidateIdArr.push(this.internalCandidateList[i].candidateId);
+                this.selectedIDCandidateIdArr.push(this.internalCandidateList[i]._id);
             }
         }
         if(this.checkedIDCandidateNum === 0){

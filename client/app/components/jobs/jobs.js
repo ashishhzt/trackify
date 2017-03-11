@@ -18,7 +18,14 @@ let jobsModule = angular.module('jobs', [
   $stateProvider
     .state('jobs', {
       url: '/jobs',
-      template: '<jobs user="vm.auth.user"></jobs>'
+       resolve: {
+           authuser: function (AuthFactory) {
+             'ngInject';
+             return AuthFactory.getUser()
+               .then(() => AuthFactory.auth.user)
+           }
+         },
+         template: '<jobs user="$resolve.authuser"></jobs>'
     });
 })
 .component('jobs', jobsComponent)

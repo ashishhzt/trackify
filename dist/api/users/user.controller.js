@@ -2,6 +2,7 @@ import User from './user.model';
 import _    from 'lodash';
 
 export const params = (req, res, next, id) => {
+  console.log("params", id)
   User.findById(id)
     .exec()
     .then((user) => {
@@ -23,6 +24,7 @@ export const get = (req, res, next) => {
 };
 
 export const getOne = (req, res) => {
+  console.log("getOne", req.user);
   res.send(req.user);
 };
 

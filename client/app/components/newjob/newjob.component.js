@@ -5,7 +5,9 @@ import './newjob.sass';
 
 let newjobComponent = {
   restrict: 'E',
-  bindings: {},
+  bindings: {
+  	user: '<'
+  },
   template,
   controller,
   controllerAs: 'vm'
