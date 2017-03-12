@@ -28,7 +28,7 @@ var _db;
 module.exports = {
 
   connectToServer: function( callback ) {
-    MongoClient.connect( "mongodb://localhost:27017/trackify_db", function( err, db ) {
+    MongoClient.connect( config.db.url, function( err, db ) {
       _db = db;
       return callback( err );
     } );

@@ -16,7 +16,6 @@ import {createJWT, verifyUser} from './auth-util'
  */
   export const login = (req, res) => {
     User.findOne({ email: req.body.email }, '+password', function(err, user) {
-      console.log(user);
       if (!user) {
         return res.status(401).send({ message: 'Invalid email and/or password' });
       }

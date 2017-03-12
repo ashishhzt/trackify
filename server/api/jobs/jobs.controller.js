@@ -5,7 +5,6 @@ import path   from 'path';
 import async  from 'async';
 
 import upload from '../../util/multer';
-// import db     from '../../util/mysql';
 import mongoutil from '../../util/mongo';
 import config	from '../../config/config';
 
@@ -1475,65 +1474,66 @@ export const linkedinLink = function(req, res) {
 
 export const internalDataCandidateList = function(req, res) {
 
-    var reqData = {
-        jobId: req.body.jobId,
-        clientName: req.body.clientName,
-        designation: req.body.designation,
-        location: req.body.location,
-        minExp: req.body.minExp,
-        maxExp: req.body.maxExp,
-        maxCTC: req.body.maxCTC,
-        primarySkill: req.body.primarySkill,
-        skip: req.body.skip
-    };
+    // var reqData = {
+    //     jobId: req.body.jobId,
+    //     clientName: req.body.clientName,
+    //     designation: req.body.designation,
+    //     location: req.body.location,
+    //     minExp: req.body.minExp,
+    //     maxExp: req.body.maxExp,
+    //     maxCTC: req.body.maxCTC,
+    //     primarySkill: req.body.primarySkill,
+    //     skip: req.body.skip
+    // };
     
-    var query = "select JOB_SKILL_ID from job_skills where SKILL='"+reqData.primarySkill+"'";
+    // var query = "select JOB_SKILL_ID from job_skills where SKILL='"+reqData.primarySkill+"'";
     
-    db.query(query, function(error, data) {
-        if (error) {
-            console.log(error);
-            return res.status(400).send("ERROR");
-        } else {
-            if(data.length != 1){
-                res.json({"message": "PRIMARY SKILL NOT FOUND"});
-            } else {
-                let skillId = data[0].JOB_SKILL_ID;
-                var query2 = "select c.CANDIDATE_ID as candidateId, c.CANDIDATE_NAME as candidateName, c.COMPANY_NAME as presentEmployer, c.COLLEGE as college from candidate c, candidate_job_mapping cjm, job j where j.JOB_ID=cjm.JOB_ID and c.CANDIDATE_ID=cjm.CANDIDATE_ID and j.PRIMARY_SKILL="+skillId+" and j.DESIGNATION='"+reqData.designation+"' and j.JOB_ID <> "+reqData.jobId+" and cjm.CANDIDATE_ID not in (select CANDIDATE_ID from candidate_job_mapping where JOB_ID = "+ reqData.jobId+")"+" and c.EXPERIENCE >= "+reqData.minExp+" and c.EXPERIENCE <= "+reqData.maxExp+ " and c.CTC_FIXED <="+ reqData.maxCTC;
+    // db.query(query, function(error, data) {
+    //     if (error) {
+    //         console.log(error);
+    //         return res.status(400).send("ERROR");
+    //     } else {
+    //         if(data.length != 1){
+    //             res.json({"message": "PRIMARY SKILL NOT FOUND"});
+    //         } else {
+    //             let skillId = data[0].JOB_SKILL_ID;
+    //             var query2 = "select c.CANDIDATE_ID as candidateId, c.CANDIDATE_NAME as candidateName, c.COMPANY_NAME as presentEmployer, c.COLLEGE as college from candidate c, candidate_job_mapping cjm, job j where j.JOB_ID=cjm.JOB_ID and c.CANDIDATE_ID=cjm.CANDIDATE_ID and j.PRIMARY_SKILL="+skillId+" and j.DESIGNATION='"+reqData.designation+"' and j.JOB_ID <> "+reqData.jobId+" and cjm.CANDIDATE_ID not in (select CANDIDATE_ID from candidate_job_mapping where JOB_ID = "+ reqData.jobId+")"+" and c.EXPERIENCE >= "+reqData.minExp+" and c.EXPERIENCE <= "+reqData.maxExp+ " and c.CTC_FIXED <="+ reqData.maxCTC;
                 
-                if(reqData.location.length > 0){
-                    query2 = query2+ " and c.JOB_LOCATION in (";
-                    for(let i=0; i<reqData.location.length; i++){
-                        query2 = query2+"'"+reqData.location[i]+"',";
-                    }
-                    query2 = query2.substring(0, query2.length-1)+")";
-                }
+    //             if(reqData.location.length > 0){
+    //                 query2 = query2+ " and c.JOB_LOCATION in (";
+    //                 for(let i=0; i<reqData.location.length; i++){
+    //                     query2 = query2+"'"+reqData.location[i]+"',";
+    //                 }
+    //                 query2 = query2.substring(0, query2.length-1)+")";
+    //             }
                 
-                db.query(query2, function(error, data2) {
-                    if (error) {
-                        console.log(error);
-                        return res.status(400).send("ERROR");
-                    } else {
-                        var resObj = {"count": data2.length};
-                        resObj.data = [];
-                        if(data2.length !=0 && reqData.skip >= data2.length) {
-                            res.send({"message": "SKIP LIMIT OUTBOUND"});
-                        } else {
-                            let ctr = 0;
-                            let initVar = (reqData.skip === 0) ? 0 : reqData.skip-1;
-                             for(let i=initVar; i<data2.length; i++){
-                                 resObj.data.push(data2[i]);
-                                 ctr++;
-                                 if(ctr === 50)
-                                    break;
-                             }
-                             console.log(resObj);
-                             res.json(resObj);
-                        } 
-                    }
-                });
-            }    
-        }   
-    });
+    //             db.query(query2, function(error, data2) {
+    //                 if (error) {
+    //                     console.log(error);
+    //                     return res.status(400).send("ERROR");
+    //                 } else {
+    //                     var resObj = {"count": data2.length};
+    //                     resObj.data = [];
+    //                     if(data2.length !=0 && reqData.skip >= data2.length) {
+    //                         res.send({"message": "SKIP LIMIT OUTBOUND"});
+    //                     } else {
+    //                         let ctr = 0;
+    //                         let initVar = (reqData.skip === 0) ? 0 : reqData.skip-1;
+    //                          for(let i=initVar; i<data2.length; i++){
+    //                              resObj.data.push(data2[i]);
+    //                              ctr++;
+    //                              if(ctr === 50)
+    //                                 break;
+    //                          }
+    //                          console.log(resObj);
+    //                          res.json(resObj);
+    //                     } 
+    //                 }
+    //             });
+    //         }    
+    //     }   
+    // });
+    res.json({"data": [], count: 0});
 };
 
 
