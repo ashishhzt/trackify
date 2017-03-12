@@ -209,6 +209,7 @@ class JobsController {
     };
 
     saveCandidateDetails(){
+        debugger
         if(document.getElementById("editreadonly_hidden").value == 0){
             if((this.candidateDetails.candidateEmail.indexOf("@") == -1) 
                 || (this.candidateDetails.candidateEmail.indexOf(".") == -1 )

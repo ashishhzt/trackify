@@ -334,6 +334,7 @@
                         </div>
                         <div class="col-md-9 job_content">
 
+                            <!-- Jpk -->
                             <div class="header-intro text-left white-background" ng-if="vm.selectedCandidate !== null">
                                 <h3>{{vm.selectedCandidate.candidateName}}
                                     <a href="#" class="btn btn-inverse btn-xs btn-quirk list-float-btn1">{{vm.selectedCandidate.assigneeName}}</a>
@@ -357,6 +358,7 @@
                                                             <button class="btn btn-success btn-xs btn-quirk"><i class="fa fa-linkedin-square" aria-hidden="true"></i> In</button>-->
                                 </div>
                             </div>
+                            <!-- Jpk -->
 
                             <div class="body-tab" ng-if="vm.selectedCandidate !== null">
                                 <div class="border-grey white-background">
@@ -390,7 +392,7 @@
                                                     <div class="col-sm-8">
                                                         <input type="text" name="name" class="form-control txtreadonly" ng-model="vm.candidateDetails.candidateName" placeholder="Type your name..." required/>
                                                         <a class="btn btn-success btn-xs btn-quirk" id="editreadonly" style="position: absolute; top: 0; right: -25px;"
-                                                           onclick="myFunction()" ng-click="vm.saveCandidateDetails()" ng-show="vm.userId === vm.selectedCandidate.assigneeId">
+                                                           onclick="myFunction()" ng-click="vm.saveCandidateDetails()" ng-show="vm.userId == vm.selectedCandidate.recruiterId">
 
                                                             <i class='fa fa-pencil-square-o' aria-hidden='true'></i>
                                                         </a>

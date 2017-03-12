@@ -431,10 +431,10 @@ export const changeStatus = function(req, res) {
     // });
     let db = mongoutil.getDb();
     var response = {};
-    db.collection('candidate').updateOne({ "_id" : req.body.candidateId , "jobs": {$elemMatch : {jobId : req.body.jobId}}}
-        , { $set: { "jobs.$.status" : req.body.status,
-                    "jobs.$.statusChangedBy" : req.body.statusChangedBy,
-                    "jobs.$.statusInputs" : req.body.statusInputs } }, function(err, result) {
+    db.collection('candidate').update({ "_id" : {$in:req.body.candidateId}, "jobs": {$elemMatch : {jobId : req.body.jobId}}}
+       , { $set: { "jobs.$.status" : req.body.status,
+                   "jobs.$.statusChangedBy" : req.body.statusChangedBy,
+                   "jobs.$.statusInputs" : req.body.statusInputs } }, function(err, result) {
         // TODO: status change is not getting saved properly
         // nModified is 0 is every case
         if (result.result.nModified) {
@@ -1205,12 +1205,12 @@ export const savePostMessage = function(req, res) {
                 res.send({candidateError: err});
             }
             if (candidates.length > 0) {
-                db.collection('user').find({ _id: userId}).toArray(function (err, userDoc) {
+                db.collection('users').find({ _id: userId}).toArray(function (err, userDoc) {
 
                     if (userDoc.length > 0) {
-                        feed.sentFrom = userDoc[0].emailId;
+                        feed.sentFrom = userDoc[0].email;
                     } 
-                    db.collection('user').find({ userName : {$in: obj.userNames}}).toArray(function (err, userDocs) {
+                    db.collection('users').find({ email : {$in: obj.email}}).toArray(function (err, userDocs) {
                         if (err) {
                             res.send({CurrentUserError: err});
                         }
@@ -1224,7 +1224,7 @@ export const savePostMessage = function(req, res) {
                             feed.feedType = "TAGS";
                             var sentTo = [];
                             userDocs.map(function (itm, i) {
-                                sentTo.push(itm.emailId);
+                                sentTo.push(itm.email);
                             });
                             feed.sentTo = sentTo.join(',');                    
                         }
@@ -1427,7 +1427,7 @@ export const allRecruiters = function(req, res) {
     // });
     let db = mongoutil.getDb();
 
-    var collection = db.collection('user');
+    var collection = db.collection('users');
     collection.find({}).toArray(function(err, docs) {
         var response = {};
         if (err) {
