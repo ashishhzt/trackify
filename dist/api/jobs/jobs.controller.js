@@ -335,7 +335,7 @@ export const candidateDetailsForJob = function(req, res) {
     collection.aggregate([{ $unwind: "$jobs" },
         { $match: { 'jobs.jobId' : req.body.jobId}},
         { $group : { _id : "$jobs.stage", candidates: { $push: "$$ROOT" } } }], function(err, docs) {
-            var response = [];
+            var response = {};
             var stages = ["NEW", "SHORTLIST", "INTERVIEW", "OFFER", "JOINED", "CANDIDATE"];
             /* Disabling filter param processing
             if (req.body.filter) {                
@@ -378,10 +378,12 @@ export const candidateDetailsForJob = function(req, res) {
               }
             } else {
             */
+            if (Array.isArray(docs)) {
                 // Returns all the candidates grouped by filter
                 response = docs.reduce((final, doc) => {
                     return { ...final, [doc._id]: doc.candidates };
                 }, {});
+            }
             // }
             stages.map( function (item, index) {
                 if(!response.hasOwnProperty(item)){
