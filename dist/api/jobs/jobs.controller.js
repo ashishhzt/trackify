@@ -1476,18 +1476,42 @@ export const linkedinLink = function(req, res) {
 
 export const internalDataCandidateList = function(req, res) {
 
-    // var reqData = {
-    //     jobId: req.body.jobId,
-    //     clientName: req.body.clientName,
-    //     designation: req.body.designation,
-    //     location: req.body.location,
-    //     minExp: req.body.minExp,
-    //     maxExp: req.body.maxExp,
-    //     maxCTC: req.body.maxCTC,
-    //     primarySkill: req.body.primarySkill,
-    //     skip: req.body.skip
-    // };
-    
+    let db = mongoutil.getDb();
+
+    var collection = db.collection('candidate');
+    collection.find({
+        "key_skills": {
+            $regex: "/+reqData.primarySkill+/"
+        },
+        "totalExperience": {
+            $gte: req.body.minExp
+        },
+        "totalExperience": {
+            $lte: req.body.maxExp
+        },
+        "designation": req.body.designation,
+        "jobs.jobId": {
+            $ne: req.body.jobId
+        }
+    }).toArray(function (err, docs) {
+        var response = {};
+        if (err) {
+            res.send(err);
+        }
+        if (docs.length > 0) {
+            var resObj = {
+                "count": docs.length
+            };
+            docs.forEach(row => resObj.data.push(row));
+            response = resObj;
+        } else {
+            response.message = 'No candidates found matching the Job - ' +
+                req.body.clientName + ' | ' + req.body.designation;
+        }
+        res.send(response);
+    });
+
+
     // var query = "select JOB_SKILL_ID from job_skills where SKILL='"+reqData.primarySkill+"'";
     
     // db.query(query, function(error, data) {
@@ -1535,7 +1559,7 @@ export const internalDataCandidateList = function(req, res) {
     //         }    
     //     }   
     // });
-    res.json({"data": [], count: 0});
+    // res.json({"data": [], count: 0});
 };
 
 

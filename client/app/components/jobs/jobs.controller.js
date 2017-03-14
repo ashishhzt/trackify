@@ -587,17 +587,11 @@ class JobsController {
     //Similar Resume Code: START
     initSimilarResume(skip) {
         let reqData = {
-            "jobId": this.selectedJobDetail.jobId,
-            "clientName": this.selectedJobDetail.clientName,
-            "designation": this.selectedJobDetail.designation,
-            "location": this.selectedJobDetail.location,
-            "minExp": this.selectedJobDetail.minExperience,
-            "maxExp": this.selectedJobDetail.maxExperience,
-            "maxCTC": this.selectedJobDetail.maxCTC,
-            "primarySkill": this.selectedJobDetail.primarySkills,
-            "skip": skip
-        };
-        
+            ...this.selectedJobDetail,
+            jobId: this.selectedJobDetail._id,
+            skip
+        }
+
         SERVICE.get(this).getInternalDataCandidateList(reqData).then(response => {
             this.internalCandidateList = response.data;
             this.internalCandidateListCount = response.count;
