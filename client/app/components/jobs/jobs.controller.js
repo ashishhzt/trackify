@@ -5,7 +5,7 @@ let trackFilterObjectLastApplied = [{"filterTag":"filterByRecruiter"},{"filterTa
 class JobsController {
   constructor($rootScope, AuthFactory, jobsService, shareData) {
       
-        let userObjFromService = AuthFactory.auth.user
+        this.AuthFactory = AuthFactory;
         // console.log('userObjFromService', userObjFromService);
 
         this.userId = 1; //get this data from localstorage
@@ -209,7 +209,6 @@ class JobsController {
     };
 
     saveCandidateDetails(){
-        debugger
         if(document.getElementById("editreadonly_hidden").value == 0){
             if((this.candidateDetails.candidateEmail.indexOf("@") == -1) 
                 || (this.candidateDetails.candidateEmail.indexOf(".") == -1 )
@@ -293,6 +292,7 @@ class JobsController {
                 fd.append('candidateContact', this.newCandReg.phNum);
                 fd.append('jobId', this.selectedJobDetail._id);
                 fd.append('recruiterId', this.userId);
+                fd.append('assigneeName', this.AuthFactory.auth.user.displayName)
                 fd.append('uploadDate', new Date());
 
                 SERVICE.get(this).uploadNewCandidateResumeFile(fd).then(response => {
@@ -633,8 +633,9 @@ class JobsController {
     moveIDCandidatesToActiveJob() {
         let reqData = {
             "userId": this.userId,
-            "jobId": this.selectedJobDetail.jobId,
+            "jobId": this.selectedJobDetail._id,
             "candidateId": this.selectedIDCandidateIdArr,
+            "timestamp": new Date()
         };
     
         SERVICE.get(this).moveToActiveJob(reqData).then(response => {
