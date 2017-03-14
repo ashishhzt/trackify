@@ -691,9 +691,9 @@ export const moveToActiveJob = function(req, res) {
     var collection = db.collection('candidate');
     var response = {};
     var date = new Date(req.body.timestamp).toISOString().slice(0, 19).replace('T', ' ');
-    collection.updateOne({ "_id" : req.body.candidateId , "jobs": {$elemMatch : {jobId : req.body.jobId}}}
+    collection.updateMany({ "_id" : {$in:req.body.candidateId} , "jobs": {$elemMatch : {jobId : req.body.jobId}}}
         , { $set: { "jobs.$.active" : true,
-                    "jobs.$.movedBy" : req.body.movedBy,
+                    "jobs.$.movedBy" : req.body.userId,
                     "jobs.$.timestamp" : date } }, function(err, result) {
              if (err) {
                 //response = err;
@@ -840,13 +840,14 @@ export const uploadResume = function(req, res) {
         } else {
             var data = {
                 "candidateId": req.body.candidateId,
+                "assigneeName": req.body.assigneeName,
                 "originalFileName": req.file.originalname,
                 "hashFileName": req.file.filename,
                 "encoding": req.file.encoding,
                 "mimetype": req.file.mimetype,
                 "uploadDate": req.body.uploadDate
             };
-    
+
     
             var oldPath = path.resolve(resumeFilesPath, data.hashFileName);
             var newPath = path.resolve(resumeFilesPath, data.hashFileName);
@@ -945,86 +946,86 @@ export const uploadResume = function(req, res) {
     });
 };
 
-export const uploadNewCandidateResume = function(req, res){
-    let db = mongoutil.getDb();
+// export const uploadNewCandidateResume = function(req, res){
+//     let db = mongoutil.getDb();
 
-    upload(req, res, function(err) {
-        if (err) {
-            console.log(err);
-            res.send({ "message": "ERROR" });
-        } else {
-            var data = {
-                "candidateName": req.body.candidateName,
-                "candidateEmail": req.body.candidateEmail,
-                "candidateContact": req.body.candidateContact,
-                "jobId": req.body.jobId,
-                "recruiterId": req.body.recruiterId,
-                "originalFileName": req.file.originalname,
-                "hashFileName": req.file.filename,
-                "encoding": req.file.encoding,
-                "mimetype": req.file.mimetype,
-                "uploadDate": req.body.uploadDate
-            };
-            var oldPath = path.join(resumeFilesPath, data.hashFileName);
-            var newPath = path.join(resumeFilesPath, data.hashFileName);
-            if(data.mimetype == "application/msword"){
-                newPath = newPath+".doc";
-                data.hashFileName = data.hashFileName+".doc";
-            } else if(data.mimetype == "application/vnd.openxmlformats-officedocument.wordprocessingml.document"){
-                newPath = newPath+".docx";
-                data.hashFileName = data.hashFileName +".docx";
-            } else if(data.mimetype == "application/pdf"){
-                newPath = newPath+".pdf"
-                data.hashFileName = data.hashFileName +".pdf"
-            }
-            fs.rename(oldPath, newPath, function (err) {
-                if(err){
-                    console.log(err);
-                    res.json({"message": "ERROR"});
-                } else {
-                    var date = new Date(req.body.uploadDate).toISOString().slice(0, 19).replace('T', ' ');
+//     upload(req, res, function(err) {
+//         if (err) {
+//             console.log(err);
+//             res.send({ "message": "ERROR" });
+//         } else {
+//             var data = {
+//                 "candidateName": req.body.candidateName,
+//                 "candidateEmail": req.body.candidateEmail,
+//                 "candidateContact": req.body.candidateContact,
+//                 "jobId": req.body.jobId,
+//                 "recruiterId": req.body.recruiterId,
+//                 "originalFileName": req.file.originalname,
+//                 "hashFileName": req.file.filename,
+//                 "encoding": req.file.encoding,
+//                 "mimetype": req.file.mimetype,
+//                 "uploadDate": req.body.uploadDate
+//             };
+//             var oldPath = path.join(resumeFilesPath, data.hashFileName);
+//             var newPath = path.join(resumeFilesPath, data.hashFileName);
+//             if(data.mimetype == "application/msword"){
+//                 newPath = newPath+".doc";
+//                 data.hashFileName = data.hashFileName+".doc";
+//             } else if(data.mimetype == "application/vnd.openxmlformats-officedocument.wordprocessingml.document"){
+//                 newPath = newPath+".docx";
+//                 data.hashFileName = data.hashFileName +".docx";
+//             } else if(data.mimetype == "application/pdf"){
+//                 newPath = newPath+".pdf"
+//                 data.hashFileName = data.hashFileName +".pdf"
+//             }
+//             fs.rename(oldPath, newPath, function (err) {
+//                 if(err){
+//                     console.log(err);
+//                     res.json({"message": "ERROR"});
+//                 } else {
+//                     var date = new Date(req.body.uploadDate).toISOString().slice(0, 19).replace('T', ' ');
 
-                    var queryDuplicateCheck = "select * from candidate where EMAIL='"+req.body.candidateEmail+"' or PHONE_NO='"+req.body.candidateContact+"'";
-                    db.query(queryDuplicateCheck, function(error, rows) {
-                        if (error) {
-                            console.log(error);
-                            return res.status(400).send({"message": "ERROR"});
-                        } else {
-                            if(rows.length != 0){
-                                res.send({"message": "DUPLICATE"});
-                            } else {
-                                var queryForCandidate = "insert into candidate(CANDIDATE_NAME, EMAIl, PHONE_NO, ORIGINAL_FILE_NAME, HASH_FILE_NAME, MIMETYPE, UPLOAD_DATE, ENCODING) values ('"+ req.body.candidateName+"','"+req.body.candidateEmail+"','"+req.body.candidateContact+"','"                 +req.file.originalname+"','"+data.hashFileName+"','"+req.file.mimetype+"','"+date+"','"+req.file.encoding+"')";
-                                var queryGetCandidateId = "Select CANDIDATE_ID from candidate where EMAIL='"+req.body.candidateEmail+"' and PHONE_NO='"+req.body.candidateContact+"'";
+//                     var queryDuplicateCheck = "select * from candidate where EMAIL='"+req.body.candidateEmail+"' or PHONE_NO='"+req.body.candidateContact+"'";
+//                     db.query(queryDuplicateCheck, function(error, rows) {
+//                         if (error) {
+//                             console.log(error);
+//                             return res.status(400).send({"message": "ERROR"});
+//                         } else {
+//                             if(rows.length != 0){
+//                                 res.send({"message": "DUPLICATE"});
+//                             } else {
+//                                 var queryForCandidate = "insert into candidate(CANDIDATE_NAME, EMAIl, PHONE_NO, ORIGINAL_FILE_NAME, HASH_FILE_NAME, MIMETYPE, UPLOAD_DATE, ENCODING) values ('"+ req.body.candidateName+"','"+req.body.candidateEmail+"','"+req.body.candidateContact+"','"                 +req.file.originalname+"','"+data.hashFileName+"','"+req.file.mimetype+"','"+date+"','"+req.file.encoding+"')";
+//                                 var queryGetCandidateId = "Select CANDIDATE_ID from candidate where EMAIL='"+req.body.candidateEmail+"' and PHONE_NO='"+req.body.candidateContact+"'";
 
-                                db.query(queryForCandidate, function(error, data) {
-                                    if (error) {
-                                        console.log(error);
-                                        return res.status(400).send("ERROR");
-                                    }
-                                    db.query(queryGetCandidateId, function(error, data) {
-                                        if (error) {
-                                            console.log(error);
-                                            return res.status(400).send("ERROR");
-                                        }
-                                        var candidateId = data[0].CANDIDATE_ID;
-                                        var queryForCandidateJobMapping = "insert into candidate_job_mapping(JOB_ID,CANDIDATE_ID,STATUS,STAGE,RECRUITER_ID,TIMESTAMP) values ('"+req.body.jobId+"','"+candidateId+"','NEW RESUME','NEW','"+req.body.recruiterId+"','"+date+"')";
-                                        db.query(queryForCandidateJobMapping, function(error, data) {
-                                            if (error) {
-                                                console.log(error);
-                                                return res.status(400).send("ERROR");
-                                            }
-                                            res.send({ "message": "SUCCESS" });
-                                        });
-                                    });
-                                });
-                            }
-                        }
-                    });
-                }
-            });
-        }
-    });
-};
+//                                 db.query(queryForCandidate, function(error, data) {
+//                                     if (error) {
+//                                         console.log(error);
+//                                         return res.status(400).send("ERROR");
+//                                     }
+//                                     db.query(queryGetCandidateId, function(error, data) {
+//                                         if (error) {
+//                                             console.log(error);
+//                                             return res.status(400).send("ERROR");
+//                                         }
+//                                         var candidateId = data[0].CANDIDATE_ID;
+//                                         var queryForCandidateJobMapping = "insert into candidate_job_mapping(JOB_ID,CANDIDATE_ID,STATUS,STAGE,RECRUITER_ID,TIMESTAMP) values ('"+req.body.jobId+"','"+candidateId+"','NEW RESUME','NEW','"+req.body.recruiterId+"','"+date+"')";
+//                                         db.query(queryForCandidateJobMapping, function(error, data) {
+//                                             if (error) {
+//                                                 console.log(error);
+//                                                 return res.status(400).send("ERROR");
+//                                             }
+//                                             res.send({ "message": "SUCCESS" });
+//                                         });
+//                                     });
+//                                 });
+//                             }
+//                         }
+//                     });
+//                 }
+//             });
+//         }
+//     });
+// };
 
 export const candidateDetails = function(req, res) {
     let db = mongoutil.getDb();
@@ -1476,18 +1477,43 @@ export const linkedinLink = function(req, res) {
 
 export const internalDataCandidateList = function(req, res) {
 
-    // var reqData = {
-    //     jobId: req.body.jobId,
-    //     clientName: req.body.clientName,
-    //     designation: req.body.designation,
-    //     location: req.body.location,
-    //     minExp: req.body.minExp,
-    //     maxExp: req.body.maxExp,
-    //     maxCTC: req.body.maxCTC,
-    //     primarySkill: req.body.primarySkill,
-    //     skip: req.body.skip
-    // };
-    
+    let db = mongoutil.getDb();
+
+    var collection = db.collection('candidate');
+    collection.find({
+        "key_skills": {
+            $regex: new RegExp("\\b" + req.body.primarySkill + "\\b") 
+        },
+        "experience": {
+            $gte: req.body.minExp
+        },
+        "experience": {
+            $lte: req.body.maxExp
+        },
+        "designation": req.body.designation,
+        "jobs.jobId": {
+            $ne: req.body.jobId
+        }
+    }).toArray(function (err, docs) {
+        var response = {};
+        if (err) {
+            res.send(err);
+        }
+        if (docs.length > 0) {
+            var resObj = {
+                "count": docs.length,
+                data: []
+            };
+            docs.forEach(row => resObj.data.push(row));
+            response = resObj;
+        } else {
+            response.message = 'No candidates found matching the Job - ' +
+                req.body.clientName + ' | ' + req.body.designation;
+        }
+        res.send(response);
+    });
+
+
     // var query = "select JOB_SKILL_ID from job_skills where SKILL='"+reqData.primarySkill+"'";
     
     // db.query(query, function(error, data) {
@@ -1535,7 +1561,7 @@ export const internalDataCandidateList = function(req, res) {
     //         }    
     //     }   
     // });
-    res.json({"data": [], count: 0});
+    // res.json({"data": [], count: 0});
 };
 
 

@@ -287,7 +287,7 @@
                                 </label>
                                 <div class="candidate-list" ng-click="vm.selectedCandidateDetails(row._id)" style="cursor: pointer;">
                                     <h3 ng-bind="row.candidateName"></h3>
-                                    <h4 style="text-transform: capitalize;" ng-bind="(row.presentEmployer | lowercase) || '-'"></h4>
+                                    <h4 style="text-transform: capitalize;" ng-bind="(row.employer | lowercase) || '-'"></h4>
                                     <a href="#" class="btn btn-info btn-xs btn-quirk list-float-btn"
                                        ng-if="row.jobs.status === 'NEW RESUME'">NR</a>
                                     <a href="#" class="btn btn-info btn-xs btn-quirk list-float-btn"
@@ -339,7 +339,7 @@
                                 <h3>{{vm.selectedCandidate.candidateName}}
                                     <a href="#" class="btn btn-inverse btn-xs btn-quirk list-float-btn1">{{vm.selectedCandidate.assigneeName}}</a>
                                 </h3>
-                                <h4 style="text-transform: capitalize;">{{(vm.selectedCandidate.presentEmployer | lowercase)
+                                <h4 style="text-transform: capitalize;">{{(vm.selectedCandidate.employer | lowercase)
                                     || '-'}} </h4>
                                 <h4>{{(vm.selectedCandidate.college) || '-'}}</h4>
 
@@ -444,6 +444,27 @@
                                                             <input type="text" name="" class="form-control" />
                                                             <span class="input-group-addon cursor" data-toggle="modal" data-target="#newclient"><i class="glyphicon glyphicon-pencil"> Edit</i></span>
                                                         </div>-->
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label">Designation</label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" name="" ng-model="vm.candidateDetails.designation" class="form-control" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label">College</label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" name="" ng-model="vm.candidateDetails.college" class="form-control" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label">Key Skills</label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" name="" ng-model="vm.candidateDetails.key_skills" class="form-control" />
                                                     </div>
                                                 </div>
 
@@ -879,7 +900,7 @@
                                 </label>
                                 <div class="candidate-list">
                                     <h3>{{idCandRow.candidateName}}</h3>
-                                    <h4 style="text-transform: capitalize;">{{idCandRow.presentEmployer | lowercase}}</h4>
+                                    <h4 style="text-transform: capitalize;">{{idCandRow.employer | lowercase}}</h4>
                                     <!--<a href="javascript:;" class="btn btn-info btn-xs btn-quirk list-float-btn">AR</a>-->
                                 </div>
                                 <div class="clear"></div>
@@ -890,7 +911,7 @@
                             <div class="header-intro text-left white-background">
                                 
                                 <h3>{{vm.iDataCandidateDetails.candidateName}}
-                                    <a href="javascript:;" class="btn btn-inverse btn-xs btn-quirk list-float-btn1">JOHN WALVE</a>
+                                    <a href="javascript:;" class="btn btn-inverse btn-xs btn-quirk list-float-btn1">{{vm.selectedCandidate.assigneeName}}</a>
                                 </h3>
                                 <h4>{{vm.iDataCandidateDetails.employer || '-'}} </h4>
                                 <h4>{{vm.iDataCandidateDetails.college || '-'}}</h4>

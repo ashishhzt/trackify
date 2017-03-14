@@ -28,7 +28,11 @@ var _db;
 module.exports = {
 
   connectToServer: function( callback ) {
-    MongoClient.connect( config.db.url, function( err, db ) {
+    console.log('connect', config.db)
+    MongoClient.connect( config.db.url, {
+      user: config.db.username,
+      pass: config.db.password
+    }, function( err, db ) {
       _db = db;
       return callback( err );
     } );
