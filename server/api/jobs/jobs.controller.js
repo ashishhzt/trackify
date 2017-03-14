@@ -710,6 +710,31 @@ export const moveToActiveJob = function(req, res) {
 
 };
 
+export const moveJobToActive = function(req, res) {
+    let db = mongoutil.getDb();
+
+    var date = new Date().toISOString().slice(0, 19).replace('T', ' ');
+    db.collection('job').updateOne({ "_id" : req.body.jobId}
+            , { $set: {active: true, reason: [], timestamp: date} }, function(err, result) {
+                var response = {};
+                if (err) {
+                //response = err;
+                    res.status(400).send("ERROR");
+                } 
+                if (result.result.nModified) {
+                    response.message = 'SUCCESS';
+                    db.collection('candidate').updateMany({jobs: {$elemMatch : {jobId : req.body.jobId}}}
+                        , { $set: {"jobs.$.active": true} }, function(err, r) {
+                        res.send(response);
+                    });
+                } else {
+                    response.message = 'FAILURE';
+                    response.error = 'Job Id - ' + req.body.jobId + ' not found or is already inactive';
+                    res.send(response);
+                }
+    });
+};
+
 export const moveToInactiveJob = function(req, res) {
 
     // var date = new Date(req.body.timestamp).toISOString().slice(0, 19).replace('T', ' ');

@@ -425,6 +425,18 @@ class JobsController {
             console.log(error);
         });
     };
+    moveJobToActive() {
+        let reqObject = {
+            jobId: this.selectedJobDetail._id
+        };
+
+        SERVICE.get(this).moveJobToActive(reqObject).then(response => {
+            console.log(response.message);
+            this.initJobs();
+        }, error => {
+            console.log(error);
+        });
+    };
 
     changeStatusEvent(status){
         this.changeStatusModel.status = status;

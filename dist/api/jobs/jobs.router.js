@@ -25,12 +25,13 @@ JobsRouter.post('/moveToNextStage', verifyUser, controller.moveToNextStage);
 
 JobsRouter.post('/addInterviewDate', verifyUser, controller.addInterviewDate);
 
-JobsRouter.get('/getAllActiveJobs', verifyUser, controller.getAllActiveJobs);
+JobsRouter.get('/getAllActiveJobs', controller.getAllActiveJobs);
 
 JobsRouter.post('/getSimilarJobs', verifyUser, controller.getSimilarJobs);
 
 JobsRouter.post('/moveToActiveJob', verifyUser, controller.moveToActiveJob);
 
+JobsRouter.post('/moveJobToActive', verifyUser, controller.moveJobToActive);
 JobsRouter.post('/moveToInactiveJob', verifyUser, controller.moveToInactiveJob);
 
 JobsRouter.get('/getResumeMetadata/:candidateId', verifyUser, controller.getResumeMetadata);

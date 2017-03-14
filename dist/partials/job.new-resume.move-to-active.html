@@ -1,0 +1,38 @@
+
+<div class="modal bounceIn animated" id="movetoactive" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog width500">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title modal-heading text-center" id="myModalLabel">Move to active</h4>
+            </div>
+            <div class="modal-body">
+                <form action="#" method="post">
+                    <div class="form-group text-center">
+                        <h5>Are you sure to move <span>{{vm.selectedJobDetail.clientName}}</span> | <span>{{vm.selectedJobDetail.designation}}</span> Job to Active?</h5>
+                        <div class="clear"></div>
+                    </div>
+
+                    <div class="modal-footer text-center">
+                        <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+                        <div class="col-md-3 no-float center-div ">
+                            <button type="button" class="btn btn-success btn-block btn-quirk text-center"
+                                ng-click="vm.moveJobToActive()" data-dismiss="modal">Apply</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div><!-- modal-content -->
+    </div><!-- modal-dialog -->
+</div><!-- modal -->
+
+<script>
+    $(function () {
+        // Textarea Auto Resize
+        autosize($('#autosize'));
+
+        // Select2 Box
+//        $("#select48").select2({tags: true});
+        $('#select48').select2({minimumResultsForSearch: Infinity});
+    });
+</script>

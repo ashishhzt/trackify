@@ -40,7 +40,9 @@ class jobsService {
     moveToActiveJob(requestData) {
         return HTTP.get(this).post("/api/jobs/moveToActiveJob", requestData).then(result => result.data);
     }
-
+    moveJobToActive(requestData) {
+        return HTTP.get(this).post("/api/jobs/moveJobToActive", requestData).then(result => result.data);
+    }
     moveJobToInactive(requestData) {
         return HTTP.get(this).post("/api/jobs/moveToInactiveJob", requestData).then(result => result.data);
     }

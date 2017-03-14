@@ -29,8 +29,10 @@
 
 
                             <div class="pull-right text-right right-nav">
-                                <a data-toggle="modal" data-target="#movetoinactive" class="btn btn-success btn-xs btn-quirk"><i class="fa fa-check-square-o" aria-hidden="true"></i>Move to inactive</a>
-                                <span ng-include src="'partials/job.new-resume.move-to-inactive.html'"></span>
+                                <a data-toggle="modal" data-target="#movetoinactive" class="btn btn-success btn-xs btn-quirk" ng-if="vm.sideMenuState.status=='active'"><i class="fa fa-check-square-o" aria-hidden="true"></i>Move to inactive</a>
+                                <span ng-include src="'partials/job.new-resume.move-to-inactive.html'" ng-if="vm.sideMenuState.status=='active'"></span>
+                                <a data-toggle="modal" data-target="#movetoactive" class="btn btn-success btn-xs btn-quirk" ng-if="vm.sideMenuState.status=='inactive'"><i class="fa fa-check-square-o" aria-hidden="true"></i>Move to active</a>
+                                <span ng-include src="'partials/job.new-resume.move-to-active.html'" ng-if="vm.sideMenuState.status=='inactive'"></span>
                                 <a data-toggle="modal" data-target="#mailsnew" class="btn btn-success btn-xs btn-quirk"><i class="fa fa-envelope" aria-hidden="true"></i> Mails- {{vm.selectedJobDetail.mailCount}}</a>
                                 <a data-toggle="modal" data-target="#settings1" class="btn btn-success btn-xs btn-quirk"><i class="fa fa-cog" aria-hidden="true"></i> Settings</a>
                                 <a data-toggle="modal" data-target="#viewjd" class="btn btn-success btn-xs btn-quirk"><i class="fa fa-eye" aria-hidden="true"></i> View JD</a>
@@ -54,7 +56,7 @@
 
                             <div style="padding: 20px 0 0;">
                                 <!------------------First Tab------------------------>
-                                <div id="first" ng-show="vm.presentStage === 'NEW'">
+                                <div id="first" ng-show="vm.presentStage === 'NEW'" ng-if="vm.sideMenuState.status != 'inactive'">
                                     <div class="text-left mr10">
                                         <button id="test_color" class="btn btn-success btn-xs btn-quirk show_candidate"> <i class="fa fa-info-circle" aria-hidden="true"></i> Similar resumes <span id="badge">({{vm.internalCandidateListCount}})</span></button>
                                         <button id="removecolor" class="btn btn-success btn-xs btn-quirk candidate_content show_candidate candidate_backbtn"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button>
@@ -78,7 +80,7 @@
                                 <!------------------End First Tab------------------------>
 
                                 <!------------------Second Tab------------------------>
-                                <div id="second" ng-show="vm.presentStage === 'SHORTLIST'">
+                                <div id="second" ng-show="vm.presentStage === 'SHORTLIST'" ng-if="vm.sideMenuState.status != 'inactive'">
                                     <div class="pull-right text-right right-nav" style="margin: 0">
                                         <a data-toggle="modal" data-target="#addinterview" ng-click="vm.checkedCandidateCount()" class="btn btn-success btn-xs btn-quirk"><i class="fa fa-calendar" aria-hidden="true"></i> Add interview date</a>
                                         <span ng-include src="'partials/job.shortlist.add-interview-date.html'" ng-if="vm.checkedCandidateNum !== 0"></span>
@@ -98,7 +100,7 @@
                                 <!------------------End Second Tab------------------------>
 
                                 <!------------------Third Tab------------------------>
-                                <div id="third" ng-show="vm.presentStage === 'INTERVIEW'">
+                                <div id="third" ng-show="vm.presentStage === 'INTERVIEW'" ng-if="vm.sideMenuState.status != 'inactive'">
                                     <div class="pull-right text-right right-nav" style="margin: 0">
                                         <a data-toggle="modal" data-target="#addinterview1" ng-click="vm.checkedCandidateCount()" class="btn btn-success btn-xs btn-quirk">
                                             <i class="fa fa-calendar" aria-hidden="true"></i> Add interview date</a>
@@ -118,7 +120,7 @@
                                 <!------------------End Third Tab------------------------>
 
                                 <!------------------Fourth Tab------------------------>
-                                <div id="fourth" ng-show="vm.presentStage === 'OFFER'">
+                                <div id="fourth" ng-show="vm.presentStage === 'OFFER'" ng-if="vm.sideMenuState.status != 'inactive'">
                                     <div class="pull-right text-right right-nav" style="margin: 0">
                                         <a data-toggle="modal" data-target="#movetojoined" ng-click="vm.checkedCandidateCount()" class="btn btn-success btn-xs btn-quirk"><i class="fa fa-user-plus" aria-hidden="true"></i> Move to Joined</a>
                                         <span ng-include src="'partials/job.offer.move-to-joined.html'" ng-if="vm.checkedCandidateNum !== 0"></span>
@@ -136,7 +138,7 @@
                                 <!------------------End Fourth Tab------------------------>
 
                                 <!------------------Fifth Tab------------------------>
-                                <div id="fifth" ng-show="vm.presentStage === 'JOINED'">
+                                <div id="fifth" ng-show="vm.presentStage === 'JOINED'" ng-if="vm.sideMenuState.status != 'inactive'">
                                     <div class="pull-right text-right right-nav" style="margin: 0">
                                         <a data-toggle="modal" data-target="#joinedfilter" class="btn btn-success btn-xs btn-quirk"><i class="fa fa-filter" aria-hidden="true"></i> Filter</a>
                                         <span ng-include src="'partials/job.joined.filter.html'"></span>
