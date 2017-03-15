@@ -1,17 +1,9 @@
 import router			from 'express';
 import * as controller	from './newjob.controller';
+import {verifyUser}		from '../../auth/auth-util';
 
 const NewjobRouter = router();
 
-NewjobRouter.param('id', controller.params);
-
-NewjobRouter.route('/')
-  .get(controller.get)
-  .post(controller.post);
-
-NewjobRouter.route('/:id')
-  .get(controller.getOne)
-  .put(controller.put)
-  .delete(controller.del);
+NewjobRouter.post('/createJob', verifyUser, controller.createJob);
 
 export default NewjobRouter;
