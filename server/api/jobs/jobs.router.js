@@ -36,9 +36,9 @@ JobsRouter.post('/moveToInactiveJob', verifyUser, controller.moveToInactiveJob);
 
 JobsRouter.get('/getResumeMetadata/:candidateId', verifyUser, controller.getResumeMetadata);
 
-JobsRouter.post('/uploadResume', verifyUser, controller.uploadResume);
+JobsRouter.post('/uploadResume', controller.uploadResume);
 //Both exising & new candidate being merged to same api
-JobsRouter.post('/uploadNewCandidateResume', verifyUser, controller.uploadResume);
+JobsRouter.post('/uploadNewCandidateResume', controller.uploadResume);
 
 JobsRouter.get('/candidateDetails/:candidateId', verifyUser, controller.candidateDetails);
 
