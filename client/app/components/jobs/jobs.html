@@ -377,7 +377,7 @@
                                                 <h5>Please upload a resume: </h5>
                                                 <input id="file-input" type="file" file-model="vm.resumeFile"/>
                                                 <br>
-                                                <button class="btn btn-success btn-xs btn-quirk" ng-click="vm.uploadResume(vm.selectedCandidate.candidateId)"><strong><i class="fa fa-file-word-o" aria-hidden="true"></i> Resume</strong></button>
+                                                <button class="btn btn-success btn-xs btn-quirk" ng-click="vm.uploadResume(vm.selectedCandidate._id)"><strong><i class="fa fa-file-word-o" aria-hidden="true"></i> Resume</strong></button>
                                                 <br/>
                                             </div>
                                             <div class="col-md-12" ng-if="vm.resumeFileMetadata.isResumeFound" >
@@ -558,7 +558,7 @@
                                             <div class="tab-content">
                                                 <div class="tab-pane active" id="currentfeed">
                                                     <div class="panel-group" id="accordion3">
-                                                        <div class="panel panel-success" ng-repeat="row in vm.feedJobRecords.currentJobs" ng-click="vm.getFeedMsgThread(row.jobId, vm.selectedCandidate.candidateId)">
+                                                        <div class="panel panel-success" ng-repeat="row in vm.feedJobRecords.currentJobs" ng-click="vm.getFeedMsgThread(row.jobId, vm.selectedCandidate._id)">
                                                             <div class="panel-heading">
                                                                 <h4 class="panel-title">
 
@@ -590,7 +590,7 @@
                                                                     <div class="row">
                                                                         <div class="col-sm-2"  style="float: right;margin-right: 20px;">
                                                                             <button class="btn btn-success btn-block btn-quirk btn-wide mr5"
-                                                                            ng-click="vm.sendMessage(row.jobId, vm.selectedCandidate.candidateId)">Post</button>
+                                                                            ng-click="vm.sendMessage(row.jobId, vm.selectedCandidate._id)">Post</button>
                                                                         </div>
                                                                     </div>
 
@@ -668,7 +668,7 @@
                                                 </div>
                                                 <div class="tab-pane" id="prevfeed">
                                                     <div class="panel-group" id="accordion3">
-                                                        <div class="panel panel-success" ng-repeat="row in vm.feedJobRecords.previousJobs" ng-click="vm.getFeedMsgThread(row.jobId, vm.selectedCandidate.candidateId)">
+                                                        <div class="panel panel-success" ng-repeat="row in vm.feedJobRecords.previousJobs" ng-click="vm.getFeedMsgThread(row.jobId, vm.selectedCandidate._id)">
                                                             <div class="panel-heading">
                                                                 <h4 class="panel-title">
 
@@ -701,7 +701,7 @@
                                                                     <div class="row">
                                                                         <div class="col-sm-2"  style="float: right;margin-right: 20px;">
                                                                             <button class="btn btn-success btn-block btn-quirk btn-wide mr5"
-                                                                                    ng-click="vm.sendMessage(row.jobId, vm.selectedCandidate.candidateId)">Post</button>
+                                                                                    ng-click="vm.sendMessage(row.jobId, vm.selectedCandidate._id)">Post</button>
                                                                         </div>
                                                                     </div>
 
