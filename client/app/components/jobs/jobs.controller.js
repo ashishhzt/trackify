@@ -192,6 +192,7 @@ class JobsController {
         SERVICE.get(this).addInterviewDate(reqData).then(response => {
             this.checkedCandidateList = [];
             this.interviewDateData = {"date": null, "time": null, "meridian": null, "round": 1, "rescheduleReason": null};
+            this.candidateDetailsForJob(this.selectedJobDetail._id)
         }, error => {
             this.interviewDateData = {"date": null, "time": null, "meridian": null, "round": 1, "rescheduleReason": null};
             console.log(error);
