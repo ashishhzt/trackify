@@ -47,8 +47,8 @@ JobsRouter.post('/updateCandidateDetails', verifyUser, controller.updateCandidat
 JobsRouter.post('/savePostMessage', verifyUser, controller.savePostMessage);
 
 JobsRouter.get('/feedJobData/:candidateId', verifyUser, controller.feedData);
-//both candidate and job feed based on same function with
-JobsRouter.get('/getFeedThread/:jobId/:candidateId', verifyUser, controller.feedData);
+
+JobsRouter.get('/getFeedThread/:jobId/:candidateId', verifyUser,  controller.getFeedThread);
 
 JobsRouter.get('/allRecruiters', verifyUser, controller.allRecruiters);
 

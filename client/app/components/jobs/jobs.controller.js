@@ -327,6 +327,15 @@ class JobsController {
 
         trackFilterObjectLastApplied = JSON.parse(JSON.stringify(this.filterObject[this.presentStage]));
         
+        // Modifying filterObject to match mongoDB API schema
+        filterObj[this.presentStage] = filterObj[this.presentStage]
+        
+          // Filtering out any tags with undefined or null value
+          .filter(filter => typeof filter.filterValue !== 'undefined' && filter.filterValue !== null)
+          
+          // Reordering the key,value pair to match mongoDB API schema
+          .map(filter => ({ [filter.filterTag]: filter.filterValue }));
+        
         SERVICE.get(this).candidateDetailsForJob(this.userId, this.selectedJobDetail._id, filterObj, "job").then(response => {
             this.allCandidateDetail = response.data;
             
