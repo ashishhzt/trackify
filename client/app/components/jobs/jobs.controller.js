@@ -365,6 +365,7 @@ class JobsController {
         var reqData = {
             "jobId": jobId,
             "userId": this.userId,
+            "userName": this.AuthFactory.auth.user.displayName,
             "candidateId": candidateId,
             "timestamp": new Date(),
             "message": this.postMessage

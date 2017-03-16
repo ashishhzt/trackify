@@ -1237,7 +1237,7 @@ export const savePostMessage = function(req, res) {
                         feed.userName=userName;
 
                         if (userDocs.length == 0) {
-                            feed.feedType = "NOTE";                    
+                            feed.feedType = "NOTES";                    
                         } else {
                             feed.feedType = "TAGS";
                             var sentTo = [];
@@ -1367,15 +1367,20 @@ export const getFeedThread=function(req,res){
             var types = ["TAGS","MAILS","STATUS","NOTES"];
             if (docs.length > 0) {
                 response = types.reduce((data, type) => {
+                    let filteredDocs = docs
+                        .filter(doc => {
+                          return doc._id.jobId === parseInt(req.params.jobId) && doc._id.feedType === type
+                        });
+                    
                     return {
                         ...data,
-                        [type]: docs
-                            .filter(doc => (doc._id.jobId === parseInt(req.params.jobId) && doc._id.feedType === type))
-                            .reduce((docs, doc) => (docs.concat(doc.msgThread)), [])
+                        [type]: filteredDocs
+                            .reduce((docs, doc) => {
+                              return docs.concat(doc.msgThread)
+                            }, [])
                     }
                 }, {})
               
-                response = { data: response };
                 res.send(response);
 
             } else {
