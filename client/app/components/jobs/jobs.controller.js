@@ -192,6 +192,7 @@ class JobsController {
         SERVICE.get(this).addInterviewDate(reqData).then(response => {
             this.checkedCandidateList = [];
             this.interviewDateData = {"date": null, "time": null, "meridian": null, "round": 1, "rescheduleReason": null};
+            this.candidateDetailsForJob(this.selectedJobDetail._id)
         }, error => {
             this.interviewDateData = {"date": null, "time": null, "meridian": null, "round": 1, "rescheduleReason": null};
             console.log(error);
@@ -294,6 +295,8 @@ class JobsController {
                 fd.append('recruiterId', this.userId);
                 fd.append('assigneeName', this.AuthFactory.auth.user.displayName)
                 fd.append('uploadDate', new Date());
+                fd.append('designation', this.selectedJobDetail.designation);
+                fd.append('clientName', this.selectedJobDetail.clientName);
 
                 SERVICE.get(this).uploadNewCandidateResumeFile(fd).then(response => {
                     console.log(response.message);
@@ -363,6 +366,7 @@ class JobsController {
         var reqData = {
             "jobId": jobId,
             "userId": this.userId,
+            "userName": this.AuthFactory.auth.user.displayName,
             "candidateId": candidateId,
             "timestamp": new Date(),
             "message": this.postMessage

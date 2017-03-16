@@ -6,7 +6,7 @@ import async  from 'async';
 
 import upload from '../../util/multer';
 import mongoutil from '../../util/mongo';
-import config	from '../../config/config';
+import config   from '../../config/config';
 
 // export const params = (req, res, next, id) => {
 //   Jobs.findById(id)
@@ -321,66 +321,91 @@ export const candidateDetailsForJob = function(req, res) {
     //         res.send({"data": resData});
     //     }
     // });
-    let db = mongoutil.getDb();
+     let db = mongoutil.getDb();
     var collection = db.collection('candidate');
     collection.aggregate([{ $unwind: "$jobs" },
         { $match: { 'jobs.jobId' : req.body.jobId}},
         { $group : { _id : "$jobs.stage", candidates: { $push: "$$ROOT" } } }], function(err, docs) {
-            var response = {};
+            var response = [];
             var stages = ["NEW", "SHORTLIST", "INTERVIEW", "OFFER", "JOINED", "CANDIDATE"];
-            /* Disabling filter param processing
-            if (req.body.filter) {                
-                if (docs.length > 0) {
+
+            var filterstg= Object.keys(req.body.filter).filter(itm=>req.body.filter[itm].length>0)
+
+            if (docs.length > 0) {
+                if (filterstg.length>0) {                
+ 
+                    console.log(docs);
+                    console.log("FROM DB+++++++++++____");
                     response = docs.map (function (item, index) {
                         Object.keys(req.body.filter).forEach(tab => {
                         if (item._id == tab) {
+                            console.log('tab',tab);
+                            console.log("ITM.candidates --------------");
+                            console.log(item.candidates);
                             if (item.candidates.length > 0) {
                                 var candidates = [];
 
                                 item.candidates.map( function (itm, i) {     
                                
                                     var filters = req.body.filter[tab];
-                                    var foundRecruiter = true;
+                                    console.log("filters");
+                                    console.log(filters);
+                                         var foundRecruiter = true;
                                     var foundStatus = true;
-                                    if (filters.filterByRecruiter) {
-                                        if (filters.filterByRecruiter.indexOf(itm.jobs.userId) < 0) {
+                                    filters.map(function(filteritm){
+                               
+                                    if (filteritm.filterByRecruiter) {
+                                        console.log("filterbyrecruiter");
+                                        console.log(filteritm.filterByRecruiter.indexOf(itm.jobs.userId));
+                                        if (filteritm.filterByRecruiter.indexOf(itm.jobs.userId) < 0) {
                                             foundRecruiter = false;
                                         }
                                     }
-                                    if (filters.selectStatus) {
-                                        if (itm.jobs.status != filters.selectStatus) {
+                                    if (filteritm.selectStatus) {
+                                        console.log("selectStatus");
+                                        console.log(itm.jobs.status,filteritm.selectStatus)
+                                        if (itm.jobs.status != filteritm.selectStatus[0]) {
                                             foundStatus = false;
                                         }
                                     }
+                                   
+
+                                    })
+                                    console.log("candidate itm",itm);
+                                    console.log(foundRecruiter,foundStatus);
                                     if (foundRecruiter && foundStatus) {
                                         candidates.push(itm);
                                     }
+                                  
                                   });
                                   
                                   item.candidates = candidates;
+                                  console.log("item.candidates",item.candidates);
                             }
                         }
+                        
                         item[item._id]=item.candidates;
-                        return item;
+                        console.log("ret item",item);
+                       
                     });
+                    return item;
                 })
+
+
               } else {
-                //   
-              }
-            } else {
-            */
-            if (Array.isArray(docs)) {
-                // Returns all the candidates grouped by filter
+
+                 // Returns all the candidates grouped by filter
                 response = docs.reduce((final, doc) => {
                     return { ...final, [doc._id]: doc.candidates };
                 }, {});
-            }
-            // }
+                
+              }
+            } 
             stages.map( function (item, index) {
-                if(!response.hasOwnProperty(item)){
+                    if(!response.hasOwnProperty(item)){
                         response[item]=[];
                     }                
-            });
+                    }); 
             res.send({"data":response});  
         });
 };
@@ -929,7 +954,10 @@ export const uploadResume = function(req, res) {
                                             jobId: obj.jobId,
                                             status: 'NEW RESUME',
                                             stage: 'NEW',
-                                            userId: obj.userId
+                                            userId: obj.userId,
+                                            clientName:obj.clientName,
+                                            designation:obj.designation,
+                                            userName:obj.assigneeName
                                         }];
                                         delete obj.jobId;
                                         delete obj.userId;
@@ -1208,6 +1236,7 @@ export const savePostMessage = function(req, res) {
     var jobId = req.body.jobId;
     var candidateId = req.body.candidateId;
     var message = (req.body.message).trim();
+    var userName=req.body.userName;
     var feed = {};
 
     if(userId && jobId && candidateId && message && message.length !== 0){
@@ -1230,6 +1259,7 @@ export const savePostMessage = function(req, res) {
                         feed.message = obj.message;
                         feed.jobId = jobId;
                         feed.timeStamp = new Date().toISOString().replace('T', ' ');
+                        feed.userName=userName;
 
                         if (userDocs.length == 0) {
                             feed.feedType = "NOTE";                    
@@ -1354,7 +1384,7 @@ export const getFeedThread=function(req,res){
     var collection = db.collection('candidate');
     let response={};
     collection.aggregate([{$match: {_id: parseInt(req.params.candidateId)}},
-        {$unwind: "$feeds"},{$group: {_id: { jobId: "$feeds.jobId", feedType: "$feeds.feedType" },msgThread: { $push: {feedType: "$_id.feedType", message: "$feeds.message", sentTo: "$feeds.sentTo", sentFrom: "$feeds.sentFrom", timeStamp: "$feeds.timestamp"}}}} 
+        {$unwind: "$feeds"},{$group: {_id: { jobId: "$feeds.jobId", feedType: "$feeds.feedType" },msgThread: { $push: {feedType: "$_id.feedType", message: "$feeds.message", sentTo: "$feeds.sentTo", sentFrom: "$feeds.sentFrom", timeStamp: "$feeds.timestamp",savedBy:"$feeds.userName"}}}} 
         // {$group: { _id: { jobId: "$_id.jobId"},jobId: {$first: "$_id.jobId"},msgThread: { $push: {feedType: "$_id.feedType", feed: {message: "$feeds.message", sentTo: "$feeds.sentTo", sentFrom: "$feeds.sentFrom", timeStamp: "$feeds.timestamp"}}}}} 
         ], function(err, docs) {
 
@@ -1387,7 +1417,7 @@ export const feedData = function(req,res){
     var collection = db.collection('candidate');
     var response = {currentJobs: [], previousJobs: []};
     
-       collection.aggregate({$match: {_id: parseInt(req.params.candidateId)}}, {$unwind: "$jobs"}, {$project: {jobId: "$jobs.jobId", status: "$jobs.status"}}
+       collection.aggregate({$match: {_id: parseInt(req.params.candidateId)}}, {$unwind: "$jobs"}, {$project: {jobId: "$jobs.jobId", status: "$jobs.status",clientName:"$jobs.clientName",designation:"$jobs.designation",userName:"$jobs.userName"}}
         , function(err, doc) {
             var previousJobsStatus = ["DUPLICATE","SCREEN REJECT","AVAILABLE LATER","NOT INTERESTED","CANDIDATES DROPPED","INTERVIEW REJECT","NO SHOW","OFFER DENIED","OFFER REJECTED","OFFERED + DUPLICATE.","JOINED","ABSCONDING","JOB ID MOVED TO INACTIVE"];
             if(doc.length>0){
