@@ -1211,6 +1211,7 @@ export const savePostMessage = function(req, res) {
     var jobId = req.body.jobId;
     var candidateId = req.body.candidateId;
     var message = (req.body.message).trim();
+    var userName=req.body.userName;
     var feed = {};
 
     if(userId && jobId && candidateId && message && message.length !== 0){
@@ -1233,6 +1234,7 @@ export const savePostMessage = function(req, res) {
                         feed.message = obj.message;
                         feed.jobId = jobId;
                         feed.timeStamp = new Date().toISOString().replace('T', ' ');
+                        feed.userName=userName;
 
                         if (userDocs.length == 0) {
                             feed.feedType = "NOTE";                    
@@ -1357,7 +1359,7 @@ export const getFeedThread=function(req,res){
     var collection = db.collection('candidate');
     let response={};
     collection.aggregate([{$match: {_id: parseInt(req.params.candidateId)}},
-        {$unwind: "$feeds"},{$group: {_id: { jobId: "$feeds.jobId", feedType: "$feeds.feedType" },msgThread: { $push: {feedType: "$_id.feedType", message: "$feeds.message", sentTo: "$feeds.sentTo", sentFrom: "$feeds.sentFrom", timeStamp: "$feeds.timestamp"}}}} 
+        {$unwind: "$feeds"},{$group: {_id: { jobId: "$feeds.jobId", feedType: "$feeds.feedType" },msgThread: { $push: {feedType: "$_id.feedType", message: "$feeds.message", sentTo: "$feeds.sentTo", sentFrom: "$feeds.sentFrom", timeStamp: "$feeds.timestamp",savedBy:"$feeds.userName"}}}} 
         // {$group: { _id: { jobId: "$_id.jobId"},jobId: {$first: "$_id.jobId"},msgThread: { $push: {feedType: "$_id.feedType", feed: {message: "$feeds.message", sentTo: "$feeds.sentTo", sentFrom: "$feeds.sentFrom", timeStamp: "$feeds.timestamp"}}}}} 
         ], function(err, docs) {
 
