@@ -128,10 +128,6 @@ export const getJobsDetail = function(req, res) {
     //     }
     // });
     let db = mongoutil.getDb();
-    console.log(db);
-    console.log("getjobsdetail")
-    console.log(req.params);
-
     var userId = {$not: {$eq: parseInt(req.params.userId)}};
     var active = false;
     if (req.params.flag == 'myjob') {
@@ -141,13 +137,8 @@ export const getJobsDetail = function(req, res) {
         active = true;
     }
 
-    //var job=db.job.findOne();
-    console.log(userId);
-    console.log(active);
     var collection = db.collection('job');
     collection.find({"userId": userId, "active": active}).toArray(function(err, docs) {
-        console.log(err);
-        console.log(docs);
         res.send({ data: docs});
     });
     
@@ -860,7 +851,6 @@ export const uploadResume = function(req, res) {
     let db = mongoutil.getDb();
     upload(req, res, function(err) {
         if (err) {
-            console.log(error);
             res.send({ "message": "ERROR" });
         } else {
             var data = {
@@ -1064,15 +1054,11 @@ export const candidateDetails = function(req, res) {
     //     res.json(data ? data[0] : {});
     // });
     var collection = db.collection('candidate');
-    console.log(req.params.candidateId);
     collection.find({ _id:parseInt(req.params.candidateId) }, { jobs:0 }).toArray(function(err, docs) {
         var response;
         if (err) {
-                    console.log(err);
-
             response = err;
         }
-        console.log(docs);
         if (docs.length > 0) {
             response = docs[0];
         } else {
@@ -1126,7 +1112,7 @@ function extractUserId(userNameArr, message) {
         userNameArr.push(message.substr(1,idx-1));
          return extractUserId(userNameArr, message.substr(idx));
     } else {
-        return {"userNames": userNameArr, "message": message};
+        return {"email": userNameArr, "message": message};
     }
 }
 export const savePostMessage = function(req, res) {
@@ -1363,83 +1349,67 @@ export const savePostMessage = function(req, res) {
 //     });
 // };
 
-export const feedData = function(req,res){
+export const getFeedThread=function(req,res){
     let db = mongoutil.getDb();
-
     var collection = db.collection('candidate');
-    var response = {currentFeed: [], previousFeed: []};
+    let response={};
     collection.aggregate([{$match: {_id: parseInt(req.params.candidateId)}},
-        {$unwind: "$feeds"},{$group: {_id: { jobId: "$feeds.jobId", feedType: "$feeds.feedType" },feeds: { $first: "$feeds"}}}, 
-        {$group: { _id: { jobId: "$_id.jobId"},jobId: {$first: "$_id.jobId"},msgThread: { $push: {feedType: "$_id.feedType", feed: {message: "$feeds.message", sentTo: "$feeds.sentTo", sentFrom: "$feeds.sentFrom", timeStamp: "$feeds.timestamp"}}}}} 
+        {$unwind: "$feeds"},{$group: {_id: { jobId: "$feeds.jobId", feedType: "$feeds.feedType" },msgThread: { $push: {feedType: "$_id.feedType", message: "$feeds.message", sentTo: "$feeds.sentTo", sentFrom: "$feeds.sentFrom", timeStamp: "$feeds.timestamp"}}}} 
+        // {$group: { _id: { jobId: "$_id.jobId"},jobId: {$first: "$_id.jobId"},msgThread: { $push: {feedType: "$_id.feedType", feed: {message: "$feeds.message", sentTo: "$feeds.sentTo", sentFrom: "$feeds.sentFrom", timeStamp: "$feeds.timestamp"}}}}} 
         ], function(err, docs) {
 
             var jobIds = [];
             var types = ["TAGS","MAILS","STATUS","NOTES"];
             if (docs.length > 0) {
-                docs.map(function (itm, i) {
-                    jobIds.push(itm.jobId);
-                    var msgThread = itm.msgThread;
-                    types.map( function (item, index) {
-                        var found = false;
-                        itm.msgThread.map ( function (it, ind) {
-                            if (it.feedType == item) {
-                                found = true;
+                response = types.reduce((data, type) => {
+                    return {
+                        ...data,
+                        [type]: docs
+                            .filter(doc => (doc._id.jobId === parseInt(req.params.jobId) && doc._id.feedType === type))
+                            .reduce((docs, doc) => (docs.concat(doc.msgThread)), [])
+                    }
+                }, {})
+              
+                response = { data: response };
+                res.send(response);
+
+            } else {
+                response = { message: 'No job found'};
+                res.send(response);
+            }
+        });
+
+}
+
+export const feedData = function(req,res){
+    let db = mongoutil.getDb();
+
+    var collection = db.collection('candidate');
+    var response = {currentJobs: [], previousJobs: []};
+    
+       collection.aggregate({$match: {_id: parseInt(req.params.candidateId)}}, {$unwind: "$jobs"}, {$project: {jobId: "$jobs.jobId", status: "$jobs.status"}}
+        , function(err, doc) {
+            var previousJobsStatus = ["DUPLICATE","SCREEN REJECT","AVAILABLE LATER","NOT INTERESTED","CANDIDATES DROPPED","INTERVIEW REJECT","NO SHOW","OFFER DENIED","OFFER REJECTED","OFFERED + DUPLICATE.","JOINED","ABSCONDING","JOB ID MOVED TO INACTIVE"];
+            if(doc.length>0){
+                var jobs = doc;
+                // docs.map(function (item,index) {
+                    jobs.map(function (itm,i) {
+                        // var obj = item;
+                        // delete obj._id;
+                        // if (item.jobId == itm.jobId) {
+                            if (previousJobsStatus.indexOf(itm.status) > -1){
+                                response.previousJobs.push(itm);
+                            } else {
+                                response.currentJobs.push(itm);
                             }
                         });
-                        if (!found) {
-                            msgThread.push( {feedType: item, feed: {}});
-                        }
-                    });
-                    itm.msgThread = msgThread;
-                });
-
-                db.collection('job').find({ _id: {$in: jobIds}}).toArray(function(err, job) {
-                    if (err) {
-                        response.jobError = err;
-                    }
-                    if (job.length > 0) {
-                        
-                        docs.map(function (itm, i) {
-                            job.map(function (item, index) {
-                                if (item._id == itm.jobId) {
-                                    Object.assign(itm, item);
-                                }
-                            });
-                        });
-
-                        collection.aggregate({$match: {_id: parseInt(req.params.candidateId)}}, {$unwind: "$jobs"}, {$match: {"jobs.jobId": {$in: jobIds}}}, {$project: {jobId: "$jobs.jobId", status: "$jobs.status"}}
-                        , function(err, doc) {
-                            var previousFeedStatus = ["DUPLICATE","SCREEN REJECT","AVAILABLE LATER","NOT INTERESTED","CANDIDATES DROPPED","INTERVIEW REJECT","NO SHOW","OFFER DENIED","OFFER REJECTED","OFFERED + DUPLICATE.","JOINED","ABSCONDING","JOB ID MOVED TO INACTIVE"];
-                            var jobs = doc;
-                            docs.map(function (item,index) {
-                                jobs.map(function (itm,i) {
-                                    var obj = item;
-                                    delete obj._id;
-                                    if (item.jobId == itm.jobId) {
-                                        if (previousFeedStatus.indexOf(itm.status) > -1){
-                                            response.previousFeed.push(obj);
-                                        } else {
-                                            response.currentFeed.push(obj);
-                                        }
-                                    }
-                                });
-                            });
-                            res.send(response);
-                        });
-
-                    } else {
-                        response = { message: 'No job found'};
-                        res.send(response);
-                    }
-                });
-
-                
-                
+            } 
+            else {
+                response = { message: 'No job found'};
+                res.send(response);
             }
-
-            
-    });
-
+            res.send(response);
+        });
 
 }
 export const allRecruiters = function(req, res) {
