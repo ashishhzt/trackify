@@ -294,6 +294,8 @@ class JobsController {
                 fd.append('recruiterId', this.userId);
                 fd.append('assigneeName', this.AuthFactory.auth.user.displayName)
                 fd.append('uploadDate', new Date());
+                fd.append('designation', this.selectedJobDetail.designation);
+                fd.append('clientName', this.selectedJobDetail.clientName);
 
                 SERVICE.get(this).uploadNewCandidateResumeFile(fd).then(response => {
                     console.log(response.message);

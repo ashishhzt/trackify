@@ -6,7 +6,7 @@ import async  from 'async';
 
 import upload from '../../util/multer';
 import mongoutil from '../../util/mongo';
-import config	from '../../config/config';
+import config   from '../../config/config';
 
 // export const params = (req, res, next, id) => {
 //   Jobs.findById(id)
@@ -929,7 +929,10 @@ export const uploadResume = function(req, res) {
                                             jobId: obj.jobId,
                                             status: 'NEW RESUME',
                                             stage: 'NEW',
-                                            userId: obj.userId
+                                            userId: obj.userId,
+                                            clientName:obj.clientName,
+                                            designation:obj.designation,
+                                            userName:obj.assigneeName
                                         }];
                                         delete obj.jobId;
                                         delete obj.userId;
@@ -1387,7 +1390,7 @@ export const feedData = function(req,res){
     var collection = db.collection('candidate');
     var response = {currentJobs: [], previousJobs: []};
     
-       collection.aggregate({$match: {_id: parseInt(req.params.candidateId)}}, {$unwind: "$jobs"}, {$project: {jobId: "$jobs.jobId", status: "$jobs.status"}}
+       collection.aggregate({$match: {_id: parseInt(req.params.candidateId)}}, {$unwind: "$jobs"}, {$project: {jobId: "$jobs.jobId", status: "$jobs.status",clientName:"$jobs.clientName",designation:"$jobs.designation",userName:"$jobs.userName"}}
         , function(err, doc) {
             var previousJobsStatus = ["DUPLICATE","SCREEN REJECT","AVAILABLE LATER","NOT INTERESTED","CANDIDATES DROPPED","INTERVIEW REJECT","NO SHOW","OFFER DENIED","OFFER REJECTED","OFFERED + DUPLICATE.","JOINED","ABSCONDING","JOB ID MOVED TO INACTIVE"];
             if(doc.length>0){
