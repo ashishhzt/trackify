@@ -292,7 +292,7 @@ class JobsController {
                 fd.append('candidateEmail', this.newCandReg.email);
                 fd.append('candidateContact', this.newCandReg.phNum);
                 fd.append('jobId', this.selectedJobDetail._id);
-                fd.append('recruiterId', this.userId);
+                fd.append('userId', this.userId);
                 fd.append('assigneeName', this.AuthFactory.auth.user.displayName)
                 fd.append('uploadDate', new Date());
                 fd.append('designation', this.selectedJobDetail.designation);
@@ -329,12 +329,16 @@ class JobsController {
         filterObj[this.presentStage] = this.filterObject[this.presentStage];
 
         trackFilterObjectLastApplied = JSON.parse(JSON.stringify(this.filterObject[this.presentStage]));
-        
+
         // Modifying filterObject to match mongoDB API schema
         filterObj[this.presentStage] = filterObj[this.presentStage]
         
-          // Filtering out any tags with undefined or null value
-          .filter(filter => typeof filter.filterValue !== 'undefined' && filter.filterValue !== null)
+          // Filtering out any tags with undefined or null value or if filterValue is an empty array
+          .filter(filter => (
+              (Array.isArray(filter.filterValue) && filter.filterValue.length > 0) &&
+              (typeof filter.filterValue !== 'undefined' && filter.filterValue !== null)
+            )
+          )
           
           // Reordering the key,value pair to match mongoDB API schema
           .map(filter => ({ [filter.filterTag]: filter.filterValue }));
