@@ -796,6 +796,7 @@ class JobsController {
                             params.subject = message.subject;
                             params.threadId = message.threadId;
                             params.messageId = message['message-id'];
+                            params.body = $("#summernote1").code()
                         }
                         console.log(params);
                         for(var key in params){
@@ -819,12 +820,12 @@ class JobsController {
             var params = {};
             
             params.mailFrom = 'tarun1188@gmail.com';
-            params.body = "Reply text will come here"
             if(message){
                 params.subject = message.subject;
                 params.threadId = message.threadId;
                 params.mailTo = message.from;
                 params.messageId = message['message-id'];
+                params.body = $("#summernote1").code()
             }else{
                 params.subject = this.email.subject;
                 params.mailTo = this.email.to;
