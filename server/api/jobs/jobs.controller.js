@@ -336,6 +336,7 @@ export const candidateDetailsForJob = function(req, res) {
  
                     console.log(docs);
                     console.log("FROM DB+++++++++++____");
+                    /*
                     response = docs.map (function (item, index) {
                         Object.keys(req.body.filter).forEach(tab => {
                         if (item._id == tab) {
@@ -390,6 +391,39 @@ export const candidateDetailsForJob = function(req, res) {
                     });
                     return item;
                 })
+                */
+
+                response = docs.reduce((final, doc) => {
+                    return {
+                        ...final,
+                        [doc._id]: doc.candidates.filter(itm => {
+                            console.log("candidate itm", itm);
+                            var filters = req.body.filter[doc._id];
+                            console.log("filters", filters);
+                            var foundRecruiter = true;
+                            var foundStatus = true;
+                            filters.map(filteritm => {
+                                if (filteritm.filterByRecruiter) {
+                                    console.log("filterbyrecruiter");
+                                    console.log(filteritm.filterByRecruiter.indexOf(itm.jobs.userId));
+                                    if (filteritm.filterByRecruiter.indexOf(itm.jobs.userId) < 0) {
+                                        foundRecruiter = false;
+                                    }
+                                }
+                                if (filteritm.selectStatus) {
+                                    console.log("selectStatus");
+                                    console.log(itm.jobs.status, filteritm.selectStatus)
+                                    if (itm.jobs.status != filteritm.selectStatus[0]) {
+                                        foundStatus = false;
+                                    }
+                                }
+                            });
+                            console.log('foundRecruiter', foundRecruiter);
+                            console.log('foundStatus', foundStatus);
+                            return foundRecruiter && foundStatus;
+                        })
+                    };
+                }, {});              
 
 
               } else {
@@ -448,10 +482,10 @@ export const changeStatus = function(req, res) {
     // });
     let db = mongoutil.getDb();
     var response = {};
-    db.collection('candidate').update({ "_id" : {$in:req.body.candidateId}, "jobs": {$elemMatch : {jobId : req.body.jobId}}}
-       , { $set: { "jobs.$.status" : req.body.status,
-                   "jobs.$.statusChangedBy" : req.body.statusChangedBy,
-                   "jobs.$.statusInputs" : req.body.statusInputs } }, function(err, result) {
+    db.collection('candidate').updateMany({ "_id" : {$in:req.body.candidateId}, "jobs": {$elemMatch : {jobId : req.body.jobId}}}
+      , { $set: { "jobs.$.status" : req.body.status,
+                  "jobs.$.statusChangedBy" : req.body.statusChangedBy,
+                  "jobs.$.statusInputs" : req.body.statusInputs } }, function(err, result) {
         // TODO: status change is not getting saved properly
         // nModified is 0 is every case
         if (result.result.nModified) {
@@ -1262,7 +1296,7 @@ export const savePostMessage = function(req, res) {
                         feed.userName=userName;
 
                         if (userDocs.length == 0) {
-                            feed.feedType = "NOTE";                    
+                            feed.feedType = "NOTES";                    
                         } else {
                             feed.feedType = "TAGS";
                             var sentTo = [];
@@ -1400,7 +1434,6 @@ export const getFeedThread=function(req,res){
                     }
                 }, {})
               
-                response = { data: response };
                 res.send(response);
 
             } else {
