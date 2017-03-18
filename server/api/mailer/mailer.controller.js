@@ -113,7 +113,7 @@ export const sendMailForJob = (req, res, next) => {
         // Fetch candidate details and send to next fn.
         var attachments = [];
         attachments.push({originalFileName:"xyz.doc", fileName:"d18d0ea252c234284c119b90fe278683.doc"})
-        callback(null, {emailId:"tarun1188@gmail.com", attachments:attachments})
+        callback(null, {emailId:"ashfaq@anzycareers.com", attachments:attachments})
     }
 
     function sendMail(candidate, callback){

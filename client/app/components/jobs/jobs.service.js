@@ -91,8 +91,8 @@ class jobsService {
 
     fetchMails(data){
         var url = "/api/mailer?label="+data.label;
-        if(data.searchText){
-            url += "&query="+data.searchText;
+        if(data.label=="search" && data.query){
+            url += "&query="+data.query;
         }
         if(data.token){
             url += "&token="+data.token

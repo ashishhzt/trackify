@@ -360,6 +360,12 @@ function createMimeMessage_(msg, callback) {
     if(msg.messageId){
         mailOptions.inReplyTo  = msg.messageId;
     }
+    if(msg.cc){
+        mailOptions.cc = msg.cc;
+    }
+    if(msg.bcc){
+        mailOptions.bcc = msg.bcc;
+    }
     console.log(msg)
     mailOptions.attachments = []
     if (msg.attachments) {

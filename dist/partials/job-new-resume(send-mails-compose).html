@@ -5,35 +5,21 @@
                 <div class="col-md-6">
                     <select ng-change="vm.fetchEmailTemplates()" ng-model="vm.email.template" id="Choose_Template" class="form-control" style="width: 100%" data-placeholder="Choose Template">
                         <option value=""></option>
-                        <option value="Option1">Tarun</option>
-                        <option value="Option1">Option2</option>
-                        <option value="Option1">Option3</option>
-                        <option value="Option1">Option4</option>
-                        <option value="Option1">Option5</option>
+                        <option value="template1">template1</option>
                     </select>
                 </div>
                 <div class="col-md-6">
                     <select id="mail_From" ng-model="vm.email.from" class="form-control" style="width: 100%" data-placeholder="From">
                         <option value=""></option>
-                        <option value="Option1">Option1</option>
-                        <option value="Option1">Option2</option>
-                        <option value="Option1">Option3</option>
-                        <option value="Option1">Option4</option>
-                        <option value="Option1">Option5</option>
                     </select>
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-md-12">
                     <select id="mail_to" class="form-control" ng-model="vm.email.to" style="width: 100%" data-placeholder="To" multiple>
-                        <option value="Option1">Option1</option>
-                        <option value="Option1">Option2</option>
-                        <option value="Option1">Option3</option>
-                        <option value="Option1">Option4</option>
-                        <option value="Option1">Option5</option>
                     </select>
                 </div>
-                <div class="mailccbcc1">
+                <div class="mailccbcc" style="top:78px">
                     <label class="show_hide" id="cc">Cc /</label>
                     <label class="show_hide_two" id="bcc" class=""> Bcc</label>
                 </div>
@@ -41,22 +27,12 @@
             <div id="agent" class="form-group mailhidetext">
                 <div class="col-md-12">
                     <select id="mail_cc" ng-change="vm.predictEmail()" ng-model="vm.email.cc" class="form-control" style="width: 100%" data-placeholder="Cc" multiple>
-                        <option value="Option1">Option1</option>
-                        <option value="Option1">Option2</option>
-                        <option value="Option1">Option3</option>
-                        <option value="Option1">Option4</option>
-                        <option value="Option1">Option5</option>
                     </select>
                 </div>
             </div>
             <div id="agency" class="form-group mailhidetext">
                 <div class="col-md-12">
                     <select id="mail_Bcc" ng-change="vm.predictEmail()" ng-model="vm.email.bcc"  class="form-control" style="width: 100%" data-placeholder="Bcc" multiple>
-                        <option value="Option1">Option1</option>
-                        <option value="Option1">Option2</option>
-                        <option value="Option1">Option3</option>
-                        <option value="Option1">Option4</option>
-                        <option value="Option1">Option5</option>
                     </select>
                 </div>
             </div>
@@ -75,9 +51,16 @@
                     <span class="btn green fileinput-button">
                         <i class="fa fa-plus fa fa-white"></i>
                         <span>Attachment</span>
-                    <input type="file" id="mailAttachments" ng-select="vm.handleAttachments()" multiple="">
+                    <input type="file" file-model="vm.mailAttachments" id="mailAttachments"  multiple>
                     </span>
+                    <button ng-click="vm.handleAttachments()" class="btn">Upload attachments</button>
                     <button class="btn btn-send" ng-click="vm.composeMail()" type="submit">Send</button>
+                </div>
+            </div>
+            <div class="panel-body text-center no-padding selectedfilter">
+                <div class="alert alert-success width100 leftdiv" ng-repeat="attachment in vm.mailAttachments track by $index">
+                    <button type="button" class="close" ng-click="vm.removeAttachment($index)" aria-hidden="true">&times;</button>
+                    <strong>{{attachment.name}}</strong>
                 </div>
             </div>
             <!-- <div class="panel-body text-center no-padding selectedfilter">
@@ -127,24 +110,22 @@ $(function() {
 </script>
 <script type="text/javascript">
 //<![CDATA[
-$(window).load(function() {
-    $(document).ready(function() {
-        $("#agent, #agency, #agency1, #agent1").hide();
-        $(".show_hide").show();
-        $(".show_hide_two").show();
-        $('.show_hide').click(function() {
-            $("#agent").slideToggle();
-            $("#agent1").slideToggle();
-            //$("#agency").slideUp();
-        });
-        $('.show_hide_two').click(function() {
-            $("#agency").slideToggle();
-            $("#agency1").slideToggle();
-            //$("#agent").slideUp();
-        });
 
-    });
-}); //]]>
+$("#agent, #agency, #agency1, #agent1").hide();
+$(".show_hide").show();
+$(".show_hide_two").show();
+$('.show_hide').click(function() {
+    $("#agent").slideToggle();
+    $("#agent1").slideToggle();
+    //$("#agency").slideUp();
+});
+$('.show_hide_two').click(function() {
+    $("#agency").slideToggle();
+    $("#agency1").slideToggle();
+    //$("#agent").slideUp();
+});
+
+  
 
 function slideThis(){
     $("#agent, #agency, #agency1, #agent1").hide();

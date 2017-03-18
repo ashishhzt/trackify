@@ -8,7 +8,15 @@ let fileModelDirective = function($parse) {
 
             element.bind('change', () => {
                 scope.$apply(() => {
-                    modelSetter(scope, element[0].files[0]);
+                    if(attrs.fileModel=="vm.mailAttachments"){
+                        var mailAttachments = [];
+                        for (var i = element[0].files.length - 1; i >= 0; i--) {
+                            mailAttachments.push(element[0].files[i]);
+                        }
+                        modelSetter(scope, mailAttachments);
+                    }else{
+                        modelSetter(scope, element[0].files[0]);
+                    }
                 });
             });
         }

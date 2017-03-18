@@ -751,7 +751,7 @@ class JobsController {
         $('.openinbox').hide();
         if(!this.inbox.currentView){
             $("#mailslide").toggle("slide");
-        }else if(this.inbox.currentView == label){
+        }else if(label != "search" && this.inbox.currentView == label){
             // Same li is clicked twice, hide the menu
             $("#mailslide").toggle("slide");
             this.inbox.currentView = undefined;
@@ -775,7 +775,7 @@ class JobsController {
 
     composeMail(message){
         console.log(message);
-        var attachments = $("#mailAttachments")[0].files;
+        var attachments = this.mailAttachments;
         var processedAttachments = [];
         if(attachments.length != 0){
             for (var i = attachments.length - 1; i >= 0; i--) {
@@ -792,6 +792,12 @@ class JobsController {
                         params.mailFrom = 'tarun1188@gmail.com';
                         params.body = $('#mailtextarea').code();
                         params.subject = this.email.subject;
+                        if(this.email.cc){
+                            params.cc = this.email.cc;
+                        }
+                        if(this.email.bcc){
+                            params.bcc = this.email.bcc;
+                        }
                         if(message){
                             params.subject = message.subject;
                             params.threadId = message.threadId;
@@ -807,6 +813,7 @@ class JobsController {
                         }
                         SERVICE.get(this).composeMail(params).then(response=>{
                             console.log(response);
+                            $('.action-close').trigger("click");
                             alert("mail sent successfully");
                         }, error =>{
                             console.log(error);
@@ -818,7 +825,12 @@ class JobsController {
             }
         }else{
             var params = {};
-            
+            if(this.email.cc){
+                params.cc = this.email.cc;
+            }
+            if(this.email.bcc){
+                params.bcc = this.email.bcc;
+            }
             params.mailFrom = 'tarun1188@gmail.com';
             if(message){
                 params.subject = message.subject;
@@ -848,14 +860,14 @@ class JobsController {
 
     }
 
-    handleAttachments(element){
-        console.log(element.files)
+    handleAttachments(){
+        console.log(this.mailAttachments)
         // console.log(this.email.attachments);
         console.log("we are handling attachments")
     }
 
     fetchEmailTemplates(){
-        console.log("fetch templates");
+        $('#mailtextarea').summernote('editor.insertText', 'Templalte text will come here.');
     }
 
     predictEmail(){
@@ -935,9 +947,9 @@ class JobsController {
         $('.openinbox').show();
         $('.inboxtable').hide();
         SERVICE.get(this).readMail(message).then(response=>{
-            console.log("------START----")
-            console.log(response.msg);
-            console.log("-----END-----")
+            if(this.inbox.currentView == "INBOX" && !message.isRead){
+                this.inbox.inboxCounter -= 1;
+            }
             this.inbox.message.attachments = response.attachments;
             $('.email-body').html(response.msg.html);
             // this.email.content = response.msg.html;
@@ -961,6 +973,11 @@ class JobsController {
         });
     }
 
+    removeAttachment(index){
+        console.log(index);
+        console.log(this.mailAttachments);
+        this.mailAttachments.splice(index, 1);
+    }
     fetchMailsForJob(){
         SERVICE.get(this).fetchMails({label:"INBOX", query: "Flipkart"}).then(response=>{
             this.mailForJobs["INBOX"] = [];
