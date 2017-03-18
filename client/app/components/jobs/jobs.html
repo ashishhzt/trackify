@@ -8,7 +8,7 @@
         <span ng-include src="'partials/job(mail-slide).html'"></span>
         <span ng-include src="'partials/job-new-resume(send-mails).html'"></span>
         <span ng-include src="'partials/job(mail-popup).html'"></span>
-        <div class="contentpanel">
+        <div class="contentpanel" ng-show="vm.inbox.currentView == undefined">
 
             <!-- content goes here... -->
             <div class="row">
