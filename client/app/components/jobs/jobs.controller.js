@@ -746,6 +746,233 @@ class JobsController {
         }
     }
     //Similar Resume Code: END
+    fetchMails(label){
+        $('.inboxtable').show();
+        $('.openinbox').hide();
+        if(!this.inbox.currentView){
+            $("#mailslide").toggle("slide");
+        }else if(this.inbox.currentView == label){
+            // Same li is clicked twice, hide the menu
+            $("#mailslide").toggle("slide");
+            this.inbox.currentView = undefined;
+            return;
+        }
+        this.inbox.currentView = label;
+        SERVICE.get(this).fetchMails({label:label, query: this.searchText}).then(response=>{
+            this.inbox[label] = [];
+                console.log(this.inbox);
+                // this.inbox.paginate[label].tokens = [undefined];
+            // }
+            this.inbox.paginate[label] = {};
+            this.inbox[label] = response.messages;
+            // this.inbox[label] = this.inbox[label].concat(response.messages);
+            this.inbox.paginate[label].tokens = [,response.nextPageToken];
+            console.log(this.inbox);
+        }, error =>{
+            console.log(error);
+        });
+    }
+
+    composeMail(message){
+        console.log(message);
+        var attachments = $("#mailAttachments")[0].files;
+        var processedAttachments = [];
+        if(attachments.length != 0){
+            for (var i = attachments.length - 1; i >= 0; i--) {
+                var formData = new FormData();
+                formData.append('resumeFile', attachments[i],  attachments[i].name);
+                console.log(formData);
+                console.log(attachments[i]);
+                SERVICE.get(this).uploadAttachment(formData).then(response=>{
+                    processedAttachments.push(response);
+                    if(processedAttachments.length == attachments.length){
+                        var params = {};
+                        params.attachments = processedAttachments;
+                        params.mailTo = this.email.to;
+                        params.mailFrom = 'tarun1188@gmail.com';
+                        params.body = $('#mailtextarea').code();
+                        params.subject = this.email.subject;
+                        if(message){
+                            params.subject = message.subject;
+                            params.threadId = message.threadId;
+                            params.messageId = message['message-id'];
+                        }
+                        console.log(params);
+                        for(var key in params){
+                            if(!params[key]){
+                                alert("Missing " + key);
+                                return;
+                            }
+                        }
+                        SERVICE.get(this).composeMail(params).then(response=>{
+                            console.log(response);
+                            alert("mail sent successfully");
+                        }, error =>{
+                            console.log(error);
+                        });
+                    }
+                }, error =>{
+                    console.log(error);
+                });
+            }
+        }else{
+            var params = {};
+            
+            params.mailFrom = 'tarun1188@gmail.com';
+            params.body = "Reply text will come here"
+            if(message){
+                params.subject = message.subject;
+                params.threadId = message.threadId;
+                params.mailTo = message.from;
+                params.messageId = message['message-id'];
+            }else{
+                params.subject = this.email.subject;
+                params.mailTo = this.email.to;
+                params.body = $('#mailtextarea').code();
+            }
+            console.log(params);
+            for(var key in params){
+                if(!params[key]){
+                    alert("Missing " + key);
+                    return;
+                }
+            }
+            SERVICE.get(this).composeMail(params).then(response=>{
+                alert("mail sent successfully");
+                console.log(response);
+            }, error =>{
+                console.log(error);
+            });
+        }
+
+    }
+
+    handleAttachments(element){
+        console.log(element.files)
+        // console.log(this.email.attachments);
+        console.log("we are handling attachments")
+    }
+
+    fetchEmailTemplates(){
+        console.log("fetch templates");
+    }
+
+    predictEmail(){
+        console.log("predict ! predict !! predict !!!")
+    }
+    
+    fetchMailCount(){
+        SERVICE.get(this).fetchMailCount().then(response=>{
+            this.inbox.inboxCounter = response.data.INBOX.messagesUnread;
+            this.inbox.draftsCounter = response.data.DRAFT.messagesTotal;
+            this.inbox.totalCounter = response.data.INBOX.messagesTotal
+        }, error =>{
+            console.log(error);
+        });
+    }
+
+    modifyEmail(label, message){
+        if(label == "STARRED"){
+            SERVICE.get(this).modifyEmail([message.id], !message.isStarred, "STARRED").then(response=>{
+                alert("Message updated.");
+                message.isStarred=!message.isStarred;
+            }, error =>{
+                console.log(error);
+            });
+        }else{
+            var idList = [];
+            $('.mail-checkbox').each(function(){if(this.id && this.checked){idList.push(this.id)}});
+            SERVICE.get(this).modifyEmail(idList, label== "UNREAD" ? false:true, label).then(response=>{
+                alert("Message updated.")
+                for (var k = idList.length - 1; k >= 0; k--) {
+                    for (var i = this.inbox[label].length - 1; i >= 0; i--) {
+                        if(label=="TRASH" && this.inbox[this.inbox.currentView][i].id == idList[k]){
+                            this.inbox[this.inbox.currentView].splice(i,1);
+                        }
+                        if(label=="SPAM" && this.inbox[this.inbox.currentView][i].id == idList[k]){
+                            this.inbox[this.inbox.currentView].splice(i,1);
+                        }
+                        if(label=="UNREAD" && this.inbox[this.inbox.currentView][i].id == idList[k]){
+                            this.inbox[this.inbox.currentView][i].isRead = true;
+                        }
+                    }
+                }
+            }, error =>{
+                console.log(error);
+            });
+        }
+    }
+
+    fetchNext(action){
+        var label = this.inbox.currentView;
+        if(!this.inbox.paginate[label].page){
+            this.inbox.paginate[label].page=0;
+        };
+        if(action == "NEXT"){
+            this.inbox.paginate[label].page += 1;
+        }else{
+            this.inbox.paginate[label].page -= 1;
+        }
+        var index = this.inbox.paginate[label].page;
+        if(index == -1){
+            return;
+        }
+        SERVICE.get(this).fetchMails({label:label,
+            query:this.searchText,
+            token:this.inbox.paginate[label].tokens[index]}).then(response=>{
+            // this.inbox[label] = this.inbox[label].concat(response.messages);
+            this.inbox[label] = response.messages;
+            this.inbox.paginate[label].tokens.push(response.nextPageToken);
+            console.log(this.inbox);
+        }, error =>{
+            console.log(error);
+        });
+    }
+
+    readMail(message){
+        this.inbox.message = message;
+        $('.openinbox').show();
+        $('.inboxtable').hide();
+        SERVICE.get(this).readMail(message).then(response=>{
+            console.log("------START----")
+            console.log(response.msg);
+            console.log("-----END-----")
+            this.inbox.message.attachments = response.attachments;
+            $('.email-body').html(response.msg.html);
+            // this.email.content = response.msg.html;
+        }, error =>{
+            console.log(error);
+        });
+    }
+
+    sendMailForJob(data){
+        let candidateDetails = [];
+        for (var i = this.allCandidateDetail[this.presentStage].length - 1; i >= 0; i--) {
+            if(this.checkedCandidateList[i]){
+                let candidate =  this.allCandidateDetail[this.presentStage][i];
+                candidateDetails.push({id:candidate.id, email_id:candidate.email_id, hashFileName:candidate.hashFileName, originalFileName:candidate.originalFileName, mimetype:candidate.mimetype});
+            }  
+        }
+        SERVICE.get(this).sendMailForJob(candidateDetails).then(response=>{
+            alert("resumes sent successfully");
+        }, error =>{
+            console.log(error);
+        });
+    }
+
+    fetchMailsForJob(){
+        SERVICE.get(this).fetchMails({label:"INBOX", query: "Flipkart"}).then(response=>{
+            this.mailForJobs["INBOX"] = [];
+            this.mailForJobs["INBOX"] = response.messages;
+            console.log(response);
+        }, error =>{
+            console.log(error);
+        });
+    }
+    parseDate(date){
+        console.log(date);
+        return new Date(date).toLocaleString();
+    }
 }
 
 JobsController.$inject = ['$rootScope', 'AuthFactory', 'jobsService', 'shareData']
