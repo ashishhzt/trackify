@@ -4,7 +4,7 @@
 
         <ul class="nav nav-tabs nav-justified nav-sidebar nobottom">
             <li class="tooltips active" data-toggle="tooltip" title="Jobs"><a data-toggle="tab" data-target="#mainmenu"><i class="fa fa-briefcase" aria-hidden="true"></i> Jobs</a></li>
-            <li ng-click="vm.fetchMailCount()" class="tooltips unread" data-toggle="tooltip" title="Mail"><a data-toggle="tab" data-target="#mailcontent1"><i class="fa fa-envelope" aria-hidden="true"></i> Mail</a></li>
+            <li ng-click="vm.fetchMailCount('main')" class="tooltips unread" data-toggle="tooltip" title="Mail"><a data-toggle="tab" data-target="#mailcontent1"><i class="fa fa-envelope" aria-hidden="true"></i> Mail</a></li>
             <li class="tooltips unread" data-toggle="tooltip" title="Chat"><a data-toggle="tab" data-target="#contactmenu"><i class="fa fa-comments-o" aria-hidden="true"></i> Chat</a></li>
         </ul>
 
@@ -99,7 +99,6 @@
                         <div class="inbox-body">
                             <a class="button8 btn btn-compose noleftmargin" id="compose_btn">Compose
                             </a>
-                            <span ng-include src="'partials/job-new-resume(send-mails-compose).html'"></span>
                         </div>
                         <ul class="inbox-nav inbox-divider">
                             <li ng-click="vm.inbox.INBOX=[];vm.fetchMails('INBOX')"  data-target="#mailslide">

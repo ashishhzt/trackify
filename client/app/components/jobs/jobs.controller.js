@@ -874,11 +874,18 @@ class JobsController {
         console.log("predict ! predict !! predict !!!")
     }
     
-    fetchMailCount(){
+    fetchMailCount(view){
         SERVICE.get(this).fetchMailCount().then(response=>{
-            this.inbox.inboxCounter = response.data.INBOX.messagesUnread;
-            this.inbox.draftsCounter = response.data.DRAFT.messagesTotal;
-            this.inbox.totalCounter = response.data.INBOX.messagesTotal
+            if(view == "main"){
+                this.inbox.inboxCounter = response.data.INBOX.messagesUnread;
+                this.inbox.draftsCounter = response.data.DRAFT.messagesTotal;
+                this.inbox.totalCounter = response.data.INBOX.messagesTotal;
+            }else{
+                this.mailForJobs.inboxCounter = response.data.INBOX.messagesUnread;
+                this.mailForJobs.draftsCounter = response.data.DRAFT.messagesTotal;
+                this.mailForJobs.totalCounter = response.data.INBOX.messagesTotal;
+            }
+
         }, error =>{
             console.log(error);
         });
@@ -942,20 +949,36 @@ class JobsController {
         });
     }
 
-    readMail(message){
-        this.inbox.message = message;
-        $('.openinbox').show();
-        $('.inboxtable').hide();
-        SERVICE.get(this).readMail(message).then(response=>{
-            if(this.inbox.currentView == "INBOX" && !message.isRead){
-                this.inbox.inboxCounter -= 1;
-            }
-            this.inbox.message.attachments = response.attachments;
-            $('.email-body').html(response.msg.html);
-            // this.email.content = response.msg.html;
-        }, error =>{
-            console.log(error);
-        });
+    readMail(view, message){
+        if(view == "main"){
+            this.inbox.message = message;
+            $('.openinbox').show();
+            $('.inboxtable').hide();
+            SERVICE.get(this).readMail(message).then(response=>{
+                if(this.inbox.currentView == "INBOX" && !message.isRead){
+                    this.inbox.inboxCounter -= 1;
+                }
+                this.inbox.message.attachments = response.attachments;
+                $('.email-body').html(response.msg.html);
+                // this.email.content = response.msg.html;
+            }, error =>{
+                console.log(error);
+            });
+        }else{
+            this.mailForJobs.message = message;
+            $('.openinbox').show();
+            $('.inboxtable').hide();
+            SERVICE.get(this).readMail(message).then(response=>{
+                if(this.mailForJobs.currentView == "INBOX" && !message.isRead){
+                    this.mailForJobs.inboxCounter -= 1;
+                }
+                this.mailForJobs.message.attachments = response.attachments;
+                $('.email-body').html(response.msg.html);
+                // this.email.content = response.msg.html;
+            }, error =>{
+                console.log(error);
+            });
+        }
     }
 
     sendMailForJob(data){
@@ -978,10 +1001,14 @@ class JobsController {
         console.log(this.mailAttachments);
         this.mailAttachments.splice(index, 1);
     }
-    fetchMailsForJob(){
-        SERVICE.get(this).fetchMails({label:"INBOX", query: "Flipkart"}).then(response=>{
-            this.mailForJobs["INBOX"] = [];
-            this.mailForJobs["INBOX"] = response.messages;
+    fetchMailsForJob(label){
+        $('.openinbox').hide();
+        $('.inboxtable').show();
+        this.mailForJobs.currentView = label;
+        // "subject:"+this.selectedJobDetail.clientName
+        SERVICE.get(this).fetchMails({label:label, query: ""}).then(response=>{
+            this.mailForJobs[label] = [];
+            this.mailForJobs[label] = response.messages;
             console.log(response);
         }, error =>{
             console.log(error);
