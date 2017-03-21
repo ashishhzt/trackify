@@ -875,7 +875,6 @@ class JobsController {
     }
     
     fetchMailCount(view){
-        $('.note-editor').show();
         SERVICE.get(this).fetchMailCount().then(response=>{
             if(view == "main"){
                 this.inbox.inboxCounter = response.data.INBOX.messagesUnread;

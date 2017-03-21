@@ -110,7 +110,8 @@ $(function() {
 </script>
 <script type="text/javascript">
 //<![CDATA[
-
+$(window).load(function() {
+    $(document).ready(function() {
 $("#agent, #agency, #agency1, #agent1").hide();
 $(".show_hide").show();
 $(".show_hide_two").show();
@@ -125,7 +126,8 @@ $('.show_hide_two').click(function() {
     //$("#agent").slideUp();
 });
 
-  
+  });
+ }); //]]>
 
 function slideThis(){
     $("#agent, #agency, #agency1, #agent1").hide();
