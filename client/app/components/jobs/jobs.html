@@ -349,7 +349,7 @@
                                 <div class="text-right right-nav" style="margin: 0">
                                     <button class="btn btn-info btn-xs btn-quirk" style="float:left" ng-if="vm.selectedCandidate.jobs.status">{{vm.selectedCandidate.jobs.status}}</button>
                                     <button class="btn btn-info btn-xs btn-quirk" style="float:left;margin-left:3px;" ng-if="(vm.presentStage == 'SHORTLIST' || vm.presentStage == 'INTERVIEW') && vm.selectedCandidate.jobs.interview.round">Interview Round - {{vm.selectedCandidate.jobs.interview.round}}
-                                        <span ng-if="vm.selectedCandidate.jobs.interview.rescheduleReason != 'null'"> (Re)</span></button>
+                                        <span ng-if="vm.selectedCandidate.jobs.interview.rescheduleReason != null"> (Re)</span></button>
                                     <a class="btn btn-success btn-xs btn-quirk" data-toggle="modal" data-target="#Similar-Jobs"><i class="fa fa-info-circle" aria-hidden="true"></i> Similar Jobs - <span id="badge">{{vm.selectedCandidate.similarJobsCount}}</span></a>
                                     <span ng-include src="'partials/job.similar-jobs.html'"></span>
                                     <a class="btn btn-success btn-xs btn-quirk" id="button8"><i class="fa fa-envelope" aria-hidden="true"></i> Send</a>

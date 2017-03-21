@@ -305,6 +305,7 @@ class JobsController {
                     }else if(response.message == "DUPLICATE"){
                         alert("Candidate already exists with the email address or phone number!");
                     } else {
+                        if (response.message === 'UPDATE SUCCESS') alert(`Candidate ${this.newCandReg.email} \'s resume is updated.`)
                         this.candidateDetailsForJob(this.selectedJobDetail._id);
                         this.newCandidateResumeFile = null;
                         this.newCandReg = {"name": null, "email": null, "phNum": null};
