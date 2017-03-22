@@ -46,19 +46,19 @@
 
                         <div class="panel-body text-center no-padding">
                             <ul class="nav nav-tabs nav-justified border-grey nav-inverse">
-                                <li class="active" ng-click="vm.setStage('NEW')"><a href="#" data-toggle="tab"><strong>New
+                                <li class="show_job_content active" ng-click="vm.setStage('NEW')"><a href="#" data-toggle="tab"><strong>New
                                     resume- <span id="badge">{{vm.allCandidateDetail.NEW.length}}</span></strong></a></li>
                                 <li ng-click="vm.setStage('SHORTLIST')"><a class="show_job_content" href="#" data-toggle="tab"><strong>Shortlist- <span id="badge">{{vm.allCandidateDetail.SHORTLIST.length}}</span></strong></a></li>
                                 <li ng-click="vm.setStage('INTERVIEW')"><a class="show_job_content" href="#" data-toggle="tab"><strong>Interview- <span id="badge">{{vm.allCandidateDetail.INTERVIEW.length}}</span></strong></a></li>
-                                <li ng-click="vm.setStage('OFFER')"><a href="#" data-toggle="tab"><strong>Offer- <span id="badge">{{vm.allCandidateDetail.OFFER.length}}</span></strong></a></li>
-                                <li ng-click="vm.setStage('JOINED')"><a href="#" data-toggle="tab"><strong>Joined- <span id="badge">{{vm.allCandidateDetail.JOINED.length}}</span></strong></a></li>
+                                <li ng-click="vm.setStage('OFFER')"><a class="show_job_content" href="#" data-toggle="tab"><strong>Offer- <span id="badge">{{vm.allCandidateDetail.OFFER.length}}</span></strong></a></li>
+                                <li ng-click="vm.setStage('JOINED')"><a class="show_job_content" href="#" data-toggle="tab"><strong>Joined- <span id="badge">{{vm.allCandidateDetail.JOINED.length}}</span></strong></a></li>
                             </ul>
 
                             <div style="padding: 20px 0 0;">
                                 <!------------------First Tab------------------------>
                                 <div id="first" ng-show="vm.presentStage === 'NEW'" ng-if="vm.sideMenuState.status != 'inactive'">
                                     <div class="text-left mr10">
-                                        <button id="test_color" class="btn btn-success btn-xs btn-quirk show_candidate"> <i class="fa fa-info-circle" aria-hidden="true"></i> Similar resumes <span id="badge">({{vm.internalCandidateListCount}})</span></button>
+                                        <button id="test_color" class="btn btn-success btn-xs btn-quirk show_candidate"> <i class="fa fa-info-circle" aria-hidden="true"></i> Similar resumes <span id="badge">({{vm.internalCandidateListCount || 0}})</span></button>
                                         <button id="removecolor" class="btn btn-success btn-xs btn-quirk candidate_content show_candidate candidate_backbtn"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button>
                                         <div class="pull-right text-right right-nav job_content" style="margin: 0">
                                             <a data-toggle="modal" data-target="#uploadNewResume" class="btn btn-success btn-xs btn-quirk"><i class="fa fa-upload" aria-hidden="true"></i> Resume</a>
@@ -349,7 +349,7 @@
                                 <div class="text-right right-nav" style="margin: 0">
                                     <button class="btn btn-info btn-xs btn-quirk" style="float:left" ng-if="vm.selectedCandidate.jobs.status">{{vm.selectedCandidate.jobs.status}}</button>
                                     <button class="btn btn-info btn-xs btn-quirk" style="float:left;margin-left:3px;" ng-if="(vm.presentStage == 'SHORTLIST' || vm.presentStage == 'INTERVIEW') && vm.selectedCandidate.jobs.interview.round">Interview Round - {{vm.selectedCandidate.jobs.interview.round}}
-                                        <span ng-if="vm.selectedCandidate.jobs.interview.rescheduleReason != null"> (Re)</span></button>
+                                        <span ng-if="[null, 'null'].indexOf(vm.selectedCandidate.jobs.interview.rescheduleReason) === -1"> (Re)</span></button>
                                     <a class="btn btn-success btn-xs btn-quirk" data-toggle="modal" data-target="#Similar-Jobs"><i class="fa fa-info-circle" aria-hidden="true"></i> Similar Jobs - <span id="badge">{{vm.selectedCandidate.similarJobsCount}}</span></a>
                                     <span ng-include src="'partials/job.similar-jobs.html'"></span>
                                     <a class="btn btn-success btn-xs btn-quirk" id="button8"><i class="fa fa-envelope" aria-hidden="true"></i> Send</a>
@@ -829,6 +829,7 @@
                                     <div class="text-left mr10">
                                         <div class="pull-right text-right right-nav" style="margin: 0">
                                             <a data-toggle="modal" data-target="#internalfilter" class="btn btn-success btn-xs btn-quirk"><i class="fa fa-filter" aria-hidden="true"></i> Filter</a>
+                                            <span ng-include src="'partials/candidate.internal-data.filter.html'"></span>
                                             <a data-toggle="modal" data-target="#movetoactive1" ng-click="vm.getSelectedIDCandidates()" class="btn btn-success btn-xs btn-quirk"><i class="fa fa-user-plus" aria-hidden="true"></i> Move to new resume</a>
                                             <span ng-include src="'partials/candidate.internal-data.move-to-active-jobs.html'" ng-if="vm.checkedIDCandidateNum !== 0"></span>
                                             <a data-toggle="modal" data-target="#internaldata_addstatus" ng-click="vm.getSelectedIDCandidates()" class="btn btn-success btn-xs btn-quirk"><i class="fa fa-plus-square" aria-hidden="true"></i> Status</a>
@@ -896,7 +897,7 @@
                             </div>
                             <div class="clear"></div>
                             <div class="list" ng-repeat="idCandRow in vm.internalCandidateList | filter: vm.searchKeywordInternalData" 
-                            ng-click="vm.internalDataCandidateDetailsFunction(idCandRow.candidateId)" onclick="disableContent1();">
+                            ng-click="vm.internalDataCandidateDetailsFunction(idCandRow._id)" onclick="disableContent1();">
                                 <label class="col-sm-1 ckbox2 ckbox ckbox-success">
                                     <input type="checkbox" ng-model="vm.checkIDCandidateList[$index]"><span></span>
                                 </label>
@@ -909,7 +910,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-9">
+                        <div class="col-md-9" ng-if="vm.iDataCandidateDetails !== null">
                             <div class="header-intro text-left white-background">
                                 
                                 <h3>{{vm.iDataCandidateDetails.candidateName}}
@@ -965,7 +966,7 @@
                                                     <div class="col-sm-8">
                                                         <input type="text" name="name" class="form-control txtreadonly" ng-model="vm.iDataCandidateDetails.candidateName" placeholder="Type your name..." required/>
                                                         <a class="btn btn-success btn-xs btn-quirk" id="editreadonly1" style="position: absolute; top: 0; right: -25px;"
-                                                           onclick="myFunction1()" ng-click="vm.saveIDCandidateDetails(vm.iDataCandidateDetails.candidateId)">
+                                                           onclick="myFunction1()" ng-click="vm.saveIDCandidateDetails(vm.iDataCandidateDetails._id)">
 
                                                             <i class='fa fa-pencil-square-o' aria-hidden='true'></i>
                                                         </a>
@@ -975,7 +976,7 @@
                                                 <div class="form-group">
                                                     <label class="col-sm-3 control-label">Mail ID <span class="text-danger">*</span></label>
                                                     <div class="col-sm-8">
-                                                        <input type="text" name="email" class="form-control txtreadonly" ng-model="vm.iDataCandidateDetails.email" placeholder="Type email address..." required/>
+                                                        <input type="text" name="email" class="form-control txtreadonly" ng-model="vm.iDataCandidateDetails.candidateEmail" placeholder="Type email address..." required/>
                                                         <!--<select id="cand_mail" class="form-control txtreadonly" style="width: 100%" data-placeholder="" multiple>
                                                             <option value="abc@gmail.com">abc@gmail.com</option>
                                                             <option value="option1">option1</option>
@@ -989,7 +990,7 @@
                                                 <div class="form-group">
                                                     <label class="col-sm-3 control-label">Mobile</label>
                                                     <div class="col-sm-8">
-                                                        <input type="text" name="contact" class="form-control txtreadonly" ng-model="vm.iDataCandidateDetails.contact" oninput="this.value=this.value.replace(/[^0-9]/g,'');" placeholder="Type contact number..." required/>
+                                                        <input type="text" name="contact" class="form-control txtreadonly" ng-model="vm.iDataCandidateDetails.candidateContact" oninput="this.value=this.value.replace(/[^0-9]/g,'');" placeholder="Type contact number..." required/>
                                                         <!--<select id="cand_mob" class="form-control txtreadonly" style="width: 100%" data-placeholder="" multiple>
                                                             <option value="+91 8888888888">+91 8888888888</option>
                                                             <option value="option1">option1</option>
@@ -1018,6 +1019,27 @@
                                                         </div>-->
                                                     </div>
                                                 </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label">Designation</label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" name="" ng-model="vm.iDataCandidateDetails.designation" class="form-control" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label">College</label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" name="" ng-model="vm.iDataCandidateDetails.college" class="form-control" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label">Key Skills</label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" name="" ng-model="vm.iDataCandidateDetails.key_skills" class="form-control" />
+                                                    </div>
+                                                </div>                                                
 
                                                 <div class="form-group">
                                                     <label class="col-sm-3 control-label">CTC (lakhs)<span class="text-danger">*</span></label>
@@ -1109,7 +1131,7 @@
                                             <div class="tab-content">
                                                 <div class="tab-pane active" id="currentfeed2">
                                                     <div class="panel-group" id="accordion3">
-                                                            <div class="panel panel-success" ng-repeat="row in vm.iDataFeedJobRecords.currentJobs" ng-click="vm.getFeedMsgThread(row.jobId, vm.iDataCandidateDetails.candidateId)">
+                                                            <div class="panel panel-success" ng-repeat="row in vm.iDataFeedJobRecords.currentJobs" ng-click="vm.getFeedMsgThread(row.jobId, vm.iDataCandidateDetails._id)">
                                                             <div class="panel-heading">
                                                                 <h4 class="panel-title">
 
@@ -1141,7 +1163,7 @@
                                                                     <div class="row">
                                                                         <div class="col-sm-2"  style="float: right;margin-right: 20px;">
                                                                             <button class="btn btn-success btn-block btn-quirk btn-wide mr5"
-                                                                            ng-click="vm.sendMessage(row.jobId, vm.iDataCandidateDetails.candidateId)">Post</button>
+                                                                            ng-click="vm.sendMessage(row.jobId, vm.iDataCandidateDetails._id)">Post</button>
                                                                         </div>
                                                                     </div>
 
@@ -1219,7 +1241,7 @@
                                                 </div>
                                                 <div class="tab-pane" id="prevfeed2">
                                                     <div class="panel-group" id="accordion3">
-                                                        <div class="panel panel-success" ng-repeat="row in vm.iDataFeedJobRecords.previousJobs" ng-click="vm.getFeedMsgThread(row.jobId, vm.iDataCandidateDetails.candidateId)">
+                                                        <div class="panel panel-success" ng-repeat="row in vm.iDataFeedJobRecords.previousJobs" ng-click="vm.getFeedMsgThread(row.jobId, vm.iDataCandidateDetails._id)">
                                                             <div class="panel-heading">
                                                                 <h4 class="panel-title">
 
@@ -1252,7 +1274,7 @@
                                                                     <div class="row">
                                                                         <div class="col-sm-2"  style="float: right;margin-right: 20px;">
                                                                             <button class="btn btn-success btn-block btn-quirk btn-wide mr5"
-                                                                                    ng-click="vm.sendMessage(row.jobId, vm.iDataCandidateDetails.candidateId)">Post</button>
+                                                                                    ng-click="vm.sendMessage(row.jobId, vm.iDataCandidateDetails._id)">Post</button>
                                                                         </div>
                                                                     </div>
 
@@ -1537,7 +1559,7 @@
 <script>
     $(document).ready(function () {
         $(".candidate_content").hide();
-        $('.show_candidate').click(function () {
+        $(document).on('click', '.show_candidate', function() {
             $(".candidate_content").toggle();
             $(".job_content").toggle();
             //$(".show_candidate").css('background','#b7b7b7');

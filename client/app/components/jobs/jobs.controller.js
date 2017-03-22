@@ -268,6 +268,8 @@ class JobsController {
                 console.log(response.message);
                 if(response.message == "ERROR")
                     alert("Error occurred while uploading resume file.\nPlease select proper file type and size.");
+                else if(response.message === 'UPDATE SUCCESS')
+                    alert(`Resume successfully updated.`)
                 this.resumeFile = null;
                 document.getElementById("file-input").value="";
                 document.getElementById("new-file-input2").value="";
@@ -622,6 +624,8 @@ class JobsController {
             skip
         }
 
+        this.iDataCandidateDetails = null;
+
         SERVICE.get(this).getInternalDataCandidateList(reqData).then(response => {
             this.internalCandidateList = response.data;
             this.internalCandidateListCount = response.count;
@@ -706,24 +710,24 @@ class JobsController {
     };
     saveIDCandidateDetails(candidateId) {
         if(document.getElementById("editreadonly_hidden1").value == 0){
-            if((this.iDataCandidateDetails.email.indexOf("@") == -1) 
-                || (this.iDataCandidateDetails.email.indexOf(".") == -1 )
-                || (this.iDataCandidateDetails.email.lastIndexOf(".") < this.iDataCandidateDetails.email.indexOf("@")) 
-                || (this.iDataCandidateDetails.email.indexOf("@") != this.iDataCandidateDetails.email.lastIndexOf("@"))) {
+            if((this.iDataCandidateDetails.candidateEmail.indexOf("@") == -1) 
+                || (this.iDataCandidateDetails.candidateEmail.indexOf(".") == -1 )
+                || (this.iDataCandidateDetails.candidateEmail.lastIndexOf(".") < this.iDataCandidateDetails.candidateEmail.indexOf("@")) 
+                || (this.iDataCandidateDetails.candidateEmail.indexOf("@") != this.iDataCandidateDetails.candidateEmail.lastIndexOf("@"))) {
                     alert("Please enter valid email address!");
 
                     $('#editreadonly1').html("<i class='fa fa-floppy-o' aria-hidden='true'></i>");
                     $("#detailform1 :input").prop("disabled", false);
                     $("#editreadonly_hidden1").val(1);
             }
-            else if(this.iDataCandidateDetails.contact.length != 10){
+            else if(this.iDataCandidateDetails.candidateContact.length != 10){
                 alert("Please enter 10 digit contact number");
 
                 $('#editreadonly1').html("<i class='fa fa-floppy-o' aria-hidden='true'></i>");
                 $("#detailform1 :input").prop("disabled", false);
                 $("#editreadonly_hidden1").val(1);
             }
-            else if((this.iDataCandidateDetails.candidateName != null) && (this.iDataCandidateDetails.email != null)
+            else if((this.iDataCandidateDetails.candidateName != null) && (this.iDataCandidateDetails.candidateEmail != null)
              && (this.iDataCandidateDetails.experience != null) && (this.iDataCandidateDetails.ctcFixed != null)
              && (this.iDataCandidateDetails.ctcVariable != null) && (this.iDataCandidateDetails.ctcEsops != null)
              && (this.iDataCandidateDetails.eCTCFixed != null) && (this.iDataCandidateDetails.eCTCVariable != null)
