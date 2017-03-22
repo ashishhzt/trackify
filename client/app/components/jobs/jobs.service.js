@@ -131,6 +131,11 @@ class jobsService {
     sendMailForJob(candidateList){
         return HTTP.get(this).post('api/mailer/sendMailForJob', {candidateList:candidateList}).then(result=>result.data);
     }
+    
+    downloadAttachment(details){
+        return HTTP.get(this).post('api/mailer/downloadAttachment', details).then(result=>result.data);
+
+    }
 
     static getInstance($http){
         return new jobsService($http);

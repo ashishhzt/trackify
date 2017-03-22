@@ -20,6 +20,7 @@ MailerRouter.route('/:id')
 MailerRouter.post('/uploadAttachment', controller.uploadAttachment);
 MailerRouter.post('/modify', verifyUser, controller.modify);
 MailerRouter.post('/sendMailForJob', verifyUser, controller.sendMailForJob);
+MailerRouter.post('/downloadAttachment', verifyUser, controller.downloadAttachment);
 
 
 export default MailerRouter;

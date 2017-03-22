@@ -958,8 +958,9 @@ class JobsController {
                 if(this.inbox.currentView == "INBOX" && !message.isRead){
                     this.inbox.inboxCounter -= 1;
                 }
-                this.inbox.message.attachments = response.attachments;
-                $('.email-body').html(response.msg.html);
+                this.inbox.message.attachments = response.msg.attachments;
+                console.log(response);
+                $('.email-body').html(atob(response.msg.html));
                 // this.email.content = response.msg.html;
             }, error =>{
                 console.log(error);
@@ -997,8 +998,6 @@ class JobsController {
     }
 
     removeAttachment(index){
-        console.log(index);
-        console.log(this.mailAttachments);
         this.mailAttachments.splice(index, 1);
     }
     fetchMailsForJob(label){
@@ -1014,8 +1013,24 @@ class JobsController {
             console.log(error);
         });
     }
+    downloadAttachment(attachment){
+        console.log(attachment);
+        SERVICE.get(this).downloadAttachment({messageId:this.inbox.message.id, attachmentId:attachment.id, filename:attachment.filename, mimeType:attachment}).then(response=>{
+            // var blobFile = new window.Blob([atob(response.data)]);
+            var link = 'data:' + response.mimeType + ';base64,' + response.data.replace(/-/g, '+').replace(/_/g, '/'); 
+            var a = document.createElement('a');
+            a.download = response.filename;
+            a.setAttribute('href', link);
+            document.body.appendChild(a);
+            a.click();
+            // inline.append('<a href="' + link + '" style="display: block">' + filename + '</a>');
+            // console.log(response);
+        }, error =>{
+            console.log(error);
+        });
+        
+    }
     parseDate(date){
-        console.log(date);
         return new Date(date).toLocaleString();
     }
 }

@@ -65,7 +65,7 @@
                             <td class="inbox-small-cells">
                                 <input ng-checked="vm.inbox.checkboxMaster" id="{{message.id}}" class="mail-checkbox" type="checkbox">
                             </td>
-                            <td class="inbox-small-cells"><i ng-click="vm.modifyEmail('STARRED', message)" ng-class="message.isStarred ? 'inbox-started' : ''" class="fa fa-star"></i></td>
+                            <td class="inbox-small-cells"><i ng-click="vm.modifyEmail('STARRED', message);$event.stopPropagation();" ng-class="message.isStarred ? 'inbox-started' : ''" class="fa fa-star"></i></td>
                             <td class="view-message dont-show">{{vm.inbox.currentView == "DRAFT" ? message.to : message.from}}</td>
                             <td class="view-message">{{message.subject}} - {{message.snippet}}</td>
                             <td class="view-message inbox-small-cells"><i ng-if='message.hasAttachment' class="fa fa-paperclip"></i></td>
@@ -112,7 +112,24 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="email-body" ng-bind-html="vm.email.content">
+                            <div class="email-body">
+                            </div>
+                            <!-- {{vm.message.attachments}} -->
+                            <div class="email-attachments" ng-if="vm.inbox.message.attachments">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                    <hr>
+                                    <div ng-repeat="attachment in vm.inbox.message.attachments" class="pull-left mr5 overflow_hide">
+                                        <!-- <img src="" width="100" alt="" class=""> -->
+                                        <h5 class="title">{{attachment.filename}}</h5>
+                                        <p class="details">
+                                            {{attachment.size/1024}}  KB&nbsp;&nbsp;
+                                            <!-- <a href="#">View</a> &nbsp;&nbsp; -->
+                                            <a href="#=" ng-click="vm.downloadAttachment(attachment)">Download</a>
+                                        </p>
+                                    </div>
+                                    </div>
+                                </div>
                             </div>
                             <!-- <div class="email-attachments">
                                 <div class="row">

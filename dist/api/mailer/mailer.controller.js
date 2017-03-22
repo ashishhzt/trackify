@@ -129,3 +129,11 @@ export const sendMailForJob = (req, res, next) => {
         })
     }
 }
+
+export const downloadAttachment=(req, res, next)=>{
+    postman.download(req.body, function(response){
+        response.mimetype = req.body.mimeType;
+        response.filename = req.body.filename;
+        res.send(response);
+    });
+}

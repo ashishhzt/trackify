@@ -37,23 +37,7 @@ export const fetchCount = function(details, callback){
     gmail.fetchCount(details, callback);	
 }
 
-
-// export const drafts = function(details, callback){
-//     console.log("postman ready to read your mails.");
-//     gmail.fetchMessages(callback)
-// }
-
-// export const sent = function(details, callback){
-//     console.log("postman ready to read your mails.");
-//     gmail.fetchMessages(callback)
-// }
-
-// export const important = function(details, callback){
-//     console.log("postman ready to read your mails.");
-//     gmail.fetchMessages(callback)
-// }
-
-// export const trash = function(details, callback){
-//     console.log("postman ready to read your mails.");
-//     gmail.fetchMessages(callback)
-// }
+export const download = function(details, callback){
+    console.log("postman ready to download attachments");
+    gmail.download(details, callback);
+}
