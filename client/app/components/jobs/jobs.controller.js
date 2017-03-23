@@ -484,6 +484,7 @@ class JobsController {
         reqObject.requestFromState = 'job';
         reqObject.status = this.changeStatusModel.status;
         reqObject.statusInputs = this.changeStatusModel.statusInputs;
+        reqObject.timestamp = new Date();
 
         SERVICE.get(this).changeStatus(reqObject).then(response => {
             this.changeStatusModel = {status: "", statusInputs: []};
@@ -592,6 +593,13 @@ class JobsController {
         });
     };
 
+    getRecruiterName(id) {
+        let recruiter = this.allRecruiters.filter(rec => rec._id == id);
+
+        // TODO: Remove hard-coded recruiter name after users collection is fixed with proper ID generation
+        return recruiter.length ? recruiter[0].displayName : 'Barrack Obama' //'Recruiter';
+    }
+
     getJobsDetail(userId, flag, status) {
 
         this.sideMenuState = {flag: flag, status: status};
@@ -667,6 +675,7 @@ class JobsController {
     moveIDCandidatesToActiveJob() {
         let reqData = {
             "userId": this.userId,
+            "userName": this.AuthFactory.auth.user.displayName,
             "jobId": this.selectedJobDetail._id,
             "candidateId": this.selectedIDCandidateIdArr,
             "timestamp": new Date()

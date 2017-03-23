@@ -498,7 +498,7 @@ export const changeStatus = function(req, res) {
                 "stage": req.body.stage,
                 "status": req.body.status,
                 "statusInputs": req.body.statusInputs,
-                "statusChangedBy": req.body.statusChangedBy,
+                "changedBy": req.body.statusChangedBy,
                 "timestamp": date
             }
             db.collection('statuslog').insertOne(statusLog, function(err, r) {
@@ -744,16 +744,16 @@ export const moveToActiveJob = function(req, res) {
     var collection = db.collection('candidate');
     var response = {};
     var date = new Date(req.body.timestamp).toISOString().slice(0, 19).replace('T', ' ');
-    collection.updateMany({ "_id" : {$in:req.body.candidateId} , 
+    collection.updateMany({ "_id" : {$in:req.body.candidateId} } , 
             {$push : {"jobs": {jobId : req.body.jobId,
                                 active : true,
                                 movedBy : req.body.userId,
-                                status:"NEW",
-                                stage:"NEW RESUME",
+                                status:"NEW RESUME",
+                                stage:"NEW",
                                 recruiterId:req.body.userId,
                                 userId:req.body.userId,
                                 assigneeName:req.body.userName,
-                                timestamp : date } }, function(err, result) {
+                                timestamp : date } } }, function(err, result) {
              if (err) {
                 //response = err;
                 res.status(400).send("ERROR");

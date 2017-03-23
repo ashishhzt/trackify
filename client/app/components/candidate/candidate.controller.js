@@ -2,6 +2,7 @@ const SERVICE = new WeakMap();
 
 class CandidateController {
   constructor($state, AuthFactory, candidateService, shareData) {
+      this.AuthFactory = AuthFactory;
       this.userId = 1;
       this.idSkip = 0;
       this.checkIDCandidateList = [];

@@ -18,7 +18,7 @@ export const createClient = function(req, res) {
 	let db = mongoutil.getDb();
 
 	var collection = db.collection('client');
-	collection.insertOne(newClient, (function(err, result) {
+	collection.insertOne(newClient, function(err, result) {
         var response = {};
 			 if (err) {
 			    response.insertError = err;
@@ -77,7 +77,7 @@ export const createJob = function(req, res) {
 
 
     var data = {
-    	"_id":jobCount
+    	"_id":jobCount,
 		"clientName" : req.body.clientName,
 		"designation" : req.body.designation,
 		"minExp" : req.body.minExp,
@@ -131,14 +131,14 @@ export const createJob = function(req, res) {
 	                } else {
 
 
-						    collection.insertOne(data,(function(err, result) {
+						    collection.insertOne(data, function(err, result) {
 						        var response = {};
 									 if (err) {
 									    response.insertError = err;
 									}
-									if (result,.insertedCount) {
+									if (result.insertedCount) {
 									    response.message = 'ADD SUCCESS';
-									    response.candidateId = result,.insertedId;
+									    response.candidateId = result.insertedId;
 									} else {
 									    response.message = 'ADD FAILURE';
 									}     
@@ -146,20 +146,20 @@ export const createJob = function(req, res) {
 						        res.send(response);
 						    });
 						}
-					}
+					});
 				}
-			}
+			});
 		}
 		else{
 
-			 collection.insertOne(data,(function(err, result) {
+			 collection.insertOne(data, function(err, result) {
 						        var response = {};
 									 if (err) {
 									    response.insertError = err;
 									}
-									if (result,.insertedCount) {
+									if (result.insertedCount) {
 									    response.message = 'ADD SUCCESS';
-									    response.candidateId = result,.insertedId;
+									    response.candidateId = result.insertedId;
 									} else {
 									    response.message = 'ADD FAILURE';
 									}     

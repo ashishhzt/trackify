@@ -36,17 +36,17 @@ export const allInternalDataCandidateList = function(req, res) {
     let db = mongoutil.getDb();
 
     var collection = db.collection('candidate');
-    collection.find({}).skip(req.params.skip).toArray(function (err, docs) {
+    collection.find({}).skip(parseInt(req.params.skip)).toArray(function (err, docs) {
         var response = {};
         if (err) {
             res.send(err);
         }
         if (docs.length > 0) {
-            var resObj = {
+            response = {
                 "count": docs.length,
                 data: []
             };
-             docs.forEach(row => resObj.data.push(row));
+             docs.forEach(row => response.data.push(row));
 
             // if(docs.length !=0 && req.params.skip >= docs.length) {
             //     response = resObj;
