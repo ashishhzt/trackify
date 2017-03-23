@@ -4,6 +4,7 @@ import path   from 'path';
 import async  from 'async';
 
 import config	from '../../config/config';
+import mongoutil from '../../util/mongo';
 
 export const allInternalDataCandidateList = function(req, res) {
     // var skip = req.params.skip;
@@ -31,7 +32,42 @@ export const allInternalDataCandidateList = function(req, res) {
     //         }
     //     }
     // });     
-    res.json({"data": [], count: 0});
+    // res.json({"data": [], count: 0});
+    let db = mongoutil.getDb();
+
+    var collection = db.collection('candidate');
+    collection.find({}).skip(req.params.skip).toArray(function (err, docs) {
+        var response = {};
+        if (err) {
+            res.send(err);
+        }
+        if (docs.length > 0) {
+            var resObj = {
+                "count": docs.length,
+                data: []
+            };
+             docs.forEach(row => resObj.data.push(row));
+
+            // if(docs.length !=0 && req.params.skip >= docs.length) {
+            //     response = resObj;
+            // } else {
+            //     let ctr = 0;
+            //     for(let i=skip; i<docs.length; i++){
+            //         resObj.data.push(data[i]);
+            //         ctr++;
+            //         if(ctr === 50)
+            //             break;
+            //     }
+            //    response = resObj;
+            // }
+            
+            
+        } else {
+            response.message = 'No candidates found '
+        }
+        res.send(response);
+    });
+    
 };
 
 export const invalidRequest = function(req, res) {

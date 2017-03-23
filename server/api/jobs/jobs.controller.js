@@ -741,10 +741,16 @@ export const moveToActiveJob = function(req, res) {
     var collection = db.collection('candidate');
     var response = {};
     var date = new Date(req.body.timestamp).toISOString().slice(0, 19).replace('T', ' ');
-    collection.updateMany({ "_id" : {$in:req.body.candidateId} , "jobs": {$elemMatch : {jobId : req.body.jobId}}}
-        , { $set: { "jobs.$.active" : true,
-                    "jobs.$.movedBy" : req.body.userId,
-                    "jobs.$.timestamp" : date } }, function(err, result) {
+    collection.updateMany({ "_id" : {$in:req.body.candidateId} , 
+            {$push : {"jobs": {jobId : req.body.jobId,
+                                active : true,
+                                movedBy : req.body.userId,
+                                status:"NEW",
+                                stage:"NEW RESUME",
+                                recruiterId:req.body.userId,
+                                userId:req.body.userId,
+                                assigneeName:req.body.userName,
+                                timestamp : date } }, function(err, result) {
              if (err) {
                 //response = err;
                 res.status(400).send("ERROR");
@@ -752,7 +758,8 @@ export const moveToActiveJob = function(req, res) {
             if (result.result.nModified) {
                 response.message = 'SUCCESS';
             } else {
-                response.message = 'FAILURE';
+
+                  response.message = 'FAILURE';
                 response.error = 'Candidate Id ' + req.body.candidateId + ' or Job Id ' + req.body.jobId + ' not found';
             }
         res.send(response);
