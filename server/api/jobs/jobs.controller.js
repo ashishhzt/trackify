@@ -490,14 +490,16 @@ export const changeStatus = function(req, res) {
         // nModified is 0 is every case
         if (result.result.nModified) {
             response.message = 'SUCCESS';
+             var date = new Date(req.body.timestamp).toISOString().slice(0, 19).replace('T', ' ');
+
             var statusLog = {
                 "jobId": req.body.jobId,
                 "candidateId": req.body.candidateId,
                 "stage": req.body.stage,
                 "status": req.body.status,
-                "statusInputs": req.body.status,
+                "statusInputs": req.body.statusInputs,
                 "statusChangedBy": req.body.statusChangedBy,
-                "timeStamp": req.body.timeStamp
+                "timestamp": date
             }
             db.collection('statuslog').insertOne(statusLog, function(err, r) {
                 if (err) {
@@ -537,7 +539,8 @@ export const moveToNextStage = function(req, res) {
     collection.updateMany({_id : {$in : req.body.candidateId, },  jobs: {$elemMatch : {jobId : req.body.jobId, stage: req.body.assignStageFrom}}}
         , { $set: { "jobs.$.stage" : req.body.assignStageTo,
                     "jobs.$.userId" : req.body.userId,
-                    "jobs.$.timestamp" : date } }, function(err, result) {
+                    "jobs.$.timestamp" : date ,
+                    "jobs.$.status":""} }, function(err, result) {
             if (result.result.nModified) {
                 if (result.result.nModified == req.body.candidateId.length) {
                     response.message = 'SUCCESS';
@@ -1428,25 +1431,36 @@ export const getFeedThread=function(req,res){
         {$unwind: "$feeds"},{$group: {_id: { jobId: "$feeds.jobId", feedType: "$feeds.feedType" },msgThread: { $push: {feedType: "$_id.feedType", message: "$feeds.message", sentTo: "$feeds.sentTo", sentFrom: "$feeds.sentFrom", timeStamp: "$feeds.timestamp",savedBy:"$feeds.userName"}}}} 
         // {$group: { _id: { jobId: "$_id.jobId"},jobId: {$first: "$_id.jobId"},msgThread: { $push: {feedType: "$_id.feedType", feed: {message: "$feeds.message", sentTo: "$feeds.sentTo", sentFrom: "$feeds.sentFrom", timeStamp: "$feeds.timestamp"}}}}} 
         ], function(err, docs) {
+            
+            db.collection('statuslog').aggregate([
+                {$unwind : "$candidateId"},
+                {$match : {candidateId : parseInt(req.params.candidateId),jobId : parseInt(req.params.jobId)}},
+                {$group : {_id : "STATUS",feed : {$push : "$$ROOT"}}}
+            ], function(err, docs1) {
 
-            var jobIds = [];
-            var types = ["TAGS","MAILS","STATUS","NOTES"];
-            if (docs.length > 0) {
-                response = types.reduce((data, type) => {
-                    return {
-                        ...data,
-                        [type]: docs
-                            .filter(doc => (doc._id.jobId === parseInt(req.params.jobId) && doc._id.feedType === type))
-                            .reduce((docs, doc) => (docs.concat(doc.msgThread)), [])
-                    }
-                }, {})
-              
-                res.send(response);
+                var jobIds = [];
+                var types = ["TAGS","MAILS","STATUS","NOTES"];
 
-            } else {
-                response = { message: 'No job found'};
-                res.send(response);
-            }
+                // Getting Candidate Feeds
+                if (docs.length > 0) {
+                    response = types.reduce((data, type) => {
+                        return {
+                            ...data,
+                            [type]: docs
+                                .filter(doc => (doc._id.jobId === parseInt(req.params.jobId) && doc._id.feedType === type))
+                                .reduce((docs, doc) => (docs.concat(doc.msgThread)), [])
+                        }
+                    }, {})
+                }
+
+                // Getting Statuslogs
+                if (docs1.length > 0) {
+                    response.STATUS = docs1[0].feed
+                }
+
+                if (docs.length || docs1.length) res.send(response);
+                else res.send({ message: 'No job found'});
+            });
         });
 
 }
