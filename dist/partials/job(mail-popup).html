@@ -1,0 +1,476 @@
+<div class="modal bounceIn animated" id="mailsnew" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false" ng-init="vm.mailForJobs={paginate:{}}">
+    <div class="modal-dialog" style="width:90%">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title modal-heading text-left" id="myModalLabel">
+                            <span style="float:left">Mails</span>
+                            <ol class="dark breadcrumb breadcrumb-quirk font-helvetica mail-ol">
+                                <li>{{vm.selectedJobDetail.clientName}}</li>
+                                <li>{{vm.selectedJobDetail.designation}}</li>
+                                <li>
+                                    <span ng-repeat="elem in vm.selectedJobDetail.locations"><span ng-if="$index != 0">,&nbsp;</span>{{elem}}</span>
+                                </li>
+                                <li> {{vm.selectedJobDetail.minExp}}-{{vm.selectedJobDetail.maxExp}} Years </li>
+                            </ol>
+                            <div class="clear"></div>
+                        </h4>
+            </div>
+            <div class="modal-body popupscroll mCustomScrollbar" data-mcs-theme="dark">
+                <div class="mail-box">
+                    <aside class="sm-side">
+                        <div class="user-head">
+                            <a class="inbox-avatar" href="javascript:;">
+                                <img width="64" hieght="60" src="images/user.jpg">
+                            </a>
+                            <div class="user-name">
+                                <h5><a href="#">Alireza Zare</a></h5>
+                                <span><a href="#">Info.Ali.Pci@Gmail.com</a></span>
+                            </div>
+                            <a class="mail-dropdown pull-right" href="javascript:;">
+                                <i class="fa fa-chevron-down"></i>
+                            </a>
+                        </div>
+                        <div class="inbox-body">
+                            <a class="button8 btn btn-compose noleftmargin" id="compose_btn1">Compose
+                            </a>
+                        </div>
+                        <ul class="inbox-nav inbox-divider">
+                            <li ng-click="vm.mailForJobs.INBOX=[];vm.fetchMailsForJob('INBOX')"  data-target="#mailslide">
+                                <a href="javascript:;" id="Inbox"><i class="fa fa-inbox"></i> Inbox <span class="label label-danger pull-right">{{vm.mailForJobs.inboxCounter}}</span></a>                                
+                            </li>
+                            <li ng-click="vm.mailForJobs.SENT=[];vm.fetchMailsForJob('SENT')" data-target="#mailslide">
+                                <a href="#"><i class="fa fa-envelope-o"></i> Sent Mail</a>
+                            </li>
+                            <li ng-click="vm.mailForJobs.IMPORTANT=[];vm.fetchMailsForJob('IMPORTANT')" data-target="#mailslide">
+                                <a href="#"><i class="fa fa-bookmark-o"></i> Important</a>
+                            </li>
+                            <li ng-click="vm.mailForJobs.DRAFT=[];vm.fetchMailsForJob('DRAFT')" data-target="#mailslide">
+                                <a href="#"><i class=" fa fa-external-link"></i> Drafts <span class="label label-info pull-right">{{vm.mailForJobs.draftsCounter}}</span></a>
+                            </li>
+                            <li ng-click="vm.mailForJobs.TRASH=[];vm.fetchMailsForJob('TRASH')" data-target="#mailslide">
+                                <a href="#"><i class=" fa fa-trash-o"></i> Trash</a>
+                            </li>
+                        </ul>
+                    </aside>
+                    <aside class="lg-side">
+                        <div class="inbox-head">
+                            <h3>Inbox</h3>
+                            <form action="#" class="pull-right position">
+                                <div class="input-append">
+                                    <input class="sr-input" placeholder="Search Mail" type="text">
+                                    <button class="btn sr-btn" type="button"><i class="fa fa-search"></i></button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="inbox-body">
+                            <div class="mail-option text-left">
+                                <div class="chk-all">
+                                    <input ng-model="vm.mailForJobs.checkboxMaster" class="mail-checkbox mail-group-checkbox" type="checkbox">
+                                    <div class="btn-group">
+                                        <a data-toggle="dropdown" href="#" class="btn mini all" aria-expanded="false">
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="btn-group hidden-phone">
+                                    <a data-toggle="dropdown" href="#" class="btn mini blue" aria-expanded="false">
+                                                    More
+                                                    <i class="fa fa-angle-down "></i>
+                                                </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="#"><i class="fa fa-pencil"></i> Mark as Read</a></li>
+                                        <li><a href="#"><i class="fa fa-ban"></i> Spam</a></li>
+                                        <li class="divider"></li>
+                                        <li><a href="#"><i class="fa fa-trash-o"></i> Delete</a></li>
+                                    </ul>
+                                </div>
+                                <ul class="unstyled inbox-pagination">
+                                    <li><span>1-{{vm.mailForJobs[vm.mailForJobs.currentView].length}} of {{vm.mailForJobs.totalCounter}}</span></li>
+                                    <li>
+                                        <a class="np-btn" href="#"><i class="fa fa-angle-left  pagination-left"></i></a>
+                                    </li>
+                                    <li>
+                                        <a class="np-btn" href="#"><i class="fa fa-angle-right pagination-right"></i></a>
+                                    </li>
+                                </ul>
+                                <ul class="nav nav-tabs nav-line mt10">
+                                    <li class="active">
+                                        <a href="#allmail" data-toggle="tab" aria-expanded="true">
+                                            <strong>All</strong></a>
+                                    </li>
+                                    <li>
+                                        <a href="#candidatemail" data-toggle="tab" aria-expanded="true">
+                                            <strong>Candidate</strong></a>
+                                    </li>
+                                    <li>
+                                        <a href="#clientmail" data-toggle="tab" aria-expanded="true">
+                                            <strong>Client</strong></a>
+                                    </li>
+                                    <li>
+                                        <a href="#unreadmail" data-toggle="tab" aria-expanded="true">
+                                            <strong>Unread</strong></a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <table class="table table-inbox table-hover inboxtable">
+                                <tbody>
+                                <tr ng-repeat="message in vm.mailForJobs[vm.mailForJobs.currentView]" ng-click="vm.readMail('job', message)"  class="toggleinbox" ng-class="message.isRead ? '' : 'unread'" >
+                                    <td class="inbox-small-cells">
+                                        <input ng-checked="vm.mailForJobs.checkboxMaster" id="{{message.id}}" class="mail-checkbox" type="checkbox">
+                                    </td>
+                                    <td class="inbox-small-cells"><i ng-click="vm.modifyEmail('STARRED', message)" ng-class="message.isStarred ? 'inbox-started' : ''" class="fa fa-star"></i></td>
+                                    <td class="view-message dont-show">{{["DRAFT", "SENT"].indexOf(vm.mailForJobs.currentView) != -1 ? message.to : message.from}}</td>
+                                    <td class="view-message">{{message.subject}} - {{message.snippet}}</td>
+                                    <td class="view-message inbox-small-cells"><i ng-if='message.hasAttachment' class="fa fa-paperclip"></i></td>
+                                    <td class="view-message text-right" sd="{{message.date}}">{{vm.parseDate(message.date)}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <div class="col-sm-12 openinbox" style="display:none">
+                    <h2 id="folder-title" class="folder-title">{{vm.mailForJobs.currentView}} <small></small></h2>
+                    <div id="mailbox-content" class="mailbox-content">
+                        <div id="email-view" class="email-view">
+                            <span class="pull-right"><a href="#" class="print"><i class="fa fa-print fa-lg"></i></a></span>
+                            <h4>{{vm.mailForJobs.message.subject}}</h4>
+                            <hr>
+                            <div class="email-details clearfix">
+                               <!--  <img width="40" src="images/photos/loggeduser.png" alt="Philip Horbacheuski" class="pull-left"> -->
+                                <div class="email-details-content">
+                                    <div class="pull-left" style="margin-left:10px;">
+                                        <!-- <strong>Philip Horbacheuski</strong> -->
+                                        <span class="email">{{vm.mailForJobs.message.from}}</span>
+                                        <span class="receiver">{{vm.mailForJobs.message.to}}</span>
+                                    </div>
+                                    <div class="email-actions pull-right">
+                                        <div class="btn-group">
+                                            <button id="email-opened-reply" class="reply_btn btn btn-sm btn-transparent">
+                                                <i class="fa fa-reply"></i> Reply
+                                            </button>
+                                            <button ng-click="vm.composeMail(vm.mailForJobs.message)"><i class="fa fa-reply"></i>SEND REPLY</button>
+                                            <button class="btn btn-sm btn-transparent dropdown-toggle" data-toggle="dropdown">
+                                                <i class="fa fa-angle-down"></i>
+                                            </button>
+                                            <ul class="dropdown-menu pull-right">
+                                                <li><a href="#"><i class="fa fa-reply reply-btn"></i> Reply</a></li>
+                                                <li><a href="#"><i class="fa fa-arrow-right reply-btn"></i> Forward</a></li>
+                                                <li><a href="#"><i class="fa fa-print"></i> Print</a></li>
+                                                <li class="divider"></li>
+                                                <li><a href="#"><i class="fa fa-ban"></i> Spam</a></li>
+                                                <li><a href="#"><i class="fa fa-trash"></i> Delete</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="email-date pull-right">
+                                        <i class="fa fa-paperclip"></i> Dec 12 (13:39)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="email-body" ng-bind-html="vm.email.content">
+                            </div>
+                            <!-- <div class="email-attachments">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <hr>
+                                        <p class="details"><strong>2 attachments</strong> &nbsp;-&nbsp; <a href="#">Download all attachments</a> &nbsp;&nbsp;&nbsp;
+                                            <a href="#">View all Images</a></p>
+                                        <section class="attachment">
+                                            <div class="pull-left mr5 overflow_hide">
+                                                <img src="images/doc.png" width="100" alt="" class="">
+                                                <h5 class="title">some-cool-image1.jpg</h5>
+                                            </div>
+                                            <div class="pull-left mr5 overflow_hide">
+                                                <img src="images/doc.png" width="100" alt="" class="">
+                                                <h5 class="title">some-cool-image1.jpg</h5>
+                                            </div>
+                                            <div class="pull-left mr5 overflow_hide">
+                                                <img src="images/doc.png" width="100" alt="" class="">
+                                                <h5 class="title">some-cool-image1.jpg</h5>
+                                            </div>
+                                            <div class="clear"></div>
+                                            <p class="details">
+                                                61K &nbsp;&nbsp;
+                                                <a href="#">View</a> &nbsp;&nbsp;
+                                                <a href="#">Download</a>
+                                            </p>
+                                        </section>
+                                        <section class="attachment">
+                                            <div class="pull-left mr5 overflow_hide">
+                                                <img src="images/doc.png" width="100" alt="" class="">
+                                                <h5 class="title">some-cool-image1.jpg</h5>
+                                            </div>
+                                            <p class="details">
+                                                333K &nbsp;&nbsp;
+                                                <a href="#">View</a> &nbsp;&nbsp;
+                                                <a href="#">Download</a>
+                                            </p>
+                                        </section>
+                                    </div>
+                                </div>
+                            </div> -->
+                            <!-- <div id="summernote1">
+                                <div class="email-body">
+                                </div>
+                            </div> -->
+                                <!-- <div class="email-details clearfix">
+                                    <img width="40" src="images/photos/loggeduser.png" alt="Philip Horbacheuski" class="pull-left">
+                                    <div class="email-details-content">
+                                        <div class="pull-left" style="margin-left:10px;">
+                                            <strong>Philip Horbacheuski</strong>
+                                            <span class="email">&lt;philip.horbacheuski@example.com&gt;</span>
+                                            <span class="receiver">to Wrapbootstrap</span>
+                                        </div>
+                                        <div class="email-date pull-right">
+                                            <i class="fa fa-paperclip"></i> Dec 12 (13:39)
+                                        </div>
+                                    </div>
+                                </div> -->
+                                <!-- <div class="email-body">
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas nisl magna, aliquet at condimentum quis, volutpat et lorem. Nunc augue ante, varius id massa ut, accumsan pretium arcu. Donec mattis, ante a consectetur blandit, mi sapien consectetur massa, sit amet molestie metus lacus in ante.</p>
+                                    <p>Aliquam porta, odio non finibus dictum, augue ligula pretium nunc, et faucibus metus diam ac nunc. Cras commodo ipsum dolor, id tristique tellus semper sit amet. Vestibulum nisl elit, sodales non fringilla et, lacinia ut ipsum. Suspendisse potenti. Cras volutpat mollis ante. </p>
+                                    <p>All the best,</p>
+                                    <p><strong>Vitaut the Great, CEO, </strong>
+                                        <br><strong>Fooby Inc.</strong>
+                                    </p>
+                                </div> -->
+<!--                                 <div class="email-attachments">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <hr>
+                                            <p class="details"><strong>2 attachments</strong> &nbsp;-&nbsp; <a href="#">Download all attachments</a> &nbsp;&nbsp;&nbsp;
+                                                <a href="#">View all Images</a></p>
+                                            <section class="attachment">
+                                                <img src="images/doc.png" width="100" alt="" class="pull-left mr5">
+                                                <img src="images/doc.png" width="100" alt="" class="pull-left mr5">
+                                                <img src="images/doc.png" width="100" alt="" class="pull-left mr5">
+                                                <div class="clear"></div>
+                                                <h5 class="title">some-cool-image1.jpg</h5>
+                                                <p class="details">
+                                                    61K &nbsp;&nbsp;
+                                                    <a href="#">View</a> &nbsp;&nbsp;
+                                                    <a href="#">Download</a>
+                                                </p>
+                                            </section>
+                                            <section class="attachment">
+                                                <img src="images/doc.png" width="100" alt="" class="pull-left mr5">
+                                                <h5 class="title">some-cool-image2.jpg</h5>
+                                                <p class="details">
+                                                    333K &nbsp;&nbsp;
+                                                    <a href="#">View</a> &nbsp;&nbsp;
+                                                    <a href="#">Download</a>
+                                                </p>
+                                            </section>
+                                        </div>
+                                    </div>
+                                </div> -->
+                            <hr>
+                            <div class="panel-group hideafter" id="accordion2">
+                                <!-- <div class="panel panel-default">
+                                    <div class="">
+                                        <h4 class="panel-title">
+                                                                   
+                                                                        <img width="40" src="images/photos/loggeduser.png" alt="Philip Horbacheuski" class="pull-left mt5">
+                                                                         <a class="collapsed mail_title" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne2">
+                                                                        <div class="pull-left" style="margin-left:10px;">
+                                                                            <strong><h4 class="mail_headtitle">Lorem ipsum dolor <span class="mail_ids">abc@gmail.com</span></h4></strong>
+                                        <span class="receiver receiver1">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span>
+                                    </div>
+                                    </a>
+                                    <br>
+                                    <br>
+                                    <div class="btn-group pull-left mail_sender_details">
+                                        <button id="email-opened-reply" class="btn btn-sm btn-transparent fa_replybtn">
+                                            To: me
+                                        </button>
+                                        <button class="btn btn-sm btn-transparent dropdown-toggle fa_replybtn2" data-toggle="dropdown">
+                                            <i class="fa fa-angle-down"></i>
+                                        </button>
+                                        <ul class="dropdown-menu pull-right open_reply2" style="left: 0;right: auto;">
+                                            <li><a href="#"><strong>From :</strong> <span>abc@gmail.com</span></a></li>
+                                            <li><a href="#"><strong>To :</strong> <span>abc@gmail.com</span></a></li>
+                                            <li><a href="#"><strong>Date :</strong> <span>Mon, Dec 12, 2016 at 6:29 PM</span></a></li>
+                                            <li><a href="#"><strong>subject:</strong> <span>Lorem ipsum dolor sit amet</span></a></li>
+                                            <li><a href="#"><strong>mailed-by:</strong> <span>consecteturelit.com</span></a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="email-actions pull-right align_rightcontent">
+                                        <div class="btn-group right_replybtn">
+                                            <button id="email-opened-reply" class="btn btn-sm btn-transparent fa_replybtn">
+                                                <i class="fa fa-reply"></i> Reply
+                                            </button>
+                                            <button class="btn btn-sm btn-transparent dropdown-toggle fa_replybtn1" data-toggle="dropdown">
+                                                <i class="fa fa-angle-down"></i>
+                                            </button>
+                                            <ul class="dropdown-menu pull-right open_reply">
+                                                <li><a href="#"><i class="fa fa-reply reply-btn"></i> Reply</a></li>
+                                                <li><a href="#"><i class="fa fa-arrow-right reply-btn"></i> Forward</a></li>
+                                                <li><a href="#"><i class="fa fa-print"></i> Print</a></li>
+                                                <li class="divider"></li>
+                                                <li><a href="#"><i class="fa fa-ban"></i> Spam</a></li>
+                                                <li><a href="#"><i class="fa fa-trash"></i> Delete</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="email-date pull-right align_rightcontent">
+                                        <i class="fa fa-paperclip"></i> Dec 12 (13:39)
+                                    </div>
+                                    <div class="clear"></div>
+                                    </h4>
+                                </div> -->
+                                <div id="collapseOne2" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <div id="">
+                                            <!-- <div class="email-body">
+                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas nisl magna, aliquet at condimentum quis, volutpat et lorem. Nunc augue ante, varius id massa ut, accumsan pretium arcu. Donec mattis, ante a consectetur blandit, mi sapien consectetur massa, sit amet molestie metus lacus in ante.</p>
+                                                <p>Aliquam porta, odio non finibus dictum, augue ligula pretium nunc, et faucibus metus diam ac nunc. Cras commodo ipsum dolor, id tristique tellus semper sit amet. Vestibulum nisl elit, sodales non fringilla et, lacinia ut ipsum. Suspendisse potenti. Cras volutpat mollis ante. </p>
+                                                <p>All the best,</p>
+                                                <p><strong>Vitaut the Great, CEO, </strong>
+                                                    <br><strong>Fooby Inc.</strong>
+                                                </p>
+                                            </div> -->
+                                            <div class="email-attachments" ng-if='vm.mailForJobs.message.attachments.length > 0'>
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <hr>
+                                                        <p class="details"><strong>{{vm.mailForJobs.message.attachments.length}} attachments</strong> 
+                                                        <!-- &nbsp;-&nbsp; <a href="#">Download all attachments</a> &nbsp;&nbsp;&nbsp; 
+                                                            <a href="#">View all Images</a></p>-->
+                                                        <section ng-repeat="attachment in vm.mailForJobs.message.attachments" class="attachment">
+                                                           <!--  <img src="images/doc.png" width="100" alt="" class="pull-left mr5">
+                                                            <img src="images/doc.png" width="100" alt="" class="pull-left mr5">
+                                                            <img src="images/doc.png" width="100" alt="" class="pull-left mr5">
+                                                            <div class="clear"></div>
+                                                            <h5 class="title">some-cool-image1.jpg</h5> -->
+                                                            <p class="details">
+                                                                {{attachment.size/1024}}  KB&nbsp;&nbsp;
+                                                                <!-- <a href="#">View</a> &nbsp;&nbsp; -->
+                                                                <a href="#=" ng-click="vm.downloadAttachment(attachment)">Download</a>
+                                                            </p>
+                                                        </section>
+                                                       <!--  <section class="attachment">
+                                                            <img src="images/doc.png" width="100" alt="" class="pull-left mr5">
+                                                            <h5 class="title">some-cool-image2.jpg</h5>
+                                                            <p class="details">
+                                                                333K &nbsp;&nbsp;
+                                                                <a href="#">View</a> &nbsp;&nbsp;
+                                                                <a href="#">Download</a>
+                                                            </p>
+                                                        </section> -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <!-- </div>
+                                    </div>
+                                </div> -->
+                            </div>
+                            <div class="panel panel-default">
+                                <<!-- div class="">
+                                    <h4 class="panel-title">
+                                                                    <a data-toggle="collapse" class="collapsed" data-parent="#accordion2" href="#collapseTwo2">
+                                                                        <img width="40" src="images/photos/loggeduser.png" alt="Philip Horbacheuski" class="pull-left mt5">
+                                                                        <div class="pull-left" style="margin-left:10px;">
+                                                                            <strong><h4 class="mail_headtitle">Lorem ipsum dolor</h4></strong>
+                                    <span class="receiver">Lorem ipsum dolor sit amet, consectetur adipiscing elit. </span>
+                                </div>
+                                <div class="email-date pull-right">
+                                    <i class="fa fa-paperclip"></i> Dec 12 (13:39)
+                                </div>
+                                <div class="clear"></div>
+                                </a>
+                                </h4>
+                            </div> -->
+                            <!-- <div id="collapseTwo2" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    One of the main advantages of the download sales is the immediate delivery of the product at any time of the day. So, once the payment is accepted, it is a matter of minutes till you get the e-mails. Even better: the download links and the License number(s) are also shown in your browser right after the transaction, so there is even no need to wait.
+                                </div>
+                            </div> -->
+                        </div>
+                        <div class="panel panel-default">
+                           <!--  <div class="">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" class="collapsed" data-parent="#accordion2" href="#collapseThree2">
+                                    <img width="40" src="images/photos/loggeduser.png" alt="Philip Horbacheuski" class="pull-left mt5">
+                                    <div class="pull-left" style="margin-left:10px;">
+                                                                            <strong><h4 class="mail_headtitle">Lorem ipsum dolor</h4></strong>
+                                <span class="receiver">Lorem ipsum dolor sit amet, consectetur adipiscing elit. </span>
+                            </div>
+                            <div class="email-date pull-right">
+                                <i class="fa fa-paperclip"></i> Dec 12 (13:39)
+                            </div>
+                            <div class="clear"></div>
+                            </a>
+                            </h4>
+                        </div> -->
+                       <!--  <div id="collapseThree2" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <p>The payments can be done in 15 different currencies. However, if you prefer to pay in US Dollars, British Pounds or any currency other than Euro, please consider that various exchange fees will be applied. For currencies other than USD or GBP, for example, the charge applied by ShareIt can be as much as 9 %.</p>
+                            </div>
+                        </div> -->
+                    </div>
+                </div>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+        </div>
+        <!-- modal-content -->
+    </div>
+    <!-- modal-dialog -->
+</div>
+<!-- modal -->
+<script>
+// $('#Inbox').click(function() {
+//     $("#mailslide").toggle("slide");
+// });
+$(document).ready(function() {
+
+    'use strict';
+
+    // HTML5 WYSIWYG Editor
+    $('#wysiwyg').wysihtml5({
+        toolbar: {
+            fa: true
+        }
+    });
+
+    // Summernote
+    $('#summernote').summernote({
+        height: 300
+    });
+
+    // Summernote
+    $('#summernote1').summernote({
+        height: 300
+    });
+
+});
+</script>
+<script type="text/javascript">
+//<![CDATA[
+$(function() {
+    $('.toggleinbox').click(function() {
+        $('.openinbox').toggle();
+        $('.inboxtable').hide();
+    });
+});
+$(function() {
+    $('.fa_replybtn1').click(function() {
+        $('.open_reply').toggle();
+    });
+});
+$(function() {
+    $('.fa_replybtn2').click(function() {
+        $('.open_reply2').toggle();
+    });
+});
+$(function() {
+    $('.mail_ids').hide();
+    $('.mail_sender_details').hide();
+    $('.right_replybtn').hide();
+    $('.mail_title').click(function() {
+        $('.mail_ids').toggle();
+        $('.receiver1').toggle();
+        $('.mail_sender_details').toggle();
+        $('.right_replybtn').toggle();
+    });
+});
+</script>

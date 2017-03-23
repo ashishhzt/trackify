@@ -764,6 +764,299 @@ class JobsController {
         }
     }
     //Similar Resume Code: END
+    fetchMails(label){
+        $('.inboxtable').show();
+        $('.openinbox').hide();
+        if(!this.inbox.currentView){
+            $("#mailslide").toggle("slide");
+        }else if(label != "search" && this.inbox.currentView == label){
+            // Same li is clicked twice, hide the menu
+            $("#mailslide").toggle("slide");
+            this.inbox.currentView = undefined;
+            return;
+        }
+        this.inbox.currentView = label;
+        SERVICE.get(this).fetchMails({label:label, query: this.searchText}).then(response=>{
+            this.inbox[label] = [];
+            console.log(this.inbox);
+                // this.inbox.paginate[label].tokens = [undefined];
+            // }
+            console.log(response);
+            this.inbox.nextPageToken = response.nextPageToken
+            this.inbox.fromCount = 1;
+            this.inbox.toCount = response.messages.length ;
+            this.inbox[label] = response.messages;
+            // this.inbox[label] = this.inbox[label].concat(response.messages);
+            console.log(this.inbox);
+        }, error =>{
+            console.log(error);
+        });
+    }
+
+    composeMail(message){
+        console.log(message);
+        var attachments = this.mailAttachments;
+        var processedAttachments = [];
+        if(attachments.length != 0){
+            for (var i = attachments.length - 1; i >= 0; i--) {
+                var formData = new FormData();
+                formData.append('resumeFile', attachments[i],  attachments[i].name);
+                console.log(formData);
+                console.log(attachments[i]);
+                SERVICE.get(this).uploadAttachment(formData).then(response=>{
+                    processedAttachments.push(response);
+                    if(processedAttachments.length == attachments.length){
+                        var params = {};
+                        params.attachments = processedAttachments;
+                        params.mailTo = this.email.to;
+                        params.mailFrom = 'tarun1188@gmail.com';
+                        params.body = $('#mailtextarea').code();
+                        params.subject = this.email.subject;
+                        if(this.email.cc){
+                            params.cc = this.email.cc;
+                        }
+                        if(this.email.bcc){
+                            params.bcc = this.email.bcc;
+                        }
+                        if(message){
+                            params.subject = message.subject;
+                            params.threadId = message.threadId;
+                            params.messageId = message['message-id'];
+                            params.body = $("#summernote1").code()
+                        }
+                        console.log(params);
+                        for(var key in params){
+                            if(!params[key]){
+                                alert("Missing " + key);
+                                return;
+                            }
+                        }
+                        SERVICE.get(this).composeMail(params).then(response=>{
+                            console.log(response);
+                            $('.action-close').trigger("click");
+                            alert("mail sent successfully");
+                        }, error =>{
+                            console.log(error);
+                        });
+                    }
+                }, error =>{
+                    console.log(error);
+                });
+            }
+        }else{
+            var params = {};
+            if(this.email.cc){
+                params.cc = this.email.cc;
+            }
+            if(this.email.bcc){
+                params.bcc = this.email.bcc;
+            }
+            params.mailFrom = 'tarun1188@gmail.com';
+            if(message){
+                params.subject = message.subject;
+                params.threadId = message.threadId;
+                params.mailTo = message.from;
+                params.messageId = message['message-id'];
+                params.body = $("#summernote1").code()
+            }else{
+                params.subject = this.email.subject;
+                params.mailTo = this.email.to;
+                params.body = $('#mailtextarea').code();
+            }
+            console.log(params);
+            for(var key in params){
+                if(!params[key]){
+                    alert("Missing " + key);
+                    return;
+                }
+            }
+            SERVICE.get(this).composeMail(params).then(response=>{
+                alert("mail sent successfully");
+                console.log(response);
+            }, error =>{
+                console.log(error);
+            });
+        }
+
+    }
+
+    handleAttachments(){
+        console.log(this.mailAttachments)
+        // console.log(this.email.attachments);
+        console.log("we are handling attachments")
+    }
+
+    fetchEmailTemplates(){
+        $('#mailtextarea').summernote('editor.insertText', 'Templalte text will come here.');
+    }
+
+    predictEmail(){
+        console.log("predict ! predict !! predict !!!")
+    }
+    
+    fetchMailCount(view){
+        SERVICE.get(this).fetchMailCount().then(response=>{
+            if(view == "main"){
+                this.inbox.counter = response.data;
+                // this.inbox.inboxCounter = response.data.INBOX.messagesUnread;
+                // this.inbox.draftsCounter = response.data.DRAFT.messagesTotal;
+                // this.inbox.totalCounter = response.data.INBOX.messagesTotal;
+            }else{
+                this.mailForJobs.inboxCounter = response.data.INBOX.messagesUnread;
+                this.mailForJobs.draftsCounter = response.data.DRAFT.messagesTotal;
+                this.mailForJobs.totalCounter = response.data.INBOX.messagesTotal;
+            }
+
+        }, error =>{
+            console.log(error);
+        });
+    }
+
+    modifyEmail(label, message){
+        if(label == "STARRED"){
+            SERVICE.get(this).modifyEmail([message.id], !message.isStarred, "STARRED").then(response=>{
+                alert("Message updated.");
+                message.isStarred=!message.isStarred;
+            }, error =>{
+                console.log(error);
+            });
+        }else{
+            var idList = [];
+            $('.mail-checkbox').each(function(){if(this.id && this.checked){idList.push(this.id)}});
+            SERVICE.get(this).modifyEmail(idList, label== "UNREAD" ? false:true, label).then(response=>{
+                alert("Message updated.")
+                for (var k = idList.length - 1; k >= 0; k--) {
+                    for (var i = this.inbox[label].length - 1; i >= 0; i--) {
+                        if(label=="TRASH" && this.inbox[this.inbox.currentView][i].id == idList[k]){
+                            this.inbox[this.inbox.currentView].splice(i,1);
+                        }
+                        if(label=="SPAM" && this.inbox[this.inbox.currentView][i].id == idList[k]){
+                            this.inbox[this.inbox.currentView].splice(i,1);
+                        }
+                        if(label=="UNREAD" && this.inbox[this.inbox.currentView][i].id == idList[k]){
+                            this.inbox[this.inbox.currentView][i].isRead = true;
+                        }
+                    }
+                }
+            }, error =>{
+                console.log(error);
+            });
+        }
+    }
+
+    fetchNext(action){
+        console.log(action);
+        var label = this.inbox.currentView;
+        if(action == "NEXT"){
+            if(!this.inbox.nextPageToken){
+                alert("reached end.");
+                return;
+            }
+            this.inbox.previousPageToken = this.inbox.nextPageToken;
+            var token = this.inbox.nextPageToken;
+        }else{
+            if(this.inbox.previousPageToken){
+                return;
+            }
+            var token = this.inbox.previousPageToken;
+        }
+        SERVICE.get(this).fetchMails({label:label,
+            query:this.searchText,
+            token:token}).then(response=>{
+            this.inbox[label] = response.messages;
+            this.inbox.fromCount = this.inbox.toCount+1;
+            this.inbox.toCount = this.inbox.toCount+response.messages.length;
+            this.inbox.nextPageToken = response.nextPageToken;
+            console.log(this.inbox);
+        }, error =>{
+            console.log(error);
+        });
+    }
+
+    readMail(view, message){
+        if(view == "main"){
+            this.inbox.message = message;
+            $('.openinbox').show();
+            $('.inboxtable').hide();
+            SERVICE.get(this).readMail(message).then(response=>{
+                if(this.inbox.currentView == "INBOX" && !message.isRead){
+                    this.inbox.counter.INBOX.messagesUnread -= 1;
+                }
+                this.inbox.message.attachments = response.msg.attachments;
+                console.log(response);
+                $('.email-body').html(atob(response.msg.html));
+                // this.email.content = response.msg.html;
+            }, error =>{
+                console.log(error);
+            });
+        }else{
+            this.mailForJobs.message = message;
+            $('.openinbox').show();
+            $('.inboxtable').hide();
+            SERVICE.get(this).readMail(message).then(response=>{
+                if(this.mailForJobs.currentView == "INBOX" && !message.isRead){
+                    this.mailForJobs.inboxCounter -= 1;
+                }
+                this.mailForJobs.message.attachments = response.attachments;
+                $('.email-body').html(response.msg.html);
+                // this.email.content = response.msg.html;
+            }, error =>{
+                console.log(error);
+            });
+        }
+    }
+
+    sendMailForJob(data){
+        let candidateDetails = [];
+        for (var i = this.allCandidateDetail[this.presentStage].length - 1; i >= 0; i--) {
+            if(this.checkedCandidateList[i]){
+                let candidate =  this.allCandidateDetail[this.presentStage][i];
+                candidateDetails.push({id:candidate.id, email_id:candidate.email_id, hashFileName:candidate.hashFileName, originalFileName:candidate.originalFileName, mimetype:candidate.mimetype});
+            }  
+        }
+        SERVICE.get(this).sendMailForJob(candidateDetails).then(response=>{
+            alert("resumes sent successfully");
+        }, error =>{
+            console.log(error);
+        });
+    }
+
+    removeAttachment(index){
+        this.mailAttachments.splice(index, 1);
+    }
+    fetchMailsForJob(label){
+        $('.openinbox').hide();
+        $('.inboxtable').show();
+        this.mailForJobs.currentView = label;
+        // "subject:"+this.selectedJobDetail.clientName
+        SERVICE.get(this).fetchMails({label:label, query: ""}).then(response=>{
+            this.mailForJobs[label] = [];
+            this.mailForJobs[label] = response.messages;
+            console.log(response);
+        }, error =>{
+            console.log(error);
+        });
+    }
+    downloadAttachment(attachment){
+        console.log(attachment);
+        SERVICE.get(this).downloadAttachment({messageId:this.inbox.message.id, attachmentId:attachment.id, filename:attachment.filename, mimeType:attachment}).then(response=>{
+            // var blobFile = new window.Blob([atob(response.data)]);
+            var link = 'data:' + response.mimeType + ';base64,' + response.data.replace(/-/g, '+').replace(/_/g, '/'); 
+            var a = document.createElement('a');
+            a.download = response.filename;
+            a.setAttribute('href', link);
+            document.body.appendChild(a);
+            a.click();
+            // inline.append('<a href="' + link + '" style="display: block">' + filename + '</a>');
+            // console.log(response);
+        }, error =>{
+            console.log(error);
+        });
+        
+    }
+    parseDate(date){
+        return new Date(date).toLocaleString();
+    }
 }
 
 JobsController.$inject = ['$rootScope', 'AuthFactory', 'jobsService', 'shareData']

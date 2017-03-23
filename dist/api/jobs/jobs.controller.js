@@ -1647,3 +1647,82 @@ export const internalDataCandidateList = function(req, res) {
 export const invalidRequest = function(req, res) {
     res.send({"message": "Invalid Request"});
 };
+
+/**
+ * Handler to add Candidate.
+ */
+export const addOrUpdateCandidate = function (req, res, next) {
+
+    let db = mongoutil.getDb();
+    var collection = db.collection('candidate');
+    var response = {};
+    var jobId = req.body.jobId;
+    var emailId = req.body.email_id;
+    var phoneNo = req.body.phone_no;
+
+    var obj = req.body;
+    
+    var _job = {jobId: jobId, status: 'NEW RESUME', stage: 'NEW'};
+
+    if(jobId && emailId && phoneNo){
+
+        collection.find({ email_id: emailId, phone_no: phoneNo}).toArray(function (err, candidates) {
+            if (err) {
+                res.send({candidateError: err});
+            }
+            if (candidates.length > 0) {
+                var jobFound = false;
+                if (candidates[0].jobs && candidates[0].jobs.length > 0) {
+                    candidates[0].jobs.map((e) => {
+                        if (e.jobId == jobId) {
+                            jobFound = true
+                        }
+                    });
+                }
+                if (jobFound) {
+                    res.send({status: 'FAILURE', err: 'Candidate already added to job - ' + jobId});
+                } else {
+
+                    collection.updateOne({_id : candidates[0]._id}, {$addToSet : {jobs: _job}}, function(err, result) {
+                        if (err) {
+                            response.status = 'FAILURE';
+                            response.error = 'Failed to add candidate to the job - ' + jobId + ' ' + err;
+                        }
+                        if (result.result.nModified) {
+                            response.status = 'SUCCESS';
+                            response.message = 'Candidate updated successfully';
+                        } else {
+                            response.status = 'FAILURE';
+                            response.error = 'Failed to add candidate to the job - ' + jobId;
+                        }
+                        res.send(response);
+                    }); 
+                }
+            } else {
+                delete obj.jobId;
+                var jobs = [_job];
+                obj.jobs = jobs;
+                collection.count(function (err, count) {
+                    if (err) {
+                        console.log(err);
+                    }
+                    obj._id = count + 1;
+                    collection.insertOne(obj, function(err, r) {
+                        if (err) {
+                            response.status = 'FAILURE';
+                            response.message = err;
+                        }
+                        if (r.insertedCount) {
+                            response.status = 'SUCCESS';
+                            response.message = 'Candidate created successfully';
+                        }
+                        res.send(response);
+                    });
+                });
+            }
+        });
+    } else {
+        res.send({"message": "BAD REQUEST"});
+    }
+    
+}
