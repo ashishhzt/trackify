@@ -3,6 +3,7 @@ import uiRouter from 'angular-ui-router';
 import candidateComponent from './candidate.component';
 import service from './candidate.service';
 import shareData from '../jobs/jobs.service.data'
+import mailer from '../mailer/mailer.controller'
 import trustAsResourceUrlFilter from './candidate.filter';
 
 let candidateModule = angular.module('candidate', [
@@ -23,6 +24,7 @@ let candidateModule = angular.module('candidate', [
 .component('candidate', candidateComponent)
 .factory('candidateService', service.getInstance)
 .service('shareData', shareData)
+.service('mailer', ['$http', mailer])
 .filter('trustAsResourceUrl', trustAsResourceUrlFilter);
 
 export default candidateModule;

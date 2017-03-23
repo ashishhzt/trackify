@@ -1,0 +1,41 @@
+<div class="modal bounceIn animated" id="sendmail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title modal-heading text-center" id="myModalLabel">Send Mails</h4>
+            </div>
+            <div class="modal-body">
+                <div class="panel panel-inverse border-grey">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Send to Client</h3>
+                    </div>
+                    <div class="panel-body">
+                        <a ng-click="vm.sendMailForJob('client,both')" class="btn btn-success btn-quirk">Resumes + Tracker</a>
+                        <a ng-click="vm.sendMailForJob('client,resume')" class="btn btn-success btn-quirk">Resumes only</a>
+                        <a ng-click="vm.sendMailForJob('client,tracker')" class="btn btn-success btn-quirk">Tracker Only</a>
+                    </div>
+                </div>
+                <div class="panel panel-inverse border-grey">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Send to Candidate</h3>
+                    </div>
+                    <div class="panel-body">
+                        <a href="" ng-click="vm.sendMailForJob('candidate,blank')" class="btn btn-success btn-quirk">Blank</a>
+                        <a ng-click="vm.sendMailForJob('candidate,jd')" class="btn btn-success btn-quirk">JD</a>
+                        <a ng-click="vm.sendMailForJob('candidate,invitation')" class="btn btn-success btn-quirk">Interview Invitation</a>
+                        <a ng-click="vm.sendMailForJob('candidate,offer')" class="btn btn-success btn-quirk">Offer Greeting</a>
+                        <a ng-click="vm.sendMailForJob('candidate,regret')" class="btn btn-success btn-quirk">Regret</a>
+                        <div class="clear"></div>
+                        <br>
+                        <span class="label light-text mt20">The mail templates are default as set by admin. To change templates Go to settings of this JD & set the mail templates.</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer text-center">
+                <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+                <button type="button" class="btn btn-success width100">Apply</button>
+            </div>
+        </div>
+    </div>
+</div>
