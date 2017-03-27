@@ -47,12 +47,9 @@
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Existing Client <span class="text-danger">*</span></label>
                                         <div class="col-sm-8">
-                                            <select id="select21" class="form-control" style="width: 100%" ng-model="vm.newJob.ClientName" data-placeholder="">
-                                                            <option value="Flipkart">Flipkart</option>
-                                                            <option value="option1">option1</option>
-                                                            <option value="option2">option2</option>
-                                                            <option value="option3">option3</option>
-                                                        </select>
+                                            <select id="select21" class="form-control" style="width: 100%" ng-model="vm.newJob.ClientName" data-placeholder="Select a client" ng-options="client.clientName for client in vm.clients">
+                                                <option value="">--Select a Client--</option>
+                                            </select>
 
 
                                             <input type="text" name="" class="form-control hide" placeholder="" required />
@@ -151,6 +148,7 @@
                                         <label class="col-sm-3 control-label">New client <span class="text-danger">*</span></label>
                                         <div class="col-sm-8">
                                             <a class="btn btn-success btn-block" data-toggle="modal" data-target="#newclient">Create New Client</a>
+                                            <span ng-include src="'partials/new-job.new-client.html'"></span>
                                         </div>
                                     </div>
 

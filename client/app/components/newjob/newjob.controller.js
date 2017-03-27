@@ -1,7 +1,10 @@
 const SERVICE = new WeakMap();
 
 class NewjobController {
-  constructor($rootScope, AuthFactory, newJobService) {
+  constructor($rootScope, AuthFactory, newJobService, $state) {
+    'ngInject'
+
+    this.$state = $state;
     
     SERVICE.set(this, newJobService);
     this.newJob = [];
@@ -9,6 +12,15 @@ class NewjobController {
 
     $onInit() {
       console.log('this.user injected into job component\'s bindings by ui-router\'s $resolve service', this.user)
+
+      this.getClients();
+    }
+
+    getClients() {
+      SERVICE.get(this).getClients()
+        .then(clients => {
+          this.clients = clients;
+        })
     }
 
     addNewJob(newJob) {
@@ -20,6 +32,18 @@ class NewjobController {
         this.newJob = [];
         console.log(error);
       });
+    }
+
+    createNewClient() {
+      SERVICE.get(this).createClient(this.newClient)
+        .then(res => {
+          if (res.message === 'ADD SUCCESS') {
+            alert('Client successfully created');
+            this.getClients();
+          }
+          else if (res.message === 'ADD FAILURE') alert('Client creation failed')
+          else this.$state.go('login');
+        })
     }
 }
 

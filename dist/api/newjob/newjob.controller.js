@@ -187,7 +187,7 @@ export const getClients = function(req, res) {
         if (err) {
             res.send(err);
         }
-        response.data = docs;
+        response = docs;
         res.send(response);
     });
 };
