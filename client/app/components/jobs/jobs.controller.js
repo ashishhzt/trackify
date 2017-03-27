@@ -268,6 +268,8 @@ class JobsController {
                 console.log(response.message);
                 if(response.message == "ERROR")
                     alert("Error occurred while uploading resume file.\nPlease select proper file type and size.");
+                else if(response.message === 'UPDATE SUCCESS')
+                    alert(`Resume successfully updated.`)
                 this.resumeFile = null;
                 document.getElementById("file-input").value="";
                 document.getElementById("new-file-input2").value="";
@@ -305,6 +307,7 @@ class JobsController {
                     }else if(response.message == "DUPLICATE"){
                         alert("Candidate already exists with the email address or phone number!");
                     } else {
+                        if (response.message === 'UPDATE SUCCESS') alert(`Candidate ${this.newCandReg.email} \'s resume is updated.`)
                         this.candidateDetailsForJob(this.selectedJobDetail._id);
                         this.newCandidateResumeFile = null;
                         this.newCandReg = {"name": null, "email": null, "phNum": null};
@@ -481,6 +484,7 @@ class JobsController {
         reqObject.requestFromState = 'job';
         reqObject.status = this.changeStatusModel.status;
         reqObject.statusInputs = this.changeStatusModel.statusInputs;
+        reqObject.timestamp = new Date();
 
         SERVICE.get(this).changeStatus(reqObject).then(response => {
             this.changeStatusModel = {status: "", statusInputs: []};
@@ -589,6 +593,13 @@ class JobsController {
         });
     };
 
+    getRecruiterName(id) {
+        let recruiter = this.allRecruiters.filter(rec => rec._id == id);
+
+        // TODO: Remove hard-coded recruiter name after users collection is fixed with proper ID generation
+        return recruiter.length ? recruiter[0].displayName : 'Barrack Obama' //'Recruiter';
+    }
+
     getJobsDetail(userId, flag, status) {
 
         this.sideMenuState = {flag: flag, status: status};
@@ -620,6 +631,8 @@ class JobsController {
             jobId: this.selectedJobDetail._id,
             skip
         }
+
+        this.iDataCandidateDetails = null;
 
         SERVICE.get(this).getInternalDataCandidateList(reqData).then(response => {
             this.internalCandidateList = response.data;
@@ -662,6 +675,7 @@ class JobsController {
     moveIDCandidatesToActiveJob() {
         let reqData = {
             "userId": this.userId,
+            "userName": this.AuthFactory.auth.user.displayName,
             "jobId": this.selectedJobDetail._id,
             "candidateId": this.selectedIDCandidateIdArr,
             "timestamp": new Date()
@@ -705,24 +719,24 @@ class JobsController {
     };
     saveIDCandidateDetails(candidateId) {
         if(document.getElementById("editreadonly_hidden1").value == 0){
-            if((this.iDataCandidateDetails.email.indexOf("@") == -1) 
-                || (this.iDataCandidateDetails.email.indexOf(".") == -1 )
-                || (this.iDataCandidateDetails.email.lastIndexOf(".") < this.iDataCandidateDetails.email.indexOf("@")) 
-                || (this.iDataCandidateDetails.email.indexOf("@") != this.iDataCandidateDetails.email.lastIndexOf("@"))) {
+            if((this.iDataCandidateDetails.candidateEmail.indexOf("@") == -1) 
+                || (this.iDataCandidateDetails.candidateEmail.indexOf(".") == -1 )
+                || (this.iDataCandidateDetails.candidateEmail.lastIndexOf(".") < this.iDataCandidateDetails.candidateEmail.indexOf("@")) 
+                || (this.iDataCandidateDetails.candidateEmail.indexOf("@") != this.iDataCandidateDetails.candidateEmail.lastIndexOf("@"))) {
                     alert("Please enter valid email address!");
 
                     $('#editreadonly1').html("<i class='fa fa-floppy-o' aria-hidden='true'></i>");
                     $("#detailform1 :input").prop("disabled", false);
                     $("#editreadonly_hidden1").val(1);
             }
-            else if(this.iDataCandidateDetails.contact.length != 10){
+            else if(this.iDataCandidateDetails.candidateContact.length != 10){
                 alert("Please enter 10 digit contact number");
 
                 $('#editreadonly1').html("<i class='fa fa-floppy-o' aria-hidden='true'></i>");
                 $("#detailform1 :input").prop("disabled", false);
                 $("#editreadonly_hidden1").val(1);
             }
-            else if((this.iDataCandidateDetails.candidateName != null) && (this.iDataCandidateDetails.email != null)
+            else if((this.iDataCandidateDetails.candidateName != null) && (this.iDataCandidateDetails.candidateEmail != null)
              && (this.iDataCandidateDetails.experience != null) && (this.iDataCandidateDetails.ctcFixed != null)
              && (this.iDataCandidateDetails.ctcVariable != null) && (this.iDataCandidateDetails.ctcEsops != null)
              && (this.iDataCandidateDetails.eCTCFixed != null) && (this.iDataCandidateDetails.eCTCVariable != null)

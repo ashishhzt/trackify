@@ -27,9 +27,9 @@
 
             <a id="menuToggle" ng-if="vm.user" class="menutoggle"><i class="fa fa-bars"></i></a>
             <ul class="nav nav-pills pull-left nav-inverse top-nav-new main-links">
-                <li role="presentation" class="active"><a ng-if="vm.user" ui-sref="jobs">Jobs</a></li>
-                <li role="presentation"><a ng-if="vm.user" ui-sref="candidate">Candidates</a></li>
-                <li role="presentation"><a ng-if="vm.user" ui-sref="dashboard">Dashboard</a></li>
+                <li role="presentation" ui-sref-active="active"><a ng-if="vm.user" ui-sref="jobs">Jobs</a></li>
+                <li role="presentation" ui-sref-active="active"><a ng-if="vm.user" ui-sref="candidate">Candidates</a></li>
+                <li role="presentation" ui-sref-active="active"><a ng-if="vm.user" ui-sref="dashboard">Dashboard</a></li>
   
             </ul>
             <ul class="nav nav-pills pull-right top-nav-new main-links">

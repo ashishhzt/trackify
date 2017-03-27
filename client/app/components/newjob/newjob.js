@@ -1,6 +1,7 @@
 import angular from 'angular';
 import uiRouter from 'angular-ui-router';
 import newjobComponent from './newjob.component';
+import newjobService from './newjob.service';
 
 let newjobModule = angular.module('newjob', [
   uiRouter
@@ -17,6 +18,9 @@ let newjobModule = angular.module('newjob', [
       template: '<newjob user="vm.auth.user"></newjob>'
     });
 })
+
+.service('newJobService', newjobService)
+
 .component('newjob', newjobComponent);
 
 export default newjobModule;
