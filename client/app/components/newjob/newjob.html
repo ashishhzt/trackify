@@ -41,18 +41,18 @@
 
                         <div class="clear"></div>
                         <hr>
-                        <form action="" class="form-horizontal" novalidate="novalidate">
+                        <form action="" class="form-horizontal" novalidate="novalidate" name="newJobForm" ng-submit="vm.addNewJob($event, newJobForm)">
                             <div class="col-md-6">
                                 <div class="panel-body">
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Existing Client <span class="text-danger">*</span></label>
                                         <div class="col-sm-8">
-                                            <select id="select21" class="form-control" style="width: 100%" ng-model="vm.newJob.ClientName" data-placeholder="Select a client" ng-options="client.clientName for client in vm.clients">
+                                            <select id="select21" name="clientName" class="form-control" style="width: 100%" ng-model="vm.newJob.clientName" data-placeholder="Select a client" ng-options="client.clientName as client.clientName for client in vm.clients" ng-required="true">
                                                 <option value="">--Select a Client--</option>
                                             </select>
 
 
-                                            <input type="text" name="" class="form-control hide" placeholder="" required />
+                                            <!-- <input type="text" name="" class="form-control hide" placeholder="" required /> -->
                                         </div>
                                     </div>
 
@@ -60,11 +60,13 @@
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Designation <span class="text-danger">*</span></label>
                                         <div class="col-sm-8">
-                                            <select id="select22" class="form-control" style="width: 100%" ng-model="vm.newJob.Designation" data-placeholder="">
+                                            <select id="select22" name="designation" class="form-control" style="width: 100%" ng-model="vm.newJob.designation" data-placeholder="" ng-required="true">
                                                             <option value="">&nbsp;</option>
-                                                            <option value="option1">option1</option>
-                                                            <option value="option2">option2</option>
-                                                            <option value="option3">option3</option>
+                                                            <option value="Software Developer">Software Developer</option>
+                                                            <option value="Software Engineer">Software Engineer</option>
+                                                            <option value="UI Developer">UI Developer</option>
+                                                            <option value="Senior Developer">Senior Developer</option>
+                                                            <option value="Architect">Architect</option>
                                                         </select>
                                             <!--<input id="desid" type="button" value="Add" class="addfloatbtn btn btn-quirk btn-success"/>-->
                                         </div>
@@ -73,7 +75,7 @@
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Mandatory Skills</label>
                                         <div class="col-sm-8">
-                                            <select id="select8" class="form-control" style="width: 100%" data-placeholder="" multiple>
+                                            <select id="select8" name="skills" class="form-control" style="width: 100%" data-placeholder="" multiple ng-model="vm.newJob.skills">
                                                             <option value="Java">Java</option>
                                                             <option value="PHP">PHP</option>
                                                             <option value="Drupal" >Drupal</option>
@@ -86,12 +88,12 @@
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Experience <span class="text-danger">*</span></label>
                                         <div class="col-sm-2">
-                                            <input type="text" name="" oninput="this.value=this.value.replace(/[^0-9.]/g,'');" class="form-control" ng-model="vm.newJob.ExpFrom" placeholder="" required
+                                            <input type="number" name="minExp" class="form-control" ng-model="vm.newJob.minExp" placeholder="" ng-required="true"
                                             />
                                         </div>
                                         <span class="btnrange">To</span>
                                         <div class="col-sm-2">
-                                            <input type="text" name="" oninput="this.value=this.value.replace(/[^0-9.]/g,'');" class="form-control"  ng-model="vm.newJob.ExpTo" placeholder="" required
+                                            <input type="number" name="maxExp" class="form-control"  ng-model="vm.newJob.maxExp" placeholder="" ng-required="true"
                                             />
                                         </div>
                                     </div>
@@ -109,7 +111,7 @@
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Job Location <span class="text-danger">*</span></label>
                                         <div class="col-sm-8">
-                                            <select id="select26" class="form-control" style="width: 100%" data-placeholder="Enter Job Location" multiple>
+                                            <select id="select26" name="locations" class="form-control" style="width: 100%" data-placeholder="Enter Job Location" multiple ng-model="vm.newJob.locations" ng-required="true">
                                                             <option value="Bangalore">Bangalore</option>
                                                             <option value="Hyderabad">Hyderabad</option>
                                                             <option value="Ahmedabad">Ahmedabad</option>
@@ -124,14 +126,8 @@
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Allot to <span class="text-danger">*</span></label>
                                         <div class="col-sm-8">
-                                            <select id="select7" class="form-control" style="width: 100%" data-placeholder="Enter Names" multiple>
-                                                            <option value="Ashok">Ashok</option>
-                                                            <option value="JOhn">John</option>
-                                                            <option value="David" >David</option>
-                                                            <option value="Kristine">Kristine</option>
-                                                            <option value="Ajay">Ajay</option>
-                                                            <option value="Vijay">Vijay</option>
-                                                        </select>
+                                            <select id="select7" name="userId" class="form-control" style="width: 100%" data-placeholder="Enter Names" multiple ng-model="vm.newJob.userId" ng-required="true" ng-options="recruiter._id as recruiter.displayName for recruiter in vm.recruiters">
+                                            </select>
                                         </div>
                                     </div>
 
@@ -155,13 +151,13 @@
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Primary Skills <span class="text-danger">*</span></label>
                                         <div class="col-sm-8">
-                                            <select id="select17" class="form-control" style="width: 100%" ng-model="vm.newJob.primarySkill" data-placeholder="">
+                                            <select id="select17" name="primarySkill" class="form-control" style="width: 100%" ng-model="vm.newJob.primarySkill" data-placeholder="" ng-required="true">
                                                             <option value="">&nbsp;</option>
-                                                            <option value="option1">option1</option>
-                                                            <option value="option2">option2</option>
-                                                            <option value="option3">option3</option>
+                                                            <option value="NODEJS">NODEJS</option>
+                                                            <option value="PYTHON">PYTHON</option>
+                                                            <option value="JAVA">JAVA</option>
                                                         </select>
-                                            <input type="text" name="" class="form-control hide" placeholder="" required />
+                                            <!-- <input type="text" name="" class="form-control hide" placeholder="" required /> -->
                                         </div>
                                     </div>
 
@@ -169,7 +165,7 @@
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Either OR Skills <span class="text-danger">*</span></label>
                                         <div class="col-sm-8">
-                                            <select id="select9" class="form-control" style="width: 100%" data-placeholder="Enter Names" multiple>
+                                            <select id="select9" name="eitherOrSkills" class="form-control" style="width: 100%" data-placeholder="Enter Names" multiple ng-model="vm.newJob.eitherOrSkills" ng-required="true">
                                                             <option value="Spring">Spring</option>
                                                             <option value="Hibernate">Hibernate</option>
                                                             <option value="Structs" >Structs</option>
@@ -182,14 +178,14 @@
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">CTC (Lakhs) <span class="text-danger">*</span></label>
                                         <div class="col-sm-2">
-                                            <input type="text" oninput="this.value=this.value.replace(/[^0-9.0-9]/g,'');" name="" class="form-control" ng-model="vm.newJob.MinCtc" placeholder=""
-                                                required />
+                                            <input type="number" name="minCtc" class="form-control" ng-model="vm.newJob.minCtc" placeholder=""
+                                                ng-required="true" />
                                         </div>
 
                                         <span class="btnrange">To</span>
                                         <div class="col-sm-2">
-                                            <input type="text" name="" oninput="this.value=this.value.replace(/[^0-9.0-9]/g,'');" class="form-control" ng-model="vm.newJob.MaxCtc" placeholder=""
-                                                required />
+                                            <input type="number" name="maxCtc" class="form-control" ng-model="vm.newJob.maxCtc" placeholder=""
+                                                ng-required="true" />
                                         </div>
                                     </div>
 
@@ -201,6 +197,7 @@
                                         </div>
                                     </div>
 
+                                    <!--
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Is it a Drive? <span class="text-danger">*</span></label>
                                         <div class="col-sm-8" style="padding-top: 11px;">
@@ -222,6 +219,7 @@
                                             <input type="text" class="form-control" placeholder="Enter Date" id="datepicker">
                                         </div>
                                     </div>
+                                     -->
 
 
 
@@ -234,7 +232,7 @@
 
                             <div class="row">
                                 <div class="col-sm-2 col-sm-offset-5">
-                                    <button class="btn btn-success btn-quirk btn-block btn-wide mr5" ng-click="vm.addNewJob(vm.newJob)">Create</button>
+                                    <button type="submit" class="btn btn-success btn-quirk btn-block btn-wide mr5">Create</button>
                                 </div>
                             </div>
                         </form>

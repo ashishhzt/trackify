@@ -14,11 +14,13 @@ const cleanDB = () => {
 
 const seedUser = () => {        
   return User.create({
+    _id: 1,
     displayName: 'Barack Obama',
     email: 'obama@gmail.com',
     password: 'potus'
   },
   {
+    _id: 2,
     displayName: 'Ashfaq Ahmed',
     email: 'ashfaq@anzycareers.com',
     password: 'anzy'

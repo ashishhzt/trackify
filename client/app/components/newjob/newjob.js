@@ -1,6 +1,7 @@
 import angular from 'angular';
 import uiRouter from 'angular-ui-router';
 import newjobComponent from './newjob.component';
+import jobsService from '../jobs/jobs.service';
 import newjobService from './newjob.service';
 
 let newjobModule = angular.module('newjob', [
@@ -20,6 +21,8 @@ let newjobModule = angular.module('newjob', [
 })
 
 .service('newJobService', newjobService)
+
+.factory('jobsService', jobsService.getInstance)
 
 .component('newjob', newjobComponent);
 

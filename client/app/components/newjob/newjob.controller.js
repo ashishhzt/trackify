@@ -1,19 +1,27 @@
 const SERVICE = new WeakMap();
 
 class NewjobController {
-  constructor($rootScope, AuthFactory, newJobService, $state) {
-    'ngInject'
+  constructor($rootScope, AuthFactory, newJobService, jobsService, $state) {
 
     this.$state = $state;
+    this.jobsService = jobsService;
     
     SERVICE.set(this, newJobService);
-    this.newJob = [];
+    this.newJob = {};
   }
 
     $onInit() {
       console.log('this.user injected into job component\'s bindings by ui-router\'s $resolve service', this.user)
 
       this.getClients();
+      this.getAllRecruiters();
+    }
+
+    getAllRecruiters() {
+      this.jobsService.getAllRecruiters()
+        .then(recruiters => {
+          this.recruiters = recruiters.data;
+        })
     }
 
     getClients() {
@@ -23,13 +31,31 @@ class NewjobController {
         })
     }
 
-    addNewJob(newJob) {
-      console.log(newJob);
+    addNewJob(e, form) {
+      e.preventDefault();
+      e.stopPropagation();
 
-      SERVICE.get(this).createNewJob(newJob).then(response => {
-        console.log(response.message); 
+
+      // form.$error seems to be not working properly.
+      // hence we checking for all model validator inside form model manually
+      // TODO: Debug and find why form being set as $invalid all the time
+
+      let formValid = true;
+      angular.forEach(form, (value, key) => {
+        if (key.indexOf('$') !== -1) return;
+        if (value.$invalid) formValid = false;
+      })
+
+      if (!formValid) {
+        alert('Please fill the mandatory fields')
+        return;
+      }
+
+      SERVICE.get(this).createNewJob(this.newJob).then(response => {
+        alert(`New Job: ${this.newJob.clientName} - ${this.newJob.designation} successfully created`)
+        this.newJob = {};
       }, error => {
-        this.newJob = [];
+        this.newJob = {};
         console.log(error);
       });
     }
@@ -46,5 +72,7 @@ class NewjobController {
         })
     }
 }
+
+NewjobController.$inject = ["$rootScope", "AuthFactory", "newJobService", "jobsService", "$state"]
 
 export default NewjobController;
