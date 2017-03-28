@@ -51,7 +51,8 @@
                     <span class="btn green fileinput-button">
                         <i class="fa fa-plus fa fa-white"></i>
                         <span>Attachment</span>
-                    <input type="file" file-model="vm.mailAttachments" id="mailAttachments"  multiple>
+                    <input type="file" file-model="vm.mailAttachments" id="mailAttachments"  multiple 
+                    accept=".doc, .docx, .pdf">
                     </span>
                     <button ng-click="vm.handleAttachments()" class="btn">Upload attachments</button>
                     <button class="btn btn-send" ng-click="vm.composeMail()" type="submit">Send</button>

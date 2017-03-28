@@ -796,6 +796,9 @@ class JobsController {
     composeMail(message){
         console.log(message);
         var attachments = this.mailAttachments;
+        if(!attachments){
+            attachments = [];
+        }
         var processedAttachments = [];
         if(attachments.length != 0){
             for (var i = attachments.length - 1; i >= 0; i--) {
