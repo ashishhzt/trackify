@@ -73,7 +73,6 @@ export const createJob = function(req, res) {
 
      		jobCount=count+1
      	}
-     })
 
 
     var data = {
@@ -88,6 +87,7 @@ export const createJob = function(req, res) {
 		"createdOn" : req.body.date,
 		"primarySkill" : req.body.primarySkill,
 		"locations" : req.body.locations,
+		"minCtc" : req.body.minCtc,
 		"maxCtc" : req.body.maxCtc
 
     };
@@ -151,7 +151,7 @@ export const createJob = function(req, res) {
 			});
 		}
 		else{
-
+			
 			 collection.insertOne(data, function(err, result) {
 						        var response = {};
 									 if (err) {
@@ -167,6 +167,7 @@ export const createJob = function(req, res) {
 						        res.send(response);
 						    });
 		}
+     })
 };
 
 export const getClients = function(req, res) {
