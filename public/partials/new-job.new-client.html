@@ -44,7 +44,7 @@ $(function() {
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Job Location <span class="text-danger">*</span></label>
                         <div class="col-sm-8">
-                            <select id="jobloc" class="form-control" style="width: 100%" data-placeholder="Enter Job Location" multiple ng-model="vm.newClient.locations">
+                            <select ng-model="vm.newClient.locations" id="jobloc" class="form-control" style="width: 100%" data-placeholder="Enter Job Location" multiple >
                                 <option value="Bangalore">Bangalore</option>
                                 <option value="Hyderabad">Hyderabad</option>
                                 <option value="Ahmedabad">Ahmedabad</option>
@@ -78,7 +78,7 @@ $(function() {
             </div>
             <div class="modal-footer">
                 <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
-                <button type="button" class="width100 btn btn-success text-center" ng-click="vm.createNewClient()" data-dismiss="modal">Apply</button>
+                <button type="button" class="width100 btn btn-success text-center" ng-click="vm.createNewClient($event)" data-dismiss="modal">Apply</button>
             </div>
         </div>
     </div>
