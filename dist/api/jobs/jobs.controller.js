@@ -128,20 +128,29 @@ export const getJobsDetail = function(req, res) {
     //     }
     // });
     let db = mongoutil.getDb();
-    var userId = {$not: {$eq: parseInt(req.params.userId)}};
+    var userId = req.params.userId;
     var active = false;
-    if (req.params.flag == 'myjob') {
-        userId = parseInt(req.params.userId);
-    }
     if (req.params.status == "active") {
         active = true;
     }
-
     var collection = db.collection('job');
-    collection.find({"userId": userId, "active": active}).toArray(function(err, docs) {
+    
+    if (req.params.flag == 'myjob') {
+        userId = parseInt(req.params.userId);
+         collection.find({"userId": userId, "active": active}).toArray(function(err, docs) {
         res.send({ data: docs});
     });
     
+    }
+    else {
+        collection.find({ "active": active}).toArray(function(err, docs) {
+        res.send({ data: docs});
+    });
+    
+    }
+
+   
+   
 
 };
 
