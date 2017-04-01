@@ -69,7 +69,6 @@ class NewjobController {
                 window.location.href = "/jobs"
             }, error => {
                 this.newJob = {};
-                console.log(error);
             });
         }
 
@@ -77,16 +76,16 @@ class NewjobController {
     }
 
     createNewClient(e) {
-
-        if (this.newClient.clientName == undefined || !this.newClient.clientEmail || !this.newClient.locations || !this.newClient.address || !this.newClient.otherInfo) {
+        if (this.newClient.clientName == undefined || !this.newClient.clientEmail || !this.newClient.locations.length || !this.newClient.address.length || !this.newClient.otherInfo) {
             alert('Fill the Mandatory feilds');
             e.preventDefault();
             e.stopPropagation();
-            this.alertChange();
+            
             return;
         }
 
-        if (this.newClient.clientName && this.newClient.clientEmail && this.newClient.locations && this.newClient.address && this.newClient.otherInfo) {
+
+        if (this.newClient.clientName && this.newClient.clientEmail && this.newClient.locations.length && this.newClient.address.length && this.newClient.otherInfo) {
             if (this.arrayDuplicate()) {
                 alert('Name already registered');
 
@@ -95,10 +94,12 @@ class NewjobController {
             } else {
                 SERVICE.get(this).createClient(this.newClient)
                     .then(res => {
+                            console.log("APPLY",this.newClient);
                         if (res.message === 'ADD SUCCESS') {
                             alert('Client successfully created');
                             this.getClients();
                             this.resetForm();
+
                         } else if (res.message === 'ADD FAILURE') alert('Client creation failed')
                         else this.$state.go('login');
                     })
@@ -107,15 +108,15 @@ class NewjobController {
 
 
     }
+
     resetForm() {
         this.newClient.clientName = null;
         this.newClient.clientEmail = null;
-        this.newClient.locations = [];
-        this.newClient.address = null;
+        this.newClient.locations.length = null;
+        this.newClient.address.length = null;
         this.newClient.otherInfo = null;
     }
     arrayDuplicate() {
-        console.log("CLIENTS", this.clients)
         if (this.clients.find(i => i.clientName === this.newClient.clientName)) {
             return true
         }
@@ -134,21 +135,21 @@ class NewjobController {
         // return false
     }
     ctcFunction() {
-        console.log("CTC", this.newJob)
         if (this.newJob.minCtc > this.newJob.maxCtc || this.newJob.minExp > this.newJob.maxExp) {
-            console.log("Minimum")
             alert("Minimum CTC and Exp should always lesser than Maximum");
             return true
         }
         return false
     }
 
-    alertChange() {
-        if (this.newClient.locations == '') {
-            alert('Fill the Mandatory feilds');
+    locationChange() {
+        
+        if (this.newClient.locations == "" || this.newClient.address == "") {
+            this.newClient.locations = [];
+            this.newClient.address = [];
         }
     }
-
+    
 }
 
 NewjobController.$inject = ["$rootScope", "AuthFactory", "newJobService", "jobsService", "$state"]
