@@ -8,15 +8,23 @@ class NewjobController {
 
         SERVICE.set(this, newJobService);
         this.newJob = {};
+
+        // $rootScope.$on("CallParentMethod", function() {
+        //     this.parentmethod();
+        // });
+
+        // this.parentmethod();
     }
 
     $onInit() {
-        console.log('this.user injected into job component\'s bindings by ui-router\'s $resolve service', this.user)
-        this.getClients();
-        this.getAllRecruiters();
-       
-    }
+            console.log('this.user injected into job component\'s bindings by ui-router\'s $resolve service', this.user)
+            this.getClients();
+            this.getAllRecruiters();
 
+        }
+        // parentmethod() {
+
+    // }
     getAllRecruiters() {
         this.jobsService.getAllRecruiters()
             .then(recruiters => {
@@ -32,6 +40,7 @@ class NewjobController {
     }
 
     addNewJob(e, form) {
+        console.log("APPLY")
         e.preventDefault();
         e.stopPropagation();
 
@@ -51,47 +60,94 @@ class NewjobController {
             return;
         }
 
-        SERVICE.get(this).createNewJob(this.newJob).then(response => {
-            alert(`New Job: ${this.newJob.clientName} - ${this.newJob.designation} successfully created`)
-            this.newJob = {};
-        }, error => {
-            this.newJob = {};
-            console.log(error);
-        });
+        if (this.ctcFunction()) {
+
+        } else {
+            SERVICE.get(this).createNewJob(this.newJob).then(response => {
+                alert(`New Job: ${this.newJob.clientName} - ${this.newJob.designation} successfully created`)
+                this.newJob = {};
+                window.location.href = "/jobs"
+            }, error => {
+                this.newJob = {};
+                console.log(error);
+            });
+        }
+
+
     }
 
     createNewClient(e) {
-        if (this.newClient.clientName == undefined || this.newClient.clientEmail == undefined || this.newClient.locations == undefined || this.newClient.address == undefined || this.newClient.otherInfo == undefined) {
+
+        if (this.newClient.clientName == undefined || !this.newClient.clientEmail || !this.newClient.locations || !this.newClient.address || !this.newClient.otherInfo) {
             alert('Fill the Mandatory feilds');
             e.preventDefault();
             e.stopPropagation();
-        } else if (this.arrayDuplicate()) {
-            alert('Name already registered');
-            this.resetForm();
-        } else {
-            SERVICE.get(this).createClient(this.newClient)
-                .then(res => {
-                    if (res.message === 'ADD SUCCESS') {
-                        alert('Client successfully created');
-                        this.getClients();
-                        this.resetForm();
-                    } else if (res.message === 'ADD FAILURE') alert('Client creation failed')
-                    else this.$state.go('login');
-                })
+            this.alertChange();
+            return;
         }
+
+        if (this.newClient.clientName && this.newClient.clientEmail && this.newClient.locations && this.newClient.address && this.newClient.otherInfo) {
+            if (this.arrayDuplicate()) {
+                alert('Name already registered');
+
+                e.preventDefault();
+                e.stopPropagation();
+            } else {
+                SERVICE.get(this).createClient(this.newClient)
+                    .then(res => {
+                        if (res.message === 'ADD SUCCESS') {
+                            alert('Client successfully created');
+                            this.getClients();
+                            this.resetForm();
+                        } else if (res.message === 'ADD FAILURE') alert('Client creation failed')
+                        else this.$state.go('login');
+                    })
+            }
+        }
+
+
     }
     resetForm() {
-        this.newClient = {};
+        this.newClient.clientName = null;
+        this.newClient.clientEmail = null;
+        this.newClient.locations = [];
+        this.newClient.address = null;
+        this.newClient.otherInfo = null;
     }
     arrayDuplicate() {
-        for (var i = 0; i <= this.clients.length; i++) {
-            if (this.clients[i].clientName === this.newClient.clientName) {
-                return true
-            }
+        console.log("CLIENTS", this.clients)
+        if (this.clients.find(i => i.clientName === this.newClient.clientName)) {
+            return true
+        }
+        return false
+            // for (var i = 0; i <= this.clients.length; i++) {
+            //     try {
+            //         if (this.clients[i].clientName === this.newClient.clientName) {
+            //             return true
+            //         }
+            //     }
+            //     catch(err){
+            //         console.log("Log ERR",err)
+            //     }    
+
+        // }
+        // return false
+    }
+    ctcFunction() {
+        console.log("CTC", this.newJob)
+        if (this.newJob.minCtc > this.newJob.maxCtc || this.newJob.minExp > this.newJob.maxExp) {
+            console.log("Minimum")
+            alert("Minimum CTC and Exp should always lesser than Maximum");
+            return true
         }
         return false
     }
 
+    alertChange() {
+        if (this.newClient.locations == '') {
+            alert('Fill the Mandatory feilds');
+        }
+    }
 
 }
 

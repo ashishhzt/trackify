@@ -1,11 +1,7 @@
 <div ng-include src="'partials/side-menu-directive.tpl.html'">
 </div>
 <div class="mainpanel">
-
     <div class="contentpanel">
-
-
-
         <!-- content goes here... -->
         <div class="row">
             <div class="col-md-12 col-lg-12 dash-left">
@@ -14,14 +10,12 @@
                         <li><a><i class="fa fa-refresh"></i></a></li>
                         <li><a class="panel-remove"><i class="fa fa-remove"></i></a></li>
                     </ul>
-
                     <div class="panel-body text-center">
                         <h2 class="text-info">Create Your First Job By Clicking New Job & Get Started</h2>
                     </div>
                 </div>
                 <!-- panel -->
             </div>
-
             <div class="col-md-12 col-lg-12 dash-left">
                 <div class="panel panel-announcement">
                     <!--            <ul class="panel-options">
@@ -30,15 +24,10 @@
                                             </ul>
                                 -->
                     <div class="panel-body">
-
-
-
-
                         <div class="panel-heading nopaddingbottom">
                             <h2 class="panel-title text-info panel-main-heading">New Job</h2>
                             <!--<p>Please provide your name, email address (won't be published) and a comment.</p>-->
                         </div>
-
                         <div class="clear"></div>
                         <hr>
                         <form action="" class="form-horizontal" novalidate="novalidate" name="newJobForm" ng-submit="vm.addNewJob($event, newJobForm)">
@@ -50,54 +39,45 @@
                                             <select id="select21" name="clientName" class="form-control" style="width: 100%" ng-model="vm.newJob.clientName" data-placeholder="Select a client" ng-options="client.clientName as client.clientName for client in vm.clients" ng-required="true">
                                                 <option value="">--Select a Client--</option>
                                             </select>
-
-
                                             <!-- <input type="text" name="" class="form-control hide" placeholder="" required /> -->
                                         </div>
                                     </div>
-
-
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Designation <span class="text-danger">*</span></label>
                                         <div class="col-sm-8">
                                             <select id="select22" name="designation" class="form-control" style="width: 100%" ng-model="vm.newJob.designation" data-placeholder="" ng-required="true">
-                                                            <option value="">&nbsp;</option>
-                                                            <option value="Software Developer">Software Developer</option>
-                                                            <option value="Software Engineer">Software Engineer</option>
-                                                            <option value="UI Developer">UI Developer</option>
-                                                            <option value="Senior Developer">Senior Developer</option>
-                                                            <option value="Architect">Architect</option>
-                                                        </select>
+                                                <option value="">&nbsp;</option>
+                                                <option value="Software Developer">Software Developer</option>
+                                                <option value="Software Engineer">Software Engineer</option>
+                                                <option value="UI Developer">UI Developer</option>
+                                                <option value="Senior Developer">Senior Developer</option>
+                                                <option value="Architect">Architect</option>
+                                            </select>
                                             <!--<input id="desid" type="button" value="Add" class="addfloatbtn btn btn-quirk btn-success"/>-->
                                         </div>
                                     </div>
-
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Mandatory Skills</label>
                                         <div class="col-sm-8">
                                             <select id="select8" name="skills" class="form-control" style="width: 100%" data-placeholder="" multiple ng-model="vm.newJob.skills">
-                                                            <option value="Java">Java</option>
-                                                            <option value="PHP">PHP</option>
-                                                            <option value="Drupal" >Drupal</option>
-                                                            <option value="ASP.NET">ASP.NET</option>
-                                                            <option value="C#">C#</option>
-                                                        </select>
+                                                <option value="Java">Java</option>
+                                                <option value="PHP">PHP</option>
+                                                <option value="Drupal">Drupal</option>
+                                                <option value="ASP.NET">ASP.NET</option>
+                                                <option value="C#">C#</option>
+                                            </select>
                                         </div>
                                     </div>
-
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Experience <span class="text-danger">*</span></label>
                                         <div class="col-sm-2">
-                                            <input type="number" name="minExp" class="form-control" ng-model="vm.newJob.minExp" placeholder="" ng-required="true"
-                                            />
+                                            <input type="number" name="minExp" class="form-control" min="0" ng-model="vm.newJob.minExp" placeholder="" ng-required="true" />
                                         </div>
                                         <span class="btnrange">To</span>
                                         <div class="col-sm-2">
-                                            <input type="number" name="maxExp" class="form-control"  ng-model="vm.newJob.maxExp" placeholder="" ng-required="true"
-                                            />
+                                            <input type="number" name="maxExp" class="form-control" min="0" ng-model="vm.newJob.maxExp" placeholder="" ng-required="true" />
                                         </div>
                                     </div>
-
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Tracker Format <span class="text-danger">*</span></label>
                                         <div class="col-sm-4">
@@ -107,96 +87,81 @@
                                             <a class="btn btn-success btn-block" data-toggle="modal" data-target="#myModal">New Format</a>
                                         </div>
                                     </div>
-
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Job Location <span class="text-danger">*</span></label>
                                         <div class="col-sm-8">
                                             <select id="select26" name="locations" class="form-control" style="width: 100%" data-placeholder="Enter Job Location" multiple ng-model="vm.newJob.locations" ng-required="true">
-                                                            <option value="Bangalore">Bangalore</option>
-                                                            <option value="Hyderabad">Hyderabad</option>
-                                                            <option value="Ahmedabad">Ahmedabad</option>
-                                                            <option value="Pune">Pune</option>
-                                                            <option value="Nagpur">Nagpur</option>
-                                                            <option value="Mumbai">Mumbai</option>
-                                                            <option value="Noida">Noida</option>
-                                                        </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label class="col-sm-3 control-label">Allot to <span class="text-danger">*</span></label>
-                                        <div class="col-sm-8">
-                                            <select id="select7" name="userId" class="form-control" style="width: 100%" data-placeholder="Enter Names" multiple ng-model="vm.newJob.userId" ng-required="true" ng-options="recruiter._id as recruiter.displayName for recruiter in vm.recruiters">
+                                                <option value="Bangalore">Bangalore</option>
+                                                <option value="Hyderabad">Hyderabad</option>
+                                                <option value="Ahmedabad">Ahmedabad</option>
+                                                <option value="Pune">Pune</option>
+                                                <option value="Nagpur">Nagpur</option>
+                                                <option value="Mumbai">Mumbai</option>
+                                                <option value="Noida">Noida</option>
                                             </select>
                                         </div>
                                     </div>
-
+                                    <!-- <span class="text-danger">*</span> -->
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Allot to </label>
+                                        <div class="col-sm-8">
+                                            <select id="select7" name="userId" class="form-control" style="width: 100%" data-placeholder="Enter Names" multiple ng-model="vm.newJob.userId" ng-options="recruiter._id as recruiter.displayName for recruiter in vm.recruiters">
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
                                 <!-- panel-body  -->
-
                             </div>
                             <!--  End col-md-6 -->
-
-
                             <div class="col-md-6">
                                 <div class="panel-body">
                                     <div class="form-group">
-                                        <label class="col-sm-3 control-label">New client <span class="text-danger">*</span></label>
+                                        <label class="col-sm-3 control-label">New client</label>
                                         <div class="col-sm-8">
                                             <a class="btn btn-success btn-block" data-toggle="modal" data-target="#newclient">Create New Client</a>
                                             <span ng-include src="'partials/new-job.new-client.html'"></span>
                                         </div>
                                     </div>
-
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Primary Skills <span class="text-danger">*</span></label>
                                         <div class="col-sm-8">
                                             <select id="select17" name="primarySkill" class="form-control" style="width: 100%" ng-model="vm.newJob.primarySkill" data-placeholder="" ng-required="true">
-                                                            <option value="">&nbsp;</option>
-                                                            <option value="NODEJS">NODEJS</option>
-                                                            <option value="PYTHON">PYTHON</option>
-                                                            <option value="JAVA">JAVA</option>
-                                                        </select>
+                                                <option value="">&nbsp;</option>
+                                                <option value="NODEJS">NODEJS</option>
+                                                <option value="PYTHON">PYTHON</option>
+                                                <option value="JAVA">JAVA</option>
+                                            </select>
                                             <!-- <input type="text" name="" class="form-control hide" placeholder="" required /> -->
                                         </div>
                                     </div>
-
-
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Either OR Skills <span class="text-danger">*</span></label>
                                         <div class="col-sm-8">
                                             <select id="select9" name="eitherOrSkills" class="form-control" style="width: 100%" data-placeholder="Enter Names" multiple ng-model="vm.newJob.eitherOrSkills" ng-required="true">
-                                                            <option value="Spring">Spring</option>
-                                                            <option value="Hibernate">Hibernate</option>
-                                                            <option value="Structs" >Structs</option>
-                                                            <option value="Java">Java</option>
-                                                            <option value="PHP">PHP</option>
-                                                        </select>
+                                                <option value="Spring">Spring</option>
+                                                <option value="Hibernate">Hibernate</option>
+                                                <option value="Structs">Structs</option>
+                                                <option value="Java">Java</option>
+                                                <option value="PHP">PHP</option>
+                                            </select>
                                         </div>
                                     </div>
-
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">CTC (Lakhs) <span class="text-danger">*</span></label>
                                         <div class="col-sm-2">
-                                            <input type="number" name="minCtc" class="form-control" ng-model="vm.newJob.minCtc" placeholder=""
-                                                ng-required="true" />
+                                            <input type="number" name="minCtc" class="form-control" min="0" ng-model="vm.newJob.minCtc" placeholder="" ng-required="true" />
                                         </div>
-
                                         <span class="btnrange">To</span>
                                         <div class="col-sm-2">
-                                            <input type="number" name="maxCtc" class="form-control" ng-model="vm.newJob.maxCtc" placeholder=""
-                                                ng-required="true" />
+                                            <input type="number" name="maxCtc" class="form-control" min="0" ng-model="vm.newJob.maxCtc" placeholder="" ng-required="true" />
                                         </div>
                                     </div>
-
-
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label"> </label>
                                         <div class="col-sm-8">
                                             <button class="btn btn-success btn-block">Attach JD</button>
                                         </div>
                                     </div>
-
                                     <!--
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Is it a Drive? <span class="text-danger">*</span></label>
@@ -220,31 +185,22 @@
                                         </div>
                                     </div>
                                      -->
-
-
-
                                 </div>
                                 <!-- panel-body  -->
                             </div>
                             <!--  End col-md-6 -->
                             <div class="clear"></div>
                             <hr>
-
                             <div class="row">
                                 <div class="col-sm-2 col-sm-offset-5">
                                     <button type="submit" class="btn btn-success btn-quirk btn-block btn-wide mr5">Create</button>
                                 </div>
                             </div>
                         </form>
-
-
-
-
                     </div>
                 </div>
                 <!-- panel -->
             </div>
-
         </div>
     </div>
     <!-- contentpanel -->
