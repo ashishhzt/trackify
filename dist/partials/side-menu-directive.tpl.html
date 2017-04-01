@@ -35,7 +35,7 @@
 
                 <ul class="nav nav-tabs nav-justified nav-sidebar nobottom" id="act-inact-menu">
                     <li class="tooltips" ng-class="{'active': (vm.sideMenuState.flag == 'myjob')}" ng-click="vm.getJobsDetail(vm.userId, 'myjob', vm.sideMenuState.status)"><a data-toggle="tab" data-target="#myjob">My Jobs</a></li>
-                    <li class="tooltips" ng-class="{'active': (vm.sideMenuState.flag != 'myjob')}" ng-click="vm.getJobsDetail(vm.userId, 'coljob', vm.sideMenuState.status)"><a data-toggle="tab" data-target="#colleaguesjob">Colleagues Jobs</a></li>
+                    <li class="tooltips" ng-class="{'active': (vm.sideMenuState.flag != 'myjob')}" ng-click="vm.getJobsDetail(vm.userId, 'coljob', vm.sideMenuState.status)"><a data-toggle="tab" data-target="#colleaguesjob">All Jobs</a></li>
                 </ul>
 
                 <div class="tab-content">

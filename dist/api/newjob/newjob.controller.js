@@ -25,7 +25,7 @@ export const createClient = function(req, res) {
 			}
 			if (result.insertedCount) {
 			    response.message = 'ADD SUCCESS';
-			    response.candidateId = result.insertedId;
+			    response.clientId = result.insertedId;
 			} else {
 			    response.message = 'ADD FAILURE';
 			}     
@@ -76,20 +76,9 @@ export const createJob = function(req, res) {
 
 
     var data = {
+		...req.body,
     	"_id":jobCount,
-		"clientName" : req.body.clientName,
-		"designation" : req.body.designation,
-		"minExp" : req.body.minExp,
-		"maxExp" : req.body.maxExp,
 		"active" : true,
-		"comments" : "",
-		"userId" : req.body.userId,
-		"createdOn" : req.body.date,
-		"primarySkill" : req.body.primarySkill,
-		"locations" : req.body.locations,
-		"minCtc" : req.body.minCtc,
-		"maxCtc" : req.body.maxCtc
-
     };
     
      if(req.file)
@@ -138,7 +127,7 @@ export const createJob = function(req, res) {
 									}
 									if (result.insertedCount) {
 									    response.message = 'ADD SUCCESS';
-									    response.candidateId = result.insertedId;
+									    response.jobId = result.insertedId;
 									} else {
 									    response.message = 'ADD FAILURE';
 									}     
@@ -159,7 +148,7 @@ export const createJob = function(req, res) {
 									}
 									if (result.insertedCount) {
 									    response.message = 'ADD SUCCESS';
-									    response.candidateId = result.insertedId;
+									    response.jobId = result.insertedId;
 									} else {
 									    response.message = 'ADD FAILURE';
 									}     
