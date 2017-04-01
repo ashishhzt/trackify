@@ -20,7 +20,7 @@ class NewjobController {
             console.log('this.user injected into job component\'s bindings by ui-router\'s $resolve service', this.user)
             this.getClients();
             this.getAllRecruiters();
-
+            
         }
         // parentmethod() {
 
@@ -149,7 +149,7 @@ class NewjobController {
             this.newClient.address = [];
         }
     }
-    
+
 }
 
 NewjobController.$inject = ["$rootScope", "AuthFactory", "newJobService", "jobsService", "$state"]
