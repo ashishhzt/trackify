@@ -44,7 +44,7 @@ $(function() {
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Job Location <span class="text-danger">*</span></label>
                         <div class="col-sm-8">
-                            <select ng-model="vm.newClient.locations" id="jobloc" class="form-control" style="width: 100%" data-placeholder="Enter Job Location" multiple >
+                            <select ng-model="vm.newClient.locations" id="jobloc" class="form-control" style="width: 100%" data-placeholder="Enter Job Location" multiple required>
                                 <option value="Bangalore">Bangalore</option>
                                 <option value="Hyderabad">Hyderabad</option>
                                 <option value="Ahmedabad">Ahmedabad</option>
@@ -58,7 +58,7 @@ $(function() {
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Address <span class="text-danger">*</span></label>
                         <div class="col-sm-8">
-                            <select id="address" class="form-control" style="width: 100%" data-placeholder="" multiple ng-model="vm.newClient.address">
+                            <select id="address" class="form-control" style="width: 100%" data-placeholder="" multiple ng-model="vm.newClient.address" required>
                             </select>
                         </div>
                     </div>
