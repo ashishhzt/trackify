@@ -66,7 +66,7 @@ class NewjobController {
             SERVICE.get(this).createNewJob(this.newJob).then(response => {
                 alert(`New Job: ${this.newJob.clientName} - ${this.newJob.designation} successfully created`)
                 this.newJob = {};
-                window.location.href = "/jobs"
+                this.$state.go('jobs')
             }, error => {
                 this.newJob = {};
             });
@@ -76,7 +76,15 @@ class NewjobController {
     }
 
     createNewClient(e) {
-        if (this.newClient.clientName == undefined || !this.newClient.clientEmail || !this.newClient.locations.length || !this.newClient.address.length || !this.newClient.otherInfo) {
+        if (
+            !this.newClient ||
+            !this.newClient.clientName ||
+            !this.newClient.clientEmail ||
+            !this.newClient.locations ||
+            !this.newClient.locations.length ||
+            !this.newClient.address ||
+            !this.newClient.address.length ||
+            !this.newClient.otherInfo) {
             alert('Fill the Mandatory feilds');
             e.preventDefault();
             e.stopPropagation();
