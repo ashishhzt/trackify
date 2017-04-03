@@ -9,22 +9,15 @@ class NewjobController {
         SERVICE.set(this, newJobService);
         this.newJob = {};
 
-        // $rootScope.$on("CallParentMethod", function() {
-        //     this.parentmethod();
-        // });
-
-        // this.parentmethod();
     }
 
     $onInit() {
-            console.log('this.user injected into job component\'s bindings by ui-router\'s $resolve service', this.user)
-            this.getClients();
-            this.getAllRecruiters();
-            
-        }
-        // parentmethod() {
+        console.log('this.user injected into job component\'s bindings by ui-router\'s $resolve service', this.user)
+        this.getClients();
+        this.getAllRecruiters();
 
-    // }
+    }
+
     getAllRecruiters() {
         this.jobsService.getAllRecruiters()
             .then(recruiters => {
@@ -76,8 +69,7 @@ class NewjobController {
     }
 
     createNewClient(e) {
-        if (
-            !this.newClient ||
+        if (!this.newClient ||
             !this.newClient.clientName ||
             !this.newClient.clientEmail ||
             !this.newClient.locations ||
@@ -88,7 +80,7 @@ class NewjobController {
             alert('Fill the Mandatory feilds');
             e.preventDefault();
             e.stopPropagation();
-            
+
             return;
         }
 
@@ -102,7 +94,7 @@ class NewjobController {
             } else {
                 SERVICE.get(this).createClient(this.newClient)
                     .then(res => {
-                            console.log("APPLY",this.newClient);
+                        console.log("APPLY", this.newClient);
                         if (res.message === 'ADD SUCCESS') {
                             alert('Client successfully created');
                             this.getClients();
@@ -151,12 +143,14 @@ class NewjobController {
     }
 
     locationChange() {
-        
+
         if (this.newClient.locations == "" || this.newClient.address == "") {
             this.newClient.locations = [];
             this.newClient.address = [];
         }
     }
+
+
 
 }
 
