@@ -16,6 +16,15 @@ class NewjobController {
         this.getClients();
         this.getAllRecruiters();
 
+        this.initSelect2Dropdowns();
+    }
+
+    initSelect2Dropdowns() {
+        $("#myid1").select2({ tags: true });
+        $("#myid2").select2({ tags: true });
+        $("#myid3").select2({ maximumSelectionLength: 2 });
+        $("#myid4").select2({ tags: true })
+
     }
 
     getAllRecruiters() {
@@ -48,6 +57,7 @@ class NewjobController {
             if (value.$invalid) formValid = false;
         })
 
+
         if (!formValid) {
             alert('Please fill the mandatory fields')
             return;
@@ -55,8 +65,9 @@ class NewjobController {
 
         if (this.ctcFunction()) {
 
-        } else {
+        } else{
             SERVICE.get(this).createNewJob(this.newJob).then(response => {
+                console.log("New job",response)
                 alert(`New Job: ${this.newJob.clientName} - ${this.newJob.designation} successfully created`)
                 this.newJob = {};
                 this.$state.go('jobs')
@@ -136,7 +147,7 @@ class NewjobController {
     }
     ctcFunction() {
         if (this.newJob.minCtc > this.newJob.maxCtc || this.newJob.minExp > this.newJob.maxExp) {
-            alert("Minimum CTC and Exp should always lesser than Maximum");
+            alert("CTC and Exp should always lesser than Maximum");
             return true
         }
         return false
@@ -149,6 +160,7 @@ class NewjobController {
             this.newClient.address = [];
         }
     }
+ 
 
 
 
