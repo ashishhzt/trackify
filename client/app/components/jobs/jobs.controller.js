@@ -605,12 +605,14 @@ class JobsController {
 
     getJobsDetail(userId, flag, status) {
         this.sideMenuState = { flag: flag, status: status };
+        console.log("FLAG", flag,status)
         SERVICE.get(this).getJobsDetail(userId, flag, status).then(response => {
+            console.log("Side Menu",response.data)
             this.sideMenuJobsDetails = response.data.reverse();
             this.sideMenuState.jobId = response.data[0]._id;
             if (this.shareData.getProperty() == 'blank') {
                 this.getMainMenuData(this.sideMenuState.jobId);
-            } else {
+            } else {    
                 this.getMainMenuData(this.shareData.getProperty().jobId);
                 this.shareData.setProperty('blank')
             }
@@ -622,6 +624,7 @@ class JobsController {
 
     initJobs() {
         this.getJobsDetail(this.userId, 'myjob', 'active');
+        console.log("Checking",this.userId)
     };
 
     //Similar Resume Code: START
@@ -1054,6 +1057,7 @@ class JobsController {
     parseDate(date) {
         return new Date(date).toLocaleString();
     }
+
 }
 
 JobsController.$inject = ['$rootScope', 'AuthFactory', 'jobsService', 'shareData']
