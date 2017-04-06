@@ -348,7 +348,6 @@ class JobsController {
 
         SERVICE.get(this).candidateDetailsForJob(this.userId, this.selectedJobDetail._id, filterObj, "job").then(response => {
             this.allCandidateDetail = response.data;
-            console.log("Candidate Array",this.allCandidateDetail)
 
             let leng = this.allCandidateDetail[this.presentStage].length;
             if (leng > 0) {
@@ -550,6 +549,11 @@ class JobsController {
 
         SERVICE.get(this).candidateDetailsForJob(this.userId, jobId, filterObj, "job").then(response => {
             console.log("candidateDetailsForJob",response)
+            if (response.data && !Object.keys(response.data).length) {
+                this.selectedCandidate = null;
+                this.allCandidateDetail = [];
+                return;
+            }
             this.allCandidateDetail = response.data;
             console.log("New Candidate",this.allCandidateDetail);
             let leng = this.allCandidateDetail[this.presentStage].length;
@@ -565,8 +569,10 @@ class JobsController {
                 for (var i = 0; i < leng; i++) {
                     this.checkedCandidateList.push(false);
                 }
-            } else
+            } else {
                 this.selectedCandidate = null;
+                this.allCandidateDetail = [];
+            }
             
 
         }, error => {
@@ -649,12 +655,14 @@ class JobsController {
             jobId: this.selectedJobDetail._id,
             skip
         }
-        console.log("reqData",reqData)
         this.iDataCandidateDetails = null;
 
         SERVICE.get(this).getInternalDataCandidateList(reqData).then(response => {
+            if (!response.hasOwnProperty('data')) {
+                console.log('getInternalDataCandidateList',response.message)
+                return;
+            }
             this.internalCandidateList = response.data;
-            console.log("internalCandidateList",this.internalCandidateList)
             this.internalCandidateListCount = response.count;
 
             // Check candidate functionality
