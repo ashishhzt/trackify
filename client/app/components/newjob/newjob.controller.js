@@ -9,22 +9,24 @@ class NewjobController {
         SERVICE.set(this, newJobService);
         this.newJob = {};
 
-        // $rootScope.$on("CallParentMethod", function() {
-        //     this.parentmethod();
-        // });
-
-        // this.parentmethod();
     }
 
     $onInit() {
-            console.log('this.user injected into job component\'s bindings by ui-router\'s $resolve service', this.user)
-            this.getClients();
-            this.getAllRecruiters();
-            
-        }
-        // parentmethod() {
+        console.log('this.user injected into job component\'s bindings by ui-router\'s $resolve service', this.user)
+        this.getClients();
+        this.getAllRecruiters();
 
-    // }
+        this.initSelect2Dropdowns();
+    }
+
+    initSelect2Dropdowns() {
+        $("#myid1").select2({ tags: true });
+        $("#myid2").select2({ tags: true });
+        $("#myid3").select2({ maximumSelectionLength: 2 });
+        $("#myid4").select2({ tags: true })
+
+    }
+
     getAllRecruiters() {
         this.jobsService.getAllRecruiters()
             .then(recruiters => {
@@ -55,6 +57,7 @@ class NewjobController {
             if (value.$invalid) formValid = false;
         })
 
+
         if (!formValid) {
             alert('Please fill the mandatory fields')
             return;
@@ -62,8 +65,9 @@ class NewjobController {
 
         if (this.ctcFunction()) {
 
-        } else {
+        } else{
             SERVICE.get(this).createNewJob(this.newJob).then(response => {
+                console.log("New job",response)
                 alert(`New Job: ${this.newJob.clientName} - ${this.newJob.designation} successfully created`)
                 this.newJob = {};
                 this.$state.go('jobs')
@@ -76,8 +80,7 @@ class NewjobController {
     }
 
     createNewClient(e) {
-        if (
-            !this.newClient ||
+        if (!this.newClient ||
             !this.newClient.clientName ||
             !this.newClient.clientEmail ||
             !this.newClient.locations ||
@@ -88,7 +91,7 @@ class NewjobController {
             alert('Fill the Mandatory feilds');
             e.preventDefault();
             e.stopPropagation();
-            
+
             return;
         }
 
@@ -102,7 +105,7 @@ class NewjobController {
             } else {
                 SERVICE.get(this).createClient(this.newClient)
                     .then(res => {
-                            console.log("APPLY",this.newClient);
+                        console.log("APPLY", this.newClient);
                         if (res.message === 'ADD SUCCESS') {
                             alert('Client successfully created');
                             this.getClients();
@@ -144,19 +147,22 @@ class NewjobController {
     }
     ctcFunction() {
         if (this.newJob.minCtc > this.newJob.maxCtc || this.newJob.minExp > this.newJob.maxExp) {
-            alert("Minimum CTC and Exp should always lesser than Maximum");
+            alert("CTC and Exp should always lesser than Maximum");
             return true
         }
         return false
     }
 
     locationChange() {
-        
+
         if (this.newClient.locations == "" || this.newClient.address == "") {
             this.newClient.locations = [];
             this.newClient.address = [];
         }
     }
+ 
+
+
 
 }
 
