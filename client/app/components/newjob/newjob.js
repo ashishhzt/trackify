@@ -24,6 +24,34 @@ let newjobModule = angular.module('newjob', [
 
 .factory('jobsService', jobsService.getInstance)
 
-.component('newjob', newjobComponent);
+.component('newjob', newjobComponent)
+
+.directive('customSelect2', function($timeout) {
+    'ngInject'
+    return {
+        require: 'ngModel',
+        restrict: 'A',
+        link: function(scope, element, attrs, controller) {
+            scope.$watch(attrs.ngModel, function(value) {
+
+                if (angular.isUndefined(value) && element.select2('val')) {
+                    controller.$setViewValue(element.select2('val'));
+                    controller.$commitViewValue();
+                }
+            });
+
+            // element.bind('change', function() {
+            //   var value = element.select2('val');
+            //   controller.$setViewValue(value);
+            // });
+
+            // $timeout(function() {
+            //   element.select2({
+            //     tags: []
+            //   });
+            // });
+        }
+    };
+});
 
 export default newjobModule;

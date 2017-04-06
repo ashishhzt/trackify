@@ -62,6 +62,10 @@ class JobsController {
     $onInit() {
         console.log('this.user injected into job component\'s bindings by ui-router\'s $resolve service', this.user)
         // this.getJobsDetail();
+        this.applyfilter();
+        this.candidateDetailsForJob();
+        this.getMainMenuData();
+        this.initSimilarResume();
 
 
     }
@@ -344,6 +348,7 @@ class JobsController {
 
         SERVICE.get(this).candidateDetailsForJob(this.userId, this.selectedJobDetail._id, filterObj, "job").then(response => {
             this.allCandidateDetail = response.data;
+            console.log("Candidate Array",this.allCandidateDetail)
 
             let leng = this.allCandidateDetail[this.presentStage].length;
             if (leng > 0) {
@@ -544,8 +549,9 @@ class JobsController {
         let filterObj = { "NEW": [], "SHORTLIST": [], "INTERVIEW": [], "OFFER": [], "JOINED": [], "CANDIDATE": [] };
 
         SERVICE.get(this).candidateDetailsForJob(this.userId, jobId, filterObj, "job").then(response => {
-
+            console.log("candidateDetailsForJob",response)
             this.allCandidateDetail = response.data;
+            console.log("New Candidate",this.allCandidateDetail);
             let leng = this.allCandidateDetail[this.presentStage].length;
             if (leng > 0) {
                 let maxCandidateIdPointer = 0;
@@ -561,6 +567,7 @@ class JobsController {
                 }
             } else
                 this.selectedCandidate = null;
+            
 
         }, error => {
             console.log(error);
@@ -581,8 +588,10 @@ class JobsController {
 
     getMainMenuData(jobId) {
         for (var arrElem of this.sideMenuJobsDetails) {
+            console.log("arrElem123",arrElem)
             if (arrElem._id === jobId) {
                 this.selectedJobDetail = arrElem;
+                console.log("selectedJobDetail",this.selectedJobDetail)
                 break;
             }
         }
@@ -614,7 +623,7 @@ class JobsController {
             console.log("Side Menu",response.data)
             this.sideMenuJobsDetails = response.data.reverse();
             this.sideMenuState.jobId = response.data[0]._id;
-
+            console.log("getJobsDetail",this.sideMenuState.jobId)
             if (this.shareData.getProperty() == 'blank') {
                 this.getMainMenuData(this.sideMenuState.jobId);
             } else {    
@@ -640,11 +649,12 @@ class JobsController {
             jobId: this.selectedJobDetail._id,
             skip
         }
-
+        console.log("reqData",reqData)
         this.iDataCandidateDetails = null;
 
         SERVICE.get(this).getInternalDataCandidateList(reqData).then(response => {
             this.internalCandidateList = response.data;
+            console.log("internalCandidateList",this.internalCandidateList)
             this.internalCandidateListCount = response.count;
 
             // Check candidate functionality

@@ -7,7 +7,7 @@ class NewjobController {
         this.jobsService = jobsService;
 
         SERVICE.set(this, newJobService);
-        this.newJob = {};
+        this._initNewJob();
 
     }
 
@@ -42,7 +42,6 @@ class NewjobController {
     }
 
     addNewJob(e, form) {
-        console.log("APPLY")
         e.preventDefault();
         e.stopPropagation();
 
@@ -57,7 +56,6 @@ class NewjobController {
             if (value.$invalid) formValid = false;
         })
 
-
         if (!formValid) {
             alert('Please fill the mandatory fields')
             return;
@@ -67,16 +65,23 @@ class NewjobController {
 
         } else{
             SERVICE.get(this).createNewJob(this.newJob).then(response => {
-                console.log("New job",response)
                 alert(`New Job: ${this.newJob.clientName} - ${this.newJob.designation} successfully created`)
-                this.newJob = {};
+                this._initNewJob();
                 this.$state.go('jobs')
             }, error => {
-                this.newJob = {};
+                this._initNewJob();
             });
         }
 
 
+    }
+
+    // To make custom-select2 directive work properly with ng-model value
+    _initNewJob() {
+        this.newJob = {
+            designation: '',
+            primarySkill: ''
+        };
     }
 
     createNewClient(e) {
@@ -105,7 +110,6 @@ class NewjobController {
             } else {
                 SERVICE.get(this).createClient(this.newClient)
                     .then(res => {
-                        console.log("APPLY", this.newClient);
                         if (res.message === 'ADD SUCCESS') {
                             alert('Client successfully created');
                             this.getClients();
@@ -160,7 +164,7 @@ class NewjobController {
             this.newClient.address = [];
         }
     }
- 
+
 
 
 
