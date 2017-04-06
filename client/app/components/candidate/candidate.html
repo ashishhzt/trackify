@@ -112,7 +112,7 @@
                                 </label>
                             </div>
                             <div class="clear"></div>
-                            <div class="list" ng-repeat="row in vm.allCandidateDetails | filter: vm.searchTextOnCandidates"
+                            <div class="list" ng-repeat="row in vm.allCandidateDetails | vm.searchTextOnCandidates"
                                 ng-click="vm.internalDataCandidateDetailsFunction(row._id)" onclick="disableContent();">
                                 <label class="col-sm-1 ckbox2 ckbox ckbox-success">
                                     <input type="checkbox" ng-model="vm.checkIDCandidateList[$index]"><span></span>
