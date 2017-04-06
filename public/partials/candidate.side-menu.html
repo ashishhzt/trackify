@@ -62,13 +62,13 @@
 
                     <div class="tab-pane" id="colleaguesjob">
                         <div class="input-group input-search-contact  mt10">
-                            <input class="form-control" placeholder="Search contact" type="text" ng-model="vm.searchColJobText">
+                            <input class="form-control" placeholder="Search contact" type="text" ng-model="vm.searchColJobText.clientName">
                                         <span class="input-group-btn">
                                             <button class="btn btn-default" type="button"><i class="fa fa-search"></i></button>
                                         </span>
                         </div>
                         <ul class="inbox-nav inbox-divider mainsidenav">
-                            <li ng-repeat="row in vm.sideMenuJobsDetails | filter: vm.searchColJobText"
+                            <li ng-repeat="row in vm.sideMenuJobsDetails | filter: vm.searchColJobText:clientName"
                                     ng-click="vm.navToJobModule(row.jobId)">
                                 <a href="javascript:;">
                                     <span class="nav-text1" style="text-transform: capitalize;" ng-bind="row.clientName | lowercase"></span>

@@ -61,6 +61,8 @@ class JobsController {
 
     $onInit() {
         console.log('this.user injected into job component\'s bindings by ui-router\'s $resolve service', this.user)
+        // this.getJobsDetail();
+
 
     }
 
@@ -604,12 +606,15 @@ class JobsController {
     }
 
     getJobsDetail(userId, flag, status) {
+
         this.sideMenuState = { flag: flag, status: status };
         console.log("FLAG", flag,status)
+
         SERVICE.get(this).getJobsDetail(userId, flag, status).then(response => {
             console.log("Side Menu",response.data)
             this.sideMenuJobsDetails = response.data.reverse();
             this.sideMenuState.jobId = response.data[0]._id;
+
             if (this.shareData.getProperty() == 'blank') {
                 this.getMainMenuData(this.sideMenuState.jobId);
             } else {    
@@ -617,6 +622,7 @@ class JobsController {
                 this.shareData.setProperty('blank')
             }
             this.getAllRecruiters();
+            this.searchColJobText.clientName = "";
         }, error => {
             console.log(error);
         });

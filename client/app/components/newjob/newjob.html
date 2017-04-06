@@ -45,7 +45,7 @@
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Designation <span class="text-danger">*</span></label>
                                         <div class="col-sm-8">
-                                            <select id="myid1" name="designation" class="form-control" style="width: 100%" ng-model="vm.newJob.designation" data-placeholder="" ng-required="true" ng-change="designationChange()" multiple>
+                                            <select id="myid1" name="designation" class="form-control" style="width: 100%" ng-model="vm.newJob.designation" data-placeholder="" ng-required="true" ng-change="designationChange()" >
                                                 <option value="">&nbsp;</option>
                                                 <option value="Software Developer">Software Developer</option>
                                                 <option value="Software Engineer">Software Engineer</option>
@@ -117,7 +117,7 @@
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Allot to </label>
                                         <div class="col-sm-8">
-                                            <select id="myid3" name="userId" class="form-control" style="width: 100%" data-placeholder="Enter Names" multiple ng-model="vm.newJob.userId" ng-options="recruiter._id as recruiter.displayName for recruiter in vm.recruiters">
+                                            <select id="myid3" name="userId" class="form-control" style="width: 100%" data-placeholder="Enter Names"  ng-model="vm.newJob.userId" ng-options="recruiter._id as recruiter.displayName for recruiter in vm.recruiters">
                                             </select>
                                         </div>
                                     </div>
@@ -137,7 +137,7 @@
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Primary Skills <span class="text-danger">*</span></label>
                                         <div class="col-sm-8">
-                                            <select id="myid4" name="primarySkill" class="form-control" style="width: 100%" ng-model="vm.newJob.primarySkill" data-placeholder="" ng-required="true" multiple>
+                                            <select id="myid4" name="primarySkill" class="form-control" style="width: 100%" ng-model="vm.newJob.primarySkill" data-placeholder="" ng-required="true">
                                                 <option value="">&nbsp;</option>
                                                 <option value="NODEJS">NODEJS</option>
                                                 <option value="PYTHON">PYTHON</option>
