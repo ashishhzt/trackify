@@ -32,10 +32,11 @@
                         <option value="inactive">Inactive Jobs</option>
                     </select>
                 </div><!-- btn-group -->
-
+                <!-- ng-class="{'active': (vm.sideMenuState.flag == 'myjob')}"
+                 ng-class="{'active': (vm.sideMenuState.flag != 'myjob')}" -->
                 <ul class="nav nav-tabs nav-justified nav-sidebar nobottom" id="act-inact-menu">
-                    <li class="tooltips" ng-class="{'active': (vm.sideMenuState.flag == 'myjob')}" ng-click="vm.getJobsDetail(vm.userId, 'myjob', vm.sideMenuState.status)"><a data-toggle="tab" data-target="#myjob">My Jobs</a></li>
-                    <li class="tooltips" ng-class="{'active': (vm.sideMenuState.flag != 'myjob')}" ng-click="vm.getJobsDetail(vm.userId, 'coljob', vm.sideMenuState.status)"><a data-toggle="tab" data-target="#colleaguesjob">All Jobs</a></li>
+                    <li class="tooltips active"  ng-click="vm.getJobsDetail(vm.userId, 'myjob', vm.sideMenuState.status)"><a data-toggle="tab" data-target="#myjob">My Jobs</a></li>
+                    <li class="tooltips unread" ng-click="vm.getJobsDetail(vm.userId, 'coljob', vm.sideMenuState.status)"><a data-toggle="tab" data-target="#colleaguesjob">All Jobs</a></li>
                 </ul>
 
                 <div class="tab-content">
@@ -62,13 +63,13 @@
 
                     <div class="tab-pane" id="colleaguesjob">
                         <div class="input-group input-search-contact  mt10">
-                            <input class="form-control" placeholder="Search contact" type="text" ng-model="vm.searchColJobText">
+                            <input class="form-control" placeholder="Search contact" type="text" ng-model="vm.searchColJobText.clientName">
                                         <span class="input-group-btn">
                                             <button class="btn btn-default" type="button"><i class="fa fa-search"></i></button>
                                         </span>
                         </div>
                         <ul class="inbox-nav inbox-divider mainsidenav">
-                            <li ng-repeat="row in vm.sideMenuJobsDetails | filter: vm.searchColJobText"
+                            <li ng-repeat="row in vm.sideMenuJobsDetails | filter: vm.searchColJobText:clientName"
                                     ng-click="vm.getMainMenuData(row._id)">
                                 <a href="javascript:;">
                                     <span class="nav-text1" style="text-transform: capitalize;" ng-bind="row.clientName | lowercase"></span>
