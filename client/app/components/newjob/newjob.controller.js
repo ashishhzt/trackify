@@ -24,6 +24,8 @@ class NewjobController {
         $("#myid2").select2({ tags: true });
         $("#myid3").select2({ maximumSelectionLength: 2 });
         $("#myid4").select2({ tags: true })
+        $("#myidMandatorySkills").select2({ tags: true })
+        $("#myidEitherOrSkills").select2({ tags: true })
 
     }
 
