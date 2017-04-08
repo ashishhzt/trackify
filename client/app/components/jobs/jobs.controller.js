@@ -543,14 +543,12 @@ class JobsController {
         let filterObj = { "NEW": [], "SHORTLIST": [], "INTERVIEW": [], "OFFER": [], "JOINED": [], "CANDIDATE": [] };
 
         SERVICE.get(this).candidateDetailsForJob(this.userId, jobId, filterObj, "job").then(response => {
-            console.log("candidateDetailsForJob",response)
+            this.allCandidateDetail = response.data;
+            console.log("candidateDetailsForJob",this.allCandidateDetail);
             if (response.data && !Object.keys(response.data).length) {
                 this.selectedCandidate = null;
-                this.allCandidateDetail = [];
                 return;
             }
-            this.allCandidateDetail = response.data;
-            console.log("New Candidate",this.allCandidateDetail);
             let leng = this.allCandidateDetail[this.presentStage].length;
             if (leng > 0) {
                 let maxCandidateIdPointer = 0;
@@ -566,7 +564,6 @@ class JobsController {
                 }
             } else {
                 this.selectedCandidate = null;
-                this.allCandidateDetail = [];
             }
             
 
@@ -705,7 +702,7 @@ class JobsController {
         SERVICE.get(this).moveToActiveJob(reqData).then(response => {
             console.log(response);
             this.checkAllIDCandidate();
-            this.getMainMenuData(this.selectedJobDetail.jobId);
+            this.getMainMenuData(this.selectedJobDetail._id);
         }, error => {
             console.log(error);
         });
