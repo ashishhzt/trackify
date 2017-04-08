@@ -61,11 +61,6 @@ class JobsController {
 
     $onInit() {
         console.log('this.user injected into job component\'s bindings by ui-router\'s $resolve service', this.user)
-        // this.getJobsDetail();
-        this.applyfilter();
-        this.candidateDetailsForJob();
-        this.getMainMenuData();
-        this.initSimilarResume();
 
 
     }
@@ -594,7 +589,6 @@ class JobsController {
 
     getMainMenuData(jobId) {
         for (var arrElem of this.sideMenuJobsDetails) {
-            console.log("arrElem123",arrElem)
             if (arrElem._id === jobId) {
                 this.selectedJobDetail = arrElem;
                 console.log("selectedJobDetail",this.selectedJobDetail)
@@ -637,7 +631,7 @@ class JobsController {
                 this.shareData.setProperty('blank')
             }
             this.getAllRecruiters();
-            this.searchColJobText.clientName = "";
+            if (this.searchColJobText) this.searchColJobText.clientName = "";
         }, error => {
             console.log(error);
         });

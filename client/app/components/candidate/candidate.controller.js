@@ -164,7 +164,7 @@ class CandidateController {
         }, error => {
             console.log(error);
         });
-        this.searchColJobText.clientName = "";
+        if (this.searchColJobText) this.searchColJobText.clientName = "";
         SERVICE.get(this).getAllInternalDataCandidateList(this.idSkip).then(response => {
             this.allCandidateDetails = response.data;
             this.allCandidateCount = response.count;
