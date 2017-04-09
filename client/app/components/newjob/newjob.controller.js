@@ -127,15 +127,16 @@ class NewjobController {
         this.newJob.trackerFormats = this._parseTrackerFormat(this.trackerFormats);
 
 
-        let fd = new FormData();
-        for (let item in this.newJob) {
-            fd.append(item, this.newJob[item]);
-        }
+        // Disabling coverting JSON to FormData
+        // let fd = new FormData();
+        // for (let item in this.newJob) {
+        //     fd.append(item, this.newJob[item]);
+        // }
 
         if (this.ctcFunction()) {
 
         } else{
-            SERVICE.get(this).createNewJob(fd).then(response => {
+            SERVICE.get(this).createNewJob(this.newJob).then(response => {
                 alert(`New Job: ${this.newJob.clientName} - ${this.newJob.designation} successfully created`)
                 this._initNewJob();
                 this.$state.go('jobs')

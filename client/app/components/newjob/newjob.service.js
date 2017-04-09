@@ -9,10 +9,7 @@ class newJobService {
     }
 
     createNewJob(formData) {
-        return HTTP.get(this).post("/api/newjob/createJob", formData, {
-                transformRequest: angular.identity,
-                headers: {'Content-Type': undefined}
-            }).then(result => result.data);
+        return HTTP.get(this).post("/api/newjob/createJob", formData).then(result => result.data);
     }
 
     getClients() {
