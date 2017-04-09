@@ -256,6 +256,7 @@ class JobsController {
             var fd = new FormData();
             fd.append('resumeFile', file);
             fd.append('candidateId', candidateId);
+            fd.append('assigneeName', this.AuthFactory.auth.user.displayName);
             fd.append('uploadDate', new Date());
 
             SERVICE.get(this).uploadResumeFile(fd).then(response => {
