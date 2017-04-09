@@ -1,6 +1,7 @@
 import angular from 'angular';
 import uiRouter from 'angular-ui-router';
 import newjobComponent from './newjob.component';
+import fileModelDirective from '../jobs/jobs.directive';
 import jobsService from '../jobs/jobs.service';
 import newjobService from './newjob.service';
 
@@ -25,6 +26,8 @@ let newjobModule = angular.module('newjob', [
 .factory('jobsService', jobsService.getInstance)
 
 .component('newjob', newjobComponent)
+
+.directive('fileModel', fileModelDirective)
 
 .directive('customSelect2', function($timeout) {
     'ngInject'

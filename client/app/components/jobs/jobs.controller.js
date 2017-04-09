@@ -61,11 +61,6 @@ class JobsController {
 
     $onInit() {
         console.log('this.user injected into job component\'s bindings by ui-router\'s $resolve service', this.user)
-        // this.getJobsDetail();
-        this.applyfilter();
-        this.candidateDetailsForJob();
-        this.getMainMenuData();
-        this.initSimilarResume();
 
 
     }
@@ -261,6 +256,7 @@ class JobsController {
             var fd = new FormData();
             fd.append('resumeFile', file);
             fd.append('candidateId', candidateId);
+            fd.append('assigneeName', this.AuthFactory.auth.user.displayName);
             fd.append('uploadDate', new Date());
 
             SERVICE.get(this).uploadResumeFile(fd).then(response => {
@@ -548,14 +544,12 @@ class JobsController {
         let filterObj = { "NEW": [], "SHORTLIST": [], "INTERVIEW": [], "OFFER": [], "JOINED": [], "CANDIDATE": [] };
 
         SERVICE.get(this).candidateDetailsForJob(this.userId, jobId, filterObj, "job").then(response => {
-            console.log("candidateDetailsForJob",response)
+            this.allCandidateDetail = response.data;
+            console.log("candidateDetailsForJob",this.allCandidateDetail);
             if (response.data && !Object.keys(response.data).length) {
                 this.selectedCandidate = null;
-                this.allCandidateDetail = [];
                 return;
             }
-            this.allCandidateDetail = response.data;
-            console.log("New Candidate",this.allCandidateDetail);
             let leng = this.allCandidateDetail[this.presentStage].length;
             if (leng > 0) {
                 let maxCandidateIdPointer = 0;
@@ -571,7 +565,6 @@ class JobsController {
                 }
             } else {
                 this.selectedCandidate = null;
-                this.allCandidateDetail = [];
             }
             
 
@@ -594,7 +587,6 @@ class JobsController {
 
     getMainMenuData(jobId) {
         for (var arrElem of this.sideMenuJobsDetails) {
-            console.log("arrElem123",arrElem)
             if (arrElem._id === jobId) {
                 this.selectedJobDetail = arrElem;
                 console.log("selectedJobDetail",this.selectedJobDetail)
@@ -637,7 +629,7 @@ class JobsController {
                 this.shareData.setProperty('blank')
             }
             this.getAllRecruiters();
-            this.searchColJobText.clientName = "";
+            if (this.searchColJobText) this.searchColJobText.clientName = "";
         }, error => {
             console.log(error);
         });
@@ -711,7 +703,7 @@ class JobsController {
         SERVICE.get(this).moveToActiveJob(reqData).then(response => {
             console.log(response);
             this.checkAllIDCandidate();
-            this.getMainMenuData(this.selectedJobDetail.jobId);
+            this.getMainMenuData(this.selectedJobDetail._id);
         }, error => {
             console.log(error);
         });

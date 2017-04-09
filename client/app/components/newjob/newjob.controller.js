@@ -1,4 +1,57 @@
 const SERVICE = new WeakMap();
+const TRACKER_FORMATS = [{
+    name: 'Name',
+    key: 'candidateName',
+    select: true
+}, {
+    name: 'Mail ID',
+    key: 'candidateEmail',
+    select: true
+}, {
+    name: 'Mobile',
+    key: 'candidateContact',
+    select: true
+}, {
+    name: 'Experience',
+    key: 'experience',
+    select: true
+}, {
+    name: 'Company',
+    key: 'employer',
+    select: false
+}, {
+    name: 'Designation',
+    key: 'designation',
+    select: false
+}, {
+    name: 'College',
+    key: 'college',
+    select: false
+}, {
+    name: 'Key Skills',
+    key: 'key_skills',
+    select: true
+}, {
+    name: 'CTC (lakhs)',
+    key: ['ctcFixed', 'ctcVariable', 'ctcEsops'],
+    select: true
+}, {
+    name: 'ECTC (lakhs)',
+    key: ['eCTCFixed', 'eCTCVariable', 'eCTCEsops'],
+    select: true
+}, {
+    name: 'Notice Period (days)',
+    key: 'noticePeriod',
+    select: false
+}, {
+    name: 'Candidate serving notice?',
+    key: 'serveNotice',
+    select: false
+}, {
+    name: 'Job Location',
+    key: 'location',
+    select: true
+}]
 
 class NewjobController {
     constructor($rootScope, AuthFactory, newJobService, jobsService, $state) {
@@ -17,6 +70,8 @@ class NewjobController {
         this.getAllRecruiters();
 
         this.initSelect2Dropdowns();
+
+        this.trackerFormats = [...TRACKER_FORMATS];
     }
 
     initSelect2Dropdowns() {
@@ -24,6 +79,8 @@ class NewjobController {
         $("#myid2").select2({ tags: true });
         $("#myid3").select2({ maximumSelectionLength: 2 });
         $("#myid4").select2({ tags: true })
+        $("#myidMandatorySkills").select2({ tags: true })
+        $("#myidEitherOrSkills").select2({ tags: true })
 
     }
 
@@ -60,6 +117,21 @@ class NewjobController {
             alert('Please fill the mandatory fields')
             return;
         }
+
+        if (!this._doValidateTrackers(this.trackerFormats)) {
+            alert('Please select valid Tracker Format');
+            return;
+        }
+
+        // Filtering the selected format's keys and forming a flattened array
+        this.newJob.trackerFormats = this._parseTrackerFormat(this.trackerFormats);
+
+
+        // Disabling coverting JSON to FormData
+        // let fd = new FormData();
+        // for (let item in this.newJob) {
+        //     fd.append(item, this.newJob[item]);
+        // }
 
         if (this.ctcFunction()) {
 
@@ -122,6 +194,33 @@ class NewjobController {
         }
 
 
+    }
+
+    editTrackerFormat(e) {
+        if (!this._doValidateTrackers(this.trackerFormats)) {
+            // Since trackers are in-validate, event is stopped and alert message is thrown
+            e.preventDefault();
+            e.stopPropagation();
+            alert('Please select valid Tracker Format');
+        }
+
+        console.log('editTrackerFormat', this.trackerFormats);
+    }
+
+    // Add custom Tracker validation logic here
+    _doValidateTrackers(trackers) {
+        if (!trackers) return false;
+
+        let selectedTrackers = trackers.filter(tracker => tracker.select);
+        return selectedTrackers.length > 0
+    }
+
+    _parseTrackerFormat(trackers) {
+        let _trackers = trackers
+            .filter(tracker => tracker.select)
+            .map(selectedTracker => selectedTracker.key);
+
+        return [].concat(..._trackers);
     }
 
     resetForm() {
