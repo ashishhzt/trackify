@@ -12,7 +12,6 @@ class JobsController {
         this.userId = 1; //get this data from localstorage
 
         this.shareData = shareData; //service to pass data to fro from controllers
-
         this.checkedAllCandidateFlag = false;
         this.sideMenuState = { flag: 'myjob', status: 'active' };
         this.presentStage = "NEW";
@@ -777,8 +776,8 @@ class JobsController {
             console.log(response);
             this.inbox.nextPageToken = response.nextPageToken
             this.inbox.fromCount = 1;
-            this.inbox.toCount = response.messages.length;
-            this.inbox[label] = response.messages;
+            this.inbox.toCount = response.threads.length;
+            this.inbox[label] = response.threads;
             // this.inbox[label] = this.inbox[label].concat(response.messages);
             console.log(this.inbox);
         }, error => {
@@ -979,12 +978,18 @@ class JobsController {
             $('.openinbox').show();
             $('.inboxtable').hide();
             SERVICE.get(this).readMail(message).then(response => {
-                if (this.inbox.currentView == "INBOX" && !message.isRead) {
-                    this.inbox.counter.INBOX.messagesUnread -= 1;
+                this.inbox.thread = response.msg;
+                for (var i = this.inbox.thread.length - 1; i >= 0; i--) {
+                    this.inbox.thread[i].html = (atob(this.inbox.thread[i].html));
                 }
-                this.inbox.message.attachments = response.msg.attachments;
-                console.log(response);
-                $('.email-body').html(atob(response.msg.html));
+                console.log(this.inbox.thread);
+                // var _response = response.
+                // if (this.inbox.currentView == "INBOX" && !message.isRead) {
+                //     this.inbox.counter.INBOX.messagesUnread -= 1;
+                // }
+                // this.inbox.message.attachments = response.msg.attachments;
+                // console.log(response);
+                // $('.email-body').html(atob(response.msg.html));
                 // this.email.content = response.msg.html;
             }, error => {
                 console.log(error);
