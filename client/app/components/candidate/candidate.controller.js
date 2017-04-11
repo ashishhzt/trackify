@@ -160,11 +160,11 @@ class CandidateController {
         this.sideMenuState = {flag: flag, status: status};
 
         SERVICE.get(this).getJobsDetail(userId, flag, status).then(response => {
-            this.sideMenuJobsDetails = response.data;
+            this.sideMenuJobsDetails = response.data.reverse();
         }, error => {
             console.log(error);
         });
-
+        if (this.searchColJobText) this.searchColJobText.clientName = "";
         SERVICE.get(this).getAllInternalDataCandidateList(this.idSkip).then(response => {
             this.allCandidateDetails = response.data;
             this.allCandidateCount = response.count;

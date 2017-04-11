@@ -3,6 +3,7 @@ import _    from 'lodash';
 import path   from 'path';
 import config	from '../../config/config';
 import mongoutil from '../../util/mongo';
+import upload from '../../util/multer';
 var jdFilesPath = path.join(__dirname, '../../jd_files');
 
 export const createClient = function(req, res) {

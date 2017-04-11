@@ -335,7 +335,7 @@ export const candidateDetailsForJob = function(req, res) {
     collection.aggregate([{ $unwind: "$jobs" },
         { $match: { 'jobs.jobId' : req.body.jobId}},
         { $group : { _id : "$jobs.stage", candidates: { $push: "$$ROOT" } } }], function(err, docs) {
-            var response = [];
+            var response = {};
             var stages = ["NEW", "SHORTLIST", "INTERVIEW", "OFFER", "JOINED", "CANDIDATE"];
 
             var filterstg= Object.keys(req.body.filter).filter(itm=>req.body.filter[itm].length>0)

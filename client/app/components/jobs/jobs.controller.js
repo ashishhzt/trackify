@@ -61,6 +61,7 @@ class JobsController {
     $onInit() {
         console.log('this.user injected into job component\'s bindings by ui-router\'s $resolve service', this.user)
 
+
     }
 
     setStage(stage) {
@@ -254,6 +255,7 @@ class JobsController {
             var fd = new FormData();
             fd.append('resumeFile', file);
             fd.append('candidateId', candidateId);
+            fd.append('assigneeName', this.AuthFactory.auth.user.displayName);
             fd.append('uploadDate', new Date());
 
             SERVICE.get(this).uploadResumeFile(fd).then(response => {
@@ -541,8 +543,12 @@ class JobsController {
         let filterObj = { "NEW": [], "SHORTLIST": [], "INTERVIEW": [], "OFFER": [], "JOINED": [], "CANDIDATE": [] };
 
         SERVICE.get(this).candidateDetailsForJob(this.userId, jobId, filterObj, "job").then(response => {
-
             this.allCandidateDetail = response.data;
+            console.log("candidateDetailsForJob",this.allCandidateDetail);
+            if (response.data && !Object.keys(response.data).length) {
+                this.selectedCandidate = null;
+                return;
+            }
             let leng = this.allCandidateDetail[this.presentStage].length;
             if (leng > 0) {
                 let maxCandidateIdPointer = 0;
@@ -556,8 +562,10 @@ class JobsController {
                 for (var i = 0; i < leng; i++) {
                     this.checkedCandidateList.push(false);
                 }
-            } else
+            } else {
                 this.selectedCandidate = null;
+            }
+            
 
         }, error => {
             console.log(error);
@@ -580,6 +588,7 @@ class JobsController {
         for (var arrElem of this.sideMenuJobsDetails) {
             if (arrElem._id === jobId) {
                 this.selectedJobDetail = arrElem;
+                console.log("selectedJobDetail",this.selectedJobDetail)
                 break;
             }
         }
@@ -603,12 +612,15 @@ class JobsController {
     }
 
     getJobsDetail(userId, flag, status) {
+
         this.sideMenuState = { flag: flag, status: status };
         console.log("FLAG", flag,status)
+
         SERVICE.get(this).getJobsDetail(userId, flag, status).then(response => {
             console.log("Side Menu",response.data)
             this.sideMenuJobsDetails = response.data.reverse();
             this.sideMenuState.jobId = response.data[0]._id;
+            console.log("getJobsDetail",this.sideMenuState.jobId)
             if (this.shareData.getProperty() == 'blank') {
                 this.getMainMenuData(this.sideMenuState.jobId);
             } else {    
@@ -616,6 +628,7 @@ class JobsController {
                 this.shareData.setProperty('blank')
             }
             this.getAllRecruiters();
+            if (this.searchColJobText) this.searchColJobText.clientName = "";
         }, error => {
             console.log(error);
         });
@@ -633,10 +646,13 @@ class JobsController {
             jobId: this.selectedJobDetail._id,
             skip
         }
-
         this.iDataCandidateDetails = null;
 
         SERVICE.get(this).getInternalDataCandidateList(reqData).then(response => {
+            if (!response.hasOwnProperty('data')) {
+                console.log('getInternalDataCandidateList',response.message)
+                return;
+            }
             this.internalCandidateList = response.data;
             this.internalCandidateListCount = response.count;
 
@@ -686,7 +702,7 @@ class JobsController {
         SERVICE.get(this).moveToActiveJob(reqData).then(response => {
             console.log(response);
             this.checkAllIDCandidate();
-            this.getMainMenuData(this.selectedJobDetail.jobId);
+            this.getMainMenuData(this.selectedJobDetail._id);
         }, error => {
             console.log(error);
         });
