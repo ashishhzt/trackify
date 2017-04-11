@@ -114,15 +114,15 @@
                             </div>
                             <table class="table table-inbox table-hover inboxtable">
                                 <tbody>
-                                <tr ng-repeat="message in vm.mailForJobs[vm.mailForJobs.currentView]" ng-click="vm.readMail('job', message)"  class="toggleinbox" ng-class="message.isRead ? '' : 'unread'" >
+                                <tr ng-repeat="thread in vm.mailForJobs[vm.mailForJobs.currentView]" ng-click="vm.readMail('job', thread[thread.length-1])"  class="toggleinbox" ng-class="thread[thread.length-1].isRead ? '' : 'unread'" >
                                     <td class="inbox-small-cells">
-                                        <input ng-checked="vm.mailForJobs.checkboxMaster" id="{{message.id}}" class="mail-checkbox" type="checkbox">
+                                        <input ng-checked="vm.mailForJobs.checkboxMaster" id="{{thread[thread.length-1].id}}" class="mail-checkbox" type="checkbox">
                                     </td>
-                                    <td class="inbox-small-cells"><i ng-click="vm.modifyEmail('STARRED', message)" ng-class="message.isStarred ? 'inbox-started' : ''" class="fa fa-star"></i></td>
-                                    <td class="view-message dont-show">{{["DRAFT", "SENT"].indexOf(vm.mailForJobs.currentView) != -1 ? message.to : message.from}}</td>
-                                    <td class="view-message">{{message.subject}} - {{message.snippet}}</td>
-                                    <td class="view-message inbox-small-cells"><i ng-if='message.hasAttachment' class="fa fa-paperclip"></i></td>
-                                    <td class="view-message text-right" sd="{{message.date}}">{{vm.parseDate(message.date)}}</td>
+                                    <td class="inbox-small-cells"><i ng-click="vm.modifyEmail('STARRED', thread[thread.length-1])" ng-class="thread[thread.length-1].isStarred ? 'inbox-started' : ''" class="fa fa-star"></i></td>
+                                    <td class="view-message dont-show">{{["DRAFT", "SENT"].indexOf(vm.mailForJobs.currentView) != -1 ? thread[thread.length-1].to : thread[thread.length-1].from}}</td>
+                                    <td class="view-message">{{thread[thread.length-1].subject}} - {{thread[thread.length-1].snippet}}</td>
+                                    <td class="view-message inbox-small-cells"><i ng-if='thread[thread.length-1].hasAttachment' class="fa fa-paperclip"></i></td>
+                                    <td class="view-message text-right" sd="{{thread[thread.length-1].date}}">{{vm.parseDate(thread[thread.length-1].date)}}</td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -146,7 +146,7 @@
                                             <button id="email-opened-reply" class="reply_btn btn btn-sm btn-transparent">
                                                 <i class="fa fa-reply"></i> Reply
                                             </button>
-                                            <button ng-click="vm.composeMail(vm.mailForJobs.message)"><i class="fa fa-reply"></i>SEND REPLY</button>
+                                           <!--  <button ng-click="vm.composeMail(vm.mailForJobs.message)"><i class="fa fa-reply"></i>SEND REPLY</button> -->
                                             <button class="btn btn-sm btn-transparent dropdown-toggle" data-toggle="dropdown">
                                                 <i class="fa fa-angle-down"></i>
                                             </button>
@@ -165,7 +165,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="email-body" ng-bind-html="vm.email.content">
+                            <div class="email-body" ng-bind-html="vm.mailForJobs.message.html">
                             </div>
                             <!-- <div class="email-attachments">
                                 <div class="row">

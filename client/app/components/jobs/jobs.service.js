@@ -91,7 +91,7 @@ class jobsService {
 
     fetchMails(data){
         var url = "/api/mailer?label="+data.label;
-        if(data.label=="search" && data.query){
+        if(data.query){
             url += "&query="+data.query;
         }
         if(data.token){
@@ -125,7 +125,8 @@ class jobsService {
     }
 
     readMail(message){
-        return HTTP.get(this).get("/api/mailer/"+message.id).then(result => result.data);
+        console.log(message);
+        return HTTP.get(this).get("/api/mailer/"+message.threadId).then(result => result.data);
     }
 
     sendMailForJob(candidateList){

@@ -57,17 +57,17 @@ export const fetchMessages = function(request, callback) {
         // -from:flipkart.com -from:myntra.com -from:magicbricks.com -from:github.com -from:olacabs.com 
         if (request.label == "candidate") {
             params.labelIds = "INBOX"
-            params.q = "-from:flipkart.com -from:myntra.com -from:olacabs.com"
+            params.q = "{from:gmail.com from:yahoo.com from:ymail.com }"
         }
         if (request.label == "client") {
             params.labelIds = "INBOX"
-            params.q = "{from:google.com}"
+            params.q = "-from:gmail.com -from:yahoo.com -from:ymail.com"
         }
         if (request.label == "search") {
             delete params.labelIds;
             params.q = request.query
         }
-        gmail.users.messages.list(params, function(err, response) {
+        gmail.users.threads.list(params, function(err, response) {
             if (err) {
                 callback(err);
             } else {
@@ -78,39 +78,46 @@ export const fetchMessages = function(request, callback) {
     }
 
     function readMails(auth, response, callback) {
-        var messages = [];
-        async.each(response.messages, function iterate(message, next) {
-            gmail.users.messages.get({
+        var threads = [];
+        async.each(response.threads, function iterate(thread, next) {
+            gmail.users.threads.get({
                 auth: auth,
                 userId: 'me',
                 format: "metadata",
-                id: message.id,
+                id: thread.id,
                 metadataHeaders: ['From', 'Subject', 'Date', 'To', 'Content-Type', 'Message-ID']
             }, function(err, response) {
                 if (err) {
                     next({ status: 500, msg: "Error retriving messages." })
                 } else {
-                    var _message = { id: message.id, threadId: message.threadId, hasAttachment: false, isStarred: false, isRead: true };
-                    if (response.labelIds.indexOf("STARRED") != -1) {
-                        _message.isStarred = true;
-                    }
-                    if (response.labelIds.indexOf("UNREAD") != -1) {
-                        _message.isRead = false;
-                    }
-                    for (var header of response.payload.headers) {
-                        if (header.name == "Content-Type" && header.value.indexOf("multipart/mixed") != -1) {
-                            _message.hasAttachment = true;
-                        } else {
-                            _message[header.name.toLowerCase()] = header.value;
+                    var thread = [];
+                    async.each(response.messages, function iterator(message, next){
+                        var _message = { id: message.id, threadId: message.threadId, hasAttachment: false, isStarred: false, isRead: true };
+                        if (message.labelIds.indexOf("STARRED") != -1) {
+                            _message.isStarred = true;
                         }
-                    }
-                    _message.snippet = response.snippet.substr(0, 25)
-                    messages.push(_message)
-                    next();
+                        if (message.labelIds.indexOf("UNREAD") != -1) {
+                            _message.isRead = false;
+                        }
+                        for (var header of message.payload.headers) {
+                            if (header.name == "Content-Type" && header.value.indexOf("multipart/mixed") != -1) {
+                                _message.hasAttachment = true;
+                            } else {
+                                _message[header.name.toLowerCase()] = header.value;
+                            }
+                        }
+                        _message.snippet = message.snippet.substr(0, 25)
+                        thread.push(_message)
+                        next();
+                    }, function done(error){
+                        threads.push(thread);
+                        next();
+                    })
+                    
                 }
             });
         }, function done(err) {
-            callback(null, { status: 200, messages: messages, nextPageToken: response.nextPageToken });
+            callback(null, { status: 200, threads: threads, nextPageToken: response.nextPageToken });
         })
     }
 }
@@ -179,7 +186,7 @@ export const readMessage = function(request, callback) {
     }
 
     function _readMessage(data, callback) {
-        gmail.users.messages.get({
+        gmail.users.threads.get({
             auth: data.auth,
             userId: 'me',
             id: request.params.id,
@@ -188,19 +195,26 @@ export const readMessage = function(request, callback) {
             if (error) {
                 callback({ status: 500 });
             } else {
-                console.log(JSON.stringify(response))
-                data.mail = {}
-                response = parseResponse(response);
-                data.mail.html = response.html;
-                data.mail.attachments = response.attachments;
-                callback(null, data);
-                // simpleParser(new Buffer(response.raw, 'base64').toString(), (err, mail) => {
-                //     for (var i = mail.attachments.length - 1; i >= 0; i--) {
-                //         delete mail.attachments[i].content;
-                //     }
-                //     data.mail = mail;
-                //     callback(null, data)
-                // })
+                var mails = [];
+                async.each(response.messages, function iterator(message, next){
+                    console.log("-------------------------")
+                    console.log(JSON.stringify(message, null, 2))
+                    let mail = {};
+                    response = parseResponse(message);
+                    mail.html = response.html;
+                    mail.attachments = response.attachments;
+                    mail.snippet = message.snippet;
+                    mail.messageId = message.id;
+                    for (var header of message.payload.headers) {
+                        mail[header.name.toLowerCase()] = header.value;
+                    }
+                    mail.snippet = message.snippet.substr(0, 25)
+                    mails.push(mail);
+                    next();
+                }, function done(){
+                    data.mails = mails;
+                    callback(null, data);
+                });
             }
         });
     }
@@ -212,7 +226,7 @@ export const readMessage = function(request, callback) {
             id: request.params.id,
             resource: { removeLabelIds: ["UNREAD"] }
         }, function(error, response) {
-            callback(null, data.mail);
+            callback(null, data.mails);
         });
     }
 }

@@ -59,7 +59,7 @@
                 </div>
             </div>
             <div class="panel-body text-center no-padding selectedfilter">
-                <div class="alert alert-success width100 leftdiv" ng-repeat="attachment in vm.mailAttachments track by $index">
+                <div class="alert alert-success leftdiv" ng-repeat="attachment in vm.mailAttachments track by $index">
                     <button type="button" class="close" ng-click="vm.removeAttachment($index)" aria-hidden="true">&times;</button>
                     <strong>{{attachment.name}}</strong>
                 </div>

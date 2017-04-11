@@ -773,6 +773,7 @@ class JobsController {
         }
         //Similar Resume Code: END
     fetchMails(label) {
+        this.inbox[label] = []
         $('.inboxtable').show();
         $('.openinbox').hide();
         if (!this.inbox.currentView) {
@@ -868,7 +869,7 @@ class JobsController {
                 params.threadId = message.threadId;
                 params.mailTo = message.from;
                 params.messageId = message['message-id'];
-                params.body = $("#summernote1").code()
+                params.body = $("#summernote1").code();
             } else {
                 params.subject = this.email.subject;
                 params.mailTo = this.email.to;
@@ -884,6 +885,9 @@ class JobsController {
             SERVICE.get(this).composeMail(params).then(response => {
                 alert("mail sent successfully");
                 console.log(response);
+                $("#summernote1").code("");
+                $('#mailtextarea').code("");
+                $('.note-editor').toggle();
             }, error => {
                 console.log(error);
             });
@@ -978,9 +982,9 @@ class JobsController {
             query: this.searchText,
             token: token
         }).then(response => {
-            this.inbox[label] = response.messages;
+            this.inbox[label] = response.threads;
             this.inbox.fromCount = this.inbox.toCount + 1;
-            this.inbox.toCount = this.inbox.toCount + response.messages.length;
+            this.inbox.toCount = this.inbox.toCount + response.threads.length;
             this.inbox.nextPageToken = response.nextPageToken;
             console.log(this.inbox);
         }, error => {
@@ -990,17 +994,19 @@ class JobsController {
 
     readMail(view, message) {
         if (view == "main") {
+            this.inbox.thread = [];
             this.inbox.message = message;
             $('.openinbox').show();
             $('.inboxtable').hide();
             SERVICE.get(this).readMail(message).then(response => {
                 this.inbox.thread = response.msg;
                 for (var i = this.inbox.thread.length - 1; i >= 0; i--) {
-                    this.inbox.thread[i].html = (atob(this.inbox.thread[i].html));
+                    this.inbox.thread[i].html = atob(this.inbox.thread[i].html);
+                    $("#"+this.inbox.thread[i].messageId+" > .panel-body").html(this.inbox.thread[i].html)
                 }
-                console.log(this.inbox.thread);
+                // console.log(this.inbox.thread);
                 // var _response = response.
-                // if (this.inbox.currentView == "INBOX" && !message.isRead) {
+                // if (this.inbox.currentView == "INBOX" && !this.inbox.thread[0].isRead) {
                 //     this.inbox.counter.INBOX.messagesUnread -= 1;
                 // }
                 // this.inbox.message.attachments = response.msg.attachments;
@@ -1015,11 +1021,12 @@ class JobsController {
             $('.openinbox').show();
             $('.inboxtable').hide();
             SERVICE.get(this).readMail(message).then(response => {
+                var response = response.msg[response.msg.length-1];
                 if (this.mailForJobs.currentView == "INBOX" && !message.isRead) {
                     this.mailForJobs.inboxCounter -= 1;
                 }
                 this.mailForJobs.message.attachments = response.attachments;
-                $('.email-body').html(response.msg.html);
+                this.mailForJobs.message.html = atob(response.html);
                 // this.email.content = response.msg.html;
             }, error => {
                 console.log(error);
@@ -1050,10 +1057,10 @@ class JobsController {
         $('.inboxtable').show();
         this.mailForJobs.currentView = label;
         // "subject:"+this.selectedJobDetail.clientName
-        SERVICE.get(this).fetchMails({ label: label, query: "" }).then(response => {
+        SERVICE.get(this).fetchMails({ label: label, query: "subject:"+this.selectedJobDetail.clientName }).then(response => {
             this.mailForJobs[label] = [];
-            this.mailForJobs[label] = response.messages;
-            console.log(response);
+            this.mailForJobs[label] = response.threads;
+            console.log(this.mailForJobs[label]);
         }, error => {
             console.log(error);
         });
