@@ -61,7 +61,7 @@ class JobsController {
 
     $onInit() {
         console.log('this.user injected into job component\'s bindings by ui-router\'s $resolve service', this.user)
-
+        
 
     }
 
@@ -596,7 +596,9 @@ class JobsController {
         this.presentStage = "NEW";
         this.initSimilarResume(0);
         this.candidateDetailsForJob(jobId);
+
     };
+
     getAllRecruiters() {
         SERVICE.get(this).getAllRecruiters().then(response => {
             this.allRecruiters = response.data;
