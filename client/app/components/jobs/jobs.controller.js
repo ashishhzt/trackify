@@ -61,8 +61,27 @@ class JobsController {
 
     $onInit() {
         console.log('this.user injected into job component\'s bindings by ui-router\'s $resolve service', this.user)
-        
+        this.locationArray();
+        this.allotArray();
+        this.eitherSkillArray();
+        this.mandatorySkillArray();
+        this.designationArray();
+    }
 
+    locationArray(){
+        this.myLocation = ['Bangalore' ,'Delhi/NCR','Gurgaon','Hyderabad','Mumbai','Pune','Chennai','Kolkata','Trivandrum','Cochin','Jaipur','Ahmedabad','Singapore','Malaysia','USA','Canada','European Countries','Australia/New Zealand','Nagpur','Noida','Others']
+    }
+    allotArray(){
+        this.allot = ['Ashok','John','David','Kristine','Ajay','Vijay']
+    }
+    eitherSkillArray(){
+        this.eitherSkill = ['Java','PHP','Drupal','ASP.NET','C#']
+    }
+    mandatorySkillArray(){
+        this.mandatory = ['Any Language','Java','Java , Bigdata' , 'Java, UI Framework','Python','Python, Django','Python, UI framework','Python, ML','RoR','C++','C#','MEAN','LAMP','PHP','Node, UI framework','Node','Angular','Any JS framework (UI)','React','Machine Learning','QTP','Selenium','Big Data','Bootstrap','AWS','Cloud','Azure','Nosql','Mongodb','CouchDB','Cassandra','Oracle','SQL (Any)','Mysql','Postgresql','Chef/Puppet/Ansible','Linux/Unix/Redhat','Rest/Restful','SOAP','Webservices (Any)']
+    }
+    designationArray(){
+        this.designationList = ['SDE I / II / III','Full Stack Developer','UI Developer','UI/UX Designer','Lead Engineer','Engineering Manager','Product Manager','Data Engineer','Data Scientist','Data Analyst','Big Data Engineer','Big Data Architect','Architect','Associate Architect','Solution Architect','Project/Program Manager','Android Developer','Quality Analyst','Ios Developer','Devops Engineer','Cloud Architect','Head of Engineering','Vice President','Asst Vice President','Director','Marketing Executive','Head Marketing','Recruiter']
     }
 
     setStage(stage) {
