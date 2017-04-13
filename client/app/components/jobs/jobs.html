@@ -9,6 +9,7 @@
         <span ng-include src="'partials/job-new-resume(send-mails).html'"></span>
         <span ng-include src="'partials/job(mail-popup).html'"></span>
         <span ng-include src="'partials/job-new-resume(send-mails-compose).html'"></span>
+        <span ng-include src="'partials/job-settings.html'"></span>
         <div class="contentpanel" ng-show="vm.inbox.currentView == undefined">
 
             <!-- content goes here... -->
@@ -1363,8 +1364,6 @@
                                 </div>
                             </div>
                         </div>
-
-
                     </div><!-- panel -->
                 </div>
             </div>
@@ -1373,224 +1372,10 @@
     </div><!-- mainpanel -->
 </section>
 
-<script type="text/javascript">
-    //<![CDATA[
-    document.onload = function () {
-        document.myFunction = function ()
-        {
-            var editreadonly_hidden = $("#editreadonly_hidden").val();
-            if (editreadonly_hidden == 0)
-            {
-                $('#editreadonly').html("<i class='fa fa-floppy-o' aria-hidden='true'></i>");
-
-                $("#detailform :input").prop("disabled", false);
-                $("#editreadonly_hidden").val(1);
-            } else
-            {
-                $('#editreadonly').html("<i class='fa fa-pencil-square-o' aria-hidden='true'></i>");
-
-                $("#detailform :input").prop("disabled", true);
-                $("#editreadonly_hidden").val(0);
-            }
-        }
-        disableContent();
-    }
-
-    document.onload = function () {
-        document.myjd = function ()
-        {
-            $("#editreadonly_hidden_jd").val('1');
-            var editreadonly_hidden = $("#editreadonly_hidden_jd").val();
-
-            if (editreadonly_hidden == 0)
-            {
-                $('#viewjd form #editreadonly').html("<i class='fa fa-floppy-o' aria-hidden='true'></i>");
-
-                $("#viewjd form .left-side-panel :input").prop("disabled", false);
-                $("#editreadonly_hidden_jd").val(1);
-            } else
-            {
-                $('#viewjd form #editreadonly').html("<i class='fa fa-pencil-square-o' aria-hidden='true'></i>");
-
-                $("#viewjd form .left-side-panel :input").prop("disabled", true);
-                $("#editreadonly_hidden_jd").val(0);
-            }
-        }
-
-
-    }
-
-
-    function disableContent() {
-        var editreadonly_hidden = $("#editreadonly_hidden").val();
-
-        $('#enableTxt').html("<i class='fa fa-pencil-square-o' aria-hidden='true'></i>");
-        
-        $('#editreadonly').html("<i class='fa fa-pencil-square-o' aria-hidden='true'></i>");
-        $("#detailform :input").prop("disabled", true);
-        $("#editreadonly_hidden").val(0);
-    }
-
-    function disablejdContent() {
-        var editreadonly_hidden = $("#editreadonly_hidden_jd").val();
-        if (editreadonly_hidden == 0)
-        {
-            $('#editreadonlyjd').html("<i class='fa fa-floppy-o' aria-hidden='true'></i>");
-
-            $("#viewjd form .left-side-panel :input").prop("disabled", false);
-            $("#editreadonly_hidden_jd").val(1);
-        } else
-        {
-            $('#editreadonlyjd').html("<i class='fa fa-pencil-square-o' aria-hidden='true'></i>");
-
-            $("#viewjd form .left-side-panel :input").prop("disabled", true);
-            $("#editreadonly_hidden_jd").val(0);
-        }
-    }
-
-    function myFunction()
-    {
-        var editreadonly_hidden = $("#editreadonly_hidden").val();
-        if (editreadonly_hidden == 0)
-        {
-            $('#editreadonly').html("<i class='fa fa-floppy-o' aria-hidden='true'></i>");
-            $("#detailform :input").prop("disabled", false);
-            $("#editreadonly_hidden").val(1);
-        } else
-        {
-            $('#editreadonly').html("<i class='fa fa-pencil-square-o' aria-hidden='true'></i>");
-
-            $("#detailform :input").prop("disabled", true);
-            $("#editreadonly_hidden").val(0);
-        }
-    }
-</script>
-
-<script type="text/javascript">
-    //<![CDATA[
-    document.onload = function () {
-        document.myFunction1 = function ()
-        {
-            var editreadonly_hidden = $("#editreadonly_hidden1").val();
-            if (editreadonly_hidden == 0)
-            {
-                $('#editreadonly1').html("<i class='fa fa-floppy-o' aria-hidden='true'></i>");
-
-                $("#detailform1 :input").prop("disabled", false);
-                $("#editreadonly_hidden1").val(1);
-            } else
-            {
-                $('#editreadonly1').html("<i class='fa fa-pencil-square-o' aria-hidden='true'></i>");
-
-                $("#detailform1 :input").prop("disabled", true);
-                $("#editreadonly_hidden1").val(0);
-            }
-        }
-        disableContent1();
-    }
-
-
-
-
-    function disableContent1() {
-        var editreadonly_hidden = $("#editreadonly_hidden1").val();
-
-        $('#enableTxt1').html("<i class='fa fa-pencil-square-o' aria-hidden='true'></i>");
-
-        $('#editreadonly1').html("<i class='fa fa-pencil-square-o' aria-hidden='true'></i>");
-        $("#detailform1 :input").prop("disabled", true);
-        $("#editreadonly_hidden1").val(0);
-    }
-
-
-
-    function myFunction1()
-    {
-        var editreadonly_hidden = $("#editreadonly_hidden1").val();
-        if (editreadonly_hidden == 0)
-        {
-            $('#editreadonly1').html("<i class='fa fa-floppy-o' aria-hidden='true'></i>");
-            $("#detailform1 :input").prop("disabled", false);
-            $("#editreadonly_hidden1").val(1);
-        } else
-        {
-            $('#editreadonly1').html("<i class='fa fa-pencil-square-o' aria-hidden='true'></i>");
-
-            $("#detailform1 :input").prop("disabled", true);
-            $("#editreadonly_hidden1").val(0);
-        }
-    }
-</script>
-
-<script type="text/javascript">
-    function toggleText() {
-        $('#txtBox').val("");
-    }
-    function toggleTextEdit() {
-
-        var Disabled = document.getElementById("txtBox").disabled;
-        if (Disabled == false) {
-            $('#enabltEditTemplate').html("<i class='fa fa-pencil-square-o' aria-hidden='true'></i>");
-
-        } else {
-            $('#enabltEditTemplate').html("<i class='fa fa-floppy-o' aria-hidden='true'></i>");
-        }
-        document.getElementById("txtBox").disabled = !Disabled;
-    }
-    function toggleTextClient() {
-        $('#txtEditClient1').val("");
-    }
-
-    function toggleTextClient1() {
-        $('#enableTxtClient').html("<i class='fa fa-floppy-o' aria-hidden='true'></i>");
-        var Disabled = document.getElementById("txtEditClient1").disabled;
-        if (Disabled == false) {
-            $('#enableEditclient').html("<i class='fa fa-pencil-square-o' aria-hidden='true'></i>");
-        } else {
-            $('#enableEditclient').html("<i class='fa fa-floppy-o' aria-hidden='true'></i>");
-        }
-        document.getElementById("txtEditClient1").disabled = !Disabled;
-    }
-
-    function loadclientParent() {
-        document.getElementById('enableTxtClient').style.display = "none";
-        document.getElementById('enableEditclient').style.display = "block";
-        document.getElementById("txtEditClient1").disabled = true;
-    }
-</script>
-
-<script>
-    $(document).ready(function () {
-        $(".candidate_content").hide();
-        $(document).on('click', '.show_candidate', function() {
-            $(".candidate_content").toggle();
-            $(".job_content").toggle();
-            //$(".show_candidate").css('background','#b7b7b7');
-            $(this).toggleClass("color_fill");
-            //$(this).addClass("color_fill");
-        });
-        $('.show_job_content').click(function () {
-            $(".job_content").show();
-            $(".candidate_content").hide();
-        });
-        $('#removecolor').click(function () {
-            $("#test_color").removeClass("color_fill");
-            $("#removecolor").removeClass("color_fill");
-        });
-    });
-
-    function resetSimilarResumeView(){ 
-        $(".job_content").show();
-        $(".candidate_content").hide();
-    }
-    // function hideSidecolumn(){
-    //     $(".job_content").show();
-    //     $(".candidate_content").hide();
-    // }
-</script>
 
 <script>
     $(function () {
+
         // Textarea Auto Resize
         autosize($('#autosize'));
 
@@ -1632,8 +1417,6 @@
         $("#select67").select2({tags: true});
         $("#select68").select2({tags: true});
         $("#select69").select2({tags: true});
-        $("#cand_mob").select2({tags: true});
-        $("#cand_mail").select2({tags: true});
 
 
         // Toggles
@@ -1673,6 +1456,8 @@
         $('#call_later2').datepicker();
         $('#call_later3').datepicker();
 
+
+
         $('#datepicker-multiple').datepicker({numberOfMonths: 2});
 
         // Time Picker
@@ -1708,5 +1493,111 @@
             'maxTime': '11:30pm',
             timeFormat: 'h:i'
         });
+
+
+
+
+
+        $('#setTimeButton').on('click', function () {
+            $('#tp3').timepicker('setTime', new Date());
+        });
+
+        // Colorpicker
+        $('#colorpicker1').colorpicker();
+        $('#colorpicker2').colorpicker({
+            customClass: 'colorpicker-lg',
+            sliders: {
+                saturation: {
+                    maxLeft: 200,
+                    maxTop: 200
+                },
+                hue: {maxTop: 200},
+                alpha: {maxTop: 200}
+            }
+        });
+
     });
+</script>
+
+<script type="text/javascript">
+    //<![CDATA[
+    $(window).load(function () {
+        $(document).ready(function () {
+            $("#agent, #agency, #agency1, #agent1").hide();
+            $(".show_hide").show();
+            $(".show_hide_two").show();
+            $('.show_hide').click(function () {
+                $("#agent").slideToggle();
+                $("#agent1").slideToggle();
+                //$("#agency").slideUp();
+            });
+            $('.show_hide_two').click(function () {
+                $("#agency").slideToggle();
+                $("#agency1").slideToggle();
+                //$("#agent").slideUp();
+            });
+
+        });
+    });//]]> 
+</script>
+
+
+<script src="popupjs/script.js"></script>
+<script src="js/jquery.mCustomScrollbar.concat.min.js"></script>
+
+<script>
+    
+(function ($) {
+    $(window).on("load", function () {
+        $(".contentscroll").mCustomScrollbar();
+        myjd();
+          
+        document.getElementById('enableTextTemplate').style.display = "none";
+        document.getElementById('enabltEditTemplate').style.display = "block";
+        //$('#enableTextTemplate').disabled = true;
+        document.getElementById('txtBox').disabled = true;
+        
+    });
+})(jQuery);
+
+function loadpage(page_type) { 
+
+    if ('job_invite' == page_type) {
+        document.getElementById('enableTextTemplate').style.display = "none";
+        document.getElementById('enabltEditTemplate').style.display = "block";
+        document.getElementById("txtBox").disabled = true;    
+
+    }
+    if ('new_format' == page_type) {
+         document.getElementById('enableTextTemplate').style.display = "block";
+         document.getElementById('enabltEditTemplate').style.display = "none";
+         document.getElementById("txtBox").disabled = false;
+
+    }
+}
+function loadTemplate(page_type) {
+    if ('job_invite' == page_type) {
+        document.getElementById('enableTxtClient').style.display = "none";
+        document.getElementById('enableEditclient').style.display = "block";
+        document.getElementById("txtEditClient1").disabled = true;    
+
+    }
+    if ('new_format' == page_type) {
+         $('#enableTxtClient').html("<i class='fa fa-plus-square' aria-hidden='true'></i>");
+         document.getElementById('enableTxtClient').style.display = "block";
+         document.getElementById('enableEditclient').style.display = "none";
+         document.getElementById("txtEditClient1").disabled = false;
+
+    }
+}
+</script>
+<script type="text/javascript">
+//<![CDATA[
+$(window).on('load', function() {
+$('#ExampleTrigger').click(function() {
+    $('input[name=rdio]').prop('checked', false);
+});
+});
+//]]> 
+
 </script>
