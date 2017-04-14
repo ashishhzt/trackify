@@ -9,7 +9,8 @@ class JobsController {
 
         this.jobsService = jobsService;
 
-        this.userId = 1; //get this data from localstorage
+        let userObj = AuthFactory.getLoggedInUser();
+        this.userId = userObj.user._id;
 
         this.shareData = shareData; //service to pass data to fro from controllers
 

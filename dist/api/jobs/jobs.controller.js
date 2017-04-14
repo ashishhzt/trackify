@@ -934,6 +934,7 @@ export const uploadResume = function(req, res) {
             var data = {
                 "candidateId": req.body.candidateId,
                 "assigneeName": req.body.assigneeName,
+                "recruiterId": parseInt(req.body.userId),
                 "originalFileName": req.file.originalname,
                 "hashFileName": req.file.filename,
                 "encoding": req.file.encoding,
