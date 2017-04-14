@@ -53,12 +53,12 @@
 
                         <div class="panel-body text-center no-padding">
                             <ul class="nav nav-tabs nav-justified border-grey nav-inverse">
-                                <li class="show_job_content active" ng-click="vm.setStage('NEW')" id="myData"><a href="#" data-toggle="tab"><strong>New
+                                <li class="show_job_content active" ng-click="vm.setStage('NEW')" id="myData" ng-class="vm.presentStage === 'NEW' ? 'active' : ''"><a href="#" data-toggle="tab"><strong>New
                                     resume- <span id="badge">{{vm.allCandidateDetail.NEW.length}}</span></strong></a></li>
-                                <li ng-click="vm.setStage('SHORTLIST')" ><a class="show_job_content" href="#" data-toggle="tab"><strong>Shortlist- <span id="badge">{{vm.allCandidateDetail.SHORTLIST.length}}</span></strong></a></li>
-                                <li ng-click="vm.setStage('INTERVIEW')"><a class="show_job_content" href="#" data-toggle="tab"><strong>Interview- <span id="badge">{{vm.allCandidateDetail.INTERVIEW.length}}</span></strong></a></li>
-                                <li ng-click="vm.setStage('OFFER')"><a class="show_job_content" href="#" data-toggle="tab"><strong>Offer- <span id="badge">{{vm.allCandidateDetail.OFFER.length}}</span></strong></a></li>
-                                <li ng-click="vm.setStage('JOINED')"><a class="show_job_content" href="#" data-toggle="tab"><strong>Joined- <span id="badge">{{vm.allCandidateDetail.JOINED.length}}</span></strong></a></li>
+                                <li ng-click="vm.setStage('SHORTLIST')" ng-class="vm.presentStage === 'SHORTLIST' ? 'active' : ''" ><a class="show_job_content" href="#" data-toggle="tab"><strong>Shortlist- <span id="badge">{{vm.allCandidateDetail.SHORTLIST.length}}</span></strong></a></li>
+                                <li ng-click="vm.setStage('INTERVIEW')" ng-class="vm.presentStage === 'INTERVIEW' ? 'active' : ''"><a class="show_job_content" href="#" data-toggle="tab"><strong>Interview- <span id="badge">{{vm.allCandidateDetail.INTERVIEW.length}}</span></strong></a></li>
+                                <li ng-click="vm.setStage('OFFER')" ng-class="vm.presentStage === 'OFFER' ? 'active' : ''"><a class="show_job_content" href="#" data-toggle="tab"><strong>Offer- <span id="badge">{{vm.allCandidateDetail.OFFER.length}}</span></strong></a></li>
+                                <li ng-click="vm.setStage('JOINED')" ng-class="vm.presentStage === 'JOINED' ? 'active' : ''"><a class="show_job_content" href="#" data-toggle="tab"><strong>Joined- <span id="badge">{{vm.allCandidateDetail.JOINED.length}}</span></strong></a></li>
                             </ul>
 
                             <div style="padding: 20px 0 0;">
