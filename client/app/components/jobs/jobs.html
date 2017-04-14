@@ -568,12 +568,12 @@
                                             <!-- Tab panes -->
                                             <div class="tab-content">
                                                 <div class="tab-pane active" id="currentfeed">
-                                                    <div class="panel-group" id="accordion3">
+                                                    <div class="panel-group" id="accordion-currentfeed">
                                                         <div class="panel panel-success" ng-repeat="row in vm.feedJobRecords.currentJobs" ng-click="vm.getFeedMsgThread(row.jobId, vm.selectedCandidate._id)">
                                                             <div class="panel-heading">
                                                                 <h4 class="panel-title">
 
-                                                                    <a data-toggle="collapse" class="collapsed" data-parent="#accordion3" data-target="#collapseOne1">
+                                                                    <a data-toggle="collapse" class="collapsed" data-parent="#accordion-currentfeed" data-target="#collapse-currentfeed-{{$index}}">
                                                                                 <span class="col-md-6" style="font-size: 16px;margin-top: 5px">
                                                                                     <span>{{row.clientName}}</span>
                                                                                     - 
@@ -586,7 +586,7 @@
                                                                 </h4>
 
                                                             </div>
-                                                            <div id="collapseOne1" class="panel-collapse collapse mt20">
+                                                            <div id="collapse-currentfeed-{{$index}}" class="panel-collapse collapse mt20">
                                                                 <div class="panel-body">
                                                                     <div class="form-group">
                                                                         <!--                                    <label class="col-sm-3 control-label">Comment <span class="text-danger">*</span></label>-->
@@ -608,18 +608,18 @@
                                                                     <hr>
                                                                     <!-- Nav tabs -->
                                                                     <ul class="nav nav-tabs nav-line">
-                                                                        <li class="active"><a data-target="#All" data-toggle="tab"><strong>All</strong></a></li>
+                                                                        <li class="active"><a data-target="#All-{{$index}}" data-toggle="tab"><strong>All</strong></a></li>
 
-                                                                        <li><a data-target="#Tags" data-toggle="tab"><strong>Tags</strong></a></li>
+                                                                        <li><a data-target="#Tags-{{$index}}" data-toggle="tab"><strong>Tags</strong></a></li>
                                                                         <!--<li><a data-target="#Mails" data-toggle="tab"><strong>Mails</strong></a></li>-->
-                                                                        <li><a data-target="#Status" data-toggle="tab"><strong>Status</strong></a></li>
-                                                                        <li><a data-target="#Notes" data-toggle="tab"><strong>Notes</strong></a></li>
+                                                                        <li><a data-target="#Status-{{$index}}" data-toggle="tab"><strong>Status</strong></a></li>
+                                                                        <li><a data-target="#Notes-{{$index}}" data-toggle="tab"><strong>Notes</strong></a></li>
                                                                     </ul>
 
 
                                                                     <!-- Tab panes -->
                                                                     <div class="tab-content">
-                                                                        <div class="tab-pane active" id="All">
+                                                                        <div class="tab-pane active" id="All-{{$index}}">
                                                                             <div class="listcomment" ng-repeat="innerrow in vm.feedMsgRecords.TAGS">
                                                                                 <h3 style="font-size: 14px;">You are tagged in a comment <span class="right">{{innerrow.timestamp}}</span></h3>
                                                                                 <h5> {{innerrow.sentFrom}}</h5>
@@ -641,7 +641,7 @@
                                                                                 <h4 style="font-size: 14px;">{{innerrow.message}}</h4>
                                                                             </div>
                                                                         </div>
-                                                                        <div class="tab-pane" id="Tags">
+                                                                        <div class="tab-pane" id="Tags-{{$index}}">
                                                                             <div class="listcomment" ng-repeat="innerrow in vm.feedMsgRecords.TAGS">
                                                                                 <h3 style="font-size: 14px;">You are tagged in a comment <span class="right">{{innerrow.timestamp}}</span></h3>
                                                                                 <h5> {{innerrow.sentFrom}}</h5>
@@ -656,14 +656,14 @@
                                                                             </div>
                                                                             &lt;!&ndash;Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae.&ndash;&gt;
                                                                         </div>-->
-                                                                        <div class="tab-pane" id="Status">
+                                                                        <div class="tab-pane" id="Status-{{$index}}">
                                                                             <div class="listcomment" ng-repeat="innerrow in vm.feedMsgRecords.STATUS">
                                                                                 <h3 style="font-size: 14px;">Changed By: <span class="right">{{innerrow.timestamp}}</span></h3>
                                                                                 <h5>{{ vm.getRecruiterName(innerrow.changedBy) }}</h5>
                                                                                 <h4 style="font-size: 14px; text-transform: capitalize;">Status: {{innerrow.status | lowercase}}</h4>
                                                                             </div>
                                                                         </div>
-                                                                        <div class="tab-pane" id="Notes">
+                                                                        <div class="tab-pane" id="Notes-{{$index}}">
                                                                             <div class="listcomment" ng-repeat="innerrow in vm.feedMsgRecords.NOTES">
                                                                                 <h3 style="font-size: 14px;">Note:<span class="right">{{innerrow.timestamp}}</span></h3>
                                                                                 <h5>Saved By: {{innerrow.savedBy}}</h5>
@@ -678,12 +678,12 @@
 
                                                 </div>
                                                 <div class="tab-pane" id="prevfeed">
-                                                    <div class="panel-group" id="accordion3">
+                                                    <div class="panel-group" id="accordion-prevfeed">
                                                         <div class="panel panel-success" ng-repeat="row in vm.feedJobRecords.previousJobs" ng-click="vm.getFeedMsgThread(row.jobId, vm.selectedCandidate._id)">
                                                             <div class="panel-heading">
                                                                 <h4 class="panel-title">
 
-                                                                    <a data-toggle="collapse" class="collapsed" data-parent="#accordion3" data-target="#collapseOne">
+                                                                    <a data-toggle="collapse" class="collapsed" data-parent="#accordion-prevfeed" data-target="#collapse-prevfeed-{{$index}}">
                                                                                 <span class="col-md-6" style="font-size: 16px;margin-top: 5px">
                                                                                     <span>{{row.clientName}}</span>
                                                                                     -
@@ -696,7 +696,7 @@
                                                                 </h4>
 
                                                             </div>
-                                                            <div id="collapseOne" class="panel-collapse collapse mt20">
+                                                            <div id="collapse-prevfeed-{{$index}}" class="panel-collapse collapse mt20">
                     
                                                                 <div class="panel-body">
                                                                     <div class="form-group">
@@ -719,19 +719,19 @@
                                                                     <hr>
                                                                     <!-- Nav tabs -->
                                                                     <ul class="nav nav-tabs nav-line">
-                                                                        <li class="active"><a data-target="#All" data-toggle="tab"><strong>All</strong></a></li>
+                                                                        <li class="active"><a data-target="#All-{{$index}}" data-toggle="tab"><strong>All</strong></a></li>
 
-                                                                        <li><a data-target="#Tags" data-toggle="tab"><strong>Tags</strong></a></li>
+                                                                        <li><a data-target="#Tags-{{$index}}" data-toggle="tab"><strong>Tags</strong></a></li>
                                                                         <!--<li><a data-target="#Mails" data-toggle="tab"><strong>Mails</strong></a></li>-->
-                                                                        <li><a data-target="#Status" data-toggle="tab"><strong>Status</strong></a></li>
-                                                                        <li><a data-target="#Notes" data-toggle="tab"><strong>Notes</strong></a></li>
+                                                                        <li><a data-target="#Status-{{$index}}" data-toggle="tab"><strong>Status</strong></a></li>
+                                                                        <li><a data-target="#Notes-{{$index}}" data-toggle="tab"><strong>Notes</strong></a></li>
                                                                     </ul>
 
 
                                                                     <!-- Tab panes -->
                                                                     <!-- Tab panes -->
                                                                     <div class="tab-content">
-                                                                        <div class="tab-pane active" id="All">
+                                                                        <div class="tab-pane active" id="All-{{$index}}">
                                                                             <div class="listcomment" ng-repeat="innerrow in vm.feedMsgRecords.TAGS">
                                                                                 <h3 style="font-size: 14px;">You are tagged in a comment <span class="right">{{innerrow.timestamp}}</span></h3>
                                                                                 <h5> {{innerrow.sentFrom}}</h5>
@@ -753,7 +753,7 @@
                                                                                 <h4 style="font-size: 14px;">{{innerrow.message}}</h4>
                                                                             </div>
                                                                         </div>
-                                                                        <div class="tab-pane" id="Tags">
+                                                                        <div class="tab-pane" id="Tags-{{$index}}">
                                                                             <div class="listcomment" ng-repeat="innerrow in vm.feedMsgRecords.TAGS">
                                                                                 <h3 style="font-size: 14px;">You are tagged in a comment <span class="right">{{innerrow.timestamp}}</span></h3>
                                                                                 <h5> {{innerrow.sentFrom}}</h5>
@@ -768,14 +768,14 @@
                                                                             </div>
                                                                             &lt;!&ndash;Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae.&ndash;&gt;
                                                                         </div>-->
-                                                                        <div class="tab-pane" id="Status">
+                                                                        <div class="tab-pane" id="Status-{{$index}}">
                                                                             <div class="listcomment" ng-repeat="innerrow in vm.feedMsgRecords.STATUS">
                                                                                 <h3 style="font-size: 14px;">Changed By: <span class="right">{{innerrow.timestamp}}</span></h3>
                                                                                 <h5>{{ vm.getRecruiterName(innerrow.changedBy) }}</h5>
                                                                                 <h4 style="font-size: 14px; text-transform: capitalize;">Status: {{innerrow.status | lowercase}}</h4>
                                                                             </div>
                                                                         </div>
-                                                                        <div class="tab-pane" id="Notes">
+                                                                        <div class="tab-pane" id="Notes-{{$index}}">
                                                                             <div class="listcomment" ng-repeat="innerrow in vm.feedMsgRecords.NOTES">
                                                                                 <h3 style="font-size: 14px;">Note:<span class="right">{{innerrow.timestamp}}</span></h3>
                                                                                 <h5>Saved By: {{innerrow.savedBy}}</h5>
@@ -1141,12 +1141,12 @@
                                             <!-- Tab panes -->
                                             <div class="tab-content">
                                                 <div class="tab-pane active" id="currentfeed2">
-                                                    <div class="panel-group" id="accordion3">
+                                                    <div class="panel-group" id="accordion-currentfeed2">
                                                             <div class="panel panel-success" ng-repeat="row in vm.iDataFeedJobRecords.currentJobs" ng-click="vm.getFeedMsgThread(row.jobId, vm.iDataCandidateDetails._id)">
                                                             <div class="panel-heading">
                                                                 <h4 class="panel-title">
 
-                                                                    <a data-toggle="collapse" class="collapsed" data-parent="#accordion3" data-target="#collapseTwo1">
+                                                                    <a data-toggle="collapse" class="collapsed" data-parent="#accordion-currentfeed2" data-target="#collapse-currentfeed2-{{$index}}">
                                                                                 <span class="col-md-6" style="font-size: 16px;margin-top: 5px">
                                                                                     <span>{{row.clientName}}</span>
                                                                                     - 
@@ -1159,7 +1159,7 @@
                                                                 </h4>
 
                                                             </div>
-                                                            <div id="collapseTwo1" class="panel-collapse collapse mt20">
+                                                            <div id="collapse-currentfeed2-{{$index}}" class="panel-collapse collapse mt20">
                                                                 <div class="panel-body">
                                                                     <div class="form-group">
                                                                         <!--                                    <label class="col-sm-3 control-label">Comment <span class="text-danger">*</span></label>-->
@@ -1181,18 +1181,18 @@
                                                                     <hr>
                                                                     <!-- Nav tabs -->
                                                                     <ul class="nav nav-tabs nav-line">
-                                                                        <li class="active"><a data-target="#All" data-toggle="tab"><strong>All</strong></a></li>
+                                                                        <li class="active"><a data-target="#All-{{$index}}" data-toggle="tab"><strong>All</strong></a></li>
 
-                                                                        <li><a data-target="#Tags" data-toggle="tab"><strong>Tags</strong></a></li>
+                                                                        <li><a data-target="#Tags-{{$index}}" data-toggle="tab"><strong>Tags</strong></a></li>
                                                                         <!--<li><a data-target="#Mails" data-toggle="tab"><strong>Mails</strong></a></li>-->
-                                                                        <li><a data-target="#Status" data-toggle="tab"><strong>Status</strong></a></li>
-                                                                        <li><a data-target="#Notes" data-toggle="tab"><strong>Notes</strong></a></li>
+                                                                        <li><a data-target="#Status-{{$index}}" data-toggle="tab"><strong>Status</strong></a></li>
+                                                                        <li><a data-target="#Notes-{{$index}}" data-toggle="tab"><strong>Notes</strong></a></li>
                                                                     </ul>
 
 
                                                                     <!-- Tab panes -->
                                                                     <div class="tab-content">
-                                                                        <div class="tab-pane active" id="All">
+                                                                        <div class="tab-pane active" id="All-{{$index}}">
                                                                             <div class="listcomment" ng-repeat="innerrow in vm.feedMsgRecords.TAGS">
                                                                                 <h3 style="font-size: 14px;">You are tagged in a comment <span class="right">{{innerrow.timestamp}}</span></h3>
                                                                                 <h5> {{innerrow.sentFrom}}</h5>
@@ -1214,7 +1214,7 @@
                                                                                 <h4 style="font-size: 14px;">{{innerrow.message}}</h4>
                                                                             </div>
                                                                         </div>
-                                                                        <div class="tab-pane" id="Tags">
+                                                                        <div class="tab-pane" id="Tags-{{$index}}">
                                                                             <div class="listcomment" ng-repeat="innerrow in vm.feedMsgRecords.TAGS">
                                                                                 <h3 style="font-size: 14px;">You are tagged in a comment <span class="right">{{innerrow.timestamp}}</span></h3>
                                                                                 <h5> {{innerrow.sentFrom}}</h5>
@@ -1229,14 +1229,14 @@
                                                                             </div>
                                                                             &lt;!&ndash;Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae.&ndash;&gt;
                                                                         </div>-->
-                                                                        <div class="tab-pane" id="Status">
+                                                                        <div class="tab-pane" id="Status-{{$index}}">
                                                                             <div class="listcomment" ng-repeat="innerrow in vm.feedMsgRecords.STATUS">
                                                                                 <h3 style="font-size: 14px;">Changed By: <span class="right">{{innerrow.timestamp}}</span></h3>
                                                                                 <h5>{{ vm.getRecruiterName(innerrow.changedBy) }}</h5>
                                                                                 <h4 style="font-size: 14px; text-transform: capitalize;">Status: {{innerrow.status | lowercase}}</h4>
                                                                             </div>
                                                                         </div>
-                                                                        <div class="tab-pane" id="Notes">
+                                                                        <div class="tab-pane" id="Notes-{{$index}}">
                                                                             <div class="listcomment" ng-repeat="innerrow in vm.feedMsgRecords.NOTES">
                                                                                 <h3 style="font-size: 14px;">Note:<span class="right">{{innerrow.timestamp}}</span></h3>
                                                                                 <h5>Saved By: {{innerrow.savedBy}}</h5>
@@ -1251,12 +1251,12 @@
 
                                                 </div>
                                                 <div class="tab-pane" id="prevfeed2">
-                                                    <div class="panel-group" id="accordion3">
+                                                    <div class="panel-group" id="accordion-prevfeed2">
                                                         <div class="panel panel-success" ng-repeat="row in vm.iDataFeedJobRecords.previousJobs" ng-click="vm.getFeedMsgThread(row.jobId, vm.iDataCandidateDetails._id)">
                                                             <div class="panel-heading">
                                                                 <h4 class="panel-title">
 
-                                                                    <a data-toggle="collapse" class="collapsed" data-parent="#accordion3" data-target="#collapseTwo2">
+                                                                    <a data-toggle="collapse" class="collapsed" data-parent="#accordion-prevfeed2" data-target="#collapse-prevfeed2-{{$index}}">
                                                                                 <span class="col-md-6" style="font-size: 16px;margin-top: 5px">
                                                                                     <span>{{row.clientName}}</span>
                                                                                     -
@@ -1269,7 +1269,7 @@
                                                                 </h4>
 
                                                             </div>
-                                                            <div id="collapseTwo2" class="panel-collapse collapse mt20">
+                                                            <div id="collapse-prevfeed2-{{$index}}" class="panel-collapse collapse mt20">
                     
                                                                 <div class="panel-body">
                                                                     <div class="form-group">
@@ -1292,19 +1292,19 @@
                                                                     <hr>
                                                                     <!-- Nav tabs -->
                                                                     <ul class="nav nav-tabs nav-line">
-                                                                        <li class="active"><a data-target="#All" data-toggle="tab"><strong>All</strong></a></li>
+                                                                        <li class="active"><a data-target="#All-{{$index}}" data-toggle="tab"><strong>All</strong></a></li>
 
-                                                                        <li><a data-target="#Tags" data-toggle="tab"><strong>Tags</strong></a></li>
+                                                                        <li><a data-target="#Tags-{{$index}}" data-toggle="tab"><strong>Tags</strong></a></li>
                                                                         <!--<li><a data-target="#Mails" data-toggle="tab"><strong>Mails</strong></a></li>-->
-                                                                        <li><a data-target="#Status" data-toggle="tab"><strong>Status</strong></a></li>
-                                                                        <li><a data-target="#Notes" data-toggle="tab"><strong>Notes</strong></a></li>
+                                                                        <li><a data-target="#Status-{{$index}}" data-toggle="tab"><strong>Status</strong></a></li>
+                                                                        <li><a data-target="#Notes-{{$index}}" data-toggle="tab"><strong>Notes</strong></a></li>
                                                                     </ul>
 
 
                                                                     <!-- Tab panes -->
                                                                     <!-- Tab panes -->
                                                                     <div class="tab-content">
-                                                                        <div class="tab-pane active" id="All">
+                                                                        <div class="tab-pane active" id="All-{{$index}}">
                                                                             <div class="listcomment" ng-repeat="innerrow in vm.feedMsgRecords.TAGS">
                                                                                 <h3 style="font-size: 14px;">You are tagged in a comment <span class="right">{{innerrow.timestamp}}</span></h3>
                                                                                 <h5> {{innerrow.sentFrom}}</h5>
@@ -1326,7 +1326,7 @@
                                                                                 <h4 style="font-size: 14px;">{{innerrow.message}}</h4>
                                                                             </div>
                                                                         </div>
-                                                                        <div class="tab-pane" id="Tags">
+                                                                        <div class="tab-pane" id="Tags-{{$index}}">
                                                                             <div class="listcomment" ng-repeat="innerrow in vm.feedMsgRecords.TAGS">
                                                                                 <h3 style="font-size: 14px;">You are tagged in a comment <span class="right">{{innerrow.timestamp}}</span></h3>
                                                                                 <h5> {{innerrow.sentFrom}}</h5>
@@ -1341,14 +1341,14 @@
                                                                             </div>
                                                                             &lt;!&ndash;Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae.&ndash;&gt;
                                                                         </div>-->
-                                                                        <div class="tab-pane" id="Status">
+                                                                        <div class="tab-pane" id="Status-{{$index}}">
                                                                             <div class="listcomment" ng-repeat="innerrow in vm.feedMsgRecords.STATUS">
                                                                                 <h3 style="font-size: 14px;">Changed By: <span class="right">{{innerrow.timestamp}}</span></h3>
                                                                                 <h5>{{ vm.getRecruiterName(innerrow.changedBy) }}</h5>
                                                                                 <h4 style="font-size: 14px; text-transform: capitalize;">Status: {{innerrow.status | lowercase}}</h4>
                                                                             </div>
                                                                         </div>
-                                                                        <div class="tab-pane" id="Notes">
+                                                                        <div class="tab-pane" id="Notes-{{$index}}">
                                                                             <div class="listcomment" ng-repeat="innerrow in vm.feedMsgRecords.NOTES">
                                                                                 <h3 style="font-size: 14px;">Note:<span class="right">{{innerrow.timestamp}}</span></h3>
                                                                                 <h5>Saved By: {{innerrow.savedBy}}</h5>
