@@ -66,6 +66,13 @@ class JobsController {
         this.eitherSkillArray();
         this.mandatorySkillArray();
         this.designationArray();
+
+        // Initiating the view with showing candidate list and hiding similar resume section
+        this.display = 'CANDIDATES';
+    }
+
+    $postLink() {
+        // Do any final jquery or dom event linking here.
     }
 
     locationArray(){
@@ -605,6 +612,8 @@ class JobsController {
     // };
 
     getMainMenuData(jobId) {
+        
+        this.display = 'CANDIDATES';
         for (var arrElem of this.sideMenuJobsDetails) {
             if (arrElem._id === jobId) {
                 this.selectedJobDetail = arrElem;

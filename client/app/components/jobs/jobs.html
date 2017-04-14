@@ -65,9 +65,13 @@
                                 <!------------------First Tab------------------------>
                                 <div id="first" ng-show="vm.presentStage === 'NEW'" ng-if="vm.sideMenuState.status != 'inactive'">
                                     <div class="text-left mr10">
-                                        <button id="test_color" class="btn btn-success btn-xs btn-quirk show_candidate"> <i class="fa fa-info-circle" aria-hidden="true"></i> Similar resumes <span id="badge">({{vm.internalCandidateListCount || 0}})</span></button>
-                                        <button id="removecolor" class="btn btn-success btn-xs btn-quirk candidate_content show_candidate candidate_backbtn"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button>
-                                        <div class="pull-right text-right right-nav job_content" style="margin: 0">
+                                        <button id="test_color" class="btn btn-success btn-xs btn-quirk show_candidate" ng-click="vm.display = 'SIMILAR RESUMES'">
+                                            <i class="fa fa-info-circle" aria-hidden="true"></i> Similar resumes <span id="badge">({{vm.internalCandidateListCount || 0}})</span>
+                                        </button>
+                                        <button id="removecolor" class="btn btn-success btn-xs btn-quirk candidate_content show_candidate candidate_backbtn" ng-click="vm.display = 'CANDIDATES'" ng-show="vm.display === 'SIMILAR RESUMES'">
+                                            <i class="fa fa-arrow-left" aria-hidden="true"></i> Back
+                                        </button>
+                                        <div class="pull-right text-right right-nav job_content" ng-show="vm.display === 'CANDIDATES'" style="margin: 0">
                                             <a data-toggle="modal" data-target="#uploadNewResume" class="btn btn-success btn-xs btn-quirk"><i class="fa fa-upload" aria-hidden="true"></i> Resume</a>
                                             <span ng-include src="'partials/job.new-resume.new-candidate.html'"></span>
                                             <a data-toggle="modal" data-target="#movetoshortlist" ng-click="vm.checkedCandidateCount()" class="btn btn-success btn-xs btn-quirk"><i class="fa fa-user-plus" aria-hidden="true"></i> Move to Shortlist</a>
@@ -163,7 +167,7 @@
 
                         </div>
 
-                        <div class="panel-body text-center no-padding selectedfilter job_content">
+                        <div class="panel-body text-center no-padding selectedfilter job_content" ng-show="vm.display === 'CANDIDATES'">
                             <div ng-show="vm.presentStage === 'NEW'">
                                 <div ng-repeat="row in vm.filterObject[vm.presentStage]" ng-if="row.filterTag === 'filterByRecruiter'">
                                     <div class="alert alert-success width100 leftdiv" ng-repeat="arrElem in row.filterValue">
@@ -274,7 +278,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-3 list-view mCustomScrollbar white-background job_content" data-mcs-theme="dark">
+                        <div class="col-md-3 list-view mCustomScrollbar white-background job_content" ng-show="vm.display === 'CANDIDATES'" data-mcs-theme="dark">
                             <h3 class="text-center text-head" style="font-size: 21px;">Candidates</h3>
                             <div class="input-group input-search-contact mt10 border-grey">
                                 <input class="form-control" placeholder="Search contact" type="text" ng-model="vm.searchKeywordJobs">
@@ -341,7 +345,7 @@
                                 <div class="clear"></div>
                             </div>
                         </div>
-                        <div class="col-md-9 job_content">
+                        <div class="col-md-9 job_content" ng-show="vm.display === 'CANDIDATES'">
 
                             <!-- Jpk -->
                             <div class="header-intro text-left white-background" ng-if="vm.selectedCandidate !== null">
@@ -803,7 +807,7 @@
             </div>
         </div><!-- contentpanel -->
 
-        <div class="contentpanel candidate_content" ng-if="vm.internalCandidateListCount != 0">
+        <div class="contentpanel candidate_content" ng-if="vm.display === 'SIMILAR RESUMES' && vm.internalCandidateListCount != 0">
             <!-- content goes here... -->
             <div class="row">
 
@@ -1564,30 +1568,8 @@
 </script>
 
 <script>
-    $(document).ready(function () {
-        $(".candidate_content").hide();
-        $(document).on('click', '.show_candidate', function() {
-            $(".candidate_content").toggle();
-            $(".job_content").toggle();
-            //$(".show_candidate").css('background','#b7b7b7');
-            $(this).toggleClass("color_fill");
-            //$(this).addClass("color_fill");
-        });
-        $('.show_job_content').click(function () {
-            $(".job_content").show();
-            $(".candidate_content").hide();
-        });
-        $('#removecolor').click(function () {
-            $("#test_color").removeClass("color_fill");
-            $("#removecolor").removeClass("color_fill");
-        });
-    });
-
-    function resetSimilarResumeView(){ 
-        $(".job_content").show();
-        $(".candidate_content").hide();
-    }
-    // function hideSidecolumn(){
+    // Replaced with angular ng-show via vm.display = 'CANDIDATES' || 'SIMILAR RESUMES'
+    // function resetSimilarResumeView(){ 
     //     $(".job_content").show();
     //     $(".candidate_content").hide();
     // }
