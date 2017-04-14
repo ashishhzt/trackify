@@ -61,12 +61,14 @@ class JobsController {
 
     $onInit() {
         console.log('this.user injected into job component\'s bindings by ui-router\'s $resolve service', this.user)
-        // this.getMainMenuData();
+        
         this.locationArray();
         this.allotArray();
         this.eitherSkillArray();
         this.mandatorySkillArray();
         this.designationArray();
+        this.primarySkillArray();
+
     }
 
     locationArray(){
@@ -78,24 +80,13 @@ class JobsController {
     eitherSkillArray(){
         this.eitherSkill = ['Java','PHP','Drupal','ASP.NET','C#']
     }
-    // mandatorySkillArray(){
-    //     this.mandatory = ['Any Language','Java','Java , Bigdata' , 'Java, UI Framework','Python','Python, Django','Python, UI framework','Python, ML','RoR','C++','C#','MEAN','LAMP','PHP','Node, UI framework','Node','Angular','Any JS framework (UI)','React','Machine Learning','QTP','Selenium','Big Data','Bootstrap','AWS','Cloud','Azure','Nosql','Mongodb','CouchDB','Cassandra','Oracle','SQL (Any)','Mysql','Postgresql','Chef/Puppet/Ansible','Linux/Unix/Redhat','Rest/Restful','SOAP','Webservices (Any)']
-    // }
+    primarySkillArray(){
+        this.primarySkills = ['NODEJS','PYTHON','JAVA']
+    }
+   
     designationArray(){
         this.designationList = ['SDE I / II / III','Full Stack Developer','UI Developer','UI/UX Designer','Lead Engineer','Engineering Manager','Product Manager','Data Engineer','Data Scientist','Data Analyst','Big Data Engineer','Big Data Architect','Architect','Associate Architect','Solution Architect','Project/Program Manager','Android Developer','Quality Analyst','Ios Developer','Devops Engineer','Cloud Architect','Head of Engineering','Vice President','Asst Vice President','Director','Marketing Executive','Head Marketing','Recruiter']
-        //     if(this.designationList.indexOf(this.selectedJobDetail) == -1){
-        //         this.designationList.push(this.selectedJobDetail);
-        //     }       
-        // console.log("DESIGN",this.designationList.length)
-        // console.log("DESIGN1",this.selectedJobDetail)
-        // // console.log("DESIGN2",this.designationList[i])
-
-
-        // for(i=0;i<this.designationList.length;i++){
-        //     if(this.designationList[i].indexOf(vm.selectedJobDetail.designation) === -1){
-        //         this.designationList.push(this.selectedJobDetail.designation)
-        //     }
-        // }
+        
     }
 
     setStage(stage) {
@@ -634,37 +625,20 @@ class JobsController {
                 break;
             }
         }
-        this.presentStage === "NEW";
+        this.presentStage == "NEW";
         this.initSimilarResume(0);
         this.candidateDetailsForJob(jobId);
-        // this.setStage();
+         
 
     };
 
 
     mandatorySkillArray(){
         this.mandatory = ['Any Language','Java','Java , Bigdata' , 'Java, UI Framework','Python','Python, Django','Python, UI framework','Python, ML','RoR','C++','C#','MEAN','LAMP','PHP','Node, UI framework','Node','Angular','Any JS framework (UI)','React','Machine Learning','QTP','Selenium','Big Data','Bootstrap','AWS','Cloud','Azure','Nosql','Mongodb','CouchDB','Cassandra','Oracle','SQL (Any)','Mysql','Postgresql','Chef/Puppet/Ansible','Linux/Unix/Redhat','Rest/Restful','SOAP','Webservices (Any)']
-           
+         
     }
-    // designationArray(){
-    //     this.designationList = ['SDE I / II / III','Full Stack Developer','UI Developer','UI/UX Designer','Lead Engineer','Engineering Manager','Product Manager','Data Engineer','Data Scientist','Data Analyst','Big Data Engineer','Big Data Architect','Architect','Associate Architect','Solution Architect','Project/Program Manager','Android Developer','Quality Analyst','Ios Developer','Devops Engineer','Cloud Architect','Head of Engineering','Vice President','Asst Vice President','Director','Marketing Executive','Head Marketing','Recruiter']
-    //         // if(this.designationList.indexOf(this.selectedJobDetail.designation) == -1){
-    //         //     this.designationList.push(this.selectedJobDetail.designation);
-    //         // }       
-    //     // console.log("DESIGN",this.designationList.length)
-    //     // console.log("DESIGN1",this.selectedJobDetail)
-    //     // // console.log("DESIGN2",this.designationList[i])
-        
-    //     console.log("this.designationList",this.selectedJobDetail)
-    //     var i;
-    //     for(i=0;i<=this.designationList.length;i++){
-    //         console.log("this.designationList",this.designationList.length)
-    //         if(this.designationList[i].indexOf(this.selectedJobDetail) === -1){
-    //             this.designationList.push(this.selectedJobDetail)
-    //             console.log("this.designationList",this.designationList)
-    //         }
-    //     }
-    // }
+
+    
     getAllRecruiters() {
         SERVICE.get(this).getAllRecruiters().then(response => {
             this.allRecruiters = response.data;
