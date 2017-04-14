@@ -1,14 +1,21 @@
-
+<style>
+    .modal-body select {
+        width: 100% !important;
+    }
+    .form-group--more-margin {
+        margin-bottom: 10px !important;
+    }
+</style>
 <div class="modal bounceIn animated" id="viewjd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog" style="width:90%">
         <div class="modal-content" style="background: #f3f3f3;">
             <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="vm.resetViewJd()">&times;</button>
                     <h4 class="modal-title modal-heading text-center" id="myModalLabel">
                         <i class="fa fa-eye" aria-hidden="true"></i> View JD 
                     </h4>
                 </div>
-            <div class="modal-body popupscroll mCustomScrollbar" data-mcs-theme="dark">
+            <div class="modal-body popupscroll mCustomScrollbar" data-mcs-theme="dark" ng-init="vm.viewJdButton = true;">
                 
                 <div class="clear"></div>
                 <div class="">
@@ -18,20 +25,18 @@
                                 <h3 class="text-center">
                                     <i class="fa fa-upload" aria-hidden="true"></i> Uploaded Details
                                     <!--<a href="javascript:;" class="btn btn-info btn-xs btn-quirk" style="float:right">Edit</a> -->
-                                    <input type="hidden" name="editreadonly_hidden_jd" value="0" id="editreadonly_hidden_jd"/>
-                                    <a class="btn btn-success btn-xs btn-quirk list-float-btn1" id="editreadonlyjd" onclick="disablejdContent()" ng-show="vm.userId == vm.selectedCandidate.recruiterId"><i class='fa fa-pencil-square-o' aria-hidden='true'></i></a>
+                                    <!--<input type="hidden" name="editreadonly_hidden_jd" value="0" id="editreadonly_hidden_jd"/>-->
+                                    <a class="btn btn-success btn-xs btn-quirk list-float-btn1" ng-click="vm.toggleViewJdButton()" ng-show="vm.userId == vm.selectedJobDetailCopy.userId"><i class='fa fa-pencil-square-o' aria-hidden='true' ng-class="vm.viewJdButton ? 'fa-pencil-square-o' : 'fa-floppy-o'"></i></a>
                                 </h3>
                                 <hr>
 
 
-
+                                <fieldset ng-disabled="vm.viewJdButton">
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label text-left">Designation <span class="text-danger">*</span></label>
                                     <div class="col-sm-8">
-                                        <select  name="designation" class="form-control" style="width: 100%" ng-model="vm.selectedJobDetail.designation" data-placeholder="Select Designation" ng-required="true">
-                                               <option value="vm.selectedJobDetail.designation">{{vm.selectedJobDetail.designation}}</option>
+                                        <select  name="designation" class="form-control" style="width: 100%" ng-model="vm.selectedJobDetailCopy.designation" data-placeholder="Select Designation" ng-required="true">
                                                 <option ng-repeat="desig in vm.designationList" value="{{desig}}">{{desig}}</option> 
-                                                <option ng-if="vm.designationList.indexOf(vm.selectedJobDetail.designation) === -1" value="{{vm.selectedJobDetail.designation}}">{{vm.selectedJobDetail.designation}}</option> 
                                             </select>
                                     </div>
                                 </div>
@@ -39,11 +44,8 @@
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label text-left">Primary Skills <span class="text-danger">*</span></label>
                                     <div class="col-sm-8">
-                                        <select  class="form-control" style="width: 100%" data-placeholder=" Select Primary Skills" tabindex="-1" aria-hidden="true" ng-model="vm.selectedJobDetail.primarySkill">
-                                            <option value="NODEJS">NODEJS</option>
-                                            <option value="PYTHON">PYTHON</option>
-                                            <option value="JAVA">JAVA</option>
-                                            <option ng-if="['NODEJS', 'PYTHON', 'JAVA'].indexOf(vm.selectedJobDetail.primarySkill) === -1" value="{{vm.selectedJobDetail.primarySkill}}">{{vm.selectedJobDetail.primarySkill}}</option>
+                                        <select  class="form-control" style="width: 100%" data-placeholder=" Select Primary Skills" tabindex="-1" aria-hidden="true" ng-model="vm.selectedJobDetailCopy.primarySkill">
+                                            <option ng-repeat="skill in vm.primarySkills" value="{{skill}}">{{skill}}</option>
                                         </select>
                                     </div>
                                 </div>
@@ -52,11 +54,10 @@
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label text-left">Mandatory Skills <span class="text-danger">*</span></label>
                                     <div class="col-sm-8">
-                                        <select  class="form-control" style="width: 100%" data-placeholder=" Select Mandatory Skills" multiple="" tabindex="-1" aria-hidden="true" ng-model="vm.selectedJobDetail.skills">
-                                              <option value="" style="background:#ddd;">{{vm.selectedJobDetail.skills}}</option>
-                                               <option ng-repeat="mandatorySkill in vm.mandatory" value="{{mandatorySkill}}">{{mandatorySkill}}</option>  
-                                              <!--  <option ng-if="vm.mandatory.indexOf(vm.selectedJobDetail.skills) === -1" value="{{vm.selectedJobDetail.skills}}"></option>  -->
-                                        </select><span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;"><span class="selection"></span>
+                                        <select  class="form-control" style="width: 100%" data-placeholder=" Select Mandatory Skills" multiple="" tabindex="-1" aria-hidden="true" ng-model="vm.selectedJobDetailCopy.skills">
+                                            <option ng-repeat="mandatorySkill in vm.mandatory" value="{{mandatorySkill}}">{{mandatorySkill}}</option>  
+                                        </select>
+                                        <!--<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;"><span class="selection"></span>-->
                                     </div>
                                 </div>
 
@@ -64,10 +65,8 @@
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label text-left">Either or skills <span class="text-danger">*</span></label>
                                     <div class="col-sm-8">
-                                        <select  class="form-control" style="width: 100%" data-placeholder="" ng-model="vm.selectedJobDetail.eitherOrSkills" multiple="" tabindex="-1" aria-hidden="true">
-                                            <option value="" style="background:#ddd;">{{vm.selectedJobDetail.eitherOrSkills[0]}}</option>
+                                        <select  class="form-control" style="width: 100%" data-placeholder="" ng-model="vm.selectedJobDetailCopy.eitherOrSkills" multiple="" tabindex="-1" aria-hidden="true">
                                             <option ng-repeat="skill in vm.eitherSkill" value="{{ skill }}">{{ skill }}</option>  
-                                            <!--  <option ng-if="vm.eitherSkill.indexOf(vm.selectedJobDetail.eitherOrSkills) === -1" value="{{vm.selectedJobDetail.eitherOrSkills}}"></option>  -->
                                         </select>
                                     </div>
                                 </div>
@@ -80,11 +79,11 @@
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label text-left">Experience <span class="text-danger">*</span></label>
                                     <div class="col-sm-3">
-                                        <input type="text" name="" oninput="this.value=this.value.replace(/[^0-9.]/g,'');" class="form-control" placeholder="" ng-model="vm.selectedJobDetail.minExp" required />
+                                        <input type="number" name="" oninput="this.value=this.value.replace(/[^0-9.]/g,'');" class="form-control" placeholder="" ng-model="vm.selectedJobDetailCopy.minExp" required />
                                     </div>
                                     <span class="btnrange">To</span>
                                     <div class="col-sm-3">
-                                        <input type="text" name="" oninput="this.value=this.value.replace(/[^0-9.]/g,'');" class="form-control" placeholder="" ng-model="vm.selectedJobDetail.maxExp" required />
+                                        <input type="number" name="" oninput="this.value=this.value.replace(/[^0-9.]/g,'');" class="form-control" placeholder="" ng-model="vm.selectedJobDetailCopy.maxExp" required />
                                     </div>
                                 </div>
 
@@ -93,12 +92,12 @@
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label text-left">CTC (Lakhs) <span class="text-danger">*</span></label>
                                     <div class="col-sm-3">
-                                        <input type="text" oninput="this.value=this.value.replace(/[^0-9.0-9]/g,'');" name="" class="form-control" placeholder="" ng-model="vm.selectedJobDetail.minCtc" required />
+                                        <input type="number" oninput="this.value=this.value.replace(/[^0-9.0-9]/g,'');" name="" class="form-control" placeholder="" ng-model="vm.selectedJobDetailCopy.minCtc" required />
                                     </div>
 
                                     <span class="btnrange">To</span>
                                     <div class="col-sm-3">
-                                        <input type="text" name="" oninput="this.value=this.value.replace(/[^0-9.0-9]/g,'');" class="form-control" placeholder="" ng-model="vm.selectedJobDetail.maxCtc" required />
+                                        <input type="number" name="" oninput="this.value=this.value.replace(/[^0-9.0-9]/g,'');" class="form-control" placeholder="" ng-model="vm.selectedJobDetailCopy.maxCtc" required />
                                     </div>
                                 </div>
 
@@ -107,31 +106,21 @@
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label text-left">Job Location <span class="text-danger">*</span></label>
                                     <div class="col-sm-8">
-                                        <select class="form-control" style="width: 100%" data-placeholder="Enter Job Location" multiple="" ng-model="vm.selectedJobDetail.locations" tabindex="-1" aria-hidden="true">
-                                             <option value="" style="background:#ddd;">{{vm.selectedJobDetail.locations[0]}}</option>
+                                        <select class="form-control" style="width: 100%" data-placeholder="Enter Job Location" multiple="" ng-model="vm.selectedJobDetailCopy.locations" tabindex="-1" aria-hidden="true">
                                              <option ng-repeat="location in vm.myLocation" value="{{ location }}">{{ location }}</option>  
-                                             <!-- <option ng-if="vm.myLocation.indexOf(vm.selectedJobDetail.locations) === -1" value="{{vm.selectedJobDetail.locations}}"></option>  -->
                                         </select>
                                     </div>
                                 </div>
 
 
-                                <div class="form-group">
+                                <div class="form-group form-group--more-margin">
                                     <label class="col-sm-3 control-label text-left">Allot to</label>
                                     <div class="col-sm-8">
-                                        <select  class="form-control" style="width: 100%" data-placeholder="Enter Names" tabindex="-1" ng-model="vm.selectedJobDetail.userId" aria-hidden="true">
-                                             <option value="">{{vm.selectedJobDetail.userId}}</option>
-                                            <option ng-repeat="person in vm.allot" value="{{person}}">{{person}}</option> 
-                                            <!-- <option value="Ashok">Ashok</option>
-                                            <option value="John">John</option>
-                                            <option value="David">David</option>
-                                            <option value="Kristine">Kristine</option>
-                                            <option value="Ajay">Ajay</option>
-                                            <option value="Vijay">Vijay</option> -->
-                                           <!--  <option ng-if="vm.allot.indexOf(vm.selectedJobDetail.userId) === -1" value="{{vm.selectedJobDetail.userId}}">{{vm.selectedJobDetail.userId}}</option>  -->
+                                        <select  class="form-control" style="width: 100%" data-placeholder="Enter Names" tabindex="-1" ng-model="vm.selectedJobDetailCopy.userId" aria-hidden="true" ng-options="recruiter._id as recruiter.displayName for recruiter in vm.allRecruiters">
                                         </select>
                                     </div>
                                 </div>
+                                </fieldset>
 
 
 
@@ -262,11 +251,11 @@
         // Select2 Box
         $("#select_ng8").select2({tags: true});
         $("#select_ng7").select2({tags: true});
-        $("#select_ng2").select2({tags: true});
-        $("#select_ng3").select2({tags: true});
-        $("#select_ng4").select2({tags: true});
-        $("#select_ng5").select2({tags: true});
-        $("#select_ng6").select2({tags: true});
+		$("#select_ng2").select2({tags: true});
+		$("#select_ng3").select2({tags: true});
+		$("#select_ng4").select2({tags: true});
+		$("#select_ng5").select2({tags: true});
+		$("#select_ng6").select2({tags: true});
 
     });
 </script>

@@ -2,12 +2,13 @@ const SERVICE = new WeakMap();
 let trackFilterObjectLastApplied = [{ "filterTag": "filterByRecruiter" }, { "filterTag": "selectStatus" }]; //for init stage -  New Resume stage
 
 class JobsController {
-    constructor($rootScope, AuthFactory, jobsService, shareData) {
+    constructor($rootScope, AuthFactory, jobsService, shareData, newJobService) {
 
         this.AuthFactory = AuthFactory;
         // console.log('userObjFromService', userObjFromService);
 
         this.jobsService = jobsService;
+        this.newJobService = newJobService;
 
         let userObj = AuthFactory.getLoggedInUser();
         this.userId = userObj.user._id;
@@ -63,7 +64,6 @@ class JobsController {
     $onInit() {
         console.log('this.user injected into job component\'s bindings by ui-router\'s $resolve service', this.user)
         this.locationArray();
-        this.allotArray();
         this.eitherSkillArray();
         this.mandatorySkillArray();
         this.designationArray();
@@ -78,23 +78,33 @@ class JobsController {
 
     }
 
-    locationArray(){
-        this.myLocation = ['Bangalore' ,'Delhi/NCR','Gurgaon','Hyderabad','Mumbai','Pune','Chennai','Kolkata','Trivandrum','Cochin','Jaipur','Ahmedabad','Singapore','Malaysia','USA','Canada','European Countries','Australia/New Zealand','Nagpur','Noida','Others']
+    locationArray(update){
+        this.myLocation = ['Bangalore' ,'Delhi/NCR','Gurgaon','Hyderabad','Mumbai','Pune','Chennai','Kolkata','Trivandrum','Cochin','Jaipur','Ahmedabad','Singapore','Malaysia','USA','Canada','European Countries','Australia/New Zealand','Nagpur','Noida','Others'];
+
+        if (update && update.length) this.myLocation = [... new Set([...update, ...this.myLocation])];
     }
-    allotArray(){
-        this.allot = ['Ashok','John','David','Kristine','Ajay','Vijay']
+    eitherSkillArray(update){
+        this.eitherSkill = ['Java','PHP','Drupal','ASP.NET','C#'];
+
+        if (update && update.length) this.eitherSkill = [... new Set([...update, ...this.eitherSkill])];
     }
-    eitherSkillArray(){
-        this.eitherSkill = ['Java','PHP','Drupal','ASP.NET','C#']
-    }
-    primarySkillArray(){
-        this.primarySkills = ['NODEJS','PYTHON','JAVA']
+    primarySkillArray(update){
+        this.primarySkills = ['NODEJS','PYTHON','JAVA'];
+
+        if (update && !this.primarySkills.includes(update)) this.primarySkills.unshift(update);
     }
    
-    designationArray(){
-        this.designationList = ['SDE I / II / III','Full Stack Developer','UI Developer','UI/UX Designer','Lead Engineer','Engineering Manager','Product Manager','Data Engineer','Data Scientist','Data Analyst','Big Data Engineer','Big Data Architect','Architect','Associate Architect','Solution Architect','Project/Program Manager','Android Developer','Quality Analyst','Ios Developer','Devops Engineer','Cloud Architect','Head of Engineering','Vice President','Asst Vice President','Director','Marketing Executive','Head Marketing','Recruiter']
-        
+    designationArray(update){
+        this.designationList = ['SDE I / II / III','Full Stack Developer','UI Developer','UI/UX Designer','Lead Engineer','Engineering Manager','Product Manager','Data Engineer','Data Scientist','Data Analyst','Big Data Engineer','Big Data Architect','Architect','Associate Architect','Solution Architect','Project/Program Manager','Android Developer','Quality Analyst','Ios Developer','Devops Engineer','Cloud Architect','Head of Engineering','Vice President','Asst Vice President','Director','Marketing Executive','Head Marketing','Recruiter'];
+
+        if (update && !this.designationList.includes(update)) this.designationList.unshift(update);
     }
+
+    mandatorySkillArray(update){
+        this.mandatory = ['Any Language','Java','Java , Bigdata' , 'Java, UI Framework','Python','Python, Django','Python, UI framework','Python, ML','RoR','C++','C#','MEAN','LAMP','PHP','Node, UI framework','Node','Angular','Any JS framework (UI)','React','Machine Learning','QTP','Selenium','Big Data','Bootstrap','AWS','Cloud','Azure','Nosql','Mongodb','CouchDB','Cassandra','Oracle','SQL (Any)','Mysql','Postgresql','Chef/Puppet/Ansible','Linux/Unix/Redhat','Rest/Restful','SOAP','Webservices (Any)'];
+
+        if (update && update.length) this.mandatory = [... new Set([...update, ...this.mandatory])];
+    }    
 
     setStage(stage) {
         this.searchKeywordJobs = "";
@@ -243,6 +253,25 @@ class JobsController {
             }
         }
     };
+
+    toggleViewJdButton() {
+        this.viewJdButton = !this.viewJdButton;
+
+        if (!this.viewJdButton) return;
+
+        this.newJobService.updateJob(this.selectedJobDetailCopy)
+            .then(response => {
+                // 
+            })
+    }
+
+    openViewJd() {
+        this.selectedJobDetailCopy = { ...this.selectedJobDetail };
+    }
+
+    resetViewJd() {
+        this.initJobs();
+    }
 
     saveCandidateDetails() {
         if (document.getElementById("editreadonly_hidden").value == 0) {
@@ -632,6 +661,12 @@ class JobsController {
         for (var arrElem of this.sideMenuJobsDetails) {
             if (arrElem._id === jobId) {
                 this.selectedJobDetail = arrElem;
+                this.locationArray(this.selectedJobDetail.locations)
+                this.eitherSkillArray(this.selectedJobDetail.eitherOrSkills)
+                this.primarySkillArray(this.selectedJobDetail.primarySkill)
+                this.designationArray(this.selectedJobDetail.designation)
+                this.mandatorySkillArray(this.selectedJobDetail.skills)
+                this.selectedJobDetailCopy = {...this.selectedJobDetail}
                 console.log("selectedJobDetail",this.selectedJobDetail)
                 break;
             }
@@ -642,13 +677,6 @@ class JobsController {
 
     };
 
-
-    mandatorySkillArray(){
-        this.mandatory = ['Any Language','Java','Java , Bigdata' , 'Java, UI Framework','Python','Python, Django','Python, UI framework','Python, ML','RoR','C++','C#','MEAN','LAMP','PHP','Node, UI framework','Node','Angular','Any JS framework (UI)','React','Machine Learning','QTP','Selenium','Big Data','Bootstrap','AWS','Cloud','Azure','Nosql','Mongodb','CouchDB','Cassandra','Oracle','SQL (Any)','Mysql','Postgresql','Chef/Puppet/Ansible','Linux/Unix/Redhat','Rest/Restful','SOAP','Webservices (Any)']
-         
-    }
-
-    
     getAllRecruiters() {
         SERVICE.get(this).getAllRecruiters().then(response => {
             this.allRecruiters = response.data;
@@ -1127,6 +1155,6 @@ class JobsController {
 
 }
 
-JobsController.$inject = ['$rootScope', 'AuthFactory', 'jobsService', 'shareData']
+JobsController.$inject = ['$rootScope', 'AuthFactory', 'jobsService', 'shareData', 'newJobService']
 
 export default JobsController;

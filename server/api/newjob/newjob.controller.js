@@ -35,6 +35,31 @@ export const createClient = function(req, res) {
     });
 };
 
+export const updateJob = function(req, res) {
+	let db = mongoutil.getDb();
+
+    var collection = db.collection('job');
+
+	db.collection('job').updateOne(
+		{ _id: parseInt(req.body._id) },
+		{ $set: req.body },
+		function(err, result) {
+			if (err) {
+				response.updateError= err;
+				res.send(response)
+			}
+
+			var response = {};
+			if (result.result.nModified) {
+				response.message = 'UPDATE SUCCESS';
+			} else {
+				response.message = 'UPDATE FAILURE';
+			}
+			res.send(response);                                            
+		}
+	)	
+}
+
 export const createJob = function(req, res) {
 
     // var query = "select USER_ID as userId,NAME as userName from USER";

@@ -12,6 +12,10 @@ class newJobService {
         return HTTP.get(this).post("/api/newjob/createJob", formData).then(result => result.data);
     }
 
+    updateJob(formData) {
+        return HTTP.get(this).post("/api/newjob/updateJob", formData).then(result => result.data);
+    }
+
     getClients() {
         return HTTP.get(this).post("/api/newjob/getclients", {}).then(result => result.data);
     }
