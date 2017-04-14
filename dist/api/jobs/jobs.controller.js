@@ -971,7 +971,8 @@ export const uploadResume = function(req, res) {
                     var collection = db.collection('candidate');
                     collection.find({
                         candidateEmail: req.body.candidateEmail,
-                        candidateContact: req.body.candidateContact
+                        candidateContact: req.body.candidateContact,
+                        'jobs.jobId': parseInt(req.body.jobId)
                     }).toArray(function(err, docs) {
                         if (err) {
                             response.updateError= err;
@@ -998,40 +999,89 @@ export const uploadResume = function(req, res) {
                                     response.jobError = err;
                                 }
                                 if (items.length > 0) {
-                                    collection.count(function (err, count) {
+
+                                    // To insert the new job details to existing candidate object
+                                    collection.find({
+                                        candidateEmail: req.body.candidateEmail,
+                                        candidateContact: req.body.candidateContact,
+                                    }).toArray(function(err, docs) {
                                         if (err) {
-                                            response.countError = err;
-                                            res.send(response);
+                                            response.updateError= err;
+                                            res.send(response)
                                         }
-                                        obj._id = count + 1;
-                                        obj.jobs = [{
-                                            jobId: obj.jobId,
-                                            status: 'NEW RESUME',
-                                            stage: 'NEW',
-                                            userId: obj.userId,
-                                            clientName:obj.clientName,
-                                            designation:obj.designation,
-                                            userName:obj.assigneeName
-                                        }];
-                                        delete obj.jobId;
-                                        delete obj.userId;
-                                        delete obj.uploadedDate;
-                                        collection.insertOne(obj, function (err, r) {
-                                            if (err) {
-                                                response.insertError = err;
-                                            }
-                                            if (r.insertedCount) {
-                                                response.message = 'ADD SUCCESS';
-                                                response.candidateId = r.insertedId;
-                                            } else {
-                                                response.message = 'ADD FAILURE';
-                                            }                                   
-                                            res.send(response);
-                                        });
+                                        
+                                        if (docs.length === 1) {
+                                            // Else we need to add this new job object to existing candidate object
+                                            let newJobObject = {
+                                                jobId: obj.jobId,
+                                                status: 'NEW RESUME',
+                                                stage: 'NEW',
+                                                userId: obj.userId,
+                                                clientName:obj.clientName,
+                                                designation:obj.designation,
+                                                userName:obj.assigneeName
+                                            };
+
+                                            collection.updateOne(
+                                                { _id: parseInt(docs[0]._id) },
+                                                { $push: { jobs: newJobObject }}
+                                            , function(err, result) {
+                                                if (err) {
+                                                    response.updateError= err;
+                                                    res.send(response)
+                                                }
+
+                                                var response = {};
+                                                if (result.result.nModified) {
+                                                    response.message = 'ADD SUCCESS';
+                                                } else {
+                                                    response.message = 'ADD FAILURE';
+                                                }
+                                                res.send(response);                                            
+                                            });
+                                        } else if (docs.length === 0) {
+                                            // If no candidate found with this email and contact no,
+                                            // we need to create new candidate with the new job object
+                                            collection.count(function (err, count) {
+                                                if (err) {
+                                                    response.countError = err;
+                                                    res.send(response);
+                                                }
+                                                obj._id = count + 1;
+                                                obj.jobs = [{
+                                                    jobId: obj.jobId,
+                                                    status: 'NEW RESUME',
+                                                    stage: 'NEW',
+                                                    userId: obj.userId,
+                                                    clientName:obj.clientName,
+                                                    designation:obj.designation,
+                                                    userName:obj.assigneeName
+                                                }];
+                                                delete obj.jobId;
+                                                delete obj.userId;
+                                                delete obj.uploadedDate;
+                                                collection.insertOne(obj, function (err, r) {
+                                                    if (err) {
+                                                        response.insertError = err;
+                                                    }
+                                                    if (r.insertedCount) {
+                                                        response.message = 'ADD SUCCESS';
+                                                        response.candidateId = r.insertedId;
+                                                    } else {
+                                                        response.message = 'ADD FAILURE';
+                                                    }                                   
+                                                    res.send(response);
+                                                });
+                                            });
+                                        } else {
+                                            // This should never happen since email and contact number must be unique for a candidate
+                                            res.send({ updateError: 'Same user found more than once.' })
+                                        }
                                     });
                                 } else {
                                     response.message = 'FAILURE';
                                     response.error = 'Job with ID - ' + req.body.jobId + ' not found';
+                                    res.send(response)
                                 }
                             })
                         }
