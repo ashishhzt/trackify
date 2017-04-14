@@ -173,7 +173,7 @@
                                     <div class="alert alert-success width100 leftdiv" ng-repeat="arrElem in row.filterValue">
                                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true"
                                         ng-click="vm.adjustFilterObject('filterByRecruiter', arrElem)">&times;</button>
-                                        <strong style="text-transform: capitalize;">{{arrElem | lowercase}}</strong>
+                                        <strong style="text-transform: capitalize;">{{vm.getRecruiterName(arrElem) | lowercase}}</strong>
                                     </div>
                                 </div>
                                 <div ng-repeat="row in vm.filterObject[vm.presentStage]" ng-if="row.filterTag === 'selectStatus'">
@@ -189,7 +189,7 @@
                                     <div class="alert alert-success width100 leftdiv" ng-repeat="arrElem in row.filterValue">
                                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true"
                                                 ng-click="vm.adjustFilterObject('filterByRecruiter', arrElem)">&times;</button>
-                                        <strong style="text-transform: capitalize;">{{arrElem | lowercase}}</strong>
+                                        <strong style="text-transform: capitalize;">{{vm.getRecruiterName(arrElem) | lowercase}}</strong>
                                     </div>
                                 </div>
                                 <div ng-repeat="row in vm.filterObject[vm.presentStage]" ng-if="row.filterTag === 'selectStatus'">
@@ -205,7 +205,7 @@
                                     <div class="alert alert-success width100 leftdiv" ng-repeat="arrElem in row.filterValue">
                                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true"
                                                 ng-click="vm.adjustFilterObject('filterByRecruiter', arrElem)">&times;</button>
-                                        <strong style="text-transform: capitalize;">{{arrElem | lowercase}}</strong>
+                                        <strong style="text-transform: capitalize;">{{vm.getRecruiterName(arrElem) | lowercase}}</strong>
                                     </div>
                                 </div>
                                 <div ng-repeat="row in vm.filterObject[vm.presentStage]" ng-if="row.filterTag === 'filterByInterviewDate'">
@@ -249,7 +249,7 @@
                                     <div class="alert alert-success width100 leftdiv" ng-repeat="arrElem in row.filterValue">
                                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true"
                                                 ng-click="vm.adjustFilterObject('filterByRecruiter', arrElem)">&times;</button>
-                                        <strong style="text-transform: capitalize;">{{arrElem | lowercase}}</strong>
+                                        <strong style="text-transform: capitalize;">{{vm.getRecruiterName(arrElem) | lowercase}}</strong>
                                     </div>
                                 </div>
                                 <div ng-repeat="row in vm.filterObject[vm.presentStage]" ng-if="row.filterTag === 'selectStatus'">
@@ -265,7 +265,7 @@
                                     <div class="alert alert-success width100 leftdiv" ng-repeat="arrElem in row.filterValue">
                                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true"
                                                 ng-click="vm.adjustFilterObject('filterByRecruiter', arrElem)">&times;</button>
-                                        <strong style="text-transform: capitalize;">{{arrElem | lowercase}}</strong>
+                                        <strong style="text-transform: capitalize;">{{vm.getRecruiterName(arrElem) | lowercase}}</strong>
                                     </div>
                                 </div>
                                 <div ng-repeat="row in vm.filterObject[vm.presentStage]" ng-if="row.filterTag === 'selectStatus'">

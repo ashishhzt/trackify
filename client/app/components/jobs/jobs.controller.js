@@ -661,7 +661,7 @@ class JobsController {
         let recruiter = this.allRecruiters.filter(rec => rec._id == id);
 
         // TODO: Remove hard-coded recruiter name after users collection is fixed with proper ID generation
-        return recruiter.length ? recruiter[0].displayName : 'Barrack Obama' //'Recruiter';
+        return recruiter.length ? recruiter[0].displayName : '--' //'Recruiter';
     }
 
     getJobsDetail(userId, flag, status) {

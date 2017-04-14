@@ -13,7 +13,7 @@
                     <div class="form-group" ng-init="vm.filterObject.JOINED[0].filterTag = 'filterByRecruiter'">
                         <select id="Recruiter" class="form-control" style="width: 100%" data-placeholder="Filter By Recruiter"
                                 ng-model="vm.filterObject.JOINED[0].filterValue" multiple
-                                ng-options="item.email as item.displayName for item in vm.allRecruiters">
+                                ng-options="item._id as item.displayName for item in vm.allRecruiters">
                         </select>
                     </div>
                     <div class="form-group" style="text-align: left;"
