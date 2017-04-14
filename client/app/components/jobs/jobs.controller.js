@@ -74,6 +74,8 @@ class JobsController {
 
     $postLink() {
         // Do any final jquery or dom event linking here.
+        this.primarySkillArray();
+
     }
 
     locationArray(){
@@ -85,11 +87,13 @@ class JobsController {
     eitherSkillArray(){
         this.eitherSkill = ['Java','PHP','Drupal','ASP.NET','C#']
     }
-    mandatorySkillArray(){
-        this.mandatory = ['Any Language','Java','Java , Bigdata' , 'Java, UI Framework','Python','Python, Django','Python, UI framework','Python, ML','RoR','C++','C#','MEAN','LAMP','PHP','Node, UI framework','Node','Angular','Any JS framework (UI)','React','Machine Learning','QTP','Selenium','Big Data','Bootstrap','AWS','Cloud','Azure','Nosql','Mongodb','CouchDB','Cassandra','Oracle','SQL (Any)','Mysql','Postgresql','Chef/Puppet/Ansible','Linux/Unix/Redhat','Rest/Restful','SOAP','Webservices (Any)']
+    primarySkillArray(){
+        this.primarySkills = ['NODEJS','PYTHON','JAVA']
     }
+   
     designationArray(){
         this.designationList = ['SDE I / II / III','Full Stack Developer','UI Developer','UI/UX Designer','Lead Engineer','Engineering Manager','Product Manager','Data Engineer','Data Scientist','Data Analyst','Big Data Engineer','Big Data Architect','Architect','Associate Architect','Solution Architect','Project/Program Manager','Android Developer','Quality Analyst','Ios Developer','Devops Engineer','Cloud Architect','Head of Engineering','Vice President','Asst Vice President','Director','Marketing Executive','Head Marketing','Recruiter']
+        
     }
 
     setStage(stage) {
@@ -537,6 +541,7 @@ class JobsController {
             console.log(error);
         });
     }
+
     getFeedJobData() {
 
         SERVICE.get(this).feedJobData(this.selectedCandidate._id).then(response => {
@@ -637,6 +642,13 @@ class JobsController {
 
     };
 
+
+    mandatorySkillArray(){
+        this.mandatory = ['Any Language','Java','Java , Bigdata' , 'Java, UI Framework','Python','Python, Django','Python, UI framework','Python, ML','RoR','C++','C#','MEAN','LAMP','PHP','Node, UI framework','Node','Angular','Any JS framework (UI)','React','Machine Learning','QTP','Selenium','Big Data','Bootstrap','AWS','Cloud','Azure','Nosql','Mongodb','CouchDB','Cassandra','Oracle','SQL (Any)','Mysql','Postgresql','Chef/Puppet/Ansible','Linux/Unix/Redhat','Rest/Restful','SOAP','Webservices (Any)']
+         
+    }
+
+    
     getAllRecruiters() {
         SERVICE.get(this).getAllRecruiters().then(response => {
             this.allRecruiters = response.data;
@@ -774,7 +786,6 @@ class JobsController {
         }, error => {
             console.log(error);
         });
-
     };
     saveIDCandidateDetails(candidateId) {
             if (document.getElementById("editreadonly_hidden1").value == 0) {
