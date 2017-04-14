@@ -14848,6 +14848,7 @@ ol.dark li a {
     border: 1px solid #dedede;
     border-radius: 4px;
     margin-bottom: 5px;
+    text-align: left;
 }
 
 .ckbox3 span:before {
