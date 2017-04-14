@@ -282,25 +282,33 @@ class JobsController {
             var fd = new FormData();
             fd.append('resumeFile', file);
             fd.append('candidateId', candidateId);
+            fd.append('candidateName', this.selectedCandidate.candidateName);
             fd.append('assigneeName', this.AuthFactory.auth.user.displayName);
             fd.append('uploadDate', new Date());
+            fd.append('candidateEmail', this.selectedCandidate.candidateEmail);
+            fd.append('candidateContact', this.selectedCandidate.candidateContact);
+            fd.append('jobId', this.selectedJobDetail._id);
+            fd.append('userId', this.userId);
+            fd.append('designation', this.selectedJobDetail.designation);
+            fd.append('clientName', this.selectedJobDetail.clientName);
 
-            SERVICE.get(this).uploadResumeFile(fd).then(response => {
-                console.log(response.message);
-                if (response.message == "ERROR")
+            SERVICE.get(this).uploadNewCandidateResumeFile(fd).then(response => {
+                if (response.message == "ERROR") {
                     alert("Error occurred while uploading resume file.\nPlease select proper file type and size.");
-                else if (response.message === 'UPDATE SUCCESS')
-                    alert(`Resume successfully updated.`)
-                this.resumeFile = null;
-                document.getElementById("file-input").value = "";
-                document.getElementById("new-file-input2").value = "";
+                } else {
+                    if (response.message === 'UPDATE SUCCESS') alert(`Candidate ${this.selectedCandidate.candidateName} \'s resume is updated.`)
+                    this.candidateDetailsForJob(this.selectedJobDetail._id);
+                }
             }, error => {
                 console.log(error);
+            })
+            .finally(() => {
+                this.resumeFile = null;
+                document.getElementById("resume-file-input").value = "";
             });
         } else {
             alert("Please select a file to upload!");
-            document.getElementById("file-input").value = "";
-            document.getElementById("new-file-input2").value = "";
+            document.getElementById("resume-file-input").value = "";
         }
 
     };
