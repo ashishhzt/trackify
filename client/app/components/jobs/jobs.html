@@ -55,7 +55,7 @@
                             <ul class="nav nav-tabs nav-justified border-grey nav-inverse">
                                 <li class="show_job_content active" ng-click="vm.setStage('NEW')"><a href="#" data-toggle="tab"><strong>New
                                     resume- <span id="badge">{{vm.allCandidateDetail.NEW.length}}</span></strong></a></li>
-                                <li ng-click="vm.setStage('SHORTLIST')"><a class="show_job_content" href="#" data-toggle="tab"><strong>Shortlist- <span id="badge">{{vm.allCandidateDetail.SHORTLIST.length}}</span></strong></a></li>
+                                <li ng-click="vm.setStage('SHORTLIST')" ><a class="show_job_content" href="#" data-toggle="tab"><strong>Shortlist- <span id="badge">{{vm.allCandidateDetail.SHORTLIST.length}}</span></strong></a></li>
                                 <li ng-click="vm.setStage('INTERVIEW')"><a class="show_job_content" href="#" data-toggle="tab"><strong>Interview- <span id="badge">{{vm.allCandidateDetail.INTERVIEW.length}}</span></strong></a></li>
                                 <li ng-click="vm.setStage('OFFER')"><a class="show_job_content" href="#" data-toggle="tab"><strong>Offer- <span id="badge">{{vm.allCandidateDetail.OFFER.length}}</span></strong></a></li>
                                 <li ng-click="vm.setStage('JOINED')"><a class="show_job_content" href="#" data-toggle="tab"><strong>Joined- <span id="badge">{{vm.allCandidateDetail.JOINED.length}}</span></strong></a></li>
@@ -679,7 +679,7 @@
                                                             <div class="panel-heading">
                                                                 <h4 class="panel-title">
 
-                                                                    <a data-toggle="collapse" class="collapsed" data-parent="#accordion3" data-target="#collapseOne2">
+                                                                    <a data-toggle="collapse" class="collapsed" data-parent="#accordion3" data-target="#collapseOne">
                                                                                 <span class="col-md-6" style="font-size: 16px;margin-top: 5px">
                                                                                     <span>{{row.clientName}}</span>
                                                                                     -
@@ -692,7 +692,7 @@
                                                                 </h4>
 
                                                             </div>
-                                                            <div id="collapseOne2" class="panel-collapse collapse mt20">
+                                                            <div id="collapseOne" class="panel-collapse collapse mt20">
                     
                                                                 <div class="panel-body">
                                                                     <div class="form-group">

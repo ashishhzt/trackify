@@ -191,10 +191,17 @@
                                         </div>
                                     </div>
                                     <!-- <span class="text-danger">*</span> -->
+                                    <!-- ng-options="recruiter._id as recruiter.displayName for recruiter in vm.recruiters" -->
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Allot to </label>
                                         <div class="col-sm-8">
-                                            <select id="myid3" name="userId" class="form-control" style="width: 100%" data-placeholder="Enter Names"  ng-model="vm.newJob.userId" ng-options="recruiter._id as recruiter.displayName for recruiter in vm.recruiters">
+                                            <select id="myid3" name="userId" class="form-control" style="width: 100%" data-placeholder="Enter Names"  ng-model="vm.newJob.userId" >
+                                             <option value="Ashok">Ashok</option>
+                                            <option value="John">John</option>
+                                            <option value="David">David</option>
+                                            <option value="Kristine">Kristine</option>
+                                            <option value="Ajay">Ajay</option>
+                                            <option value="Vijay">Vijay</option>
                                             </select>
                                         </div>
                                     </div>
