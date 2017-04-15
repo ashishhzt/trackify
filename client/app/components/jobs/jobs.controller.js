@@ -2,14 +2,16 @@ const SERVICE = new WeakMap();
 let trackFilterObjectLastApplied = [{ "filterTag": "filterByRecruiter" }, { "filterTag": "selectStatus" }]; //for init stage -  New Resume stage
 
 class JobsController {
-    constructor($rootScope, AuthFactory, jobsService, shareData) {
+    constructor($rootScope, AuthFactory, jobsService, shareData, newJobService) {
 
         this.AuthFactory = AuthFactory;
         // console.log('userObjFromService', userObjFromService);
 
         this.jobsService = jobsService;
+        this.newJobService = newJobService;
 
-        this.userId = 1; //get this data from localstorage
+        let userObj = AuthFactory.getLoggedInUser();
+        this.userId = userObj.user._id;
 
         this.shareData = shareData; //service to pass data to fro from controllers
         this.checkedAllCandidateFlag = false;
@@ -60,9 +62,48 @@ class JobsController {
 
     $onInit() {
         console.log('this.user injected into job component\'s bindings by ui-router\'s $resolve service', this.user)
+        this.locationArray();
+        this.eitherSkillArray();
+        this.mandatorySkillArray();
+        this.designationArray();
 
+        // Initiating the view with showing candidate list and hiding similar resume section
+        this.display = 'CANDIDATES';
+    }
+
+    $postLink() {
+        // Do any final jquery or dom event linking here.
+        this.primarySkillArray();
 
     }
+
+    locationArray(update){
+        this.myLocation = ['Bangalore' ,'Delhi/NCR','Gurgaon','Hyderabad','Mumbai','Pune','Chennai','Kolkata','Trivandrum','Cochin','Jaipur','Ahmedabad','Singapore','Malaysia','USA','Canada','European Countries','Australia/New Zealand','Nagpur','Noida','Others'];
+
+        if (update && update.length) this.myLocation = [... new Set([...update, ...this.myLocation])];
+    }
+    eitherSkillArray(update){
+        this.eitherSkill = ['Java','PHP','Drupal','ASP.NET','C#'];
+
+        if (update && update.length) this.eitherSkill = [... new Set([...update, ...this.eitherSkill])];
+    }
+    primarySkillArray(update){
+        this.primarySkills = ['NODEJS','PYTHON','JAVA'];
+
+        if (update && !this.primarySkills.includes(update)) this.primarySkills.unshift(update);
+    }
+   
+    designationArray(update){
+        this.designationList = ['SDE I / II / III','Full Stack Developer','UI Developer','UI/UX Designer','Lead Engineer','Engineering Manager','Product Manager','Data Engineer','Data Scientist','Data Analyst','Big Data Engineer','Big Data Architect','Architect','Associate Architect','Solution Architect','Project/Program Manager','Android Developer','Quality Analyst','Ios Developer','Devops Engineer','Cloud Architect','Head of Engineering','Vice President','Asst Vice President','Director','Marketing Executive','Head Marketing','Recruiter'];
+
+        if (update && !this.designationList.includes(update)) this.designationList.unshift(update);
+    }
+
+    mandatorySkillArray(update){
+        this.mandatory = ['Any Language','Java','Java , Bigdata' , 'Java, UI Framework','Python','Python, Django','Python, UI framework','Python, ML','RoR','C++','C#','MEAN','LAMP','PHP','Node, UI framework','Node','Angular','Any JS framework (UI)','React','Machine Learning','QTP','Selenium','Big Data','Bootstrap','AWS','Cloud','Azure','Nosql','Mongodb','CouchDB','Cassandra','Oracle','SQL (Any)','Mysql','Postgresql','Chef/Puppet/Ansible','Linux/Unix/Redhat','Rest/Restful','SOAP','Webservices (Any)'];
+
+        if (update && update.length) this.mandatory = [... new Set([...update, ...this.mandatory])];
+    }    
 
     setStage(stage) {
         this.searchKeywordJobs = "";
@@ -212,6 +253,25 @@ class JobsController {
         }
     };
 
+    toggleViewJdButton() {
+        this.viewJdButton = !this.viewJdButton;
+
+        if (!this.viewJdButton) return;
+
+        this.newJobService.updateJob(this.selectedJobDetailCopy)
+            .then(response => {
+                // 
+            })
+    }
+
+    openViewJd() {
+        this.selectedJobDetailCopy = { ...this.selectedJobDetail };
+    }
+
+    resetViewJd() {
+        this.initJobs();
+    }
+
     saveCandidateDetails() {
         if (document.getElementById("editreadonly_hidden").value == 0) {
             if ((this.candidateDetails.candidateEmail.indexOf("@") == -1) || (this.candidateDetails.candidateEmail.indexOf(".") == -1) || (this.candidateDetails.candidateEmail.lastIndexOf(".") < this.candidateDetails.candidateEmail.indexOf("@")) || (this.candidateDetails.candidateEmail.indexOf("@") != this.candidateDetails.candidateEmail.lastIndexOf("@"))) {
@@ -255,25 +315,33 @@ class JobsController {
             var fd = new FormData();
             fd.append('resumeFile', file);
             fd.append('candidateId', candidateId);
+            fd.append('candidateName', this.selectedCandidate.candidateName);
             fd.append('assigneeName', this.AuthFactory.auth.user.displayName);
             fd.append('uploadDate', new Date());
+            fd.append('candidateEmail', this.selectedCandidate.candidateEmail);
+            fd.append('candidateContact', this.selectedCandidate.candidateContact);
+            fd.append('jobId', this.selectedJobDetail._id);
+            fd.append('userId', this.userId);
+            fd.append('designation', this.selectedJobDetail.designation);
+            fd.append('clientName', this.selectedJobDetail.clientName);
 
-            SERVICE.get(this).uploadResumeFile(fd).then(response => {
-                console.log(response.message);
-                if (response.message == "ERROR")
+            SERVICE.get(this).uploadNewCandidateResumeFile(fd).then(response => {
+                if (response.message == "ERROR") {
                     alert("Error occurred while uploading resume file.\nPlease select proper file type and size.");
-                else if (response.message === 'UPDATE SUCCESS')
-                    alert(`Resume successfully updated.`)
-                this.resumeFile = null;
-                document.getElementById("file-input").value = "";
-                document.getElementById("new-file-input2").value = "";
+                } else {
+                    if (response.message === 'UPDATE SUCCESS') alert(`Candidate ${this.selectedCandidate.candidateName} \'s resume is updated.`)
+                    this.candidateDetailsForJob(this.selectedJobDetail._id);
+                }
             }, error => {
                 console.log(error);
+            })
+            .finally(() => {
+                this.resumeFile = null;
+                document.getElementById("resume-file-input").value = "";
             });
         } else {
             alert("Please select a file to upload!");
-            document.getElementById("file-input").value = "";
-            document.getElementById("new-file-input2").value = "";
+            document.getElementById("resume-file-input").value = "";
         }
 
     };
@@ -284,6 +352,7 @@ class JobsController {
             if (file) {
                 var fd = new FormData();
                 fd.append('resumeFile', file);
+                fd.append('candidateId', this.selectedCandidate._id);
                 fd.append('candidateName', this.newCandReg.name);
                 fd.append('candidateEmail', this.newCandReg.email);
                 fd.append('candidateContact', this.newCandReg.phNum);
@@ -500,6 +569,7 @@ class JobsController {
             console.log(error);
         });
     }
+
     getFeedJobData() {
 
         SERVICE.get(this).feedJobData(this.selectedCandidate._id).then(response => {
@@ -585,17 +655,27 @@ class JobsController {
     // };
 
     getMainMenuData(jobId) {
+        
+        this.display = 'CANDIDATES';
         for (var arrElem of this.sideMenuJobsDetails) {
             if (arrElem._id === jobId) {
                 this.selectedJobDetail = arrElem;
-                console.log("selectedJobDetail", this.selectedJobDetail)
+                this.locationArray(this.selectedJobDetail.locations)
+                this.eitherSkillArray(this.selectedJobDetail.eitherOrSkills)
+                this.primarySkillArray(this.selectedJobDetail.primarySkill)
+                this.designationArray(this.selectedJobDetail.designation)
+                this.mandatorySkillArray(this.selectedJobDetail.skills)
+                this.selectedJobDetailCopy = {...this.selectedJobDetail}
+                console.log("selectedJobDetail",this.selectedJobDetail)
                 break;
             }
         }
         this.presentStage = "NEW";
         this.initSimilarResume(0);
         this.candidateDetailsForJob(jobId);
+
     };
+
     getAllRecruiters() {
         SERVICE.get(this).getAllRecruiters().then(response => {
             this.allRecruiters = response.data;
@@ -608,7 +688,7 @@ class JobsController {
         let recruiter = this.allRecruiters.filter(rec => rec._id == id);
 
         // TODO: Remove hard-coded recruiter name after users collection is fixed with proper ID generation
-        return recruiter.length ? recruiter[0].displayName : 'Barrack Obama' //'Recruiter';
+        return recruiter.length ? recruiter[0].displayName : '--' //'Recruiter';
     }
 
     getJobsDetail(userId, flag, status) {
@@ -733,7 +813,6 @@ class JobsController {
         }, error => {
             console.log(error);
         });
-
     };
     saveIDCandidateDetails(candidateId) {
             if (document.getElementById("editreadonly_hidden1").value == 0) {
@@ -1110,6 +1189,6 @@ class JobsController {
 
 }
 
-JobsController.$inject = ['$rootScope', 'AuthFactory', 'jobsService', 'shareData']
+JobsController.$inject = ['$rootScope', 'AuthFactory', 'jobsService', 'shareData', 'newJobService']
 
 export default JobsController;

@@ -6,6 +6,8 @@ const NewjobRouter = router();
 
 NewjobRouter.post('/createJob', verifyUser, controller.createJob);
 
+NewjobRouter.post('/updateJob', verifyUser, controller.updateJob);
+
 NewjobRouter.post('/createClient', verifyUser, controller.createClient);
 
 NewjobRouter.post('/getClients', verifyUser, controller.getClients);
