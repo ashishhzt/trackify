@@ -18,7 +18,14 @@ let candidateModule = angular.module('candidate', [
   $stateProvider
     .state('candidate', {
       url: '/candidate',
-      template: '<candidate user="vm.auth.user"></candidate>'
+      resolve: {
+        authuser: function (AuthFactory) {
+          'ngInject';
+          return AuthFactory.getUser()
+            .then(() => AuthFactory.auth.user)
+        }
+      },
+      template: '<candidate user="$resolve.authuser"></candidate>'
     });
 })
 .component('candidate', candidateComponent)

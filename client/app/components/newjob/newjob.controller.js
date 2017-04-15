@@ -28,6 +28,10 @@ const TRACKER_FORMATS = [{
     key: 'college',
     select: false
 }, {
+    name: 'Qualification',
+    key: 'qualification',
+    select: true
+}, {
     name: 'Key Skills',
     key: 'key_skills',
     select: true

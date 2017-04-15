@@ -50,7 +50,7 @@
 
                         <ul class="inbox-nav inbox-divider mainsidenav">
                             <li ng-repeat="row in vm.sideMenuJobsDetails"
-                                ng-click="vm.getMainMenuData(row._id)" onclick="resetSimilarResumeView()" >
+                                ng-click="vm.getMainMenuData(row._id)">
                                 <a href="javascript:;">
                                     <span class="nav-text1" style="text-transform: capitalize;" ng-bind="row.clientName | lowercase"></span>
                                     <span class="nav-text2" ng-bind="row.designation"></span> |
