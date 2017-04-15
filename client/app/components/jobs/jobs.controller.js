@@ -544,7 +544,7 @@ class JobsController {
 
         SERVICE.get(this).candidateDetailsForJob(this.userId, jobId, filterObj, "job").then(response => {
             this.allCandidateDetail = response.data;
-            console.log("candidateDetailsForJob",this.allCandidateDetail);
+            console.log("candidateDetailsForJob", this.allCandidateDetail);
             if (response.data && !Object.keys(response.data).length) {
                 this.selectedCandidate = null;
                 return;
@@ -565,7 +565,7 @@ class JobsController {
             } else {
                 this.selectedCandidate = null;
             }
-            
+
 
         }, error => {
             console.log(error);
@@ -588,7 +588,7 @@ class JobsController {
         for (var arrElem of this.sideMenuJobsDetails) {
             if (arrElem._id === jobId) {
                 this.selectedJobDetail = arrElem;
-                console.log("selectedJobDetail",this.selectedJobDetail)
+                console.log("selectedJobDetail", this.selectedJobDetail)
                 break;
             }
         }
@@ -614,16 +614,16 @@ class JobsController {
     getJobsDetail(userId, flag, status) {
 
         this.sideMenuState = { flag: flag, status: status };
-        console.log("FLAG", flag,status)
+        console.log("FLAG", flag, status)
 
         SERVICE.get(this).getJobsDetail(userId, flag, status).then(response => {
-            console.log("Side Menu",response.data)
+            console.log("Side Menu", response.data)
             this.sideMenuJobsDetails = response.data.reverse();
             this.sideMenuState.jobId = response.data[0]._id;
-            console.log("getJobsDetail",this.sideMenuState.jobId)
+            console.log("getJobsDetail", this.sideMenuState.jobId)
             if (this.shareData.getProperty() == 'blank') {
                 this.getMainMenuData(this.sideMenuState.jobId);
-            } else {    
+            } else {
                 this.getMainMenuData(this.shareData.getProperty().jobId);
                 this.shareData.setProperty('blank')
             }
@@ -636,7 +636,7 @@ class JobsController {
 
     initJobs() {
         this.getJobsDetail(this.userId, 'myjob', 'active');
-        console.log("Checking",this.userId)
+        console.log("Checking", this.userId)
     };
 
     //Similar Resume Code: START
@@ -650,7 +650,7 @@ class JobsController {
 
         SERVICE.get(this).getInternalDataCandidateList(reqData).then(response => {
             if (!response.hasOwnProperty('data')) {
-                console.log('getInternalDataCandidateList',response.message)
+                console.log('getInternalDataCandidateList', response.message)
                 return;
             }
             this.internalCandidateList = response.data;
@@ -1002,7 +1002,7 @@ class JobsController {
                 this.inbox.thread = response.msg;
                 for (var i = this.inbox.thread.length - 1; i >= 0; i--) {
                     this.inbox.thread[i].html = atob(this.inbox.thread[i].html);
-                    $("#"+this.inbox.thread[i].messageId+" > .panel-body").html(this.inbox.thread[i].html)
+                    $("#" + this.inbox.thread[i].messageId + " > .panel-body").html(this.inbox.thread[i].html)
                 }
                 // console.log(this.inbox.thread);
                 // var _response = response.
@@ -1021,7 +1021,7 @@ class JobsController {
             $('.openinbox').show();
             $('.inboxtable').hide();
             SERVICE.get(this).readMail(message).then(response => {
-                var response = response.msg[response.msg.length-1];
+                var response = response.msg[response.msg.length - 1];
                 if (this.mailForJobs.currentView == "INBOX" && !message.isRead) {
                     this.mailForJobs.inboxCounter -= 1;
                 }
@@ -1057,7 +1057,7 @@ class JobsController {
         $('.inboxtable').show();
         this.mailForJobs.currentView = label;
         // "subject:"+this.selectedJobDetail.clientName
-        SERVICE.get(this).fetchMails({ label: label, query: "subject:"+this.selectedJobDetail.clientName }).then(response => {
+        SERVICE.get(this).fetchMails({ label: label, query: "subject:" + this.selectedJobDetail.clientName }).then(response => {
             this.mailForJobs[label] = [];
             this.mailForJobs[label] = response.threads;
             console.log(this.mailForJobs[label]);
@@ -1082,6 +1082,28 @@ class JobsController {
         });
 
     }
+
+    saveClientTemplate(){
+        console.log("clientName");
+        console.log(this.clientTemplate);
+    }
+
+    fetchClients() {
+        SERVICE.get(this).fetchClients().then(response => {
+            console.log(response);
+            if (response.status == "SUCCESS") {
+                this.clientList = response.clients;
+            }
+            console.log(this.clientList)
+                // this.clientList[label] = [];
+                // this.mailForJobs[label] = response.threads;
+                // console.log(this.mailForJobs[label]);
+        }, error => {
+            console.log(error);
+        });
+    }
+
+
     parseDate(date) {
         return new Date(date).toLocaleString();
     }

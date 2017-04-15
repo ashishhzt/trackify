@@ -57,6 +57,7 @@ JobsRouter.get('/linkedinLink/:candidateId', verifyUser, controller.linkedinLink
 JobsRouter.post('/internalDataCandidateList', controller.internalDataCandidateList);
 
 JobsRouter.post('/add-candidate', controller.addOrUpdateCandidate);
+JobsRouter.get('/clientList', controller.clientList);
 
 //Discarded APIs
 JobsRouter.all('/*', controller.invalidRequest);

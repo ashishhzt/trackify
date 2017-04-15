@@ -1657,6 +1657,18 @@ export const invalidRequest = function(req, res) {
     res.send({"message": "Invalid Request"});
 };
 
+export const clientList = function(req, res){
+    let db = mongoutil.getDb();
+    var collection = db.collection('client');
+    collection.find().toArray(function (err, clients){
+        if(err){
+             res.send({status:'FAILURE'});
+        }else{
+            res.send({status:'SUCCESS', clients:clients});
+        }
+    });
+}
+
 /**
  * Handler to add Candidate.
  */

@@ -19,7 +19,8 @@
     "seed": "server/seedDB.js"
   },
   "dependencies": {
-    "angular": "^1.5.0",
+    "angular": "1.6.4",
+    "angular-sanitize": "1.6.4",
     "angular-mocks": "^1.5.0",
     "angular-ui-router": "^0.4.2",
     "async": "^2.1.5",

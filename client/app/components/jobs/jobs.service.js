@@ -137,6 +137,9 @@ class jobsService {
         return HTTP.get(this).post('api/mailer/downloadAttachment', details).then(result=>result.data);
 
     }
+    fetchClients() {
+        return HTTP.get(this).get('/api/jobs/clientList').then(result => result.data );
+    }
 
     static getInstance($http){
         return new jobsService($http);

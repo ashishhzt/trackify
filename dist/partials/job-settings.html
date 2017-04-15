@@ -1,0 +1,615 @@
+<div class="modal bounceIn animated" id="settings1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" style="width:90%">
+        <div class="modal-content" style="background: #f3f3f3;">
+            <div class="modal-body">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <div class="modal-body popupscroll mCustomScrollbar">
+                    <div class="mail-box">
+                        <aside class="sm-side border-grey" style="background:#fff">
+                            <div class="user-head">
+                                <div class="user-name">
+                                    <h3><a href="#" style="color: #fff;cursor: text;"><i class="fa fa-cog" aria-hidden="true"></i> SETTINGS</a></h3>
+                                </div>
+                            </div>
+                            <ul class="inbox-nav inbox-divider nav nav-pills nav-stacked" style="border-bottom: 0">
+                                <li class="active">
+                                    <a href="#candidatemailtemp" data-toggle="tab"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> Candidate Mail Templates</a>
+                                </li>
+                                <li onclick="loadclientParent()">
+                                    <a href="#clientmailtemp" data-toggle="tab"><i class="fa fa-envelope-o"></i> Client Mail Templates </a>
+                                </li>
+                                <!--                          <li>
+                                                              <a href="#trackerright" data-toggle="tab"><i class="fa fa-file-word-o" aria-hidden="true"></i> Tracker Editing Rights </a>
+                                                          </li>-->
+                                <li>
+                                    <a href="#edittracker" data-toggle="tab"><i class=" fa fa fa-pencil-square-o"></i> Edit Tracker</a>
+                                </li>
+                                <li>
+                                    <a href="#editteam" data-toggle="tab"><i class=" fa fa-users"></i> Edit Team</a>
+                                </li>
+                                <li>
+                                    <a href="#editclientinfo" data-toggle="tab"><i class="fa fa-list-alt" aria-hidden="true"></i> Edit Client Info</a>
+                                </li>
+                            </ul>
+                        </aside>
+                        <aside class="lg-side" style="background: rgba(255, 255, 255, 0);">
+                            <div class="inbox-body" style="padding: 0px 0px;">
+                                <div class="tab-content noleftpadding norightpadding">
+                                    <div class="tab-pane active notoppad noleftpadding norightpadding no-background" id="candidatemailtemp">
+                                        <div class="inbox-head mb15">
+                                            <h3 style="float: left">Candidate Mail Templates</h3>
+                                            <!-- <ol class="dark breadcrumb breadcrumb-quirk font-helvetica" style="float: left;margin-bottom: 8px;margin-top: 8px;margin-left: 17px;">
+                                                <li class="whitetext">{{vm.selectedJobDetail.clientName}}</li>
+                                                <li class="whitetext">{{vm.selectedJobDetail.designation}}</li>
+                                                <li class="whitetext"><span ng-repeat="elem in vm.selectedJobDetail.locations"><span ng-if="$index != 0">,&nbsp;</span>{{elem}}</span>
+                                                </li>
+                                                <li class="whitetext"> {{vm.selectedJobDetail.minExp}}-{{vm.selectedJobDetail.maxExp}} Years </li>
+                                            </ol> -->
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="border-grey pad5 list-view1 mCustomScrollbar white-background">
+                                                <button class="expander btn btn-success btn-xs btn-quirk" onclick="loadpage('new_format');">
+                                                    <i class="fa fa-plus-square" aria-hidden="true"></i> Add new format
+                                                </button>
+                                                <div class="list" onclick="loadpage('job_invite');">
+                                                    <div>
+                                                        <h4><span>Job Invitation</span> | <span>Flipkart Drive</span></h4>
+                                                    </div>
+                                                    <div class="clear"></div>
+                                                </div>
+                                                <div class="list">
+                                                    <div>
+                                                        <h4><span>Interview Invitation</span> | <span>Myntra</span></h4>
+                                                    </div>
+                                                    <div class="clear"></div>
+                                                </div>
+                                                <div class="list">
+                                                    <div>
+                                                        <h4><span>Offered</span> | <span>Jabong</span></h4>
+                                                    </div>
+                                                    <div class="clear"></div>
+                                                </div>
+                                                <div class="list">
+                                                    <div>
+                                                        <h4><span>Offered</span> | <span>Jabong</span></h4>
+                                                    </div>
+                                                    <div class="clear"></div>
+                                                </div>
+                                                <div class="list">
+                                                    <div>
+                                                        <h4><span>Offered</span> | <span>Jabong</span></h4>
+                                                    </div>
+                                                    <div class="clear"></div>
+                                                </div>
+                                                <div class="list">
+                                                    <div>
+                                                        <h4><span>Offered</span> | <span>Jabong</span></h4>
+                                                    </div>
+                                                    <div class="clear"></div>
+                                                </div>
+                                                <div id="container1">
+                                                    <div class="inner">
+                                                        <div class="list">
+                                                            <div>
+                                                                <h4><span></span>Interview Shortlist | <span></span>Jabong</h4>
+                                                            </div>
+                                                            <div class="clear"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-8 noleftpadding">
+                                            <div class="border-grey pad5 white-background">
+                                                <div id="headdiv" class="text-center new-title">
+                                                    Job Invitation | Flipkart Drive
+                                                </div>
+                                                <div id="TableData" class="col-sm-12" style="display: none">
+                                                    <div class="form-group mb5 col-md-6 noleftpadding">
+                                                        <select id="select33" class="form-control" style="width: 100%" data-placeholder="Format Type">
+                                                            <option value=""></option>
+                                                            <option value="Option1">Option1</option>
+                                                            <option value="Option2">Option2</option>
+                                                            <option value="Option3">Option3</option>
+                                                            <option value="Option4">Option4</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group mb5 col-md-6 norightpadding">
+                                                        <select id="select34" class="form-control" style="width: 100%" data-placeholder="Company ">
+                                                            <option value=""></option>
+                                                            <option value="Option1">Option1</option>
+                                                            <option value="Option2">Option2</option>
+                                                            <option value="Option3">Option3</option>
+                                                            <option value="Option4">Option4</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="clear"></div>
+                                                <div class="pad5">
+                                                    <span class="text-left">Note: To auto insert name of candidates, please use <name> </span>
+                                                    <span class="pull-right">
+                                                        <button class="btn btn-success btn-xs" id="enableTextTemplate" name="enableText" ng-click="saveJobFormat()">
+                                                            <i class="fa fa-plus-square" aria-hidden="true"></i>
+                                                        </button>
+                                                         <button class="btn btn-success btn-xs" name="enableText" id="enabltEditTemplate" onclick="toggleTextEdit()" style="display:none">
+                                                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                                        </button>
+
+                                                       
+                                                    </span>
+                                                    <div class="clear"></div>
+                                                    <textarea rows="12" name="myTextBox" id="txtBox" disabled class="form-control mt10 ipText" placeholder="Type your comment..." required="" aria-required="true"></textarea>
+                                                </div>
+                                                <div class="clear"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane notoppad noleftpadding norightpadding no-background" id="clientmailtemp" ng-init="vm.clientTemplate={}">
+                                        <div class="inbox-head mb15">
+                                            <h3 style="float: left"> Client Mail Templates</h3>
+                                            <!--                                             <ol class="dark breadcrumb breadcrumb-quirk font-helvetica" style="float: left;margin-bottom: 8px;margin-top: 8px;margin-left: 17px;">
+                                                <li class="whitetext">Flipkart</li>
+                                                <li class="whitetext">Java Developer</li>
+                                                <li class="whitetext">Bangalore, Hyderabad</li>
+                                                <li class="whitetext"> 4-5 Years </li>
+                                            </ol> -->
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="border-grey pad5 list-view1 white-background">
+                                                <button class="expanderclient btn btn-success btn-xs btn-quirk" onclick="loadTemplate('new_format');">
+                                                    <i class="fa fa-plus-square" aria-hidden="true"></i> Add new format
+                                                </button>
+                                                <div class="list" onclick="loadTemplate('job_invite');">
+                                                    <div>
+                                                        <h4><span>Job Invitation</span> | <span>Flipkart Drive</span></h4>
+                                                    </div>
+                                                    <div class="clear"></div>
+                                                </div>
+                                                <div id="container1">
+                                                    <div class="inner">
+                                                        <div class="list">
+                                                            <div>
+                                                                <h4><span></span>Interview Shortlist | <span></span>Jabong</h4>
+                                                            </div>
+                                                            <div class="clear"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-8 noleftpadding">
+                                            <div class="border-grey pad5 white-background">
+                                                <div id="headdiv1" class="text-center new-title">
+                                                </div>
+                                                <div id="TableData1" class="col-sm-12" style="display: none;">
+                                                    <div class="form-group col-md-6 mb5">
+                                                        <input type="text" ng-model="vm.clientTemplate.templateName" placeholder="Enter Template Name" class="form-control">
+                                                    </div>
+                                                    <div class="form-group col-md-6 mb5">
+                                                        <select id="select34" class="form-control" ng-model="vm.clientTemplate.clientName" style="width: 100%" data-placeholder="Choose Client Name">
+                                                            <option ng-repeat="client in vm.clientList | orderBy: client.clientName" value="{{client.clientName}}">{{client.clientName}}</option>  
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="clear"></div>
+                                                <div class="pad5">
+                                                    <!-- <span class="text-left">Note: To auto insert name of candidates, please use <name> </span> -->
+                                                    <span class="pull-right">
+<!--                                                         <button ng-click="saveJobFormat()" class="btn btn-success btn-xs" name="enableTxtClient" id="enableTxtClient">
+                                                            <i class="fa fa-plus-square" aria-hidden="true"></i>
+                                                        </button>
+ -->
+                                                        <button class="btn btn-success btn-xs" name="enableEditclient"  id="enableEditclient" onclick="toggleTextClient1()">
+                                                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                                        </button>
+                                                    </span>
+                                                    <div class="clear"></div>
+                                                    <textarea rows="12"  name="myTextBoxClient" ng-model="vm.clientTemplate.templateText" id="txtEditClient1" disabled class="form-control mt10 ipText" placeholder="Type your comment..." required="" aria-required="true"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="clear"><button class="btn btn-success pull-right" ng-click="vm.saveClientTemplate()">Save</button></div>
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>
+                                    <!--                <div class="tab-pane" id="trackerright">
+                                                      Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut 3
+                                                      et voluptates repudiandae sint et molestiae non recusandae.
+                                                    </div>-->
+                                    <div class="tab-pane notoppad noleftpadding norightpadding no-background" id="edittracker">
+                                        <div class="inbox-head mb15">
+                                            <h3 style="float: left">Edit Tracker </h3>
+                                            <ol class="dark breadcrumb breadcrumb-quirk font-helvetica" style="float: left;margin-bottom: 8px;margin-top: 8px;margin-left: 17px;">
+                                                <li class="whitetext">Flipkart</li>
+                                                <li class="whitetext">Java Developer</li>
+                                                <li class="whitetext">Bangalore, Hyderabad</li>
+                                                <li class="whitetext"> 4-5 Years </li>
+                                            </ol>
+                                            <!--                          <form action="#" class="pull-right position">
+                                                                          <div class="input-append">
+                                                                              <input type="text" class="sr-input" placeholder="Search Mail">
+                                                                              <button class="btn sr-btn" type="button"><i class="fa fa-search"></i></button>
+                                                                          </div>
+                                                                      </form>-->
+                                        </div>
+                                        <div class="pad10 ml10 col-md-6 white-background border-grey" style="margin: 0 auto;float:none;">
+                                            <div class="form-group">
+                                                <input class="form-control" type="text" placeholder="Enter Format Name">
+                                            </div>
+                                            <div class="form-group">
+                                                <input class="form-control highlighttext" disabled name="" type="text" value="Name" />
+                                            </div>
+                                            <div class="form-group">
+                                                <input class="form-control highlighttext" disabled name="" type="text" value="Mail" />
+                                            </div>
+                                            <div class="form-group">
+                                                <input class="form-control highlighttext" disabled name="" type="text" value="Mobile" />
+                                            </div>
+                                            <div class="form-group">
+                                                <div id="TextBoxContainer">
+                                                    <!--Textboxes will be added here -->
+                                                </div>
+                                            </div>
+                                            <div class="form-group" style="position: relative">
+                                                <span class="myarrow">
+                                                    <input type="text" id="autocs" class="form-control" list="select62"/>
+                                                </span>
+                                                <datalist id="select62" class="types" style="width: 100%">
+                                                    <option value="option1">option1</option>
+                                                    <option value="option2">option2</option>
+                                                    <option value="option3">option3</option>
+                                                </datalist>
+                                                <button type="button" id="btnAdd" class="addbtnfloat btn btn-quirk addbtn"> + </button>
+                                            </div>
+                                            <div class="modal-footer text-center">
+                                                <div class="col-md-3 no-float center-div ">
+                                                    <button type="button" class="btn btn-success btn-block btn-quirk text-center">Apply</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>
+                                    <div class="tab-pane notoppad noleftpadding norightpadding no-background" id="editteam">
+                                        <div class="inbox-head mb15">
+                                            <h3 style="float: left">Edit Team </h3>
+                                            <ol class="dark breadcrumb breadcrumb-quirk font-helvetica" style="float: left;margin-bottom: 8px;margin-top: 8px;margin-left: 17px;">
+                                                <li class="whitetext">Flipkart</li>
+                                                <li class="whitetext">Java Developer</li>
+                                                <li class="whitetext">Bangalore, Hyderabad</li>
+                                                <li class="whitetext"> 4-5 Years </li>
+                                            </ol>
+                                            <!--                          <form action="#" class="pull-right position">
+                                                                          <div class="input-append">
+                                                                              <input type="text" class="sr-input" placeholder="Search Mail">
+                                                                              <button class="btn sr-btn" type="button"><i class="fa fa-search"></i></button>
+                                                                          </div>
+                                                                      </form>-->
+                                        </div>
+                                        <div class="pad10 ml10 col-md-6 white-background border-grey" style="margin: 0 auto;float:none;">
+                                            <div class="form-group">
+                                                <div id="TextBoxContainer1">
+                                                    <!--Textboxes will be added here -->
+                                                    <div style="position:relative">
+                                                        <input class="form-control highlighttext" disabled="" name="DynamicTextBox" value="Name" type="text">&nbsp;
+                                                        <button type="button" class="remove addbtnfloat btn btn-quirk closebtn"> X </button>
+                                                    </div>
+                                                </div>
+                                                <div id="TextBoxContainer1">
+                                                    <!--Textboxes will be added here -->
+                                                    <div style="position:relative">
+                                                        <input class="form-control highlighttext" disabled="" name="DynamicTextBox" value="Mail" type="text">&nbsp;
+                                                        <button type="button" class="remove addbtnfloat btn btn-quirk closebtn"> X </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div id="TextBoxContainer1">
+                                                    <!--Textboxes will be added here -->
+                                                </div>
+                                            </div>
+                                            <!--                                            <div class="form-group" style="position: relative">
+                                                <span><input type="text" id="autocs1" class="form-control" list="select63"/></span>
+
+                                                <button type="button" id="btnAdd1" class="addbtnfloat btn btn-quirk addbtn" > + </button>
+                                            </div>-->
+                                            <div class="form-group" style="position: relative">
+                                                <span class="myarrow">
+                                                    <input type="text" id="autocs1" class="form-control" list="select63"/>
+                                                </span>
+                                                <datalist id="select63" class="types" style="width: 100%">
+                                                    <option value="option1">option1</option>
+                                                    <option value="option2">option2</option>
+                                                    <option value="option3">option3</option>
+                                                </datalist>
+                                                <button type="button" id="btnAdd1" class="addbtnfloat btn btn-quirk addbtn"> + </button>
+                                            </div>
+                                            <div class="modal-footer text-center">
+                                                <div class="col-md-3 no-float center-div ">
+                                                    <button type="button" class="btn btn-success btn-block btn-quirk text-center">Apply</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane notoppad noleftpadding norightpadding no-background" id="editclientinfo">
+                                        <div class="inbox-head mb15">
+                                            <h3 style="float: left">Edit Client Info</h3>
+                                            <ol class="dark breadcrumb breadcrumb-quirk font-helvetica" style="float: left;margin-bottom: 8px;margin-top: 8px;margin-left: 17px;">
+                                                <li class="whitetext">Flipkart</li>
+                                                <li class="whitetext">Java Developer</li>
+                                                <li class="whitetext">Bangalore, Hyderabad</li>
+                                                <li class="whitetext"> 4-5 Years </li>
+                                            </ol>
+                                            <!--                          <form action="#" class="pull-right position">
+                                                                          <div class="input-append">
+                                                                              <input type="text" class="sr-input" placeholder="Search Mail">
+                                                                              <button class="btn sr-btn" type="button"><i class="fa fa-search"></i></button>
+                                                                          </div>
+                                                                      </form>-->
+                                        </div>
+                                        <form action="" class="form-horizontal" novalidate="novalidate">
+                                            <div class="pad10 ml10 white-background border-grey">
+                                                <div class="form-group">
+                                                    <div class="col-sm-12">
+                                                        <select id="select21" class="form-control" style="width: 100%" data-placeholder="SPOC Mail ID" multiple>
+                                                            <option value="option1">abc@gmail.com</option>
+                                                            <option value="option1">xyz@gmail.com</option>
+                                                            <option value="option1">test@gmail.com</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-sm-12">
+                                                        <select id="select46" class="form-control" style="width: 100%" data-placeholder="Job Location" multiple>
+                                                            <option value="option1">option1</option>
+                                                            <option value="option2">option2</option>
+                                                            <option value="option3">option3</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-sm-12">
+                                                        <select id="select47" class="form-control" style="width: 100%" data-placeholder="Address" multiple>
+                                                            <option value="option1">option1</option>
+                                                            <option value="option2">option2</option>
+                                                            <option value="option3">option3</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-sm-12">
+                                                        <input type="text" name="" class="form-control" placeholder="Client’s URL" required />
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-sm-12">
+                                                        <textarea rows="3" class="form-control" placeholder="Other Information" required=""></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer text-center">
+                                                    <div class="col-md-3 no-float center-div ">
+                                                        <button type="button" class="btn btn-success btn-block btn-quirk text-center">Apply</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                        </aside>
+                        </div>
+                    </div>
+                    <script type="text/javascript">
+                    $(function() {
+                        $("#btnAdd").bind("click", function() {
+                            var div = $("<div />");
+                            div.html(GetDynamicTextBox(""));
+                            $("#TextBoxContainer").append(div);
+                            $("#autocs").val('');
+                        });
+
+
+                        $("#btnGet").bind("click", function() {
+                            var values = "";
+                            $("input[name=DynamicTextBox]").each(function() {
+                                values += $(this).val() + "\n";
+                            });
+                            alert(values);
+                        });
+                        $("body").on("click", ".remove", function() {
+                            $(this).closest("div").remove();
+                        });
+                    });
+
+                    $(function() {
+                        $("#btnAdd1").bind("click", function() {
+                            var div = $("<div />");
+                            div.html(GetDynamicTextBox1(""));
+                            $("#TextBoxContainer1").append(div);
+                            $("#autocs1").val('');
+                        });
+
+
+                        $("#btnGet").bind("click", function() {
+                            var values = "";
+                            $("input[name=DynamicTextBox]").each(function() {
+                                values += $(this).val() + "\n";
+                            });
+                            alert(values);
+                        });
+                        $("body").on("click", ".remove", function() {
+                            $(this).closest("div").remove();
+                        });
+                    });
+
+                    function GetDynamicTextBox(value) {
+                        var textval = $("#autocs").val();
+
+                        // alert("value is "+$("#select20").val());
+                        return '<div style="position:relative"><input class="form-control highlighttext" disabled name = "DynamicTextBox" type="text" value = "' + $("#autocs").val() + '" />&nbsp;' +
+                            '<button type="button" class="remove addbtnfloat btn btn-quirk closebtn"> X </button></div>';
+
+                    }
+
+                    function GetDynamicTextBox1(value) {
+                        var textval = $("#autocs1").val();
+
+                        // alert("value is "+$("#select20").val());
+                        return '<div style="position:relative"><input class="form-control highlighttext" disabled name = "DynamicTextBox" type="text" value = "' + $("#autocs1").val() + '" />&nbsp;' +
+                            '<button type="button" class="remove addbtnfloat btn btn-quirk closebtn"> X </button></div>';
+
+                    }
+                    </script>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <!-- modal-content -->
+    </div>
+    <!-- modal-dialog -->
+    <script type="text/javascript">
+    $(function() {
+        $("#btnAdd").bind("click", function() {
+            var div = $("<div />");
+            div.html(GetDynamicTextBox(""));
+            $("#TextBoxContainer").append(div);
+            $("#autocs").val('');
+        });
+
+
+        $("#btnGet").bind("click", function() {
+            var values = "";
+            $("input[name=DynamicTextBox]").each(function() {
+                values += $(this).val() + "\n";
+            });
+            alert(values);
+        });
+        $("body").on("click", ".remove", function() {
+            $(this).closest("div").remove();
+        });
+    });
+
+    $(function() {
+        $("#btnAdd1").bind("click", function() {
+            var div = $("<div />");
+            div.html(GetDynamicTextBox1(""));
+            $("#TextBoxContainer1").append(div);
+            $("#autocs1").val('');
+        });
+
+
+        $("#btnGet").bind("click", function() {
+            var values = "";
+            $("input[name=DynamicTextBox]").each(function() {
+                values += $(this).val() + "\n";
+            });
+            alert(values);
+        });
+        $("body").on("click", ".remove", function() {
+            $(this).closest("div").remove();
+        });
+    });
+
+    function GetDynamicTextBox(value) {
+        var textval = $("#autocs").val();
+
+        // alert("value is "+$("#select20").val());
+        return '<div style="position:relative"><input class="form-control highlighttext" disabled name = "DynamicTextBox" type="text" value = "' + $("#autocs").val() + '" />&nbsp;' +
+            '<button type="button" class="remove addbtnfloat btn btn-quirk closebtn"> X </button></div>';
+
+    }
+
+    function GetDynamicTextBox1(value) {
+        var textval = $("#autocs1").val();
+
+        // alert("value is "+$("#select20").val());
+        return '<div style="position:relative"><input class="form-control highlighttext" disabled name = "DynamicTextBox" type="text" value = "' + $("#autocs1").val() + '" />&nbsp;' +
+            '<button type="button" class="remove addbtnfloat btn btn-quirk closebtn"> X </button></div>';
+
+    }
+    </script>
+</div>
+<div class="clear"></div>
+</div>
+</div>
+<!-- modal-content -->
+</div>
+<!-- modal-dialog -->
+<!-- modal -->
+<script>
+$('.expander').click(function() {
+    $('#TableData').slideToggle();
+    $('#headdiv').toggle();
+});
+
+$('.expanderclient').click(function() {
+    $('#TableData1').slideToggle();
+    $('#headdiv1').toggle();
+});
+
+
+function toggleTextEdit() {
+
+    var Disabled = document.getElementById("txtBox").disabled;
+    if (Disabled == false) {
+        $('#enabltEditTemplate').html("<i class='fa fa-pencil-square-o' aria-hidden='true'></i>");
+
+    } else {
+        $('#enabltEditTemplate').html("<i class='fa fa-floppy-o' aria-hidden='true'></i>");
+    }
+    document.getElementById("txtBox").disabled = !Disabled;
+}
+
+function loadclientParent() {
+    //$('#enableTxtClient').html("<i class='fa fa-pencil-square-o' aria-hidden='true'></i>");
+    document.getElementById('enableTxtClient').style.display = "none";
+    document.getElementById('enableEditclient').style.display = "block"
+        // $('#enableTextTemplate').html("<i class='fa fa-pencil-square-o' aria-hidden='true'></i>");
+    document.getElementById("txtEditClient1").disabled = true;
+}
+
+function loadpage(page_type) {
+
+    if ('job_invite' == page_type) {
+        document.getElementById('enableTextTemplate').style.display = "none";
+        document.getElementById('enabltEditTemplate').style.display = "block";
+        document.getElementById("txtBox").disabled = true;
+
+    }
+    if ('new_format' == page_type) {
+        document.getElementById('enableTextTemplate').style.display = "block";
+        document.getElementById('enabltEditTemplate').style.display = "none";
+        document.getElementById("txtBox").disabled = false;
+
+    }
+}
+
+function loadTemplate(page_type) {
+    if ('job_invite' == page_type) {
+        document.getElementById('enableTxtClient').style.display = "none";
+        document.getElementById('enableEditclient').style.display = "block";
+        document.getElementById("txtEditClient1").disabled = true;
+
+    }
+    if ('new_format' == page_type) {
+        $('#enableTxtClient').html("<i class='fa fa-plus-square' aria-hidden='true'></i>");
+        document.getElementById('enableTxtClient').style.display = "block";
+        document.getElementById('enableEditclient').style.display = "none";
+        document.getElementById("txtEditClient1").disabled = false;
+
+    }
+}
+
+function toggleTextClient() {
+    $('#txtEditClient1').val("");
+
+}
+
+function toggleTextClient1() {
+    $('#enableTxtClient').html("<i class='fa fa-floppy-o' aria-hidden='true'></i>");
+    var Disabled = document.getElementById("txtEditClient1").disabled;
+    if (Disabled == false) {
+        $('#enableEditclient').html("<i class='fa fa-pencil-square-o' aria-hidden='true'></i>");
+    } else {
+        $('#enableEditclient').html("<i class='fa fa-floppy-o' aria-hidden='true'></i>");
+    }
+    document.getElementById("txtEditClient1").disabled = !Disabled;
+}
+</script>
