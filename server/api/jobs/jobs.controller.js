@@ -1,12 +1,12 @@
-import Jobs   from './jobs.model';
-import _      from 'lodash';
-import fs     from 'fs';
-import path   from 'path';
-import async  from 'async';
+import Jobs from './jobs.model';
+import _ from 'lodash';
+import fs from 'fs';
+import path from 'path';
+import async from 'async';
 
 import upload from '../../util/multer';
 import mongoutil from '../../util/mongo';
-import config   from '../../config/config';
+import config from '../../config/config';
 
 // export const params = (req, res, next, id) => {
 //   Jobs.findById(id)
@@ -71,8 +71,8 @@ import config   from '../../config/config';
 var resumeFilesPath = path.join(__dirname, '../../resume_files');
 // Util functions
 function twoDigits(d) {
-    if(0 <= d && d < 10) return "0" + d.toString();
-    if(-10 < d && d < 0) return "-0" + (-1*d).toString();
+    if (0 <= d && d < 10) return "0" + d.toString();
+    if (-10 < d && d < 0) return "-0" + (-1 * d).toString();
     return d.toString();
 }
 
@@ -120,7 +120,7 @@ export const getJobsDetail = function(req, res) {
     //                 console.log(err);
     //                 return res.status(400).send("ERROR");
     //             }
-                
+
     //             return res.send({ data: results });
     //         });
     //     } else {
@@ -134,23 +134,22 @@ export const getJobsDetail = function(req, res) {
         active = true;
     }
     var collection = db.collection('job');
-    
+
     if (req.params.flag == 'myjob') {
         userId = parseInt(req.params.userId);
-         collection.find({"userId": userId, "active": active}).toArray(function(err, docs) {
-        res.send({ data: docs});
-    });
-    
-    }
-    else {
-        collection.find({ "active": active}).toArray(function(err, docs) {
-        res.send({ data: docs});
-    });
-    
+        collection.find({ "userId": userId, "active": active }).toArray(function(err, docs) {
+            res.send({ data: docs });
+        });
+
+    } else {
+        collection.find({ "active": active }).toArray(function(err, docs) {
+            res.send({ data: docs });
+        });
+
     }
 
-   
-   
+
+
 
 };
 
@@ -198,7 +197,7 @@ export const candidateDetailsForJob = function(req, res) {
     //         }
     //         query = query.substring(0, query.length - 1) + ")) or cj.STAGE <> 'SHORTLIST')";
     //     }
-        
+
     // } else if(filter.INTERVIEW.length === 4 && filterFrom === 'job'){
     //     var item1 = null;
     //     var item2 = null;
@@ -330,22 +329,23 @@ export const candidateDetailsForJob = function(req, res) {
     //         res.send({"data": resData});
     //     }
     // });
-     let db = mongoutil.getDb();
+    let db = mongoutil.getDb();
     var collection = db.collection('candidate');
     collection.aggregate([{ $unwind: "$jobs" },
-        { $match: { 'jobs.jobId' : req.body.jobId}},
-        { $group : { _id : "$jobs.stage", candidates: { $push: "$$ROOT" } } }], function(err, docs) {
-            var response = {};
-            var stages = ["NEW", "SHORTLIST", "INTERVIEW", "OFFER", "JOINED", "CANDIDATE"];
+        { $match: { 'jobs.jobId': req.body.jobId } },
+        { $group: { _id: "$jobs.stage", candidates: { $push: "$$ROOT" } } }
+    ], function(err, docs) {
+        var response = {};
+        var stages = ["NEW", "SHORTLIST", "INTERVIEW", "OFFER", "JOINED", "CANDIDATE"];
 
-            var filterstg= Object.keys(req.body.filter).filter(itm=>req.body.filter[itm].length>0)
+        var filterstg = Object.keys(req.body.filter).filter(itm => req.body.filter[itm].length > 0)
 
-            if (docs.length > 0) {
-                if (filterstg.length>0) {                
- 
-                    console.log(docs);
-                    console.log("FROM DB+++++++++++____");
-                    /*
+        if (docs.length > 0) {
+            if (filterstg.length > 0) {
+
+                console.log(docs);
+                console.log("FROM DB+++++++++++____");
+                /*
                     response = docs.map (function (item, index) {
                         Object.keys(req.body.filter).forEach(tab => {
                         if (item._id == tab) {
@@ -432,25 +432,25 @@ export const candidateDetailsForJob = function(req, res) {
                             return foundRecruiter && foundStatus;
                         })
                     };
-                }, {});              
-
-
-              } else {
-
-                 // Returns all the candidates grouped by filter
-                response = docs.reduce((final, doc) => {
-                    return { ...final, [doc._id]: doc.candidates };
                 }, {});
-                
-              }
-            } 
-            stages.map( function (item, index) {
-                    if(!response.hasOwnProperty(item)){
-                        response[item]=[];
-                    }                
-                    }); 
-            res.send({"data":response});  
+
+
+            } else {
+
+                // Returns all the candidates grouped by filter
+                response = docs.reduce((final, doc) => {
+                    return {...final, [doc._id]: doc.candidates };
+                }, {});
+
+            }
+        }
+        stages.map(function(item, index) {
+            if (!response.hasOwnProperty(item)) {
+                response[item] = [];
+            }
         });
+        res.send({ "data": response });
+    });
 };
 
 export const changeStatus = function(req, res) {
@@ -478,7 +478,7 @@ export const changeStatus = function(req, res) {
     //             for(var i=0; i<affectedRows.length;i++) {
     //                 var date = (affectedRows[i].TIMESTAMP).toMysqlFormat();
     //                 var innerQuery = "insert into status_log(JOB_ID,CANDIDATE_ID,STAGE,STATUS,STATUS_INPUTS,RECRUITER_ID,TIMESTAMP) values('"+affectedRows[i].JOB_ID+"','"+affectedRows[i].CANDIDATE_ID+"','"+affectedRows[i].STAGE+"','"+affectedRows[i].STATUS+"','"+affectedRows[i].STATUS_INPUTS+"','"+affectedRows[i].RECRUITER_ID+"','"+date+"')";
-                    
+
     //                 db.query(innerQuery, function(error, result) {
     //                     if (error) {
     //                         console.log(error);
@@ -491,15 +491,18 @@ export const changeStatus = function(req, res) {
     // });
     let db = mongoutil.getDb();
     var response = {};
-    db.collection('candidate').updateMany({ "_id" : {$in:req.body.candidateId}, "jobs": {$elemMatch : {jobId : req.body.jobId}}}
-      , { $set: { "jobs.$.status" : req.body.status,
-                  "jobs.$.statusChangedBy" : req.body.statusChangedBy,
-                  "jobs.$.statusInputs" : req.body.statusInputs } }, function(err, result) {
+    db.collection('candidate').updateMany({ "_id": { $in: req.body.candidateId }, "jobs": { $elemMatch: { jobId: req.body.jobId } } }, {
+        $set: {
+            "jobs.$.status": req.body.status,
+            "jobs.$.statusChangedBy": req.body.statusChangedBy,
+            "jobs.$.statusInputs": req.body.statusInputs
+        }
+    }, function(err, result) {
         // TODO: status change is not getting saved properly
         // nModified is 0 is every case
         if (result.result.nModified) {
             response.message = 'SUCCESS';
-             var date = new Date(req.body.timestamp).toISOString().slice(0, 19).replace('T', ' ');
+            var date = new Date(req.body.timestamp).toISOString().slice(0, 19).replace('T', ' ');
 
             var statusLog = {
                 "jobId": req.body.jobId,
@@ -532,7 +535,7 @@ export const moveToNextStage = function(req, res) {
     //     query = query + "'" + candidateId + "',";
     // }
     // query = query.substring(0, query.length - 1) + ")";
-    
+
     // db.query(query, function(error, result) {
     //     if (error) {
     //         console.log(error);
@@ -545,23 +548,26 @@ export const moveToNextStage = function(req, res) {
     var collection = db.collection('candidate');
     var response = {};
     var date = new Date(req.body.timestamp).toISOString().slice(0, 19).replace('T', ' ');
-    collection.updateMany({_id : {$in : req.body.candidateId, },  jobs: {$elemMatch : {jobId : req.body.jobId, stage: req.body.assignStageFrom}}}
-        , { $set: { "jobs.$.stage" : req.body.assignStageTo,
-                    "jobs.$.userId" : req.body.userId,
-                    "jobs.$.timestamp" : date ,
-                    "jobs.$.status":""} }, function(err, result) {
-            if (result.result.nModified) {
-                if (result.result.nModified == req.body.candidateId.length) {
-                    response.message = 'SUCCESS';
-                } else {
-                    response.message = 'PARTIAL';
-                    response.error = 'Some of the records was not updated';
-                }
-                
+    collection.updateMany({ _id: { $in: req.body.candidateId, }, jobs: { $elemMatch: { jobId: req.body.jobId, stage: req.body.assignStageFrom } } }, {
+        $set: {
+            "jobs.$.stage": req.body.assignStageTo,
+            "jobs.$.userId": req.body.userId,
+            "jobs.$.timestamp": date,
+            "jobs.$.status": ""
+        }
+    }, function(err, result) {
+        if (result.result.nModified) {
+            if (result.result.nModified == req.body.candidateId.length) {
+                response.message = 'SUCCESS';
             } else {
-                response.message = 'FAILURE';
-                response.error = 'Candidate Id ' + req.body.candidateId + ' or Job Id ' + req.body.jobId + ' not found';
+                response.message = 'PARTIAL';
+                response.error = 'Some of the records was not updated';
             }
+
+        } else {
+            response.message = 'FAILURE';
+            response.error = 'Candidate Id ' + req.body.candidateId + ' or Job Id ' + req.body.jobId + ' not found';
+        }
         res.send(response);
     });
 };
@@ -571,7 +577,7 @@ export const addInterviewDate = function(req, res) {
     // var date = new Date(req.body.timestamp).toMysqlFormat();
 
     // var query = "update candidate_job_mapping set INTERVIEW_DATE = '" + req.body.interview.date + "',INTERVIEW_TIME='" + req.body.interview.time + "',MERIDIAN='" + req.body.interview.meridian + "',ROUND=" + req.body.interview.round + ",RESCHEDULE_REASON = '" + req.body.interview.rescheduleReason + "',TIMESTAMP='" + date + "' where JOB_ID=" + req.body.jobId + " and STAGE='" + req.body.stage + "' and CANDIDATE_ID IN ("+req.body.candidateId+")";
-    
+
     // db.query(query, function(error, result) {
     //     if (error) {
     //         console.log(error);
@@ -584,7 +590,7 @@ export const addInterviewDate = function(req, res) {
     var collection = db.collection('candidate');
     var response = {};
     if (req.body.stage == 'SHORTLIST') {
-        if (req.body.interview.round != 1 || req.body.interview.rescheduleReason != null ) {
+        if (req.body.interview.round != 1 || req.body.interview.rescheduleReason != null) {
             response.message = 'FAILURE';
             response.error = 'Invalid round or rescheduleReason for ' + req.body.stage + ' stage';
         }
@@ -597,21 +603,24 @@ export const addInterviewDate = function(req, res) {
     if (response.message) {
         res.send(response);
     } else {
-        collection.updateMany({ _id : {$in : req.body.candidateId },  jobs: {$elemMatch : {jobId : req.body.jobId, stage: req.body.stage}}}
-            , { $set: { "jobs.$.interview" : req.body.interview,
-                        "jobs.$.timestamp" : req.body.timestamp } }, function(err, result) {
-                if (result.result.nModified) {
-                    if (result.result.nModified == req.body.candidateId.length) {
-                        response.message = 'SUCCESS';
-                    } else {
-                        response.message = 'PARTIAL';
-                        response.error = 'Some of the records was not updated';
-                    }
-                    
+        collection.updateMany({ _id: { $in: req.body.candidateId }, jobs: { $elemMatch: { jobId: req.body.jobId, stage: req.body.stage } } }, {
+            $set: {
+                "jobs.$.interview": req.body.interview,
+                "jobs.$.timestamp": req.body.timestamp
+            }
+        }, function(err, result) {
+            if (result.result.nModified) {
+                if (result.result.nModified == req.body.candidateId.length) {
+                    response.message = 'SUCCESS';
                 } else {
-                    response.message = 'FAILURE';
-                    response.error = 'Nothing to update';
+                    response.message = 'PARTIAL';
+                    response.error = 'Some of the records was not updated';
                 }
+
+            } else {
+                response.message = 'FAILURE';
+                response.error = 'Nothing to update';
+            }
             res.send(response);
         });
     }
@@ -663,13 +672,13 @@ export const getAllActiveJobs = function(req, res) {
     let db = mongoutil.getDb();
 
     var collection = db.collection('job');
-    collection.find({"active": true}).toArray(function(err, docs) {
+    collection.find({ "active": true }).toArray(function(err, docs) {
         if (err) {
             res.send("ERROR");
         }
         res.send({ "data": docs });
     });
-    
+
 };
 
 export const getSimilarJobs = function(req, res) {
@@ -695,22 +704,28 @@ export const getSimilarJobs = function(req, res) {
     var collection = db.collection('job');
     var response;
     // var primarySkill = /^+req.body.primarySkill+$/i;
-    db.collection('candidate').find({ _id: req.body.candidateId }, {"jobs.jobId": 1}).toArray(function (err, candidates) {
+    db.collection('candidate').find({ _id: req.body.candidateId }, { "jobs.jobId": 1 }).toArray(function(err, candidates) {
         if (err) {
-            res.send({"message": "BAD REQUEST"});
+            res.send({ "message": "BAD REQUEST" });
         }
         var jobArray = [];
         if (candidates.length > 0) {
             if (candidates[0].jobs) {
                 if (candidates[0].jobs.length > 0) {
-                    candidates[0].jobs.map(function (itm,i) {
+                    candidates[0].jobs.map(function(itm, i) {
                         jobArray.push(itm.jobId);
                     });
                 }
             }
         }
-        collection.find({ primarySkill: req.body.primarySkill.toUpperCase(), maxCtc: {$gt: req.body.maxCtc}, maxExp: {$gt:req.body.maxExp},
-                    minExp: {$lt: req.body.minExp}, designation: req.body.designation, _id: {$nin: jobArray}}).toArray(function(err, jobDocs) {
+        collection.find({
+            primarySkill: req.body.primarySkill.toUpperCase(),
+            maxCtc: { $gt: req.body.maxCtc },
+            maxExp: { $gt: req.body.maxExp },
+            minExp: { $lt: req.body.minExp },
+            designation: req.body.designation,
+            _id: { $nin: jobArray }
+        }).toArray(function(err, jobDocs) {
             if (err) {
                 //response = err;
                 res.status(400).send("ERROR");
@@ -729,7 +744,7 @@ export const moveToActiveJob = function(req, res) {
     //     "recruiterId": req.body.userId,
     // };
     // console.log(reqData.candidateIds);
-    
+
     // if(reqData.jobId && reqData.recruiterId && reqData.candidateIds && reqData.candidateIds.length > 0){
     //     var date = new Date().toMysqlFormat();
     //     var query = "insert into candidate_job_mapping(JOB_ID,CANDIDATE_ID,RECRUITER_ID,TIMESTAMP,STAGE, STATUS) values";
@@ -753,27 +768,32 @@ export const moveToActiveJob = function(req, res) {
     var collection = db.collection('candidate');
     var response = {};
     var date = new Date(req.body.timestamp).toISOString().slice(0, 19).replace('T', ' ');
-    collection.updateMany({ "_id" : {$in:req.body.candidateId} } , 
-            {$push : {"jobs": {jobId : req.body.jobId,
-                                active : true,
-                                movedBy : req.body.userId,
-                                status:"NEW RESUME",
-                                stage:"NEW",
-                                recruiterId:req.body.userId,
-                                userId:req.body.userId,
-                                assigneeName:req.body.userName,
-                                timestamp : date } } }, function(err, result) {
-             if (err) {
-                //response = err;
-                res.status(400).send("ERROR");
-            }        
-            if (result.result.nModified) {
-                response.message = 'SUCCESS';
-            } else {
-
-                  response.message = 'FAILURE';
-                response.error = 'Candidate Id ' + req.body.candidateId + ' or Job Id ' + req.body.jobId + ' not found';
+    collection.updateMany({ "_id": { $in: req.body.candidateId } }, {
+        $push: {
+            "jobs": {
+                jobId: req.body.jobId,
+                active: true,
+                movedBy: req.body.userId,
+                status: "NEW RESUME",
+                stage: "NEW",
+                recruiterId: req.body.userId,
+                userId: req.body.userId,
+                assigneeName: req.body.userName,
+                timestamp: date
             }
+        }
+    }, function(err, result) {
+        if (err) {
+            //response = err;
+            res.status(400).send("ERROR");
+        }
+        if (result.result.nModified) {
+            response.message = 'SUCCESS';
+        } else {
+
+            response.message = 'FAILURE';
+            response.error = 'Candidate Id ' + req.body.candidateId + ' or Job Id ' + req.body.jobId + ' not found';
+        }
         res.send(response);
     });
 
@@ -783,24 +803,22 @@ export const moveJobToActive = function(req, res) {
     let db = mongoutil.getDb();
 
     var date = new Date().toISOString().slice(0, 19).replace('T', ' ');
-    db.collection('job').updateOne({ "_id" : req.body.jobId}
-            , { $set: {active: true, reason: [], timestamp: date} }, function(err, result) {
-                var response = {};
-                if (err) {
-                //response = err;
-                    res.status(400).send("ERROR");
-                } 
-                if (result.result.nModified) {
-                    response.message = 'SUCCESS';
-                    db.collection('candidate').updateMany({jobs: {$elemMatch : {jobId : req.body.jobId}}}
-                        , { $set: {"jobs.$.active": true} }, function(err, r) {
-                        res.send(response);
-                    });
-                } else {
-                    response.message = 'FAILURE';
-                    response.error = 'Job Id - ' + req.body.jobId + ' not found or is already inactive';
-                    res.send(response);
-                }
+    db.collection('job').updateOne({ "_id": req.body.jobId }, { $set: { active: true, reason: [], timestamp: date } }, function(err, result) {
+        var response = {};
+        if (err) {
+            //response = err;
+            res.status(400).send("ERROR");
+        }
+        if (result.result.nModified) {
+            response.message = 'SUCCESS';
+            db.collection('candidate').updateMany({ jobs: { $elemMatch: { jobId: req.body.jobId } } }, { $set: { "jobs.$.active": true } }, function(err, r) {
+                res.send(response);
+            });
+        } else {
+            response.message = 'FAILURE';
+            response.error = 'Job Id - ' + req.body.jobId + ' not found or is already inactive';
+            res.send(response);
+        }
     });
 };
 
@@ -820,26 +838,24 @@ export const moveToInactiveJob = function(req, res) {
     let db = mongoutil.getDb();
 
     var date = new Date(req.body.timestamp).toISOString().slice(0, 19).replace('T', ' ');
-    db.collection('job').updateOne({ "_id" : req.body.jobId}
-            , { $set: {active: false, reason: req.body.reason, timestamp: date} }, function(err, result) {
-                var response = {};
-                if (err) {
-                //response = err;
-                    res.status(400).send("ERROR");
-                } 
-                if (result.result.nModified) {
-                    response.message = 'SUCCESS';
-                    db.collection('candidate').updateMany({jobs: {$elemMatch : {jobId : req.body.jobId}}}
-                        , { $set: {"jobs.$.active": false} }, function(err, r) {
-                        res.send(response);
-                    });
-                } else {
-                    response.message = 'FAILURE';
-                    response.error = 'Job Id - ' + req.body.jobId + ' not found or is already inactive';
-                    res.send(response);
-                }
-        });
-    };
+    db.collection('job').updateOne({ "_id": req.body.jobId }, { $set: { active: false, reason: req.body.reason, timestamp: date } }, function(err, result) {
+        var response = {};
+        if (err) {
+            //response = err;
+            res.status(400).send("ERROR");
+        }
+        if (result.result.nModified) {
+            response.message = 'SUCCESS';
+            db.collection('candidate').updateMany({ jobs: { $elemMatch: { jobId: req.body.jobId } } }, { $set: { "jobs.$.active": false } }, function(err, r) {
+                res.send(response);
+            });
+        } else {
+            response.message = 'FAILURE';
+            response.error = 'Job Id - ' + req.body.jobId + ' not found or is already inactive';
+            res.send(response);
+        }
+    });
+};
 
 export const getResumeMetadata = function(req, res) {
 
@@ -860,20 +876,20 @@ export const getResumeMetadata = function(req, res) {
     let db = mongoutil.getDb();
 
     var collection = db.collection('candidate');
-    collection.find({ _id:parseInt(req.params.candidateId) }, { hashFileName:1 }).toArray(function(err, docs) {
+    collection.find({ _id: parseInt(req.params.candidateId) }, { hashFileName: 1 }).toArray(function(err, docs) {
         var response;
         if (err) {
             response = err;
         }
         if (docs.length > 0) {
             if (docs[0].hashFileName) {
-                var pathURL = "https://docs.google.com/viewer?url="+config.appHostName+"/resume_files/"+docs[0].hashFileName+"&embedded=true";
+                var pathURL = "https://docs.google.com/viewer?url=" + config.appHostName + "/resume_files/" + docs[0].hashFileName + "&embedded=true";
                 response = { "isResumeFound": true, "pathURL": pathURL };
             } else {
                 response = { "isResumeFound": false, "pathURL": null };
             }
         } else {
-            response = { message: 'Candidate with candidateId - ' + req.params.candidateId + ' not found'};
+            response = { message: 'Candidate with candidateId - ' + req.params.candidateId + ' not found' };
         }
         res.send(response);
     });
@@ -893,7 +909,7 @@ export const uploadResume = function(req, res) {
     //             "mimetype": req.file.mimetype,
     //             "uploadDate": req.body.uploadDate
     //         };
-        
+
     //         var oldPath = path.join(resumeFilesPath, data.hashFileName);
     //         var newPath = path.join(resumeFilesPath, data.hashFileName);
     //         if(data.mimetype == "application/msword"){
@@ -906,13 +922,13 @@ export const uploadResume = function(req, res) {
     //             newPath = newPath+".pdf"
     //             data.hashFileName = data.hashFileName +".pdf"
     //         }
-            
+
     //         fs.rename(oldPath, newPath, function (err) {
     //             if(err){
     //                 console.log(error);
     //                 res.json({"message": "ERROR"});
     //             } else {
-                    
+
     //                 var date = new Date(req.body.uploadDate).toISOString().slice(0, 19).replace('T', ' ');
     //                 var query = "update candidate set ORIGINAL_FILE_NAME='" + req.file.originalname + "',HASH_FILE_NAME = '" + data.hashFileName + "',MIMETYPE='" + req.file.mimetype + "',ENCODING='" + req.file.encoding + "',UPLOAD_DATE='" + date + "' where CANDIDATE_ID=" + req.body.candidateId;
     //                 db.query(query, function(error, data) {
@@ -942,30 +958,30 @@ export const uploadResume = function(req, res) {
                 "uploadDate": req.body.uploadDate
             };
 
-    
+
             var oldPath = path.resolve(resumeFilesPath, data.hashFileName);
             var newPath = path.resolve(resumeFilesPath, data.hashFileName);
-            if(data.mimetype == "application/msword"){
-                newPath = newPath+".doc";
-                data.hashFileName = data.hashFileName+".doc";
-            } else if(data.mimetype == "application/vnd.openxmlformats-officedocument.wordprocessingml.document"){
-                newPath = newPath+".docx";
-                data.hashFileName = data.hashFileName +".docx";
-            } else if(data.mimetype == "application/pdf"){
-                newPath = newPath+".pdf"
-                data.hashFileName = data.hashFileName +".pdf"
+            if (data.mimetype == "application/msword") {
+                newPath = newPath + ".doc";
+                data.hashFileName = data.hashFileName + ".doc";
+            } else if (data.mimetype == "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
+                newPath = newPath + ".docx";
+                data.hashFileName = data.hashFileName + ".docx";
+            } else if (data.mimetype == "application/pdf") {
+                newPath = newPath + ".pdf"
+                data.hashFileName = data.hashFileName + ".pdf"
             }
 
-              var response={};
-            fs.rename(oldPath, newPath, function (err) {
-                if(err){
-// <<<<<<< From itz branch
+            var response = {};
+            fs.rename(oldPath, newPath, function(err) {
+                if (err) {
+                    // <<<<<<< From itz branch
                     response.renameFileError = err;
                     res.send(response);
-// =======
-//                     console.log(err);
-//                     res.json({"message": "ERROR"});
-// >>>>>>> From master (After march 3 commit's merge)
+                    // =======
+                    //                     console.log(err);
+                    //                     res.json({"message": "ERROR"});
+                    // >>>>>>> From master (After march 3 commit's merge)
                 } else {
                     data.timeStamp = new Date(req.body.uploadedDate).toMysqlFormat();
                     var collection = db.collection('candidate');
@@ -975,18 +991,17 @@ export const uploadResume = function(req, res) {
                         'jobs.jobId': parseInt(req.body.jobId)
                     }).toArray(function(err, docs) {
                         if (err) {
-                            response.updateError= err;
+                            response.updateError = err;
                         }
                         if (docs.length > 0) {
-                            collection.updateOne({ "_id" : parseInt(docs[0]._id)}
-                                , { $set: data }, function(err, result) {
-                                    var response = {};
-                                    if (result.result.nModified) {
-                                        response.message = 'UPDATE SUCCESS';
-                                    } else {
-                                        response.message = 'UPDATE FAILURE';
-                                        response.error = 'No records found';
-                                    }
+                            collection.updateOne({ "_id": parseInt(docs[0]._id) }, { $set: data }, function(err, result) {
+                                var response = {};
+                                if (result.result.nModified) {
+                                    response.message = 'UPDATE SUCCESS';
+                                } else {
+                                    response.message = 'UPDATE FAILURE';
+                                    response.error = 'No records found';
+                                }
                                 res.send(response);
                             });
                         } else {
@@ -994,7 +1009,7 @@ export const uploadResume = function(req, res) {
                             Object.assign(obj, data);
                             obj.userId = parseInt(obj.userId);
                             obj.jobId = parseInt(obj.jobId);
-                            db.collection('job').find({_id: parseInt(obj.jobId)}).toArray(function(err, items) {
+                            db.collection('job').find({ _id: parseInt(obj.jobId) }).toArray(function(err, items) {
                                 if (err) {
                                     response.jobError = err;
                                 }
@@ -1006,10 +1021,10 @@ export const uploadResume = function(req, res) {
                                         candidateContact: req.body.candidateContact,
                                     }).toArray(function(err, docs) {
                                         if (err) {
-                                            response.updateError= err;
+                                            response.updateError = err;
                                             res.send(response)
                                         }
-                                        
+
                                         if (docs.length === 1) {
                                             // Else we need to add this new job object to existing candidate object
                                             let newJobObject = {
@@ -1017,17 +1032,14 @@ export const uploadResume = function(req, res) {
                                                 status: 'NEW RESUME',
                                                 stage: 'NEW',
                                                 userId: obj.userId,
-                                                clientName:obj.clientName,
-                                                designation:obj.designation,
-                                                userName:obj.assigneeName
+                                                clientName: obj.clientName,
+                                                designation: obj.designation,
+                                                userName: obj.assigneeName
                                             };
 
-                                            collection.updateOne(
-                                                { _id: parseInt(docs[0]._id) },
-                                                { $push: { jobs: newJobObject }}
-                                            , function(err, result) {
+                                            collection.updateOne({ _id: parseInt(docs[0]._id) }, { $push: { jobs: newJobObject } }, function(err, result) {
                                                 if (err) {
-                                                    response.updateError= err;
+                                                    response.updateError = err;
                                                     res.send(response)
                                                 }
 
@@ -1037,12 +1049,12 @@ export const uploadResume = function(req, res) {
                                                 } else {
                                                     response.message = 'ADD FAILURE';
                                                 }
-                                                res.send(response);                                            
+                                                res.send(response);
                                             });
                                         } else if (docs.length === 0) {
                                             // If no candidate found with this email and contact no,
                                             // we need to create new candidate with the new job object
-                                            collection.count(function (err, count) {
+                                            collection.count(function(err, count) {
                                                 if (err) {
                                                     response.countError = err;
                                                     res.send(response);
@@ -1053,14 +1065,14 @@ export const uploadResume = function(req, res) {
                                                     status: 'NEW RESUME',
                                                     stage: 'NEW',
                                                     userId: obj.userId,
-                                                    clientName:obj.clientName,
-                                                    designation:obj.designation,
-                                                    userName:obj.assigneeName
+                                                    clientName: obj.clientName,
+                                                    designation: obj.designation,
+                                                    userName: obj.assigneeName
                                                 }];
                                                 delete obj.jobId;
                                                 delete obj.userId;
                                                 delete obj.uploadedDate;
-                                                collection.insertOne(obj, function (err, r) {
+                                                collection.insertOne(obj, function(err, r) {
                                                     if (err) {
                                                         response.insertError = err;
                                                     }
@@ -1069,7 +1081,7 @@ export const uploadResume = function(req, res) {
                                                         response.candidateId = r.insertedId;
                                                     } else {
                                                         response.message = 'ADD FAILURE';
-                                                    }                                   
+                                                    }
                                                     res.send(response);
                                                 });
                                             });
@@ -1088,7 +1100,7 @@ export const uploadResume = function(req, res) {
                     });
                 }
             });
-            
+
         }
     });
 };
@@ -1186,7 +1198,7 @@ export const candidateDetails = function(req, res) {
     //     res.json(data ? data[0] : {});
     // });
     var collection = db.collection('candidate');
-    collection.find({ _id:parseInt(req.params.candidateId) }, { jobs:0 }).toArray(function(err, docs) {
+    collection.find({ _id: parseInt(req.params.candidateId) }, { jobs: 0 }).toArray(function(err, docs) {
         var response;
         if (err) {
             response = err;
@@ -1194,20 +1206,20 @@ export const candidateDetails = function(req, res) {
         if (docs.length > 0) {
             response = docs[0];
         } else {
-            response = { message: 'Candidate with candidateId - ' + req.params.candidateId + ' not found'};
+            response = { message: 'Candidate with candidateId - ' + req.params.candidateId + ' not found' };
         }
         res.send(response);
     });
 };
 
 export const updateCandidateDetails = function(req, res) {
-   
+
     // if(req.body.candidateName != null && req.body.email != null && req.body.experience != null && req.body.ctcFixed != null 
     //     && req.body.ctcVariable != null && req.body.ctcEsops != null && req.body.eCTCFixed != null && req.body.eCTCVariable != null 
     //     && req.body.eCTCEsops != null && req.body.location != null && req.body.candidateId != null) {
-            
+
     //         var query = "update candidate set CANDIDATE_NAME='" + req.body.candidateName + "',EMAIL='" + req.body.email + "',PHONE_NO='" + req.body.contact + "',EXPERIENCE=" + req.body.experience + ",COMPANY_NAME='" + req.body.employer + "',CTC_FIXED=" + req.body.ctcFixed + ",CTC_VAR=" + req.body.ctcVariable + ",CTC_ESOPS=" + req.body.ctcEsops + ",ECTC_FIXED=" + req.body.eCTCFixed + ",ECTC_VAR=" + req.body.eCTCVariable + ",ECTC_ESOPS=" + req.body.eCTCEsops + ",NOTICE_PERIOD=" + req.body.noticePeriod + ",SERVING_NOTICE_PERIOD=" + (req.body.serveNotice ? 1 : 0) + ",JOB_LOCATION='" + req.body.location + "' where CANDIDATE_ID=" + req.body.candidateId;
-            
+
     //         db.query(query, function(error, data) {
     //             if (error) {
     //                 console.log(error);
@@ -1221,15 +1233,14 @@ export const updateCandidateDetails = function(req, res) {
     let db = mongoutil.getDb();
 
     var collection = db.collection('candidate');
-    collection.updateOne({ "_id" : parseInt(req.body.candidateId)}
-        , { $set: req.body }, function(err, result) {
-            var response = {};
-            if (result.result.nModified) {
-                response.message = 'SUCCESS';
-            } else {
-                response.message = 'FAILURE';
-                response.error = 'Candidate Id ' + req.body.candidateId + ' or Job Id ' + req.body.jobId + ' not found';
-            }
+    collection.updateOne({ "_id": parseInt(req.body.candidateId) }, { $set: req.body }, function(err, result) {
+        var response = {};
+        if (result.result.nModified) {
+            response.message = 'SUCCESS';
+        } else {
+            response.message = 'FAILURE';
+            response.error = 'Candidate Id ' + req.body.candidateId + ' or Job Id ' + req.body.jobId + ' not found';
+        }
         res.send(response);
     });
 };
@@ -1237,14 +1248,14 @@ export const updateCandidateDetails = function(req, res) {
 // Recursive function to be used by savePostMessage()
 function extractUserId(userNameArr, message) {
     var firstChar = message.charAt(0);
-    if(firstChar === " "){
+    if (firstChar === " ") {
         return extractUserId(userNameArr, message.substr(1));
-    } else if(firstChar === "@"){
+    } else if (firstChar === "@") {
         var idx = message.indexOf(" ");
-        userNameArr.push(message.substr(1,idx-1));
-         return extractUserId(userNameArr, message.substr(idx));
+        userNameArr.push(message.substr(1, idx - 1));
+        return extractUserId(userNameArr, message.substr(idx));
     } else {
-        return {"email": userNameArr, "message": message};
+        return { "email": userNameArr, "message": message };
     }
 }
 export const savePostMessage = function(req, res) {
@@ -1340,63 +1351,62 @@ export const savePostMessage = function(req, res) {
     var jobId = req.body.jobId;
     var candidateId = req.body.candidateId;
     var message = (req.body.message).trim();
-    var userName=req.body.userName;
+    var userName = req.body.userName;
     var feed = {};
 
-    if(userId && jobId && candidateId && message && message.length !== 0){
+    if (userId && jobId && candidateId && message && message.length !== 0) {
         var obj = extractUserId([], message);
 
-        collection.find({ _id: candidateId, jobs: {$elemMatch: {jobId: jobId}}},{"jobs.$":1}).toArray(function (err, candidates) {
+        collection.find({ _id: candidateId, jobs: { $elemMatch: { jobId: jobId } } }, { "jobs.$": 1 }).toArray(function(err, candidates) {
             if (err) {
-                res.send({candidateError: err});
+                res.send({ candidateError: err });
             }
             if (candidates.length > 0) {
-                db.collection('users').find({ _id: userId}).toArray(function (err, userDoc) {
+                db.collection('users').find({ _id: userId }).toArray(function(err, userDoc) {
 
                     if (userDoc.length > 0) {
                         feed.sentFrom = userDoc[0].email;
-                    } 
-                    db.collection('users').find({ email : {$in: obj.email}}).toArray(function (err, userDocs) {
+                    }
+                    db.collection('users').find({ email: { $in: obj.email } }).toArray(function(err, userDocs) {
                         if (err) {
-                            res.send({CurrentUserError: err});
+                            res.send({ CurrentUserError: err });
                         }
                         feed.message = obj.message;
                         feed.jobId = jobId;
                         feed.timeStamp = new Date().toISOString().replace('T', ' ');
-                        feed.userName=userName;
+                        feed.userName = userName;
 
                         if (userDocs.length == 0) {
-                            feed.feedType = "NOTES";                    
+                            feed.feedType = "NOTES";
                         } else {
                             feed.feedType = "TAGS";
                             var sentTo = [];
-                            userDocs.map(function (itm, i) {
+                            userDocs.map(function(itm, i) {
                                 sentTo.push(itm.email);
                             });
-                            feed.sentTo = sentTo.join(',');                    
+                            feed.sentTo = sentTo.join(',');
                         }
 
-                        collection.updateOne({ _id: candidateId }
-                            , { $push : { feeds : feed} }, function(err, result) {
-                                if (err) {
-                                    res.send({candidateFeedUpdateError: err});
-                                }
-                                if (result.result.nModified) {
-                                    response.message = 'SUCCESS';                            
-                                } else {
-                                    response.message = 'FAILURE';
-                                    response.error = 'Candidate Id ' + req.body.candidateId + ' not found';
-                                }
+                        collection.updateOne({ _id: candidateId }, { $push: { feeds: feed } }, function(err, result) {
+                            if (err) {
+                                res.send({ candidateFeedUpdateError: err });
+                            }
+                            if (result.result.nModified) {
+                                response.message = 'SUCCESS';
+                            } else {
+                                response.message = 'FAILURE';
+                                response.error = 'Candidate Id ' + req.body.candidateId + ' not found';
+                            }
                             res.send(response);
                         });
                     });
                 });
             } else {
-                res.send({message: 'FAILURE', err: 'Candidate with Id - ' + candidateId + ' or Job with Id - ' + jobId + ' not found'});
+                res.send({ message: 'FAILURE', err: 'Candidate with Id - ' + candidateId + ' or Job with Id - ' + jobId + ' not found' });
             }
         })
     } else {
-        res.send({"message": "BAD REQUEST"});
+        res.send({ "message": "BAD REQUEST" });
     }
 
 };
@@ -1483,77 +1493,75 @@ export const savePostMessage = function(req, res) {
 //     });
 // };
 
-export const getFeedThread=function(req,res){
+export const getFeedThread = function(req, res) {
     let db = mongoutil.getDb();
     var collection = db.collection('candidate');
-    let response={};
-    collection.aggregate([{$match: {_id: parseInt(req.params.candidateId)}},
-        {$unwind: "$feeds"},{$group: {_id: { jobId: "$feeds.jobId", feedType: "$feeds.feedType" },msgThread: { $push: {feedType: "$_id.feedType", message: "$feeds.message", sentTo: "$feeds.sentTo", sentFrom: "$feeds.sentFrom", timeStamp: "$feeds.timestamp",savedBy:"$feeds.userName"}}}} 
+    let response = {};
+    collection.aggregate([{ $match: { _id: parseInt(req.params.candidateId) } },
+        { $unwind: "$feeds" }, { $group: { _id: { jobId: "$feeds.jobId", feedType: "$feeds.feedType" }, msgThread: { $push: { feedType: "$_id.feedType", message: "$feeds.message", sentTo: "$feeds.sentTo", sentFrom: "$feeds.sentFrom", timeStamp: "$feeds.timestamp", savedBy: "$feeds.userName" } } } }
         // {$group: { _id: { jobId: "$_id.jobId"},jobId: {$first: "$_id.jobId"},msgThread: { $push: {feedType: "$_id.feedType", feed: {message: "$feeds.message", sentTo: "$feeds.sentTo", sentFrom: "$feeds.sentFrom", timeStamp: "$feeds.timestamp"}}}}} 
-        ], function(err, docs) {
-            
-            db.collection('statuslog').aggregate([
-                {$unwind : "$candidateId"},
-                {$match : {candidateId : parseInt(req.params.candidateId),jobId : parseInt(req.params.jobId)}},
-                {$group : {_id : "STATUS",feed : {$push : "$$ROOT"}}}
-            ], function(err, docs1) {
+    ], function(err, docs) {
 
-                var jobIds = [];
-                var types = ["TAGS","MAILS","STATUS","NOTES"];
+        db.collection('statuslog').aggregate([
+            { $unwind: "$candidateId" },
+            { $match: { candidateId: parseInt(req.params.candidateId), jobId: parseInt(req.params.jobId) } },
+            { $group: { _id: "STATUS", feed: { $push: "$$ROOT" } } }
+        ], function(err, docs1) {
 
-                // Getting Candidate Feeds
-                if (docs.length > 0) {
-                    response = types.reduce((data, type) => {
-                        return {
-                            ...data,
-                            [type]: docs
-                                .filter(doc => (doc._id.jobId === parseInt(req.params.jobId) && doc._id.feedType === type))
-                                .reduce((docs, doc) => (docs.concat(doc.msgThread)), [])
-                        }
-                    }, {})
-                }
+            var jobIds = [];
+            var types = ["TAGS", "MAILS", "STATUS", "NOTES"];
 
-                // Getting Statuslogs
-                if (docs1.length > 0) {
-                    response.STATUS = docs1[0].feed
-                }
+            // Getting Candidate Feeds
+            if (docs.length > 0) {
+                response = types.reduce((data, type) => {
+                    return {
+                        ...data,
+                        [type]: docs
+                            .filter(doc => (doc._id.jobId === parseInt(req.params.jobId) && doc._id.feedType === type))
+                            .reduce((docs, doc) => (docs.concat(doc.msgThread)), [])
+                    }
+                }, {})
+            }
 
-                if (docs.length || docs1.length) res.send(response);
-                else res.send({ message: 'No job found'});
-            });
+            // Getting Statuslogs
+            if (docs1.length > 0) {
+                response.STATUS = docs1[0].feed
+            }
+
+            if (docs.length || docs1.length) res.send(response);
+            else res.send({ message: 'No job found' });
         });
+    });
 
 }
 
-export const feedData = function(req,res){
+export const feedData = function(req, res) {
     let db = mongoutil.getDb();
 
     var collection = db.collection('candidate');
-    var response = {currentJobs: [], previousJobs: []};
-    
-       collection.aggregate({$match: {_id: parseInt(req.params.candidateId)}}, {$unwind: "$jobs"}, {$project: {jobId: "$jobs.jobId", status: "$jobs.status",clientName:"$jobs.clientName",designation:"$jobs.designation",userName:"$jobs.userName"}}
-        , function(err, doc) {
-            var previousJobsStatus = ["DUPLICATE","SCREEN REJECT","AVAILABLE LATER","NOT INTERESTED","CANDIDATES DROPPED","INTERVIEW REJECT","NO SHOW","OFFER DENIED","OFFER REJECTED","OFFERED + DUPLICATE.","JOINED","ABSCONDING","JOB ID MOVED TO INACTIVE"];
-            if(doc.length>0){
-                var jobs = doc;
-                // docs.map(function (item,index) {
-                    jobs.map(function (itm,i) {
-                        // var obj = item;
-                        // delete obj._id;
-                        // if (item.jobId == itm.jobId) {
-                            if (previousJobsStatus.indexOf(itm.status) > -1){
-                                response.previousJobs.push(itm);
-                            } else {
-                                response.currentJobs.push(itm);
-                            }
-                        });
-            } 
-            else {
-                response = { message: 'No job found'};
-                res.send(response);
-            }
+    var response = { currentJobs: [], previousJobs: [] };
+
+    collection.aggregate({ $match: { _id: parseInt(req.params.candidateId) } }, { $unwind: "$jobs" }, { $project: { jobId: "$jobs.jobId", status: "$jobs.status", clientName: "$jobs.clientName", designation: "$jobs.designation", userName: "$jobs.userName" } }, function(err, doc) {
+        var previousJobsStatus = ["DUPLICATE", "SCREEN REJECT", "AVAILABLE LATER", "NOT INTERESTED", "CANDIDATES DROPPED", "INTERVIEW REJECT", "NO SHOW", "OFFER DENIED", "OFFER REJECTED", "OFFERED + DUPLICATE.", "JOINED", "ABSCONDING", "JOB ID MOVED TO INACTIVE"];
+        if (doc.length > 0) {
+            var jobs = doc;
+            // docs.map(function (item,index) {
+            jobs.map(function(itm, i) {
+                // var obj = item;
+                // delete obj._id;
+                // if (item.jobId == itm.jobId) {
+                if (previousJobsStatus.indexOf(itm.status) > -1) {
+                    response.previousJobs.push(itm);
+                } else {
+                    response.currentJobs.push(itm);
+                }
+            });
+        } else {
+            response = { message: 'No job found' };
             res.send(response);
-        });
+        }
+        res.send(response);
+    });
 
 }
 export const allRecruiters = function(req, res) {
@@ -1596,7 +1604,7 @@ export const linkedinLink = function(req, res) {
     let db = mongoutil.getDb();
 
     var collection = db.collection('candidate');
-    collection.find({_id : parseInt(req.params.candidateId)}, {linkedinLink : 1}).toArray(function(err, docs) {
+    collection.find({ _id: parseInt(req.params.candidateId) }, { linkedinLink: 1 }).toArray(function(err, docs) {
         var response = {};
         if (err) {
             res.send(err);
@@ -1621,7 +1629,7 @@ export const internalDataCandidateList = function(req, res) {
     var collection = db.collection('candidate');
     collection.find({
         "key_skills": {
-            $regex: new RegExp("\\b" + req.body.primarySkill + "\\b") 
+            $regex: new RegExp("\\b" + req.body.primarySkill + "\\b")
         },
         "experience": {
             $gte: req.body.minExp
@@ -1633,7 +1641,7 @@ export const internalDataCandidateList = function(req, res) {
         "jobs.jobId": {
             $ne: req.body.jobId
         }
-    }).toArray(function (err, docs) {
+    }).toArray(function(err, docs) {
         var response = {};
         if (err) {
             res.send(err);
@@ -1654,7 +1662,7 @@ export const internalDataCandidateList = function(req, res) {
 
 
     // var query = "select JOB_SKILL_ID from job_skills where SKILL='"+reqData.primarySkill+"'";
-    
+
     // db.query(query, function(error, data) {
     //     if (error) {
     //         console.log(error);
@@ -1665,7 +1673,7 @@ export const internalDataCandidateList = function(req, res) {
     //         } else {
     //             let skillId = data[0].JOB_SKILL_ID;
     //             var query2 = "select c.CANDIDATE_ID as candidateId, c.CANDIDATE_NAME as candidateName, c.COMPANY_NAME as presentEmployer, c.COLLEGE as college from candidate c, candidate_job_mapping cjm, job j where j.JOB_ID=cjm.JOB_ID and c.CANDIDATE_ID=cjm.CANDIDATE_ID and j.PRIMARY_SKILL="+skillId+" and j.DESIGNATION='"+reqData.designation+"' and j.JOB_ID <> "+reqData.jobId+" and cjm.CANDIDATE_ID not in (select CANDIDATE_ID from candidate_job_mapping where JOB_ID = "+ reqData.jobId+")"+" and c.EXPERIENCE >= "+reqData.minExp+" and c.EXPERIENCE <= "+reqData.maxExp+ " and c.CTC_FIXED <="+ reqData.maxCTC;
-                
+
     //             if(reqData.location.length > 0){
     //                 query2 = query2+ " and c.JOB_LOCATION in (";
     //                 for(let i=0; i<reqData.location.length; i++){
@@ -1673,7 +1681,7 @@ export const internalDataCandidateList = function(req, res) {
     //                 }
     //                 query2 = query2.substring(0, query2.length-1)+")";
     //             }
-                
+
     //             db.query(query2, function(error, data2) {
     //                 if (error) {
     //                     console.log(error);
@@ -1705,17 +1713,69 @@ export const internalDataCandidateList = function(req, res) {
 
 
 export const invalidRequest = function(req, res) {
-    res.send({"message": "Invalid Request"});
+    res.send({ "message": "Invalid Request" });
 };
 
-export const clientList = function(req, res){
+export const clientList = function(req, res) {
     let db = mongoutil.getDb();
     var collection = db.collection('client');
-    collection.find().toArray(function (err, clients){
-        if(err){
-             res.send({status:'FAILURE'});
-        }else{
-            res.send({status:'SUCCESS', clients:clients});
+    collection.find().toArray(function(err, clients) {
+        if (err) {
+            res.send({ status: 'FAILURE' });
+        } else {
+            res.send({ status: 'SUCCESS', clients: clients });
+        }
+    });
+}
+
+export const saveTemplate = function(req, res) {
+    let db = mongoutil.getDb();
+    console.log("This is a msg", req.body)
+    var collection = db.collection('template');
+    if (req.body._id) {
+        console.log("hre")
+        console.log(mongoutil.getId(req.body._id));
+        collection.updateOne({ "_id": mongoutil.getId(req.body._id) }, {
+                $set: {
+                    templateText: req.body.templateText
+                }
+            },
+            function(err, result) {
+                if (err) {
+                    res.send({ status: "FAILURE" })
+                } else {
+                    res.send({ status: "SUCCESS" });
+                }
+            });
+    } else {
+        collection.insertOne({
+            templateName: req.body.templateName,
+            clientName: req.body.clientName,
+            templateText: req.body.templateText,
+            clientId: req.body.clientId,
+            type: req.body.type
+        }, function(err, result) {
+            if (err) {
+                res.send({ status: "FAILURE" })
+            } else {
+                res.send({ status: "SUCCESS" });
+            }
+        });
+    }
+}
+
+export const templates = function(req, res) {
+    let db = mongoutil.getDb();
+    var collection = db.collection('template');
+    var query = {}
+    if (req.body.type) {
+        query.type = req.body.type
+    }
+    collection.find(query).toArray(function(err, templates) {
+        if (err) {
+            res.send({ status: "FAILURE" });
+        } else {
+            res.send({ status: "SUCCESS", templates: templates });
         }
     });
 }
@@ -1723,7 +1783,7 @@ export const clientList = function(req, res){
 /**
  * Handler to add Candidate.
  */
-export const addOrUpdateCandidate = function (req, res, next) {
+export const addOrUpdateCandidate = function(req, res, next) {
 
     let db = mongoutil.getDb();
     var collection = db.collection('candidate');
@@ -1733,14 +1793,14 @@ export const addOrUpdateCandidate = function (req, res, next) {
     var phoneNo = req.body.phone_no;
 
     var obj = req.body;
-    
-    var _job = {jobId: jobId, status: 'NEW RESUME', stage: 'NEW'};
 
-    if(jobId && emailId && phoneNo){
+    var _job = { jobId: jobId, status: 'NEW RESUME', stage: 'NEW' };
 
-        collection.find({ email_id: emailId, phone_no: phoneNo}).toArray(function (err, candidates) {
+    if (jobId && emailId && phoneNo) {
+
+        collection.find({ email_id: emailId, phone_no: phoneNo }).toArray(function(err, candidates) {
             if (err) {
-                res.send({candidateError: err});
+                res.send({ candidateError: err });
             }
             if (candidates.length > 0) {
                 var jobFound = false;
@@ -1752,10 +1812,10 @@ export const addOrUpdateCandidate = function (req, res, next) {
                     });
                 }
                 if (jobFound) {
-                    res.send({status: 'FAILURE', err: 'Candidate already added to job - ' + jobId});
+                    res.send({ status: 'FAILURE', err: 'Candidate already added to job - ' + jobId });
                 } else {
 
-                    collection.updateOne({_id : candidates[0]._id}, {$addToSet : {jobs: _job}}, function(err, result) {
+                    collection.updateOne({ _id: candidates[0]._id }, { $addToSet: { jobs: _job } }, function(err, result) {
                         if (err) {
                             response.status = 'FAILURE';
                             response.error = 'Failed to add candidate to the job - ' + jobId + ' ' + err;
@@ -1768,13 +1828,13 @@ export const addOrUpdateCandidate = function (req, res, next) {
                             response.error = 'Failed to add candidate to the job - ' + jobId;
                         }
                         res.send(response);
-                    }); 
+                    });
                 }
             } else {
                 delete obj.jobId;
                 var jobs = [_job];
                 obj.jobs = jobs;
-                collection.count(function (err, count) {
+                collection.count(function(err, count) {
                     if (err) {
                         console.log(err);
                     }
@@ -1794,7 +1854,7 @@ export const addOrUpdateCandidate = function (req, res, next) {
             }
         });
     } else {
-        res.send({"message": "BAD REQUEST"});
+        res.send({ "message": "BAD REQUEST" });
     }
-    
+
 }

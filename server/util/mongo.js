@@ -1,7 +1,7 @@
-
-import chalk   from 'chalk';
-import config  from '../config/config';
+import chalk from 'chalk';
+import config from '../config/config';
 import MongoClient from 'mongodb'
+
 
 
 
@@ -27,18 +27,24 @@ var _db;
 
 module.exports = {
 
-  connectToServer: function( callback ) {
-    console.log('connect', config.db)
-    MongoClient.connect( config.db.url, {
-      user: config.db.username,
-      pass: config.db.password
-    }, function( err, db ) {
-      _db = db;
-      return callback( err );
-    } );
-  },
+    connectToServer: function(callback) {
+        console.log('connect', config.db)
+        MongoClient.connect(config.db.url, {
+            user: config.db.username,
+            pass: config.db.password
+        }, function(err, db) {
+            _db = db;
+            return callback(err);
+        });
+    },
 
-  getDb: function() {
-    return _db;
-  }
+    getDb: function() {
+        return _db;
+    },
+
+    getId: function(id) {
+        var objectId =  MongoClient.ObjectID;
+        return objectId(id);
+    }
+
 };

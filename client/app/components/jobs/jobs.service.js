@@ -1,4 +1,3 @@
-
 const HTTP = new WeakMap();
 
 class jobsService {
@@ -8,10 +7,10 @@ class jobsService {
     }
 
     getJobsDetail(userId, flag, status) {
-        return HTTP.get(this).get(`/api/jobs/getJobsDetail/${userId}/${flag}/${status}`).then(result => result.data );
+        return HTTP.get(this).get(`/api/jobs/getJobsDetail/${userId}/${flag}/${status}`).then(result => result.data);
     }
     candidateDetailsForJob(userId, jobId, filter, filterFrom) {
-        let reqObj = {userId, jobId, filter, filterFrom};
+        let reqObj = { userId, jobId, filter, filterFrom };
         return HTTP.get(this).post("/api/jobs/candidateDetailsForJob", reqObj).then(result => result.data);
     }
 
@@ -21,16 +20,16 @@ class jobsService {
 
     uploadResumeFile(fd) {
         return HTTP.get(this).post("/api/jobs/uploadResume", fd, {
-                transformRequest: angular.identity,
-                headers: {'Content-Type': undefined}
-            }).then(result => result.data);
+            transformRequest: angular.identity,
+            headers: { 'Content-Type': undefined }
+        }).then(result => result.data);
     }
 
     uploadNewCandidateResumeFile(fd) {
         return HTTP.get(this).post("/api/jobs/uploadNewCandidateResume", fd, {
-                transformRequest: angular.identity,
-                headers: {'Content-Type': undefined}
-            }).then(result => result.data);
+            transformRequest: angular.identity,
+            headers: { 'Content-Type': undefined }
+        }).then(result => result.data);
     }
 
     moveToNextStage(requestData) {
@@ -54,7 +53,7 @@ class jobsService {
         return HTTP.get(this).get(`/api/jobs/candidateDetails/${candidateId}`).then(result => result.data);
     }
 
-    getSimilarJobsData(reqData){
+    getSimilarJobsData(reqData) {
         return HTTP.get(this).post("/api/jobs/getSimilarJobs", reqData).then(result => result.data);
     }
 
@@ -62,7 +61,7 @@ class jobsService {
         return HTTP.get(this).get(`/api/jobs/feedJobData/${candidateId}`).then(result => result.data);
     }
 
-    feedMsgThreadData(jobId,candidateId) {
+    feedMsgThreadData(jobId, candidateId) {
         return HTTP.get(this).get(`/api/jobs/getFeedThread/${jobId}/${candidateId}`).then(result => result.data);
     }
 
@@ -79,69 +78,76 @@ class jobsService {
     }
 
     getAllRecruiters() {
-        return HTTP.get(this).get('/api/jobs/allRecruiters').then(result => result.data );
+        return HTTP.get(this).get('/api/jobs/allRecruiters').then(result => result.data);
     }
 
     getLinkedInLink(candidateId) {
-        return HTTP.get(this).get(`/api/jobs/linkedinLink/${candidateId}`).then(result => result.data );
+        return HTTP.get(this).get(`/api/jobs/linkedinLink/${candidateId}`).then(result => result.data);
     }
     getInternalDataCandidateList(reqObj) {
-        return HTTP.get(this).post("/api/jobs/internalDataCandidateList", reqObj).then(result => result.data );
+        return HTTP.get(this).post("/api/jobs/internalDataCandidateList", reqObj).then(result => result.data);
     }
 
-    fetchMails(data){
-        var url = "/api/mailer?label="+data.label;
-        if(data.query){
-            url += "&query="+data.query;
+    fetchMails(data) {
+        var url = "/api/mailer?label=" + data.label;
+        if (data.query) {
+            url += "&query=" + data.query;
         }
-        if(data.token){
-            url += "&token="+data.token
+        if (data.token) {
+            url += "&token=" + data.token
         }
         console.log(url)
         return HTTP.get(this).get(url).then(result => result.data);
     }
 
-    modifyEmail(id, action, label){
+    modifyEmail(id, action, label) {
         return HTTP.get(this).post("/api/mailer/modify", {
-            id:id,
+            id: id,
             addLabels: action ? [label] : [],
-            removeLabels: action?[]:[label]
+            removeLabels: action ? [] : [label]
         }).then(result => result.data);;
     }
-    fetchMailCount(){
+    fetchMailCount() {
         return HTTP.get(this).get("/api/mailer/counter").then(result => result.data);
     }
 
-    uploadAttachment(attachment){
+    uploadAttachment(attachment) {
         console.log(attachment);
         return HTTP.get(this).post("/api/mailer/uploadAttachment", attachment, {
             transformRequest: angular.identity,
-            headers: {'Content-Type': undefined}
+            headers: { 'Content-Type': undefined }
         }).then(result => result.data);
     }
 
-    composeMail(params){
+    composeMail(params) {
         return HTTP.get(this).post("/api/mailer", params).then(result => result.data);
     }
 
-    readMail(message){
+    readMail(message) {
         console.log(message);
-        return HTTP.get(this).get("/api/mailer/"+message.threadId).then(result => result.data);
+        return HTTP.get(this).get("/api/mailer/" + message.threadId).then(result => result.data);
     }
 
-    sendMailForJob(candidateList){
-        return HTTP.get(this).post('api/mailer/sendMailForJob', {candidateList:candidateList}).then(result=>result.data);
+    sendMailForJob(candidateList) {
+        return HTTP.get(this).post('api/mailer/sendMailForJob', { candidateList: candidateList }).then(result => result.data);
     }
-    
-    downloadAttachment(details){
-        return HTTP.get(this).post('api/mailer/downloadAttachment', details).then(result=>result.data);
 
+    downloadAttachment(details) {
+        return HTTP.get(this).post('api/mailer/downloadAttachment', details).then(result => result.data);
+
+    }
+
+    fetchTemplates(params) {
+        return HTTP.get(this).post('api/jobs/templates', params).then(result => result.data);
     }
     fetchClients() {
-        return HTTP.get(this).get('/api/jobs/clientList').then(result => result.data );
+        return HTTP.get(this).get('/api/jobs/clientList').then(result => result.data);
+    }
+    saveTemplate(params) {
+        return HTTP.get(this).post("/api/jobs/saveTemplate", params).then(result => result.data);
     }
 
-    static getInstance($http){
+    static getInstance($http) {
         return new jobsService($http);
     }
 }

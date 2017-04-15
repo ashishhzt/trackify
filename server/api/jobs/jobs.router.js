@@ -1,6 +1,6 @@
-import router			from 'express';
-import * as controller	from './jobs.controller';
-import {verifyUser}		from '../../auth/auth-util';
+import router from 'express';
+import * as controller from './jobs.controller';
+import { verifyUser } from '../../auth/auth-util';
 
 const JobsRouter = router();
 
@@ -48,7 +48,7 @@ JobsRouter.post('/savePostMessage', verifyUser, controller.savePostMessage);
 
 JobsRouter.get('/feedJobData/:candidateId', verifyUser, controller.feedData);
 
-JobsRouter.get('/getFeedThread/:jobId/:candidateId', verifyUser,  controller.getFeedThread);
+JobsRouter.get('/getFeedThread/:jobId/:candidateId', verifyUser, controller.getFeedThread);
 
 JobsRouter.get('/allRecruiters', verifyUser, controller.allRecruiters);
 
@@ -58,6 +58,8 @@ JobsRouter.post('/internalDataCandidateList', controller.internalDataCandidateLi
 
 JobsRouter.post('/add-candidate', controller.addOrUpdateCandidate);
 JobsRouter.get('/clientList', controller.clientList);
+JobsRouter.post('/saveTemplate', controller.saveTemplate);
+JobsRouter.post('/templates', controller.templates);
 
 //Discarded APIs
 JobsRouter.all('/*', controller.invalidRequest);

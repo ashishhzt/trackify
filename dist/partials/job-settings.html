@@ -13,10 +13,10 @@
                             </div>
                             <ul class="inbox-nav inbox-divider nav nav-pills nav-stacked" style="border-bottom: 0">
                                 <li class="active">
-                                    <a href="#candidatemailtemp" data-toggle="tab"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> Candidate Mail Templates</a>
+                                    <a href="#candidatemailtemp" ng-click="vm.fetchTemplates('candidate')" data-toggle="tab"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> Candidate Mail Templates</a>
                                 </li>
                                 <li onclick="loadclientParent()">
-                                    <a href="#clientmailtemp" data-toggle="tab"><i class="fa fa-envelope-o"></i> Client Mail Templates </a>
+                                    <a href="#clientmailtemp" ng-click="vm.fetchTemplates('client')" data-toggle="tab"><i class="fa fa-envelope-o"></i> Client Mail Templates </a>
                                 </li>
                                 <!--                          <li>
                                                               <a href="#trackerright" data-toggle="tab"><i class="fa fa-file-word-o" aria-hidden="true"></i> Tracker Editing Rights </a>
@@ -35,7 +35,7 @@
                         <aside class="lg-side" style="background: rgba(255, 255, 255, 0);">
                             <div class="inbox-body" style="padding: 0px 0px;">
                                 <div class="tab-content noleftpadding norightpadding">
-                                    <div class="tab-pane active notoppad noleftpadding norightpadding no-background" id="candidatemailtemp">
+                                    <div class="tab-pane active notoppad noleftpadding norightpadding no-background" id="candidatemailtemp" ng-init="vm.candidateTemplate={}">
                                         <div class="inbox-head mb15">
                                             <h3 style="float: left">Candidate Mail Templates</h3>
                                             <!-- <ol class="dark breadcrumb breadcrumb-quirk font-helvetica" style="float: left;margin-bottom: 8px;margin-top: 8px;margin-left: 17px;">
@@ -51,94 +51,45 @@
                                                 <button class="expander btn btn-success btn-xs btn-quirk" onclick="loadpage('new_format');">
                                                     <i class="fa fa-plus-square" aria-hidden="true"></i> Add new format
                                                 </button>
-                                                <div class="list" onclick="loadpage('job_invite');">
-                                                    <div>
-                                                        <h4><span>Job Invitation</span> | <span>Flipkart Drive</span></h4>
-                                                    </div>
+                                                <div class="list" ng-repeat="template in vm.templates" ng-click="vm.candidateTemplate = template">
+                                                    <h4><span>{{template.templateName}}</span> | <span>{{template.clientName}}</span></h4>
                                                     <div class="clear"></div>
-                                                </div>
-                                                <div class="list">
-                                                    <div>
-                                                        <h4><span>Interview Invitation</span> | <span>Myntra</span></h4>
-                                                    </div>
-                                                    <div class="clear"></div>
-                                                </div>
-                                                <div class="list">
-                                                    <div>
-                                                        <h4><span>Offered</span> | <span>Jabong</span></h4>
-                                                    </div>
-                                                    <div class="clear"></div>
-                                                </div>
-                                                <div class="list">
-                                                    <div>
-                                                        <h4><span>Offered</span> | <span>Jabong</span></h4>
-                                                    </div>
-                                                    <div class="clear"></div>
-                                                </div>
-                                                <div class="list">
-                                                    <div>
-                                                        <h4><span>Offered</span> | <span>Jabong</span></h4>
-                                                    </div>
-                                                    <div class="clear"></div>
-                                                </div>
-                                                <div class="list">
-                                                    <div>
-                                                        <h4><span>Offered</span> | <span>Jabong</span></h4>
-                                                    </div>
-                                                    <div class="clear"></div>
-                                                </div>
-                                                <div id="container1">
-                                                    <div class="inner">
-                                                        <div class="list">
-                                                            <div>
-                                                                <h4><span></span>Interview Shortlist | <span></span>Jabong</h4>
-                                                            </div>
-                                                            <div class="clear"></div>
-                                                        </div>
-                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-sm-8 noleftpadding">
                                             <div class="border-grey pad5 white-background">
-                                                <div id="headdiv" class="text-center new-title">
-                                                    Job Invitation | Flipkart Drive
-                                                </div>
                                                 <div id="TableData" class="col-sm-12" style="display: none">
                                                     <div class="form-group mb5 col-md-6 noleftpadding">
-                                                        <select id="select33" class="form-control" style="width: 100%" data-placeholder="Format Type">
-                                                            <option value=""></option>
-                                                            <option value="Option1">Option1</option>
-                                                            <option value="Option2">Option2</option>
-                                                            <option value="Option3">Option3</option>
-                                                            <option value="Option4">Option4</option>
+                                                        <select id="select33" class="form-control" ng-model="vm.candidateTemplate.templateName" style="width: 100%" data-placeholder="Format Type">
+                                                            <option value="" disabled></option>
+                                                            <option value="Joining">Joining</option>
+                                                            <option value="Offer">Offer</option>
+                                                            <option value="Rejected">Rejected</option>
+                                                            <option value="Interview">Interview</option>
                                                         </select>
                                                     </div>
                                                     <div class="form-group mb5 col-md-6 norightpadding">
-                                                        <select id="select34" class="form-control" style="width: 100%" data-placeholder="Company ">
-                                                            <option value=""></option>
-                                                            <option value="Option1">Option1</option>
-                                                            <option value="Option2">Option2</option>
-                                                            <option value="Option3">Option3</option>
-                                                            <option value="Option4">Option4</option>
+                                                        <select id="select34" class="form-control" ng-model="vm.candidateTemplate.client" style="width: 100%" data-placeholder="Company ">
+                                                            <option ng-repeat="company in vm.clientList | orderBy: company.clientName" value="{{company}}">{{company.clientName}}</option>
                                                         </select>
                                                     </div>
                                                 </div>
                                                 <div class="clear"></div>
                                                 <div class="pad5">
-                                                    <span class="text-left">Note: To auto insert name of candidates, please use <name> </span>
+                                                    <!-- <span class="text-left">Note: To auto insert name of candidates, please use <name> </span> -->
                                                     <span class="pull-right">
-                                                        <button class="btn btn-success btn-xs" id="enableTextTemplate" name="enableText" ng-click="saveJobFormat()">
+                                                        <!-- <button class="btn btn-success btn-xs" id="enableTextTemplate" name="enableText" ng-click="saveJobFormat()">
                                                             <i class="fa fa-plus-square" aria-hidden="true"></i>
-                                                        </button>
-                                                         <button class="btn btn-success btn-xs" name="enableText" id="enabltEditTemplate" onclick="toggleTextEdit()" style="display:none">
+                                                        </button> -->
+                                                         <button ng-click="vm.saveCandidateTemplate($event)" class="btn btn-success btn-xs" name="enableText" id="enabltEditTemplate" onclick="toggleTextEdit()">
                                                             <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                                         </button>
 
                                                        
                                                     </span>
                                                     <div class="clear"></div>
-                                                    <textarea rows="12" name="myTextBox" id="txtBox" disabled class="form-control mt10 ipText" placeholder="Type your comment..." required="" aria-required="true"></textarea>
+                                                    <textarea ng-model="vm.candidateTemplate.templateText" rows="12" name="myTextBox" id="txtBox" disabled class="form-control mt10 ipText" placeholder="Type your comment..." required="" aria-required="true"></textarea>
                                                 </div>
                                                 <div class="clear"></div>
                                             </div>
@@ -160,19 +111,9 @@
                                                     <i class="fa fa-plus-square" aria-hidden="true"></i> Add new format
                                                 </button>
                                                 <div class="list" onclick="loadTemplate('job_invite');">
-                                                    <div>
-                                                        <h4><span>Job Invitation</span> | <span>Flipkart Drive</span></h4>
-                                                    </div>
-                                                    <div class="clear"></div>
-                                                </div>
-                                                <div id="container1">
-                                                    <div class="inner">
-                                                        <div class="list">
-                                                            <div>
-                                                                <h4><span></span>Interview Shortlist | <span></span>Jabong</h4>
-                                                            </div>
-                                                            <div class="clear"></div>
-                                                        </div>
+                                                    <div ng-repeat="template in vm.templates" ng-click="vm.clientTemplate = template">
+                                                        <h4><span>{{template.templateName}}</span> | <span>{{template.clientName}}</span></h4>
+                                                        <div class="clear"></div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -186,8 +127,8 @@
                                                         <input type="text" ng-model="vm.clientTemplate.templateName" placeholder="Enter Template Name" class="form-control">
                                                     </div>
                                                     <div class="form-group col-md-6 mb5">
-                                                        <select id="select34" class="form-control" ng-model="vm.clientTemplate.clientName" style="width: 100%" data-placeholder="Choose Client Name">
-                                                            <option ng-repeat="client in vm.clientList | orderBy: client.clientName" value="{{client.clientName}}">{{client.clientName}}</option>  
+                                                        <select id="select34" class="form-control" ng-model="vm.clientTemplate.client" style="width: 100%" data-placeholder="Choose Client Name">
+                                                            <option ng-repeat="client in vm.clientList | orderBy: client.clientName" value="{{client}}">{{client.clientName}}</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -199,15 +140,14 @@
                                                             <i class="fa fa-plus-square" aria-hidden="true"></i>
                                                         </button>
  -->
-                                                        <button class="btn btn-success btn-xs" name="enableEditclient"  id="enableEditclient" onclick="toggleTextClient1()">
+                                                        <button class="btn btn-success btn-xs" ng-click="vm.saveClientTemplate($event)" name="enableEditclient"  id="enableEditclient" onclick="toggleTextClient1()">
                                                             <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                                         </button>
                                                     </span>
                                                     <div class="clear"></div>
-                                                    <textarea rows="12"  name="myTextBoxClient" ng-model="vm.clientTemplate.templateText" id="txtEditClient1" disabled class="form-control mt10 ipText" placeholder="Type your comment..." required="" aria-required="true"></textarea>
+                                                    <textarea rows="12" name="myTextBoxClient" ng-model="vm.clientTemplate.templateText" id="txtEditClient1" disabled class="form-control mt10 ipText" placeholder="Type your comment..." required="" aria-required="true"></textarea>
                                                 </div>
                                             </div>
-                                            <div class="clear"><button class="btn btn-success pull-right" ng-click="vm.saveClientTemplate()">Save</button></div>
                                         </div>
                                         <div class="clear"></div>
                                     </div>
@@ -549,9 +489,11 @@ function toggleTextEdit() {
 
     var Disabled = document.getElementById("txtBox").disabled;
     if (Disabled == false) {
+        $('#enabltEditTemplate').addClass("save-template");
         $('#enabltEditTemplate').html("<i class='fa fa-pencil-square-o' aria-hidden='true'></i>");
 
     } else {
+        $('#enabltEditTemplate').removeClass("save-template");
         $('#enabltEditTemplate').html("<i class='fa fa-floppy-o' aria-hidden='true'></i>");
     }
     document.getElementById("txtBox").disabled = !Disabled;
@@ -606,8 +548,10 @@ function toggleTextClient1() {
     $('#enableTxtClient').html("<i class='fa fa-floppy-o' aria-hidden='true'></i>");
     var Disabled = document.getElementById("txtEditClient1").disabled;
     if (Disabled == false) {
+        $('#enableEditclient').addClass("save-template");
         $('#enableEditclient').html("<i class='fa fa-pencil-square-o' aria-hidden='true'></i>");
     } else {
+        $('#enableEditclient').removeClass("save-template");
         $('#enableEditclient').html("<i class='fa fa-floppy-o' aria-hidden='true'></i>");
     }
     document.getElementById("txtEditClient1").disabled = !Disabled;
