@@ -60,6 +60,12 @@ JobsRouter.post('/add-candidate', controller.addOrUpdateCandidate);
 JobsRouter.get('/clientList', controller.clientList);
 JobsRouter.post('/saveTemplate', controller.saveTemplate);
 JobsRouter.post('/templates', controller.templates);
+JobsRouter.post('/updateTracker', controller.updateTracker);
+JobsRouter.post('/updateUser', controller.updateUser);
+JobsRouter.get('/users', controller.users);
+JobsRouter.post('/fetchClient', controller.fetchClient);
+JobsRouter.post('/updateClient', controller.updateClient);
+
 
 //Discarded APIs
 JobsRouter.all('/*', controller.invalidRequest);

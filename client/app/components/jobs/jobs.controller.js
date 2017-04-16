@@ -1,4 +1,61 @@
 const SERVICE = new WeakMap();
+const TRACKER_FORMATS = [{
+    name: 'Name',
+    key: 'candidateName',
+    select: true
+}, {
+    name: 'Mail ID',
+    key: 'candidateEmail',
+    select: true
+}, {
+    name: 'Mobile',
+    key: 'candidateContact',
+    select: true
+}, {
+    name: 'Experience',
+    key: 'experience',
+    select: true
+}, {
+    name: 'Company',
+    key: 'employer',
+    select: false
+}, {
+    name: 'Designation',
+    key: 'designation',
+    select: false
+}, {
+    name: 'College',
+    key: 'college',
+    select: false
+}, {
+    name: 'Qualification',
+    key: 'qualification',
+    select: true
+}, {
+    name: 'Key Skills',
+    key: 'key_skills',
+    select: true
+}, {
+    name: 'CTC (lakhs)',
+    key: ['ctcFixed', 'ctcVariable', 'ctcEsops'],
+    select: true
+}, {
+    name: 'ECTC (lakhs)',
+    key: ['eCTCFixed', 'eCTCVariable', 'eCTCEsops'],
+    select: true
+}, {
+    name: 'Notice Period (days)',
+    key: 'noticePeriod',
+    select: false
+}, {
+    name: 'Candidate serving notice?',
+    key: 'serveNotice',
+    select: false
+}, {
+    name: 'Job Location',
+    key: 'location',
+    select: true
+}]
 let trackFilterObjectLastApplied = [{ "filterTag": "filterByRecruiter" }, { "filterTag": "selectStatus" }]; //for init stage -  New Resume stage
 
 class JobsController {
@@ -22,6 +79,7 @@ class JobsController {
             "email": null,
             "phNum": null
         };
+        this.clientInfo = {};
         this.changeStatusModel = { status: "", statusInputs: [] };
         this.moveToInactiveReasons = [];
         this.interviewDateData = { "date": null, "time": null, "meridian": null, "round": 1, "rescheduleReason": null };
@@ -50,6 +108,8 @@ class JobsController {
             "patents": null,
             "publications": null
         };
+
+        this.trackerFormats = [...TRACKER_FORMATS];
 
         SERVICE.set(this, jobsService);
         if (shareData.getProperty() == 'blank') {
@@ -1231,13 +1291,93 @@ class JobsController {
         });
     }
 
+    saveTracker() {
+        console.log(this.trackerFormats);
+        var trackers = this._parseTrackerFormat(this.trackerFormats);
+        SERVICE.get(this).updateTracker({ jobId: this.selectedJobDetail._id, trackers: trackers }).then(response => {
+            console.log(response);
+            if (response.status == "SUCCESS") {
+                alert("tracker saved")
+                this.userList = response.users;
+            }
+        }, error => {
+            console.log(error);
+        });
+    }
+    updateAllotedUser() {
+        var userId;
+        for (var i = this.userList.length - 1; i >= 0; i--) {
+            if (this.userList[i].displayName == this.selectedRecruiter) {
+                userId = this.userList[i]._id;
+                break;
+            }
+        }
+        SERVICE.get(this).updateUser({ jobId: this.selectedJobDetail._id, userId: userId }).then(response => {
+            console.log(response);
+            if (response.status == "SUCCESS") {
+                alert("user saved")
+                    // this.userList = response.users;
+            }
+        }, error => {
+            console.log(error);
+        });
+    }
 
+    fetchUsers() {
+        SERVICE.get(this).fetchUsers().then(response => {
+            console.log(response);
+            if (response.status == "SUCCESS") {
+                this.userList = response.users;
+            }
+        }, error => {
+            console.log(error);
+        });
+    }
 
+    fetchJobDetails() {
+        SERVICE.get(this).fetchClient({clientName:this.selectedJobDetail.clientName}).then(response => {
+            if (response.status == "SUCCESS") {
+                var client = response.client[0];
+                this.clientInfo.emailId = client.clientEmail;
+                this.clientInfo.jobLocations = this.selectedJobDetail.locations;
+                this.clientInfo.clientLocations = client.locations;
+                this.clientInfo.clientURL = client.url;
+                this.clientInfo.clientId = client._id;
+                this.clientInfo.jobId = this.selectedJobDetail._id;
+                this.clientInfo.otherInfo = client.otherInfo;
+            }
+            console.log(this.clientInfo);
+        }, error => {
+            console.log(error);
+        });
+    }
+
+    _parseTrackerFormat(trackers) {
+        let _trackers = trackers
+            .filter(tracker => tracker.select)
+            .map(selectedTracker => selectedTracker.key);
+
+        return [].concat(..._trackers);
+    }
+    updateClientInfo() {
+        SERVICE.get(this).updateClientInfo(this.clientInfo).then(response => {
+            if (response.status == "SUCCESS") {
+               alert("client updated successfully.")
+            }
+            console.log(this.clientInfo);
+        }, error => {
+            console.log(error);
+        });
+    }
+    resetContainer(){
+        this.clientInfo = {};
+    }
     parseDate(date) {
         return new Date(date).toLocaleString();
     }
 
 }
+
 
 JobsController.$inject = ['$rootScope', 'AuthFactory', 'jobsService', 'shareData', 'newJobService']
 

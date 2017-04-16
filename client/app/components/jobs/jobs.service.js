@@ -143,8 +143,23 @@ class jobsService {
     fetchClients() {
         return HTTP.get(this).get('/api/jobs/clientList').then(result => result.data);
     }
+    fetchUsers() {
+        return HTTP.get(this).get('/api/jobs/users').then(result => result.data);
+    }
+    updateTracker(detail) {
+        return HTTP.get(this).post('api/jobs/updateTracker', detail).then(result => result.data);
+    }
+    updateUser(detail) {
+        return HTTP.get(this).post('api/jobs/updateUser', detail).then(result => result.data);
+    }
     saveTemplate(params) {
         return HTTP.get(this).post("/api/jobs/saveTemplate", params).then(result => result.data);
+    }
+    fetchClient(detail) {
+        return HTTP.get(this).post('/api/jobs/fetchClient', detail).then(result => result.data);
+    }
+    updateClientInfo(details) {
+        return HTTP.get(this).post('/api/jobs/updateClient', details).then(result => result.data);
     }
 
     static getInstance($http) {

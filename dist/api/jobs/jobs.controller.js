@@ -1733,8 +1733,6 @@ export const saveTemplate = function(req, res) {
     console.log("This is a msg", req.body)
     var collection = db.collection('template');
     if (req.body._id) {
-        console.log("hre")
-        console.log(mongoutil.getId(req.body._id));
         collection.updateOne({ "_id": mongoutil.getId(req.body._id) }, {
                 $set: {
                     templateText: req.body.templateText
@@ -1780,9 +1778,116 @@ export const templates = function(req, res) {
     });
 }
 
+export const users = function(req, res) {
+    let db = mongoutil.getDb();
+    var collection = db.collection('users');
+    var query = {}
+    if (req.body.type) {
+        query.type = req.body.type
+    }
+    collection.find(query).toArray(function(err, users) {
+
+        if (err) {
+            res.send({ status: "FAILURE" });
+        } else {
+            for (var i = users.length - 1; i >= 0; i--) {
+                delete users[i].password;
+            }
+            res.send({ status: "SUCCESS", users: users });
+        }
+    });
+}
+
+export const updateTracker = function(req, res) {
+    let db = mongoutil.getDb();
+    var collection = db.collection('job');
+    var query = { _id: parseInt(req.body.jobId) }
+    collection.updateOne(query, { $set: { trackerFormats: req.body.trackers } }, function(err, result) {
+        if (err) {
+            res.send({ status: "FAILURE" });
+        } else {
+            res.send({ status: "SUCCESS" });
+        }
+    });
+}
+
+export const updateUser = function(req, res) {
+    let db = mongoutil.getDb();
+    var collection = db.collection('job');
+    var query = { _id: parseInt(req.body.jobId) }
+    collection.updateOne(query, { $set: { userId: req.body.userId } }, function(err, result) {
+        if (err) {
+            res.send({ status: "FAILURE" });
+        } else {
+            res.send({ status: "SUCCESS" });
+        }
+    });
+}
+
+export const fetchClient = function(req, res) {
+    let db = mongoutil.getDb();
+    var collection = db.collection('client');
+    collection.find({ clientName: req.body.clientName }).toArray(function(err, client) {
+        if (err) {
+            res.send({ status: 'FAILURE' });
+        } else {
+            res.send({ status: 'SUCCESS', client: client });
+        }
+    });
+}
+
+export const updateClient = function(req, res) {
+    let db = mongoutil.getDb();
+    async.waterfall([updateClient, updateJob], function(err, response) {
+        if(err){
+            res.send({status:"ERROR"})
+        }else{
+            res.send({status:"SUCCESS"})
+        }
+    });
+
+    function updateClient(callback) {
+        var collection = db.collection('client');
+        collection.updateOne({ _id: mongoutil.getId(req.body.clientId) }, {
+            $set: {
+                clientEmail: req.body.emailId,
+                locations: req.body.clientLocations,
+                url: req.body.clientURL,
+                otherInfo: req.body.otherInfo
+            }
+        }, function(err, result) {
+            if (err) {
+                callback({ status: "FAILURE" });
+            } else {
+                callback()
+            }
+        });
+    }
+
+    function updateJob(callback) {
+        var collection = db.collection('job');
+        collection.updateOne({ _id: req.body.jobId }, {
+            $set: {
+                locations: req.body.jobLocations
+            }
+        }, function(err, result) {
+            if (err) {
+                callback({ status: "FAILURE" });
+            } else {
+                callback()
+            }
+        });
+    }
+}
+
+
+
+
 /**
  * Handler to add Candidate.
  */
+
+
 export const addOrUpdateCandidate = function(req, res, next) {
 
     let db = mongoutil.getDb();

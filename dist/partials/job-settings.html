@@ -18,16 +18,13 @@
                                 <li onclick="loadclientParent()">
                                     <a href="#clientmailtemp" ng-click="vm.fetchTemplates('client')" data-toggle="tab"><i class="fa fa-envelope-o"></i> Client Mail Templates </a>
                                 </li>
-                                <!--                          <li>
-                                                              <a href="#trackerright" data-toggle="tab"><i class="fa fa-file-word-o" aria-hidden="true"></i> Tracker Editing Rights </a>
-                                                          </li>-->
                                 <li>
                                     <a href="#edittracker" data-toggle="tab"><i class=" fa fa fa-pencil-square-o"></i> Edit Tracker</a>
                                 </li>
-                                <li>
+                                <li ng-click="vm.fetchUsers()">
                                     <a href="#editteam" data-toggle="tab"><i class=" fa fa-users"></i> Edit Team</a>
                                 </li>
-                                <li>
+                                <li ng-click="vm.fetchJobDetails()">
                                     <a href="#editclientinfo" data-toggle="tab"><i class="fa fa-list-alt" aria-hidden="true"></i> Edit Client Info</a>
                                 </li>
                             </ul>
@@ -38,13 +35,13 @@
                                     <div class="tab-pane active notoppad noleftpadding norightpadding no-background" id="candidatemailtemp" ng-init="vm.candidateTemplate={}">
                                         <div class="inbox-head mb15">
                                             <h3 style="float: left">Candidate Mail Templates</h3>
-                                            <!-- <ol class="dark breadcrumb breadcrumb-quirk font-helvetica" style="float: left;margin-bottom: 8px;margin-top: 8px;margin-left: 17px;">
+                                            <ol class="dark breadcrumb breadcrumb-quirk font-helvetica" style="float: left;margin-bottom: 8px;margin-top: 8px;margin-left: 17px;">
                                                 <li class="whitetext">{{vm.selectedJobDetail.clientName}}</li>
                                                 <li class="whitetext">{{vm.selectedJobDetail.designation}}</li>
                                                 <li class="whitetext"><span ng-repeat="elem in vm.selectedJobDetail.locations"><span ng-if="$index != 0">,&nbsp;</span>{{elem}}</span>
                                                 </li>
                                                 <li class="whitetext"> {{vm.selectedJobDetail.minExp}}-{{vm.selectedJobDetail.maxExp}} Years </li>
-                                            </ol> -->
+                                            </ol>
                                         </div>
                                         <div class="col-sm-4">
                                             <div class="border-grey pad5 list-view1 mCustomScrollbar white-background">
@@ -98,23 +95,23 @@
                                     <div class="tab-pane notoppad noleftpadding norightpadding no-background" id="clientmailtemp" ng-init="vm.clientTemplate={}">
                                         <div class="inbox-head mb15">
                                             <h3 style="float: left"> Client Mail Templates</h3>
-                                            <!--                                             <ol class="dark breadcrumb breadcrumb-quirk font-helvetica" style="float: left;margin-bottom: 8px;margin-top: 8px;margin-left: 17px;">
-                                                <li class="whitetext">Flipkart</li>
-                                                <li class="whitetext">Java Developer</li>
-                                                <li class="whitetext">Bangalore, Hyderabad</li>
-                                                <li class="whitetext"> 4-5 Years </li>
-                                            </ol> -->
+                                            <ol class="dark breadcrumb breadcrumb-quirk font-helvetica" style="float: left;margin-bottom: 8px;margin-top: 8px;margin-left: 17px;">
+                                                <li class="whitetext">{{vm.selectedJobDetail.clientName}}</li>
+                                                <li class="whitetext">{{vm.selectedJobDetail.designation}}</li>
+                                                <li>
+                                                    <span ng-repeat="elem in vm.selectedJobDetail.locations"><span ng-if="$index != 0">,&nbsp;</span>{{elem}}</span>
+                                                </li>
+                                                <li> {{vm.selectedJobDetail.minExp}}-{{vm.selectedJobDetail.maxExp}} Years </li>
+                                            </ol>
                                         </div>
                                         <div class="col-sm-4">
                                             <div class="border-grey pad5 list-view1 white-background">
-                                                <button class="expanderclient btn btn-success btn-xs btn-quirk" onclick="loadTemplate('new_format');">
+                                                <button class="expanderclient btn btn-success btn-xs btn-quirk"">
                                                     <i class="fa fa-plus-square" aria-hidden="true"></i> Add new format
                                                 </button>
-                                                <div class="list" onclick="loadTemplate('job_invite');">
-                                                    <div ng-repeat="template in vm.templates" ng-click="vm.clientTemplate = template">
-                                                        <h4><span>{{template.templateName}}</span> | <span>{{template.clientName}}</span></h4>
-                                                        <div class="clear"></div>
-                                                    </div>
+                                                <div class="list" ng-repeat="template in vm.templates" ng-click="vm.clientTemplate = template">
+                                                    <h4><span>{{template.templateName}}</span> | <span>{{template.clientName}}</span></h4>
+                                                    <div class="clear"></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -151,182 +148,103 @@
                                         </div>
                                         <div class="clear"></div>
                                     </div>
-                                    <!--                <div class="tab-pane" id="trackerright">
-                                                      Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut 3
-                                                      et voluptates repudiandae sint et molestiae non recusandae.
-                                                    </div>-->
                                     <div class="tab-pane notoppad noleftpadding norightpadding no-background" id="edittracker">
                                         <div class="inbox-head mb15">
                                             <h3 style="float: left">Edit Tracker </h3>
                                             <ol class="dark breadcrumb breadcrumb-quirk font-helvetica" style="float: left;margin-bottom: 8px;margin-top: 8px;margin-left: 17px;">
-                                                <li class="whitetext">Flipkart</li>
-                                                <li class="whitetext">Java Developer</li>
-                                                <li class="whitetext">Bangalore, Hyderabad</li>
-                                                <li class="whitetext"> 4-5 Years </li>
+                                                <li class="whitetext">{{vm.selectedJobDetail.clientName}}</li>
+                                                <li class="whitetext">{{vm.selectedJobDetail.designation}}</li>
+                                                <li>
+                                                    <span ng-repeat="elem in vm.selectedJobDetail.locations"><span ng-if="$index != 0">,&nbsp;</span>{{elem}}</span>
+                                                </li>
+                                                <li> {{vm.selectedJobDetail.minExp}}-{{vm.selectedJobDetail.maxExp}} Years </li>
                                             </ol>
-                                            <!--                          <form action="#" class="pull-right position">
-                                                                          <div class="input-append">
-                                                                              <input type="text" class="sr-input" placeholder="Search Mail">
-                                                                              <button class="btn sr-btn" type="button"><i class="fa fa-search"></i></button>
-                                                                          </div>
-                                                                      </form>-->
                                         </div>
-                                        <div class="pad10 ml10 col-md-6 white-background border-grey" style="margin: 0 auto;float:none;">
-                                            <div class="form-group">
-                                                <input class="form-control" type="text" placeholder="Enter Format Name">
-                                            </div>
-                                            <div class="form-group">
-                                                <input class="form-control highlighttext" disabled name="" type="text" value="Name" />
-                                            </div>
-                                            <div class="form-group">
-                                                <input class="form-control highlighttext" disabled name="" type="text" value="Mail" />
-                                            </div>
-                                            <div class="form-group">
-                                                <input class="form-control highlighttext" disabled name="" type="text" value="Mobile" />
-                                            </div>
-                                            <div class="form-group">
-                                                <div id="TextBoxContainer">
-                                                    <!--Textboxes will be added here -->
+                                        <div class="pad10 ml10 col-md-6 width500 white-background border-grey" style="margin: 0 auto;float:none;">
+                                            <form action="" class="text-center form-inline form-spacing" novalidate="novalidate">
+                                                <div class="form-group form-group--spacing" ng-repeat="format in vm.trackerFormats">
+                                                    <label class="col-sm-1 ckbox1 ckbox ckbox-success">
+                                                        <input type="checkbox" ng-model="format.select" ng-checked="vm.selectedJobDetail.trackerFormats.indexOf(format.key) != -1"><span></span>
+                                                    </label>
+                                                    <div class="col-sm-10">
+                                                        <input type="text" name="" class="form-control" ng-model="format.name" readonly/>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="form-group" style="position: relative">
-                                                <span class="myarrow">
-                                                    <input type="text" id="autocs" class="form-control" list="select62"/>
-                                                </span>
-                                                <datalist id="select62" class="types" style="width: 100%">
-                                                    <option value="option1">option1</option>
-                                                    <option value="option2">option2</option>
-                                                    <option value="option3">option3</option>
-                                                </datalist>
-                                                <button type="button" id="btnAdd" class="addbtnfloat btn btn-quirk addbtn"> + </button>
-                                            </div>
-                                            <div class="modal-footer text-center">
-                                                <div class="col-md-3 no-float center-div ">
-                                                    <button type="button" class="btn btn-success btn-block btn-quirk text-center">Apply</button>
-                                                </div>
-                                            </div>
+                                            </form>
                                         </div>
-                                        <div class="clear"></div>
+                                        <div class="clear">
+                                            <button class="btn btn-success pull-right" ng-click="vm.saveTracker()">Save</button>
+                                        </div>
                                     </div>
                                     <div class="tab-pane notoppad noleftpadding norightpadding no-background" id="editteam">
                                         <div class="inbox-head mb15">
                                             <h3 style="float: left">Edit Team </h3>
                                             <ol class="dark breadcrumb breadcrumb-quirk font-helvetica" style="float: left;margin-bottom: 8px;margin-top: 8px;margin-left: 17px;">
-                                                <li class="whitetext">Flipkart</li>
-                                                <li class="whitetext">Java Developer</li>
-                                                <li class="whitetext">Bangalore, Hyderabad</li>
-                                                <li class="whitetext"> 4-5 Years </li>
+                                                <li class="whitetext">{{vm.selectedJobDetail.clientName}}</li>
+                                                <li class="whitetext">{{vm.selectedJobDetail.designation}}</li>
+                                                <li>
+                                                    <span ng-repeat="elem in vm.selectedJobDetail.locations"><span ng-if="$index != 0">,&nbsp;</span>{{elem}}</span>
+                                                </li>
+                                                <li> {{vm.selectedJobDetail.minExp}}-{{vm.selectedJobDetail.maxExp}} Years </li>
                                             </ol>
-                                            <!--                          <form action="#" class="pull-right position">
-                                                                          <div class="input-append">
-                                                                              <input type="text" class="sr-input" placeholder="Search Mail">
-                                                                              <button class="btn sr-btn" type="button"><i class="fa fa-search"></i></button>
-                                                                          </div>
-                                                                      </form>-->
                                         </div>
                                         <div class="pad10 ml10 col-md-6 white-background border-grey" style="margin: 0 auto;float:none;">
-                                            <div class="form-group">
-                                                <div id="TextBoxContainer1">
-                                                    <!--Textboxes will be added here -->
-                                                    <div style="position:relative">
-                                                        <input class="form-control highlighttext" disabled="" name="DynamicTextBox" value="Name" type="text">&nbsp;
-                                                        <button type="button" class="remove addbtnfloat btn btn-quirk closebtn"> X </button>
-                                                    </div>
-                                                </div>
-                                                <div id="TextBoxContainer1">
-                                                    <!--Textboxes will be added here -->
-                                                    <div style="position:relative">
-                                                        <input class="form-control highlighttext" disabled="" name="DynamicTextBox" value="Mail" type="text">&nbsp;
-                                                        <button type="button" class="remove addbtnfloat btn btn-quirk closebtn"> X </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div id="TextBoxContainer1">
-                                                    <!--Textboxes will be added here -->
-                                                </div>
-                                            </div>
-                                            <!--                                            <div class="form-group" style="position: relative">
-                                                <span><input type="text" id="autocs1" class="form-control" list="select63"/></span>
-
-                                                <button type="button" id="btnAdd1" class="addbtnfloat btn btn-quirk addbtn" > + </button>
-                                            </div>-->
-                                            <div class="form-group" style="position: relative">
-                                                <span class="myarrow">
-                                                    <input type="text" id="autocs1" class="form-control" list="select63"/>
-                                                </span>
-                                                <datalist id="select63" class="types" style="width: 100%">
-                                                    <option value="option1">option1</option>
-                                                    <option value="option2">option2</option>
-                                                    <option value="option3">option3</option>
-                                                </datalist>
-                                                <button type="button" id="btnAdd1" class="addbtnfloat btn btn-quirk addbtn"> + </button>
-                                            </div>
-                                            <div class="modal-footer text-center">
-                                                <div class="col-md-3 no-float center-div ">
-                                                    <button type="button" class="btn btn-success btn-block btn-quirk text-center">Apply</button>
-                                                </div>
-                                            </div>
+                                            <select ng-change="vm.updateAllotedUser()" id="select34" class="form-control" ng-model="vm.selectedRecruiter" style="width: 100%" data-placeholder="Select user">
+                                                <option ng-repeat="user in vm.userList" value="{{user.displayName}}">{{user.displayName}}</option>
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="tab-pane notoppad noleftpadding norightpadding no-background" id="editclientinfo">
                                         <div class="inbox-head mb15">
                                             <h3 style="float: left">Edit Client Info</h3>
                                             <ol class="dark breadcrumb breadcrumb-quirk font-helvetica" style="float: left;margin-bottom: 8px;margin-top: 8px;margin-left: 17px;">
-                                                <li class="whitetext">Flipkart</li>
-                                                <li class="whitetext">Java Developer</li>
-                                                <li class="whitetext">Bangalore, Hyderabad</li>
-                                                <li class="whitetext"> 4-5 Years </li>
+                                                <li class="whitetext">{{vm.selectedJobDetail.clientName}}</li>
+                                                <li class="whitetext">{{vm.selectedJobDetail.designation}}</li>
+                                                <li>
+                                                    <span ng-repeat="elem in vm.selectedJobDetail.locations"><span ng-if="$index != 0">,&nbsp;</span>{{elem}}</span>
+                                                </li>
+                                                <li> {{vm.selectedJobDetail.minExp}}-{{vm.selectedJobDetail.maxExp}} Years </li>
                                             </ol>
-                                            <!--                          <form action="#" class="pull-right position">
-                                                                          <div class="input-append">
-                                                                              <input type="text" class="sr-input" placeholder="Search Mail">
-                                                                              <button class="btn sr-btn" type="button"><i class="fa fa-search"></i></button>
-                                                                          </div>
-                                                                      </form>-->
                                         </div>
                                         <form action="" class="form-horizontal" novalidate="novalidate">
                                             <div class="pad10 ml10 white-background border-grey">
                                                 <div class="form-group">
                                                     <div class="col-sm-12">
-                                                        <select id="select21" class="form-control" style="width: 100%" data-placeholder="SPOC Mail ID" multiple>
-                                                            <option value="option1">abc@gmail.com</option>
-                                                            <option value="option1">xyz@gmail.com</option>
-                                                            <option value="option1">test@gmail.com</option>
+                                                    <input type="text" name="" ng-model="vm.clientInfo.emailId" class="form-control" placeholder="SPOC Mail ID" required />
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <div class="col-sm-12">
+                                                        <select id="select46" class="form-control" ng-model="vm.clientInfo.jobLocations" style="width: 100%" data-placeholder="Job Location" multiple>
+                                                            <option ng-repeat="location in vm.clientInfo.jobLocations" value="{{location}}">{{location}}</option>
                                                         </select>
                                                     </div>
                                                 </div>
+
                                                 <div class="form-group">
                                                     <div class="col-sm-12">
-                                                        <select id="select46" class="form-control" style="width: 100%" data-placeholder="Job Location" multiple>
-                                                            <option value="option1">option1</option>
-                                                            <option value="option2">option2</option>
-                                                            <option value="option3">option3</option>
+                                                        <select id="select47" ng-model="vm.clientInfo.clientLocations" class="form-control" style="width: 100%" data-placeholder="Address" multiple>
+                                                            <option ng-repeat="location in vm.clientInfo.clientLocations" value="{{location}}">{{location}}</option>
                                                         </select>
                                                     </div>
                                                 </div>
+
                                                 <div class="form-group">
                                                     <div class="col-sm-12">
-                                                        <select id="select47" class="form-control" style="width: 100%" data-placeholder="Address" multiple>
-                                                            <option value="option1">option1</option>
-                                                            <option value="option2">option2</option>
-                                                            <option value="option3">option3</option>
-                                                        </select>
+                                                        <input ng-model="vm.clientInfo.clientURL" type="text" name="" class="form-control" placeholder="Client’s URL" required />
                                                     </div>
                                                 </div>
+
                                                 <div class="form-group">
                                                     <div class="col-sm-12">
-                                                        <input type="text" name="" class="form-control" placeholder="Client’s URL" required />
+                                                        <textarea ng-model="vm.clientInfo.otherInfo" rows="3" class="form-control" placeholder="Other Information" required=""></textarea>
                                                     </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <div class="col-sm-12">
-                                                        <textarea rows="3" class="form-control" placeholder="Other Information" required=""></textarea>
-                                                    </div>
-                                                </div>
+                                                </div>     
+
                                                 <div class="modal-footer text-center">
                                                     <div class="col-md-3 no-float center-div ">
-                                                        <button type="button" class="btn btn-success btn-block btn-quirk text-center">Apply</button>
+                                                        <button ng-click="vm.updateClientInfo()" type="button" class="btn btn-success btn-block btn-quirk text-center">Apply</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -484,7 +402,11 @@ $('.expanderclient').click(function() {
     $('#headdiv1').toggle();
 });
 
-
+ $("#select21").select2({tags: true});
+ $("#select46").select2({tags: true});
+ $("#select47").select2({tags: true});
+ $("#select21").select2({tags: true});
+ $("#select21").select2({tags: true});
 function toggleTextEdit() {
 
     var Disabled = document.getElementById("txtBox").disabled;
@@ -521,22 +443,6 @@ function loadpage(page_type) {
         document.getElementById("txtBox").disabled = false;
 
     }
-}
-
-function loadTemplate(page_type) {
-    // if ('job_invite' == page_type) {
-    //     document.getElementById('enableTxtClient').style.display = "none";
-    //     document.getElementById('enableEditclient').style.display = "block";
-    //     document.getElementById("txtEditClient1").disabled = true;
-
-    // }
-    // if ('new_format' == page_type) {
-    //     $('#enableTxtClient').html("<i class='fa fa-plus-square' aria-hidden='true'></i>");
-    //     document.getElementById('enableTxtClient').style.display = "block";
-    //     document.getElementById('enableEditclient').style.display = "none";
-    //     document.getElementById("txtEditClient1").disabled = false;
-
-    // }
 }
 
 function toggleTextClient() {

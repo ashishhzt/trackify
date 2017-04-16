@@ -38,7 +38,7 @@
                                 <a data-toggle="modal" data-target="#movetoactive" class="btn btn-success btn-xs btn-quirk" ng-if="vm.sideMenuState.status=='inactive'"><i class="fa fa-check-square-o" aria-hidden="true"></i>Move to active</a>
                                 <span ng-include src="'partials/job.new-resume.move-to-active.html'" ng-if="vm.sideMenuState.status=='inactive'"></span>
                                 <a data-toggle="modal" ng-click="vm.fetchMailCount('job');vm.fetchMailsForJob('INBOX')" data-target="#mailsnew" class="btn btn-success btn-xs btn-quirk"><i class="fa fa-envelope" aria-hidden="true"></i> Mails- {{vm.selectedJobDetail.mailCount}}</a>
-                                <a data-toggle="modal" data-target="#settings1" ng-click="vm.fetchClients()" class="btn btn-success btn-xs btn-quirk"><i class="fa fa-cog" aria-hidden="true"></i> Settings</a>
+                                <a data-toggle="modal" data-target="#settings1" ng-click="vm.fetchClients();vm.resetContainer();" class="btn btn-success btn-xs btn-quirk"><i class="fa fa-cog" aria-hidden="true"></i> Settings</a>
                                 <a data-toggle="modal" data-target="#viewjd" data-toggle="modal" class="btn btn-success btn-xs btn-quirk" ng-click="vm.openViewJd();"><i class="fa fa-eye" aria-hidden="true"></i> View JD
                                 </a>
                                 <span ng-include src="'partials/view-jd.html'"></span>
