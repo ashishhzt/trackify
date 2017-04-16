@@ -682,58 +682,100 @@ export const getAllActiveJobs = function(req, res) {
 };
 
 export const getSimilarJobs = function(req, res) {
+    // REQUEST_BODY: candidateId
 
-    // var primarySkill = (req.body.primarySkill+"").toUpperCase();
-    // var designation = (req.body.designation+"").toUpperCase();
-    // var experience = req.body.experience;
-
-    // if(primarySkill && designation && experience){
-    //     var query = "select j.JOB_ID as jobId,j.USER_ID as userId,u.NAME as userName,c.CLIENT_NAME as clientName,j.CLIENT_ID as clientId,j.DESIGNATION as designation from job j, client c, user u, job_skills as js where j.CLIENT_ID=c.CLIENT_ID and j.USER_ID=u.USER_ID and j.PRIMARY_SKILL=js.JOB_SKILL_ID and js.SKILL='"+primarySkill+"' and j.DESIGNATION='"+designation+"' and (j.MIN_EXP <= "+experience+" or j.MAX_EXP >= "+experience+");";
-    //     db.query(query, function(error, records) {
-    //         if (error) {
-    //             console.log(error);
-    //             return res.status(400).send("ERROR");
-    //         }
-    //         res.json({ "data": records });
-    //     });
-    // } else {
-    //     res.json({"message": "BAD REQUEST"});
-    // }
     let db = mongoutil.getDb();
-
-    var collection = db.collection('job');
+    let candidateCol =  db.collection('candidate');
+    let jobCol =  db.collection('job');
+    
     var response;
-    // var primarySkill = /^+req.body.primarySkill+$/i;
-    db.collection('candidate').find({ _id: req.body.candidateId }, { "jobs.jobId": 1 }).toArray(function(err, candidates) {
+    
+    candidateCol.find({ _id: req.body.candidateId },
+                     {
+                         "experience": 1,
+                         "current_ctc": 1,
+                         "key_skills":1,
+                         "designation":1,
+                         "jobs.jobId": 1 
+                        }).toArray(function(err, candidates) {
         if (err) {
             res.send({ "message": "BAD REQUEST" });
-        }
-        var jobArray = [];
-        if (candidates.length > 0) {
-            if (candidates[0].jobs) {
-                if (candidates[0].jobs.length > 0) {
-                    candidates[0].jobs.map(function(itm, i) {
-                        jobArray.push(itm.jobId);
-                    });
+        } else {
+            let jobArray = [];
+            let ctc = 0;
+            let experience = 0;
+            let primarySkill = "";
+            let designation = "";
+            if (candidates.length > 0) {
+                let ctcTemp = parseFloat(candidates[0].current_ctc);
+                ctc = (isNaN(ctcTemp))?(0):(ctcTemp);
+                experience = (candidates[0].experience)?(parseFloat(candidates[0].experience)):(0);
+                primarySkill = (candidates[0].key_skills != undefined || candidates[0].key_skills != null)?(candidates[0].key_skills.trim()):("");
+                designation = (candidates[0].designation != undefined || candidates[0].designation != null)?(candidates[0].designation.trim()):("");
+                
+                if (candidates[0].jobs) {
+                    if (candidates[0].jobs.length > 0) {
+                        candidates[0].jobs.map(function(itm, i) {
+                            jobArray.push(itm.jobId);
+                        });
+                    }
                 }
             }
+
+            jobCol.find({
+                primarySkill: primarySkill,
+                maxCtc: { $gt: ctc},
+                maxExp: { $gte: experience },
+                minExp: { $lte: experience },
+                designation: designation,
+                _id: { $nin: jobArray }
+            }).toArray(function(err, jobDocs) {
+                if (err) {
+                    res.send({"message": "BAD REQUEST"});
+                } else {
+                    response = (jobDocs)?({"data": jobDocs}):([]);
+                    res.send(response);
+                }
+            });
         }
-        collection.find({
-            primarySkill: req.body.primarySkill.toUpperCase(),
-            maxCtc: { $gt: req.body.maxCtc },
-            maxExp: { $gt: req.body.maxExp },
-            minExp: { $lt: req.body.minExp },
-            designation: req.body.designation,
-            _id: { $nin: jobArray }
-        }).toArray(function(err, jobDocs) {
-            if (err) {
-                //response = err;
-                res.status(400).send("ERROR");
-            }
-            response = { "data": jobDocs };
-            res.send(response);
-        });
     })
+};
+
+export const saveApplyToSimilarJob = function(req, res) {
+    // REQUEST_BODY: candidateId, jobId, recruiterId
+
+    if(req.body.candidateId && req.body.jobId && req.body.recruiterId) {
+         var arrElem = {
+            "jobId": req.body.jobId,
+            "status": "NEW RESUME",
+            "stage": "NEW",
+            "userId": req.body.recruiterId,
+            "active": true,
+            "timestamp": (new Date()).toMysqlFormat(),
+            "interview": {},
+            "statusChangedBy": req.body.recruiterId,
+            "statusInputs": []
+        };
+        let db = mongoutil.getDb();
+        let collection = db.collection('candidate');
+        collection.updateOne({ "_id": req.body.candidateId}, {
+            $push: {
+                "jobs": arrElem
+            }
+        }, function(err, result) {
+            if (err) {
+                res.send({"message": "ERROR", "description": err});
+            } else {
+                if (result.result.nModified) {
+                    res.send({"message": "SUCCESS"});
+                } else {
+                    res.send({"message": "FAILURE"});
+                }
+            }
+        });
+    } else {
+        res.send({"message": "BAD REQUEST"});
+    }
 };
 
 export const moveToActiveJob = function(req, res) {

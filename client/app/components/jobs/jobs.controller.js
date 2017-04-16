@@ -489,8 +489,35 @@ class JobsController {
         });
     };
 
-    getSimilarJobsData() {
-        //TODO
+    getSimilarJobsData(candidateId) {
+        SERVICE.get(this).getSimilarJobsData({"candidateId": candidateId}).then(response => {
+            if(response.message === "BAD REQUEST"){
+                console.log("\getSimilarJobsData: BAD REQUEST");
+                this.similarJobsList = [];
+            } else {
+                this.similarJobsList = response.data;
+            }
+        }, error => {
+            this.similarJobsList = [];
+            console.log("\getSimilarJobsData: ERROR - "+response);
+        });
+    }
+
+    applySimilarJobs(jobId) {
+        var reqData = {
+            "candidateId": this.selectedCandidate._id,
+            "jobId": jobId,
+            "recruiterId": this.userId
+       }
+       SERVICE.get(this).saveApplyToSimilarJob(reqData).then(response => {
+            if(response.message === "BAD REQUEST"){
+                console.log("\saveApplyToSimilarJob: BAD REQUEST");
+            } else {
+                this.getSimilarJobsData(reqData.candidateId);
+            }
+        }, error => {
+            console.log("\saveApplyToSimilarJob: ERROR - "+response);
+        });
     }
 
     sendMessage(jobId, candidateId) {
@@ -661,6 +688,9 @@ class JobsController {
         }, error => {
             console.log(error);
         });
+
+        // Get Similar resumes
+        this.getSimilarJobsData(candidateId);
 
         // To get feed job records
         this.getFeedJobData();

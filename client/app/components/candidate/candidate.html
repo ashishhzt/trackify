@@ -19,7 +19,7 @@
                         <div class="panel-body text-center no-padding">
                             <ul class="nav nav-tabs nav-line tabview">
                                 <li class="active"><a data-target="#first" data-toggle="tab"><strong>Internal Data <span id="badge">({{vm.allCandidateCount}})</span></strong></a></li>
-                                <li><a data-target="#second" data-toggle="tab"><strong>Social Data <span id="badge">(32,904)</span></strong></a></li>
+                                <!--<li><a data-target="#second" data-toggle="tab"><strong>Social Data <span id="badge">(32,904)</span></strong></a></li>-->
                                 <li style="float:right">
                                     <ul class="unstyled inbox-pagination">
                                         <li><span>{{vm.idSkip+1}}-{{(vm.idSkip>50)?(vm.idSkip+51):(vm.allCandidateCount)}} of {{vm.allCandidateCount}}</span></li>
@@ -44,7 +44,7 @@
                                             <span ng-include src="'partials/candidate.internal-data.filter.html'"></span>
                                             <a data-toggle="modal" data-target="#internaldata_movetoactive" class="btn btn-success btn-xs btn-quirk"><i class="fa fa-user-plus" aria-hidden="true"></i> Move to Active Jobs</a>
                                             <!--<span ng-include src="'partials/candidate.internal-data.move-to-active-jobs.html'"></span>-->
-                                            <a data-toggle="modal" data-target="#internaldata_addstatus" class="btn btn-success btn-xs btn-quirk"><i class="fa fa-plus-square" aria-hidden="true"></i> Status</a>
+                                            <!--<a data-toggle="modal" data-target="#internaldata_addstatus" class="btn btn-success btn-xs btn-quirk"><i class="fa fa-plus-square" aria-hidden="true"></i> Status</a>-->
                                             <span ng-include src="'partials/candidate.internal-data.status.html'"></span>
                                             <button class="btn btn-success btn-xs btn-quirk"><i class="fa fa-envelope" aria-hidden="true"></i> Send</button>
                                         </div>
@@ -139,9 +139,9 @@
                                     <a class="btn btn-success btn-xs btn-quirk" data-toggle="modal" data-target="#candidate-resume-upload"><i class="fa fa-upload" aria-hidden="true"></i> Resume</a>
                                     <span ng-include src="'partials/job.candidate.new-resume.html'"></span>
                                     <a class="btn btn-success btn-xs btn-quirk" id="button8"><i class="fa fa-envelope" aria-hidden="true"></i> Send</a>
-                                    <a class="btn btn-success btn-xs btn-quirk" ng-if="vm.iDataLinkedInLink != 'NOT FOUND'" href="{{vm.iDataLinkedInLink}}" target="_blank">
+                                    <!--<a class="btn btn-success btn-xs btn-quirk" ng-if="vm.iDataLinkedInLink != 'NOT FOUND'" href="{{vm.iDataLinkedInLink}}" target="_blank">
                                         <i class="fa fa-linkedin-square" aria-hidden="true"></i>
-                                    </a>
+                                    </a>-->
                                     <!--                        <button class="btn btn-success btn-xs btn-quirk"><i class="fa fa-envelope" aria-hidden="true"></i> Mail</button>
                                                             <button class="btn btn-success btn-xs btn-quirk"><i class="fa fa-linkedin-square" aria-hidden="true"></i> In</button>-->
                                 </div>
