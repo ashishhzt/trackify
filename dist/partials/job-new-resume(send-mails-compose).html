@@ -3,14 +3,13 @@
         <form role="form" class="form-horizontal" ng-init="vm.email={}">
             <div class="form-group">
                 <div class="col-md-6">
-                    <select ng-change="vm.fetchEmailTemplates()" ng-model="vm.email.template" id="Choose_Template" class="form-control" style="width: 100%" data-placeholder="Choose Template">
+                    <select ng-change="vm.popuplateTemplate()" ng-model="vm.email.template" id="Choose_Template" class="form-control" style="width: 100%" data-placeholder="Choose Template">
                         <option value=""></option>
-                        <option value="template1">template1</option>
+                        <option ng-repeat="template in vm.templates" value="{{template.templateText}}">{{template.templateName}}</option>
                     </select>
                 </div>
                 <div class="col-md-6">
                     <select id="mail_From" ng-model="vm.email.from" class="form-control" style="width: 100%" data-placeholder="From">
-                        <option value="tarun1188@gmail.com">tarun1188@gmail.com</option>
                         <option value="tarun1188@gmail.com">tarun1188@gmail.com</option>
                     </select>
                 </div>

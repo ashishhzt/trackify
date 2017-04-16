@@ -1041,8 +1041,9 @@ class JobsController {
         console.log("we are handling attachments")
     }
 
-    fetchEmailTemplates() {
-        $('#mailtextarea').summernote('editor.insertText', 'Templalte text will come here.');
+    popuplateTemplate() {
+         $('#mailtextarea').code("");
+        $('#mailtextarea').summernote('editor.insertText', this.email.template );
     }
 
     predictEmail() {
