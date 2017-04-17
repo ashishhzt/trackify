@@ -681,6 +681,27 @@ export const getAllActiveJobs = function(req, res) {
 
 };
 
+export const getTrackerFormatForJob = function(req, res) {
+    // REQUEST_BODY: jobId
+
+    if(req.body.jobId) {
+        let db = mongoutil.getDb();
+        let jobCol =  db.collection('job');
+        let responseData;
+        
+        jobCol.find({_id: req.body.jobId}, {trackerFormats: 1}).toArray(function(err, jobDocs) {
+                    if (err) {
+                        res.send({"message": "ERROR", "description": err});
+                    } else {
+                        responseData = (jobDocs && jobDocs.length==1)?((jobDocs[0].trackerFormats)?(jobDocs[0].trackerFormats):([])):([]);
+                        res.send(responseData);
+                    }
+                });
+    } else {
+        res.send({"message": "BAD REQUEST"});
+    }
+}
+
 export const getSimilarJobs = function(req, res) {
     // REQUEST_BODY: candidateId
 

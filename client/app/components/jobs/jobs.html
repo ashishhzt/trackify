@@ -80,7 +80,7 @@
                                             <a data-toggle="modal" data-target="#addstatus" ng-click="vm.checkedCandidateCount()" class="btn btn-success btn-xs btn-quirk"><i class="fa fa-plus-square" aria-hidden="true"></i> Status</a>
                                             <span ng-include src="'partials/job.new-resume.status.html'" ng-if="vm.checkedCandidateNum !== 0"></span>
                                             <!--<a data-toggle="modal" data-target="#sendmail"  class="btn btn-success btn-xs btn-quirk"><i class="fa fa-envelope" aria-hidden="true"></i> Send</a>-->
-                                            <!--<button class="btn btn-success btn-xs btn-quirk"><i class="fa fa-download" aria-hidden="true"></i> Excel</button>-->
+                                            <button class="btn btn-success btn-xs btn-quirk" ng-click="vm.exportDataInExcelFormat()"><i class="fa fa-download" aria-hidden="true"></i> Excel</button>
                                         </div>
                                     </div>
                                     <div class="clear"></div>
@@ -101,7 +101,7 @@
                                         <a data-toggle="modal" data-target="#shortliststatus" ng-click="vm.checkedCandidateCount()" class="btn btn-success btn-xs btn-quirk"><i class="fa fa-plus-square" aria-hidden="true"></i> status</a>
                                         <span ng-include src="'partials/job.shortlist.status.html'" ng-if="vm.checkedCandidateNum !== 0"></span>
                                         <!--<button class="btn btn-success btn-xs btn-quirk"><i class="fa fa-envelope" aria-hidden="true"></i> Send</button>-->
-                                        <!--<button class="btn btn-success btn-xs btn-quirk"><i class="fa fa-download" aria-hidden="true"></i> Excel</button>-->
+                                        <button class="btn btn-success btn-xs btn-quirk" ng-click="vm.exportDataInExcelFormat()"><i class="fa fa-download" aria-hidden="true"></i> Excel</button>
                                     </div>
                                     <div class="clear"></div>
                                     <br>
@@ -122,7 +122,7 @@
                                         <a data-toggle="modal" data-target="#addstatusinterview" ng-click="vm.checkedCandidateCount()" class="btn btn-success btn-xs btn-quirk"><i class="fa fa-plus-square" aria-hidden="true"></i> status</a>
                                         <span ng-include src="'partials/job.interview.status.html'" ng-if="vm.checkedCandidateNum !== 0"></span>
                                         <!--<button class="btn btn-success btn-xs btn-quirk"><i class="fa fa-envelope" aria-hidden="true"></i> Send</button>-->
-                                        <!--<button class="btn btn-success btn-xs btn-quirk"><i class="fa fa-download" aria-hidden="true"></i> Excel</button>-->
+                                        <button class="btn btn-success btn-xs btn-quirk" ng-click="vm.exportDataInExcelFormat()"><i class="fa fa-download" aria-hidden="true"></i> Excel</button>
                                     </div>
                                     <div class="clear"></div>
                                     <br>
@@ -139,7 +139,7 @@
                                         <a data-toggle="modal" data-target="#offerstatus" ng-click="vm.checkedCandidateCount()" class="btn btn-success btn-xs btn-quirk"><i class="fa fa-plus-square" aria-hidden="true"></i> status</a>
                                         <span ng-include src="'partials/job.offer.status.html'" ng-if="vm.checkedCandidateNum !== 0"></span>
                                         <!--<button class="btn btn-success btn-xs btn-quirk"><i class="fa fa-envelope" aria-hidden="true"></i> Send</button>-->
-                                        <!--<button class="btn btn-success btn-xs btn-quirk"><i class="fa fa-download" aria-hidden="true"></i> Excel</button>-->
+                                        <button class="btn btn-success btn-xs btn-quirk" ng-click="vm.exportDataInExcelFormat()"><i class="fa fa-download" aria-hidden="true"></i> Excel</button>
                                     </div>
                                     <div class="clear"></div>
                                     <br>
@@ -155,7 +155,7 @@
                                         <a data-toggle="modal" data-target="#Absconding" class="btn btn-success btn-xs btn-quirk"><i class="fa fa-user-times" aria-hidden="true"></i> Absconding</a>
                                         <span ng-include src="'partials/job.joined.absconding.html'"></span>
                                         <button class="btn btn-success btn-xs btn-quirk"><i class="fa fa-envelope" aria-hidden="true"></i> Mail</button>
-                                        <!--<button class="btn btn-success btn-xs btn-quirk"><i class="fa fa-download" aria-hidden="true"></i> Excel</button>-->
+                                        <button class="btn btn-success btn-xs btn-quirk" ng-click="vm.exportDataInExcelFormat()"><i class="fa fa-download" aria-hidden="true"></i> Excel</button>
                                     </div>
                                     <div class="clear"></div>
                                     <br>

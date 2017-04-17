@@ -3,7 +3,7 @@ import uiRouter from 'angular-ui-router';
 import ngSanitize from 'angular-sanitize'
 import jobsComponent from './jobs.component';
 import service from './jobs.service';
-import shareData from './jobs.service.data'
+import shareData from './jobs.service.data';
 import fileModelDirective from './jobs.directive';
 import trustAsResourceUrlFilter from './jobs.filter';
 

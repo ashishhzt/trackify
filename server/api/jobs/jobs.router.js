@@ -27,6 +27,8 @@ JobsRouter.post('/addInterviewDate', verifyUser, controller.addInterviewDate);
 
 JobsRouter.get('/getAllActiveJobs', controller.getAllActiveJobs);
 
+JobsRouter.post('/getTrackerFormatForJob', controller.getTrackerFormatForJob);
+
 JobsRouter.post('/getSimilarJobs', controller.getSimilarJobs);
 
 JobsRouter.post('/saveApplyToSimilarJob', controller.saveApplyToSimilarJob);
