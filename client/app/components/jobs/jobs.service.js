@@ -53,8 +53,14 @@ class jobsService {
         return HTTP.get(this).get(`/api/jobs/candidateDetails/${candidateId}`).then(result => result.data);
     }
 
+    getTrackerFormatForJob(reqData) {
+        return HTTP.get(this).post("/api/jobs/getTrackerFormatForJob", reqData).then(result => result.data);
+    }
     getSimilarJobsData(reqData) {
         return HTTP.get(this).post("/api/jobs/getSimilarJobs", reqData).then(result => result.data);
+    }
+    saveApplyToSimilarJob(reqData) {
+        return HTTP.get(this).post("/api/jobs/saveApplyToSimilarJob", reqData).then(result => result.data);
     }
 
     feedJobData(candidateId) {

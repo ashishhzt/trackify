@@ -79,8 +79,8 @@
                                             <span ng-include src="'partials/job.new-resume.filter.html'"></span>
                                             <a data-toggle="modal" data-target="#addstatus" ng-click="vm.checkedCandidateCount()" class="btn btn-success btn-xs btn-quirk"><i class="fa fa-plus-square" aria-hidden="true"></i> Status</a>
                                             <span ng-include src="'partials/job.new-resume.status.html'" ng-if="vm.checkedCandidateNum !== 0"></span>
-                                            <a data-toggle="modal" data-target="#sendmail"  class="btn btn-success btn-xs btn-quirk"><i class="fa fa-envelope" aria-hidden="true"></i> Send</a>
-                                            <button class="btn btn-success btn-xs btn-quirk"><i class="fa fa-download" aria-hidden="true"></i> Excel</button>
+                                            <!--<a data-toggle="modal" data-target="#sendmail"  class="btn btn-success btn-xs btn-quirk"><i class="fa fa-envelope" aria-hidden="true"></i> Send</a>-->
+                                            <button class="btn btn-success btn-xs btn-quirk" ng-click="vm.exportDataInExcelFormat()"><i class="fa fa-download" aria-hidden="true"></i> Excel</button>
                                         </div>
                                     </div>
                                     <div class="clear"></div>
@@ -100,8 +100,8 @@
                                         <span ng-include src="'partials/job.shortlist.filter.html'"></span>
                                         <a data-toggle="modal" data-target="#shortliststatus" ng-click="vm.checkedCandidateCount()" class="btn btn-success btn-xs btn-quirk"><i class="fa fa-plus-square" aria-hidden="true"></i> status</a>
                                         <span ng-include src="'partials/job.shortlist.status.html'" ng-if="vm.checkedCandidateNum !== 0"></span>
-                                        <button class="btn btn-success btn-xs btn-quirk"><i class="fa fa-envelope" aria-hidden="true"></i> Send</button>
-                                        <button class="btn btn-success btn-xs btn-quirk"><i class="fa fa-download" aria-hidden="true"></i> Excel</button>
+                                        <!--<button class="btn btn-success btn-xs btn-quirk"><i class="fa fa-envelope" aria-hidden="true"></i> Send</button>-->
+                                        <button class="btn btn-success btn-xs btn-quirk" ng-click="vm.exportDataInExcelFormat()"><i class="fa fa-download" aria-hidden="true"></i> Excel</button>
                                     </div>
                                     <div class="clear"></div>
                                     <br>
@@ -121,8 +121,8 @@
                                         <span ng-include src="'partials/job.interview.filter.html'"></span>
                                         <a data-toggle="modal" data-target="#addstatusinterview" ng-click="vm.checkedCandidateCount()" class="btn btn-success btn-xs btn-quirk"><i class="fa fa-plus-square" aria-hidden="true"></i> status</a>
                                         <span ng-include src="'partials/job.interview.status.html'" ng-if="vm.checkedCandidateNum !== 0"></span>
-                                        <button class="btn btn-success btn-xs btn-quirk"><i class="fa fa-envelope" aria-hidden="true"></i> Send</button>
-                                        <button class="btn btn-success btn-xs btn-quirk"><i class="fa fa-download" aria-hidden="true"></i> Excel</button>
+                                        <!--<button class="btn btn-success btn-xs btn-quirk"><i class="fa fa-envelope" aria-hidden="true"></i> Send</button>-->
+                                        <button class="btn btn-success btn-xs btn-quirk" ng-click="vm.exportDataInExcelFormat()"><i class="fa fa-download" aria-hidden="true"></i> Excel</button>
                                     </div>
                                     <div class="clear"></div>
                                     <br>
@@ -138,8 +138,8 @@
                                         <span ng-include src="'partials/job.offer.filter.html'"></span>
                                         <a data-toggle="modal" data-target="#offerstatus" ng-click="vm.checkedCandidateCount()" class="btn btn-success btn-xs btn-quirk"><i class="fa fa-plus-square" aria-hidden="true"></i> status</a>
                                         <span ng-include src="'partials/job.offer.status.html'" ng-if="vm.checkedCandidateNum !== 0"></span>
-                                        <button class="btn btn-success btn-xs btn-quirk"><i class="fa fa-envelope" aria-hidden="true"></i> Send</button>
-                                        <button class="btn btn-success btn-xs btn-quirk"><i class="fa fa-download" aria-hidden="true"></i> Excel</button>
+                                        <!--<button class="btn btn-success btn-xs btn-quirk"><i class="fa fa-envelope" aria-hidden="true"></i> Send</button>-->
+                                        <button class="btn btn-success btn-xs btn-quirk" ng-click="vm.exportDataInExcelFormat()"><i class="fa fa-download" aria-hidden="true"></i> Excel</button>
                                     </div>
                                     <div class="clear"></div>
                                     <br>
@@ -155,7 +155,7 @@
                                         <a data-toggle="modal" data-target="#Absconding" class="btn btn-success btn-xs btn-quirk"><i class="fa fa-user-times" aria-hidden="true"></i> Absconding</a>
                                         <span ng-include src="'partials/job.joined.absconding.html'"></span>
                                         <button class="btn btn-success btn-xs btn-quirk"><i class="fa fa-envelope" aria-hidden="true"></i> Mail</button>
-                                        <button class="btn btn-success btn-xs btn-quirk"><i class="fa fa-download" aria-hidden="true"></i> Excel</button>
+                                        <button class="btn btn-success btn-xs btn-quirk" ng-click="vm.exportDataInExcelFormat()"><i class="fa fa-download" aria-hidden="true"></i> Excel</button>
                                     </div>
                                     <div class="clear"></div>
                                     <br>
@@ -360,12 +360,12 @@
                                     <button class="btn btn-info btn-xs btn-quirk" style="float:left" ng-if="vm.selectedCandidate.jobs.status">{{vm.selectedCandidate.jobs.status}}</button>
                                     <button class="btn btn-info btn-xs btn-quirk" style="float:left;margin-left:3px;" ng-if="(vm.presentStage == 'SHORTLIST' || vm.presentStage == 'INTERVIEW') && vm.selectedCandidate.jobs.interview.round">Interview Round - {{vm.selectedCandidate.jobs.interview.round}}
                                         <span ng-if="[null, 'null'].indexOf(vm.selectedCandidate.jobs.interview.rescheduleReason) === -1"> (Re)</span></button>
-                                    <a class="btn btn-success btn-xs btn-quirk" data-toggle="modal" data-target="#Similar-Jobs"><i class="fa fa-info-circle" aria-hidden="true"></i> Similar Jobs - <span id="badge">{{vm.selectedCandidate.similarJobsCount}}</span></a>
+                                    <a class="btn btn-success btn-xs btn-quirk" data-toggle="modal" data-target="#Similar-Jobs"><i class="fa fa-info-circle" aria-hidden="true"></i> Similar Jobs - <span id="badge">{{vm.similarJobsList.length}}</span></a>
                                     <span ng-include src="'partials/job.similar-jobs.html'"></span>
                                     <a class="btn btn-success btn-xs btn-quirk" id="button8"><i class="fa fa-envelope" aria-hidden="true"></i> Send</a>
-                                    <a class="btn btn-success btn-xs btn-quirk" ng-if="vm.linkedInLink != 'NOT FOUND'" href="{{vm.linkedInLink}}" target="_blank">
+                                    <!--<a class="btn btn-success btn-xs btn-quirk" ng-if="vm.linkedInLink != 'NOT FOUND'" href="{{vm.linkedInLink}}" target="_blank">
                                         <i class="fa fa-linkedin-square" aria-hidden="true"></i>
-                                    </a>
+                                    </a>-->
                                     <!--                        <button class="btn btn-success btn-xs btn-quirk"><i class="fa fa-envelope" aria-hidden="true"></i> Mail</button>
                                                             <button class="btn btn-success btn-xs btn-quirk"><i class="fa fa-linkedin-square" aria-hidden="true"></i> In</button>-->
                                 </div>
@@ -823,9 +823,9 @@
 
                         <div class="panel-body text-center no-padding">
                             <ul class="nav nav-tabs nav-line tabview">
-                                <li class="active"><a data-target="#internal_data1" data-toggle="tab"><strong>Internal Data <span id="badge">({{vm.internalCandidateListCount}})</span></strong></a></li>
-                                <li><a data-target="#social_data1" data-toggle="tab"><strong>Social Data <span id="badge">(32,904)</span></strong></a></li>
-                                <li style="float:right">
+                                <li class="active"><a data-target="#internal_data1" data-toggle="tab"><strong>Internal Data <span id="badge">({{vm.internalCandidateListCount || 0}})</span></strong></a></li>
+                                <!--<li><a data-target="#social_data1" data-toggle="tab"><strong>Social Data <span id="badge">(32,904)</span></strong></a></li>-->
+                                <li style="float:right" ng-show="vm.internalCandidateListCount && vm.internalCandidateListCount > 0">
                                     <ul class="unstyled inbox-pagination">
                                         <li><span>1-{{vm.internalCandidateList.length}} of {{vm.internalCandidateListCount}}</span></li>
                                         <li>
@@ -842,14 +842,14 @@
                             <div class="tab-content">
                                 
                                 <!------------------First Tab------------------------>
-                                <div class="tab-pane active no-background" id="internal_data1">
+                                <div class="tab-pane active no-background" id="internal_data1" ng-show="vm.internalCandidateListCount && vm.internalCandidateListCount > 0">
                                     <div class="text-left mr10">
                                         <div class="pull-right text-right right-nav" style="margin: 0">
                                             <a data-toggle="modal" data-target="#internalfilter" class="btn btn-success btn-xs btn-quirk"><i class="fa fa-filter" aria-hidden="true"></i> Filter</a>
                                             <span ng-include src="'partials/candidate.internal-data.filter.html'"></span>
                                             <a data-toggle="modal" data-target="#movetoactive1" ng-click="vm.getSelectedIDCandidates()" class="btn btn-success btn-xs btn-quirk"><i class="fa fa-user-plus" aria-hidden="true"></i> Move to new resume</a>
                                             <span ng-include src="'partials/candidate.internal-data.move-to-active-jobs.html'" ng-if="vm.checkedIDCandidateNum !== 0"></span>
-                                            <a data-toggle="modal" data-target="#internaldata_addstatus" ng-click="vm.getSelectedIDCandidates()" class="btn btn-success btn-xs btn-quirk"><i class="fa fa-plus-square" aria-hidden="true"></i> Status</a>
+                                            <!--<a data-toggle="modal" data-target="#internaldata_addstatus" ng-click="vm.getSelectedIDCandidates()" class="btn btn-success btn-xs btn-quirk"><i class="fa fa-plus-square" aria-hidden="true"></i> Status</a>-->
                                             <span ng-include src="'partials/candidate.internal-data.status.html'" ng-if="vm.checkedIDCandidateNum !== 0"></span>
                                             <button class="btn btn-success btn-xs btn-quirk"><i class="fa fa-envelope" aria-hidden="true"></i> Send</button>
                                         </div>
@@ -865,7 +865,7 @@
                                         <div class="pull-right text-right right-nav" style="margin: 0">
                                             <a data-toggle="modal" data-target="#externalfilter" class="btn btn-success btn-xs btn-quirk"><i class="fa fa-filter" aria-hidden="true"></i> Filter</a>
                                             <a data-toggle="modal" data-target="#movetoactive" class="btn btn-success btn-xs btn-quirk"><i class="fa fa-user-plus" aria-hidden="true"></i> Move to new resume</a>
-                                            <a data-toggle="modal" data-target="#addstatus1" class="btn btn-success btn-xs btn-quirk"><i class="fa fa-plus-square" aria-hidden="true"></i> Status</a>
+                                            <!--<a data-toggle="modal" data-target="#addstatus1" class="btn btn-success btn-xs btn-quirk"><i class="fa fa-plus-square" aria-hidden="true"></i> Status</a>-->
                                             <button class="btn btn-success btn-xs btn-quirk"><i class="fa fa-envelope" aria-hidden="true"></i> Send</button>
                                             <!--<button class="btn btn-success btn-xs btn-quirk"><i class="fa fa-download" aria-hidden="true"></i> Excel</button>-->
                                         </div>
@@ -898,7 +898,7 @@
                             </div>
                         </div>-->
 
-                        <div class="col-md-3 list-view mCustomScrollbar white-background" data-mcs-theme="dark">
+                        <div class="col-md-3 list-view mCustomScrollbar white-background" data-mcs-theme="dark" ng-show="vm.internalCandidateListCount && vm.internalCandidateListCount > 0">
                             <h3 class="text-center text-head"  style="font-size: 21px;">Candidates</h3>
                             <div class="input-group input-search-contact mt10 border-grey">
                                 <input class="form-control" placeholder="Search contact" type="text" ng-model="vm.searchKeywordInternalData">
@@ -942,9 +942,9 @@
                                     <a class="btn btn-success btn-xs btn-quirk" data-toggle="modal" data-target="#candidate-resume-upload"><i class="fa fa-upload" aria-hidden="true"></i> Resume</a>
                                     <span ng-include src="'partials/job.candidate.new-resume.html'"></span>
                                     <a class="btn btn-success btn-xs btn-quirk" id="button8"><i class="fa fa-envelope" aria-hidden="true"></i> Send</a>
-                                    <a class="btn btn-success btn-xs btn-quirk" ng-if="vm.iDataLinkedInLink != 'NOT FOUND'" href="{{vm.iDataLinkedInLink}}" target="_blank">
+                                    <!--<a class="btn btn-success btn-xs btn-quirk" ng-if="vm.iDataLinkedInLink != 'NOT FOUND'" href="{{vm.iDataLinkedInLink}}" target="_blank">
                                         <i class="fa fa-linkedin-square" aria-hidden="true"></i>
-                                    </a>
+                                    </a>-->
                                 </div>
                             </div>
 

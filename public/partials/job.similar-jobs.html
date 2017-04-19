@@ -4,24 +4,30 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title modal-heading text-center" id="myModalLabel">Similar Jobs</h4>
+                <h4 class="modal-title modal-heading text-center" id="myModalLabel" style="color: #262b36">Similar Jobs</h4>
             </div>
             <div class="modal-body popupscroll mCustomScrollbar" data-mcs-theme="dark" style="text-align: left;">
                 <table id="exRowTable" class="table table-bordered table-striped-col">
                     <thead>
                         <tr>
-                            <th>Job</th>
-                            <th>Name</th>
-                            <th>Action</th>
-                            <th></th>
+                            <th style="background-color: #262b36;color: white">Job</th>
+                            <th style="background-color: #262b36;color: white">Designation</th>
+                            <th style="background-color: #262b36;color: white">Action</th>
                         </tr>
                     </thead>
+                    <tbody>
+                        <tr ng-repeat="row in vm.similarJobsList">
+                            <th ng-bind="row.clientName" style="font-weight: normal"></th>
+                            <th ng-bind="row.designation" style="font-weight: normal"></th>
+                            <th><button class="btn btn-success btn-xs btn-quirk" ng-click="vm.applySimilarJobs(row._id)">Apply</button></th>
+                        </tr>
+                    </tbody>
                 </table>
             </div>
-            <div class="modal-footer text-center">
+            <!--<div class="modal-footer text-center">-->
                 <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
-                <button type="button" class="btn btn-success width100 text-center">Apply</button>
-            </div>
+                <!--<button type="button" class="btn btn-success width100 text-center">Apply</button>-->
+            <!--</div>-->
         </div><!-- modal-content -->
     </div><!-- modal-dialog -->
 </div><!-- modal -->

@@ -1,4 +1,7 @@
+import excelDownload from './jsontocsv';
+
 const SERVICE = new WeakMap();
+
 const TRACKER_FORMATS = [{
     name: 'Name',
     key: 'candidateName',
@@ -489,8 +492,35 @@ class JobsController {
         });
     };
 
-    getSimilarJobsData() {
-        //TODO
+    getSimilarJobsData(candidateId) {
+        SERVICE.get(this).getSimilarJobsData({"candidateId": candidateId}).then(response => {
+            if(response.message === "BAD REQUEST"){
+                console.log("\getSimilarJobsData: BAD REQUEST");
+                this.similarJobsList = [];
+            } else {
+                this.similarJobsList = response.data;
+            }
+        }, error => {
+            this.similarJobsList = [];
+            console.log("\getSimilarJobsData: ERROR - "+response);
+        });
+    }
+
+    applySimilarJobs(jobId) {
+        var reqData = {
+            "candidateId": this.selectedCandidate._id,
+            "jobId": jobId,
+            "recruiterId": this.userId
+       }
+       SERVICE.get(this).saveApplyToSimilarJob(reqData).then(response => {
+            if(response.message === "BAD REQUEST"){
+                console.log("\saveApplyToSimilarJob: BAD REQUEST");
+            } else {
+                this.getSimilarJobsData(reqData.candidateId);
+            }
+        }, error => {
+            console.log("\saveApplyToSimilarJob: ERROR - "+response);
+        });
     }
 
     sendMessage(jobId, candidateId) {
@@ -661,6 +691,9 @@ class JobsController {
         }, error => {
             console.log(error);
         });
+
+        // Get Similar resumes
+        this.getSimilarJobsData(candidateId);
 
         // To get feed job records
         this.getFeedJobData();
@@ -1376,10 +1409,84 @@ class JobsController {
     parseDate(date) {
         return new Date(date).toLocaleString();
     }
+    exportDataInExcelFormat() {
+        let masterList = [
+                            "candidateName",
+                            "candidateEmail",
+                            "candidateContact",
+                            "experience",
+                            "employer",
+                            "designation",
+                            "college",
+                            "qualification",
+                            "key_skills",
+                            "ctcFixed",
+                            "ctcVariable",
+                            "ctcEsops",
+                            "eCTCFixed",
+                            "eCTCVariable",
+                            "eCTCEsops",
+                            "noticePeriod",
+                            "serveNotice",
+                            "location"
+                         ];
+        SERVICE.get(this).getTrackerFormatForJob({"jobId": this.selectedJobDetail._id}).then(response => {
+            let keyList = (response.length == 0)?masterList:response;
+            let candidateList = this.allCandidateDetail[this.presentStage];
+            let data = [];
 
+            for(let i=0; i<candidateList.length; i++){
+                var obj = {};
+                for(let j=0; j<keyList.length; j++){
+                    let val = candidateList[i][keyList[j]];
+                    if("candidateName" == keyList[j]){
+                        obj["Candidate Name"] = (val)?(val):"-";
+                    } else if("candidateEmail" == keyList[j]) {
+                        obj["Candidate Email"] = (val)?(val):"-";
+                    } else if("candidateContact" == keyList[j]) {
+                        obj["Candidate Contact"] = (val)?(val):"-";
+                    } else if("experience" == keyList[j]) {
+                        obj["Experience"] = (val)?(val):"-";
+                    } else if("employer" == keyList[j]) {
+                        obj["Employer"] = (val)?(val):"-";
+                    } else if("designation" == keyList[j]) {
+                        obj["Designation"] = (val)?(val):"-";
+                    } else if("college" == keyList[j]) {
+                        obj["College"] = (val)?(val):"-";
+                    } else if("qualification" == keyList[j]) {
+                        obj["Qualification"] = (val)?(val):"-";
+                    } else if("key_skills" == keyList[j]) {
+                        obj["Key Skills"] = (val)?(val):"-";
+                    } else if("ctcFixed" == keyList[j]) {
+                        obj["CTC Fixed"] = (val)?(val):"-";
+                    } else if("ctcVariable" == keyList[j]) {
+                        obj["CTC Variable"] = (val)?(val):"-";
+                    } else if("ctcEsops" == keyList[j]) {
+                        obj["CTC ESOPS"] = (val)?(val):"-";
+                    } else if("eCTCFixed" == keyList[j]) {
+                        obj["eCTC Fixed"] = (val)?(val):"-";
+                    } else if("eCTCVariable" == keyList[j]) {
+                        obj["eCTC Variable"] = (val)?(val):"-";
+                    } else if("eCTCEsops" == keyList[j]) {
+                        obj["eCTC ESOPS"] = (val)?(val):"-";
+                    } else if("noticePeriod" == keyList[j]) {
+                        obj["Notice Period"] = (val)?(val):"-";
+                    } else if("serveNotice" == keyList[j]) {
+                        obj["Serve Notice"] = (val)?(val):"-";
+                    } else if("location" == keyList[j]) {
+                        obj["Location"] = (val)?(val):"-";
+                    }
+                }
+                data.push(obj);
+            }
+            excelDownload(data, "Jobs_"+this.selectedJobDetail.clientName+"_"+this.selectedJobDetail.designation+"_"+this.presentStage+"_"+(new Date()).toLocaleDateString(), true);
+        }, error => {
+            console.log(error);
+        });
+    }
 }
 
 
-JobsController.$inject = ['$rootScope', 'AuthFactory', 'jobsService', 'shareData', 'newJobService']
+JobsController.$inject = ['$rootScope', 'AuthFactory', 'jobsService', 'shareData', 'newJobService'];
 
 export default JobsController;
