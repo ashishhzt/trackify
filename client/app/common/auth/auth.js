@@ -16,7 +16,7 @@ let authModule = angular.module('app.auth', [
     });
 
     $authProvider.google({
-      clientId: '1039548266094-fhiahs27oh0al2nhj04nausngfhp5koo.apps.googleusercontent.com'
+      clientId: '51204822205-5s6749d9rd2ap96juooc1351k5825slc.apps.googleusercontent.com'
     });
 
     $authProvider.github({
