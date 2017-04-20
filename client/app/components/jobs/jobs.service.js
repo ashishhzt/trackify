@@ -140,7 +140,6 @@ class jobsService {
 
     downloadAttachment(details) {
         return HTTP.get(this).post('api/mailer/downloadAttachment', details).then(result => result.data);
-
     }
 
     fetchTemplates(params) {

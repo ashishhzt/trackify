@@ -1,21 +1,16 @@
-
 <section ng-init="vm.initJobs()">
-
-    <div ng-include src="'partials/candidate.side-menu.html'"></div>
-    <span ng-include src="'partials/job(mail-slide).html'"></span>
+    <!-- <div ng-include src="'partials/candidate.side-menu.html'"></div> -->
+    <div ng-include src="'partials/side-menu-directive.tpl.html'"></div>
     <div class="mainpanel">
-
+        <span ng-include src="'partials/job(mail-slide).html'"></span>
+        <span ng-include src="'partials/job-new-resume(send-mails).html'"></span>
+        <span ng-include src="'partials/job(mail-popup).html'"></span>
+        <span ng-include src="'partials/job-new-resume(send-mails-compose).html'"></span>
         <div class="contentpanel">
-
-
-
             <!-- content goes here... -->
             <div class="row">
-
-
-                <div class="col-md-12 col-lg-12 dash-left">
+                <div class="col-md-12 col-lg-12 dash-left" ng-show="vm.inbox.currentView == undefined">
                     <div class="panel panel-announcement no-background">
-
                         <div class="panel-body text-center no-padding">
                             <ul class="nav nav-tabs nav-line tabview">
                                 <li class="active"><a data-target="#first" data-toggle="tab"><strong>Internal Data <span id="badge">({{vm.allCandidateCount}})</span></strong></a></li>
@@ -32,9 +27,6 @@
                                     </ul>
                                 </li>
                             </ul>
-
-
-
                             <div class="tab-content">
                                 <!------------------First Tab------------------------>
                                 <div class="tab-pane active no-background" id="first">
@@ -52,9 +44,7 @@
                                     <div class="clear"></div>
                                     <br>
                                 </div>
-
                                 <!------------------End First Tab------------------------>
-
                                 <!------------------Second Tab------------------------>
                                 <div class="tab-pane no-background" id="second">
                                     <div class="text-left mr10">
@@ -73,13 +63,8 @@
                                     <br>
                                 </div>
                                 <!------------------End Second Tab------------------------>
-
-
-
                             </div>
-
                         </div>
-
                         <!--<div class="panel-body text-center no-padding selectedfilter">
                             <div class="alert alert-success width100 leftdiv">
                                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -96,24 +81,21 @@
                                 <strong>Filter3</strong>
                             </div>
                         </div>-->
-
                         <div class="col-md-3 list-view mCustomScrollbar white-background" data-mcs-theme="dark">
                             <h3 class="text-center text-head" style="font-size: 21px;">Candidates</h3>
                             <div class="input-group input-search-contact mt10 border-grey">
                                 <input class="form-control" placeholder="Search contact" type="text" ng-model="vm.searchTextOnCandidates">
-                                        <span class="input-group-btn">
+                                <span class="input-group-btn">
                                             <button class="btn btn-default" type="button"><i class="fa fa-search"></i></button>
                                         </span>
                             </div>
-
                             <div class="chk-all">
                                 <label class="ckbox ckbox-success">
                                     <input type="checkbox" ng-change="vm.checkAllIDCandidate()" ng-model="vm.flagCheckAllIDCandidate"><span>All</span>
                                 </label>
                             </div>
                             <div class="clear"></div>
-                            <div class="list" ng-repeat="row in vm.allCandidateDetails | filter: vm.searchTextOnCandidates"
-                                ng-click="vm.internalDataCandidateDetailsFunction(row._id)" onclick="disableContent();">
+                            <div class="list" ng-repeat="row in vm.allCandidateDetails | filter: vm.searchTextOnCandidates" ng-click="vm.internalDataCandidateDetailsFunction(row._id)" onclick="disableContent();">
                                 <label class="col-sm-1 ckbox2 ckbox ckbox-success">
                                     <input type="checkbox" ng-model="vm.checkIDCandidateList[$index]"><span></span>
                                 </label>
@@ -132,8 +114,6 @@
                                 </h3>
                                 <h4 style="text-transform: capitalize;">{{vm.iDataCandidateDetails.employer || '-' | lowercase }}</h4>
                                 <h4>{{vm.iDataCandidateDetails.college || '-'}}</h4>
-
-
                                 <div class="text-right right-nav" style="margin: 0">
                                     <button class="btn btn-info btn-xs btn-quirk" style="float:left">Awaiting resume</button>
                                     <a class="btn btn-success btn-xs btn-quirk" data-toggle="modal" data-target="#candidate-resume-upload"><i class="fa fa-upload" aria-hidden="true"></i> Resume</a>
@@ -146,7 +126,6 @@
                                                             <button class="btn btn-success btn-xs btn-quirk"><i class="fa fa-linkedin-square" aria-hidden="true"></i> In</button>-->
                                 </div>
                             </div>
-
                             <div class="body-tab">
                                 <div class="border-grey white-background">
                                     <ul class="nav nav-tabs nav-justified nav-inverse" style="border-bottom: 1px solid #dddddd;">
@@ -154,31 +133,25 @@
                                         <li><a data-target="#detail1" data-toggle="tab"><strong><i class="fa fa-file-text" aria-hidden="true"></i> Details</strong></a></li>
                                         <li><a data-target="#feed1" data-toggle="tab"><strong><i class="fa fa-rss" aria-hidden="true"></i> Feed <span id="num">({{(vm.iDataFeedJobRecords.currentJobs.length+vm.iDataFeedJobRecords.previousJobs.length) || 0}})</span></strong></a></li>
                                     </ul>
-
                                     <!-- Tab panes -->
                                     <div class="tab-content">
                                         <div class="tab-pane active popupscroll mCustomScrollbar" data-mcs-theme="dark" id="resume1">
-                                            <div class="col-md-12" ng-if="vm.iDataResumeFileMetadata.isResumeFound" >
+                                            <div class="col-md-12" ng-if="vm.iDataResumeFileMetadata.isResumeFound">
                                                 <iframe id="frame" ng-src="{{vm.iDataResumeFileMetadata.pathURL | trustAsResourceUrl}}" style="width:100%; height:390px;" frameborder="0"></iframe>
-                                            </div>  
+                                            </div>
                                         </div>
-
-
                                         <div class="tab-pane popupscroll mCustomScrollbar" data-mcs-theme="dark" id="detail1">
                                             <form id="detailform" action="" class="form-horizontal">
-                                                <input type="hidden" name="editreadonly_hidden" value="0" id="editreadonly_hidden"/>
-
+                                                <input type="hidden" name="editreadonly_hidden" value="0" id="editreadonly_hidden" />
                                                 <div class="form-group">
                                                     <label class="col-sm-3 control-label">Name <span class="text-danger">*</span></label>
                                                     <div class="col-sm-8">
                                                         <input type="text" name="name" class="form-control txtreadonly" ng-model="vm.iDataCandidateDetails.candidateName" placeholder="Type your name..." required/>
-                                                        <a class="btn btn-default btn-xs btn-quirk btn-success"
-                                                           style="position: absolute; top: 0; right: -25px;" id="editreadonly" ng-click="vm.saveIDCandidateDetails(vm.iDataCandidateDetails._id)" onclick="myFunction()">
+                                                        <a class="btn btn-default btn-xs btn-quirk btn-success" style="position: absolute; top: 0; right: -25px;" id="editreadonly" ng-click="vm.saveIDCandidateDetails(vm.iDataCandidateDetails._id)" onclick="myFunction()">
                                                             <i class='fa fa-pencil-square-o' aria-hidden='true'></i>
                                                         </a>
                                                     </div>
                                                 </div>
-
                                                 <div class="form-group">
                                                     <label class="col-sm-3 control-label">Mail ID <span class="text-danger">*</span></label>
                                                     <div class="col-sm-8">
@@ -192,7 +165,6 @@
                                                         </select>-->
                                                     </div>
                                                 </div>
-
                                                 <div class="form-group">
                                                     <label class="col-sm-3 control-label">Mobile</label>
                                                     <div class="col-sm-8">
@@ -206,15 +178,12 @@
                                                         </select>-->
                                                     </div>
                                                 </div>
-
                                                 <div class="form-group">
                                                     <label class="col-sm-3 control-label">Experience <span class="text-danger">*</span></label>
                                                     <div class="col-sm-2">
-                                                        <input type="text" ng-model="vm.iDataCandidateDetails.experience" oninput="this.value=this.value.replace(/[^0-9.]/g,'');" 
-                                                        maxlength="4" name="" class="txtreadonly form-control" placeholder="" required/>
+                                                        <input type="text" ng-model="vm.iDataCandidateDetails.experience" oninput="this.value=this.value.replace(/[^0-9.]/g,'');" maxlength="4" name="" class="txtreadonly form-control" placeholder="" required/>
                                                     </div>
                                                 </div>
-
                                                 <div class="form-group">
                                                     <label class="col-sm-3 control-label">Company</label>
                                                     <div class="col-sm-8">
@@ -225,36 +194,30 @@
                                                                                              </div>-->
                                                     </div>
                                                 </div>
-
                                                 <div class="form-group">
                                                     <label class="col-sm-3 control-label">Designation</label>
                                                     <div class="col-sm-8">
                                                         <input type="text" name="" ng-model="vm.iDataCandidateDetails.designation" class="form-control" />
                                                     </div>
                                                 </div>
-
-
                                                 <div class="form-group">
                                                     <label class="col-sm-3 control-label">Qualification</label>
                                                     <div class="col-sm-8">
                                                         <input type="text" name="" ng-model="vm.iDataCandidateDetails.qualification" class="form-control" />
                                                     </div>
-                                                </div>                                                   
-
+                                                </div>
                                                 <div class="form-group">
                                                     <label class="col-sm-3 control-label">College</label>
                                                     <div class="col-sm-8">
                                                         <input type="text" name="" ng-model="vm.iDataCandidateDetails.college" class="form-control" />
                                                     </div>
                                                 </div>
-
                                                 <div class="form-group">
                                                     <label class="col-sm-3 control-label">Key Skills</label>
                                                     <div class="col-sm-8">
                                                         <input type="text" name="" ng-model="vm.iDataCandidateDetails.key_skills" class="form-control" />
                                                     </div>
-                                                </div>                                                
-
+                                                </div>
                                                 <div class="form-group">
                                                     <label class="col-sm-3 control-label">CTC <span class="text-danger">*</span></label>
                                                     <div class="col-sm-2">
@@ -267,7 +230,6 @@
                                                         <input type="text" ng-model="vm.iDataCandidateDetails.ctcEsops" oninput="this.value=this.value.replace(/[^0-9.0-9]/g,'');" maxlength="5" name="" class="txtreadonly form-control" placeholder="ESOPS" required>
                                                     </div>
                                                 </div>
-
                                                 <div class="form-group">
                                                     <label class="col-sm-3 control-label">ECTC <span class="text-danger">*</span></label>
                                                     <div class="col-sm-2">
@@ -280,14 +242,12 @@
                                                         <input type="text" ng-model="vm.iDataCandidateDetails.eCTCEsops" oninput="this.value=this.value.replace(/[^0-9.0-9]/g,'');" maxlength="5" name="" class="txtreadonly form-control" placeholder="ESOPS" required>
                                                     </div>
                                                 </div>
-
                                                 <div id="dvPassport" class="form-group col-md-6">
                                                     <label class="col-sm-6 control-label">Notice Period</label>
                                                     <div class="col-sm-4">
                                                         <input type="text" ng-model="vm.iDataCandidateDetails.noticePeriod" oninput="this.value=this.value.replace(/[^0-9.0-9]/g,'');" maxlength="2" class="txtreadonly form-control" placeholder="" style="width: 111px;">
                                                     </div>
                                                 </div>
-
                                                 <div id="dvPassport" class="form-group col-md-6">
                                                     <label class="col-sm-6 control-label">Candidate serving notice?</label>
                                                     <div class="col-sm-6 mt10">
@@ -296,15 +256,12 @@
                                                         </label>
                                                     </div>
                                                 </div>
-
                                                 <div class="clear"></div>
-
                                                 <div class="form-group">
                                                     <label class="col-sm-3 control-label">Job Location <span class="text-danger">*</span></label>
                                                     <div class="col-sm-8">
                                                         <!--<input type="text" name="name" class="form-control txtreadonly" placeholder="" required/>-->
-                                                        <select id="select_candloc_id" class="ele1 form-control hideable" style="width: 100%" data-placeholder="Enter Job Location"
-                                                                ng-model="vm.iDataCandidateDetails.location" required>
+                                                        <select id="select_candloc_id" class="ele1 form-control hideable" style="width: 100%" data-placeholder="Enter Job Location" ng-model="vm.iDataCandidateDetails.location" required>
                                                             <option value="Bangalore">Bangalore</option>
                                                             <option value="Hyderabad">Hyderabad</option>
                                                             <option value="Ahmedabad">Ahmedabad</option>
@@ -315,94 +272,77 @@
                                                         </select>
                                                     </div>
                                                 </div>
-
                                                 <div class="clear"></div>
                                             </form>
-
-
                                         </div>
-
                                         <script type="text/javascript">
-                                            //<![CDATA[
-                                            document.onload = function () {
-                                                function myFunction()
-                                                {
-                                                    var editreadonly_hidden = $("#editreadonly_hidden").val();
-                                                    if (editreadonly_hidden == 0)
-                                                    {
-                                                        $('#editreadonly').html("<i class='fa fa-floppy-o' aria-hidden='true'></i>");
-                                                        $("#detailform :input").prop("disabled", false);
-                                                        $("#editreadonly_hidden").val(1);
-                                                    } else
-                                                    {
-                                                        $('#editreadonly').html("<i class='fa fa-pencil-square-o' aria-hidden='true'></i>");
-                                                        $("#detailform :input").prop("disabled", true);
-                                                        $("#editreadonly_hidden").val(0);
-                                                    }
-                                                }
-                                                disableContent();
-
-                                            }
-
-                                            function toggleText() {
-                                                var editreadonly_hidden = $("#editreadonly_hidden_mail").val();
-                                                if (editreadonly_hidden == 0)
-                                                {
-                                                    $('#enableTxt').html("<i class='fa fa-floppy-o' aria-hidden='true'></i>");
-                                                    $("#accordion8 .table-row2 #collapseOne8 .panel-body :input").prop("disabled", false);
-                                                    $("#editreadonly_hidden_mail").val(1);
-                                                } else
-                                                {
-                                                    $('#enableTxt').html("<i class='fa fa-pencil-square-o' aria-hidden='true'></i>");
-                                                    $("#accordion8 .table-row2 #collapseOne8 .panel-body :input").prop("disabled", true);
-                                                    $("#editreadonly_hidden_mail").val(0);
-                                                }
-                                            }
-                                            function toggleTextRow() {
-                                                var editreadonly_hidden = $("#editreadonly_hidden_row").val();
-                                                if (editreadonly_hidden == 0)
-                                                {
-                                                    $('#enableTxt').html("<i class='fa fa-floppy-o' aria-hidden='true'></i>");
-                                                    $("#accordion8 .table-row1 #collapseOne8 .panel-body :input").prop("disabled", false);
-                                                    $("#editreadonly_hidden_row").val(1);
-                                                } else
-                                                {
-                                                    $('#enableTxt').html("<i class='fa fa-pencil-square-o' aria-hidden='true'></i>");
-
-                                                    $("#accordion8 .table-row1 #collapseOne8 .panel-body :input").prop("disabled", true);
-                                                    $("#editreadonly_hidden_row").val(0);
-                                                }
-                                            }
-
-                                            function disableContent() {
-                                                
+                                        //<![CDATA[
+                                        document.onload = function() {
+                                            function myFunction() {
                                                 var editreadonly_hidden = $("#editreadonly_hidden").val();
-                                                $('#enableTxt').html("<i class='fa fa-pencil-square-o' aria-hidden='true'></i>");
-                                                $("#detailform :input").prop("disabled", false);
-                                                $("#editreadonly_hidden").val(0);
+                                                if (editreadonly_hidden == 0) {
+                                                    $('#editreadonly').html("<i class='fa fa-floppy-o' aria-hidden='true'></i>");
+                                                    $("#detailform :input").prop("disabled", false);
+                                                    $("#editreadonly_hidden").val(1);
+                                                } else {
+                                                    $('#editreadonly').html("<i class='fa fa-pencil-square-o' aria-hidden='true'></i>");
+                                                    $("#detailform :input").prop("disabled", true);
+                                                    $("#editreadonly_hidden").val(0);
+                                                }
                                             }
-                                        </script>
+                                            disableContent();
 
+                                        }
+
+                                        function toggleText() {
+                                            var editreadonly_hidden = $("#editreadonly_hidden_mail").val();
+                                            if (editreadonly_hidden == 0) {
+                                                $('#enableTxt').html("<i class='fa fa-floppy-o' aria-hidden='true'></i>");
+                                                $("#accordion8 .table-row2 #collapseOne8 .panel-body :input").prop("disabled", false);
+                                                $("#editreadonly_hidden_mail").val(1);
+                                            } else {
+                                                $('#enableTxt').html("<i class='fa fa-pencil-square-o' aria-hidden='true'></i>");
+                                                $("#accordion8 .table-row2 #collapseOne8 .panel-body :input").prop("disabled", true);
+                                                $("#editreadonly_hidden_mail").val(0);
+                                            }
+                                        }
+
+                                        function toggleTextRow() {
+                                            var editreadonly_hidden = $("#editreadonly_hidden_row").val();
+                                            if (editreadonly_hidden == 0) {
+                                                $('#enableTxt').html("<i class='fa fa-floppy-o' aria-hidden='true'></i>");
+                                                $("#accordion8 .table-row1 #collapseOne8 .panel-body :input").prop("disabled", false);
+                                                $("#editreadonly_hidden_row").val(1);
+                                            } else {
+                                                $('#enableTxt').html("<i class='fa fa-pencil-square-o' aria-hidden='true'></i>");
+
+                                                $("#accordion8 .table-row1 #collapseOne8 .panel-body :input").prop("disabled", true);
+                                                $("#editreadonly_hidden_row").val(0);
+                                            }
+                                        }
+
+                                        function disableContent() {
+
+                                            var editreadonly_hidden = $("#editreadonly_hidden").val();
+                                            $('#enableTxt').html("<i class='fa fa-pencil-square-o' aria-hidden='true'></i>");
+                                            $("#detailform :input").prop("disabled", false);
+                                            $("#editreadonly_hidden").val(0);
+                                        }
+                                        </script>
                                         <div class="tab-pane popupscroll mCustomScrollbar" data-mcs-theme="dark" id="feed1">
                                             <form action="" class="form-horizontal">
-
                                                 <!-- Nav tabs -->
                                                 <ul class="nav nav-tabs nav-line">
                                                     <li class="active"><a data-target="#currentfeed" data-toggle="tab"><strong>Current Feeds ({{vm.iDataFeedJobRecords.currentJobs.length || 0}})</strong></a></li>
                                                     <li><a data-target="#prevfeed" data-toggle="tab"><strong>Previous Feeds ({{vm.iDataFeedJobRecords.previousJobs.length || 0}})</strong></a></li>
                                                 </ul>
-
                                                 <div class="clear" style="margin: 20px;"></div>
-
-
-
                                             </form>
-
                                             <!-- Tab panes -->
                                             <div class="tab-content">
                                                 <div class="tab-pane active" id="currentfeed">
                                                     <div class="panel-group" id="accordion-currentfeed">
-                                                            <div class="panel panel-success" ng-repeat="row in vm.iDataFeedJobRecords.currentJobs" ng-click="vm.getFeedMsgThread(row.jobId, vm.iDataCandidateDetails._id)">
+                                                        <div class="panel panel-success" ng-repeat="row in vm.iDataFeedJobRecords.currentJobs" ng-click="vm.getFeedMsgThread(row.jobId, vm.iDataCandidateDetails._id)">
                                                             <div class="panel-heading">
                                                                 <h4 class="panel-title">
 
@@ -417,39 +357,31 @@
                                                                         <div class="clear"></div>
                                                                     </a>
                                                                 </h4>
-
                                                             </div>
                                                             <div id="collapse-currentfeed-{{$index}}" class="panel-collapse collapse mt20">
                                                                 <div class="panel-body">
                                                                     <div class="form-group">
                                                                         <!--                                    <label class="col-sm-3 control-label">Comment <span class="text-danger">*</span></label>-->
                                                                         <div class="col-sm-12">
-                                                                            <textarea rows="5" class="form-control" placeholder="What ‘s on your mind about this candidate?"
-                                                                                      ng-model="vm.postMessage" required></textarea>
+                                                                            <textarea rows="5" class="form-control" placeholder="What ‘s on your mind about this candidate?" ng-model="vm.postMessage" required></textarea>
                                                                         </div>
                                                                     </div>
                                                                     <div class="clear"></div>
                                                                     <br>
-
                                                                     <div class="row">
-                                                                        <div class="col-sm-2"  style="float: right;margin-right: 20px;">
-                                                                            <button class="btn btn-success btn-block btn-quirk btn-wide mr5"
-                                                                            ng-click="vm.sendMessage(row.jobId, vm.iDataCandidateDetails._id)">Post</button>
+                                                                        <div class="col-sm-2" style="float: right;margin-right: 20px;">
+                                                                            <button class="btn btn-success btn-block btn-quirk btn-wide mr5" ng-click="vm.sendMessage(row.jobId, vm.iDataCandidateDetails._id)">Post</button>
                                                                         </div>
                                                                     </div>
-
                                                                     <hr>
                                                                     <!-- Nav tabs -->
                                                                     <ul class="nav nav-tabs nav-line">
                                                                         <li class="active"><a data-target="#All-{{$index}}" data-toggle="tab"><strong>All</strong></a></li>
-
                                                                         <li><a data-target="#Tags-{{$index}}" data-toggle="tab"><strong>Tags</strong></a></li>
                                                                         <!--<li><a data-target="#Mails-{{$index}}" data-toggle="tab"><strong>Mails</strong></a></li>-->
                                                                         <li><a data-target="#Status-{{$index}}" data-toggle="tab"><strong>Status</strong></a></li>
                                                                         <li><a data-target="#Notes-{{$index}}" data-toggle="tab"><strong>Notes</strong></a></li>
                                                                     </ul>
-
-
                                                                     <!-- Tab panes -->
                                                                     <div class="tab-content">
                                                                         <div class="tab-pane active" id="All-{{$index}}">
@@ -508,7 +440,6 @@
                                                             </div>
                                                         </div>
                                                     </div>
-
                                                 </div>
                                                 <div class="tab-pane" id="prevfeed">
                                                     <div class="panel-group" id="accordion-prevfeed">
@@ -527,40 +458,31 @@
                                                                         <div class="clear"></div>
                                                                     </a>
                                                                 </h4>
-
                                                             </div>
                                                             <div id="collapse-prevfeed-{{$index}}" class="panel-collapse collapse mt20">
-                    
                                                                 <div class="panel-body">
                                                                     <div class="form-group">
                                                                         <!--                                    <label class="col-sm-3 control-label">Comment <span class="text-danger">*</span></label>-->
                                                                         <div class="col-sm-12">
-                                                                            <textarea rows="5" class="form-control" placeholder="What ‘s on your mind about this candidate?"
-                                                                                      ng-model="vm.postMessage" required></textarea>
+                                                                            <textarea rows="5" class="form-control" placeholder="What ‘s on your mind about this candidate?" ng-model="vm.postMessage" required></textarea>
                                                                         </div>
                                                                     </div>
                                                                     <div class="clear"></div>
                                                                     <br>
-
                                                                     <div class="row">
-                                                                        <div class="col-sm-2"  style="float: right;margin-right: 20px;">
-                                                                            <button class="btn btn-success btn-block btn-quirk btn-wide mr5"
-                                                                                    ng-click="vm.sendMessage(row.jobId, vm.iDataCandidateDetails._id)">Post</button>
+                                                                        <div class="col-sm-2" style="float: right;margin-right: 20px;">
+                                                                            <button class="btn btn-success btn-block btn-quirk btn-wide mr5" ng-click="vm.sendMessage(row.jobId, vm.iDataCandidateDetails._id)">Post</button>
                                                                         </div>
                                                                     </div>
-
                                                                     <hr>
                                                                     <!-- Nav tabs -->
                                                                     <ul class="nav nav-tabs nav-line">
                                                                         <li class="active"><a data-target="#All-{{$index}}" data-toggle="tab"><strong>All</strong></a></li>
-
                                                                         <li><a data-target="#Tags-{{$index}}" data-toggle="tab"><strong>Tags</strong></a></li>
                                                                         <!--<li><a data-target="#Mails-{{$index}}" data-toggle="tab"><strong>Mails</strong></a></li>-->
                                                                         <li><a data-target="#Status-{{$index}}" data-toggle="tab"><strong>Status</strong></a></li>
                                                                         <li><a data-target="#Notes-{{$index}}" data-toggle="tab"><strong>Notes</strong></a></li>
                                                                     </ul>
-
-
                                                                     <!-- Tab panes -->
                                                                     <!-- Tab panes -->
                                                                     <div class="tab-content">
@@ -621,51 +543,62 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>  
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
-
-                    </div><!-- panel -->
+                    </div>
+                    <!-- panel -->
                 </div>
-
-
             </div>
-        </div><!-- contentpanel -->
-    </div><!-- mainpanel -->
+        </div>
+        <!-- contentpanel -->
+    </div>
+    <!-- mainpanel -->
 </section>
-
 <script>
-    $(function () {
+$(function() {
 
-        // Textarea Auto Resize
-        autosize($('#autosize'));
+    // Textarea Auto Resize
+    autosize($('#autosize'));
 
-        // Select2 Box
-        $("#select16").select2({tags: true});
-        $("#select17").select2({tags: true});
-        $("#select18").select2({tags: true});
-
-
-        // Toggles
-        $('.toggle').toggles({
-            on: true,
-            height: 26
-        });
-
-
-
+    // Select2 Box
+    $("#select16").select2({
+        tags: true
     });
-</script>
+    $("#select17").select2({
+        tags: true
+    });
+    $("#select18").select2({
+        tags: true
+    });
 
+
+    // Toggles
+    $('.toggle').toggles({
+        on: true,
+        height: 26
+    });
+
+
+
+});
+</script>
 <script>
-    (function ($) {
-        $(document).on("load", function () {
-            $(".contentscroll").mCustomScrollbar();
-        });
-    })(jQuery);
-</script>
+setTimeout(function() {
+    var script = document.createElement('script');
+    script.setAttribute('src', 'popupjs/script.js');
+    document.head.appendChild(script);
+        var script = document.createElement('script');
+    script.setAttribute('src', 'jquery.mCustomScrollbar.concat.min.js');
+    document.head.appendChild(script);
 
+}, 1000);
+(function($) {
+    $(document).on("load", function() {
+        $(".contentscroll").mCustomScrollbar();
+    });
+})(jQuery);
+</script>

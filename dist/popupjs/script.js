@@ -179,6 +179,7 @@ $(function () {
         });
         return false;
     });
+
     
     $("#compose_btn").click(function () {
         $("#dialog8").dockmodal({
@@ -217,7 +218,7 @@ $(function () {
         });
         return false;
     });
-    
+
       
     $("#btn_resume_tracker").click(function () {
         $('#sendmail').modal('toggle');

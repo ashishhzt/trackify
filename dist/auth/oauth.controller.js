@@ -65,15 +65,17 @@ export const google = (req, res) => {
                     var payload = jwt.decode(token, config.TOKEN_SECRET);
                     User.findById(payload.sub, function(err, user) {
                         if (!user) {
-                            return res.status(400).send({ message: 'User not found' });
+                            var user = new User();
+                            user.google = profile.sub;
+                            user.picture = user.picture || profile.picture.replace('sz=50', 'sz=200');
+                            user.displayName = user.displayName || profile.name;
+                            user.save(function() {
+                                var token = createJWT(user);
+                                res.send({ token: token });
+                            });
+                            // return res.status(400).send({ message: 'User not found' });
                         }
-                        user.google = profile.sub;
-                        user.picture = user.picture || profile.picture.replace('sz=50', 'sz=200');
-                        user.displayName = user.displayName || profile.name;
-                        user.save(function() {
-                            var token = createJWT(user);
-                            res.send({ token: token });
-                        });
+
                     });
                 });
             } else {
