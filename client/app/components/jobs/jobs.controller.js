@@ -416,7 +416,7 @@ class JobsController {
             if (file) {
                 var fd = new FormData();
                 fd.append('resumeFile', file);
-                fd.append('candidateId', this.selectedCandidate._id);
+                // fd.append('candidateId', this.selectedCandidate._id);
                 fd.append('candidateName', this.newCandReg.name);
                 fd.append('candidateEmail', this.newCandReg.email);
                 fd.append('candidateContact', this.newCandReg.phNum);
