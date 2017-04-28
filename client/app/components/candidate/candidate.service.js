@@ -12,6 +12,12 @@ class candidateService {
     getAllInternalDataCandidateList(skip) {
         return HTTP.get(this).get(`/api/candidate/allInternalDataCandidateList/${skip}`).then(result => result.data);
     }
+    getAllActiveJobs() {
+        return HTTP.get(this).get("/api/candidate/getAllActiveJobs").then(result => result.data);
+    }
+    candidateApplicationToActiveJobs(reqData) {
+        return HTTP.get(this).post("/api/candidate/moveCandidatesToActiveJobs", reqData).then(result => result.data);
+    }
     moveToActiveJob(requestData) {
         return HTTP.get(this).post("/api/jobs/moveToActiveJob", requestData).then(result => result.data);
     }

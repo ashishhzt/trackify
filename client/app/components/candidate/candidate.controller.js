@@ -321,7 +321,7 @@ class CandidateController {
 
     handleAttachments() {
         console.log(this.mailAttachments)
-            // console.log(this.email.attachments);
+        // console.log(this.email.attachments);
         console.log("we are handling attachments")
     }
 
@@ -362,7 +362,7 @@ class CandidateController {
             });
         } else {
             var idList = [];
-            $('.mail-checkbox').each(function() {
+            $('.mail-checkbox').each(function () {
                 if (this.id && this.checked) { idList.push(this.id) }
             });
             SERVICE.get(this).modifyEmail(idList, label == "UNREAD" ? false : true, label).then(response => {
@@ -558,6 +558,32 @@ class CandidateController {
         SERVICE.get(this).fetchTemplates({ type: type }).then(response => {
             this.templates = response.templates;
             console.log(response);
+        });
+    }
+    moveToActiveInit() {
+        SERVICE.get(this).getAllActiveJobs().then(response => {
+            this.allActiveJobsList = response;
+        }, error => {
+            console.log(error);
+        });
+    }
+    moveCandidatesToActiveJobs(jobId) {
+        var reqData = {
+            "candidateIDs": this.selectedIDCandidateIdArr,
+            "jobId": jobId,
+            "userId": this.userId
+        };
+        SERVICE.get(this).candidateApplicationToActiveJobs(reqData).then(response => {
+
+            for(var i=0; i<this.allActiveJobsList.length; i++){
+                if(this.allActiveJobsList[i]._id === jobId)
+                    break;
+            }
+            this.allActiveJobsList.splice(i,1);
+            alert(response.message);
+        }, error => {
+            alert("Error occured while saving. Please try after sometime.");
+            console.log(error);
         });
     }
 }
